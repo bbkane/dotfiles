@@ -1,0 +1,19 @@
+let mapleader = ","
+
+inoremap jj <ESC>
+"color molokai
+
+set nohlsearch
+
+colorscheme elflord
+
+RainbowParenthesesToggle
+
+let g:paredit_mode=0
+let g:lisp_rainbow=1
+
+" set line wrap
+set wrap
+
+" set macvim font. Use :set gfn=* and :setgfn to find
+" set guifont=Menlo Regular:h13
