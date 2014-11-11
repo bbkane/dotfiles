@@ -1,0 +1,17 @@
+#!/bin/sh
+
+##!/usr/bin/env bash
+#set up dual monitors with this profile
+#https://wiki.ubuntu.com/X/Config/Resolution#How_to_setup_a_dual_monitor
+
+#DFP9 is my Samsung
+#DFP10 is my Dell
+
+#set Samsung to the right of Dell
+xrandr --output DFP9 --right-of DFP10
+
+#Make the Dell the primary monitor
+xrandr --output DFP10 --primary
+
+#correct the resolution on the Samsung
+xrandr --output DFP9 --auto
