@@ -1,0 +1,15 @@
+[submodule "common/.janus/rename2"]
+	path = common/.janus/rename2
+	url = https://github.com/vim-scripts/Rename2.git
+[submodule "common/.janus/a.vim"]
+	path = common/.janus/a.vim
+	url = https://github.com/vim-scripts/a.vim.git
+[submodule "common/.janus/rainbow_parentheses"]
+	path = common/.janus/rainbow_parentheses
+	url = https://github.com/kien/rainbow_parentheses.vim.git
+[submodule "common/.janus/slimv"]
+	path = common/.janus/slimv
+	url = https://github.com/kovisoft/slimv.git
+[submodule "common/.janus/vim-sneak"]
+	path = common/.janus/vim-sneak
+	url = https://github.com/justinmk/vim-sneak.git
