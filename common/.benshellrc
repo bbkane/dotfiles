@@ -5,14 +5,15 @@ echo ".benshellrc loaded"
 # disable auto-directory changes
 unsetopt AUTO_CD
 
-
 # make compiling easier
-
 go() {echo "using g++"; g++ "$1" -o "$1.out" && ./"$1.out";}
 setedit() {alias edit="vim $1";}
+
+# set my own theme
+ZSH_THEME="lambdarobbyrussell"
+
 #set today to the date
 today=$(date +%y-%m-%d)
-
 
 # mk and cd directory
 function mkcd {
