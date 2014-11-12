@@ -2,15 +2,13 @@
 
 # used by my tower to switch monitors
 # Put this in the PATH, probably /usr/local/bin
+# The commnand is:
+# ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
 
 #set up dual monitors with this profile
 #https://wiki.ubuntu.com/X/Config/Resolution#How_to_setup_a_dual_monitor
 
-# I want to modify this with optional arguments
-# If the script is called with no arguments, then it should default
-# to two screen mode
-# If the argument is 'left', then the Dell should stay on
-# if the argument is 'right', then the Samsung should stay on
+# this is aliased in .zshrc
 
 DELL=DFP10
 SAMSUNG=DFP9
