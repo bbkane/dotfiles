@@ -1,22 +1,10 @@
-#!/bin/bash
+#!/bin/zsh
 
 # used by my tower to switch monitors
 # Put this in the PATH, probably /usr/local/bin
 
 #set up dual monitors with this profile
 #https://wiki.ubuntu.com/X/Config/Resolution#How_to_setup_a_dual_monitor
-
-#DFP9 is my Samsung
-#DFP10 is my Dell
-
-#set Samsung to the right of Dell
-#xrandr --output DFP9 --right-of DFP10
-
-#Make the Dell the primary monitor
-#xrandr --output DFP10 --primary
-
-#correct the resolution on the Samsung
-#xrandr --output DFP9 --auto
 
 # I want to modify this with optional arguments
 # If the script is called with no arguments, then it should default
@@ -26,6 +14,8 @@
 
 DELL=DFP10
 SAMSUNG=DFP9
+
+# No arguments
 if [[ $1 = "" ]]
 then
   # both screens
@@ -36,14 +26,16 @@ then
 elif [[ $1 = left ]]
 then
   # Dell stays on
-	echo "One monitor mode: Dell"
+  xrandr --output $DELL --primary
+  xrandr --output $DELL --auto
 	xrandr --output $SAMSUNG --off
-
 elif [[ $1 = right ]]
 then
-  echo "One monitor mode: Samsung"
+  # Samsung stays on
+  xrandr --output $SAMSUNG --primary
+  xrandr --output $SAMSUNG --auto
   xrandr --output $DELL --off
 else
-	echo "Usage: $0 [left | right]. No arguments defaults to both screens"
+	echo "Usage: $0 [left | right]. If no arguments are passed, then dual monitor mode"
 fi
 
