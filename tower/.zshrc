@@ -7,10 +7,10 @@ alias open="xdg-open"
 source $HOME/.benshellrc
 
 #This turns off the Dell Monitor. Useful for PS3
-alias onemon="monitor.sh one"
+alias onemon="monitor.sh right"
 
 #This turns on both monitors. Undoes onemon
-alias twomon="monitor.sh two"
+alias twomon="monitor.sh"
 
 # This is the end of BENS STUFF
 #
