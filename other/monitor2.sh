@@ -18,23 +18,32 @@
 #correct the resolution on the Samsung
 #xrandr --output DFP9 --auto
 
+# I want to modify this with optional arguments
+# If the script is called with no arguments, then it should default
+# to two screen mode
+# If the argument is 'left', then the Dell should stay on
+# if the argument is 'right', then the Samsung should stay on
+
 DELL=DFP10
 SAMSUNG=DFP9
-
-if [ $1 = one ]
+if [[ $1 = "" ]]
 then
-	echo "Changing to one screen mode"
-	xrandr --output $DELL --off
-
-elif [ $1 = two ]
-then
-	echo "Changing to two screen mode"
+  # both screens
 	xrandr --output $DELL --auto
 	xrandr --output $SAMSUNG --right-of $DELL
 	xrandr --output $DELL --primary
 	xrandr --output $SAMSUNG --auto
+elif [[ $1 = left ]]
+then
+  # Dell stays on
+	echo "One monitor mode: Dell"
+	xrandr --output $SAMSUNG --off
 
+elif [[ $1 = right ]]
+then
+  echo "One monitor mode: Samsung"
+  xrandr --output $DELL --off
 else
-	echo "not one or two"
+	echo "Usage: $0 [left | right]. No arguments defaults to both screens"
 fi
 

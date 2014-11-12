@@ -39,6 +39,8 @@ stow common
 stow tower
 
 # symlink monitor.sh into /usr/local/bin
+# remember not to depend on shell expansion
+ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
 
 ```
 
