@@ -3,7 +3,7 @@
 # used by my tower to switch monitors
 # Put this in the PATH, probably /usr/local/bin
 # The commnand is:
-# ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
+# ln -s $HOME/backup/manually_symlink/monitor.sh /usr/local/bin/monitor.sh
 
 #set up dual monitors with this profile
 #https://wiki.ubuntu.com/X/Config/Resolution#How_to_setup_a_dual_monitor
