@@ -37,6 +37,9 @@ stow common
 
 # get my tower stuff done
 stow tower
+
+# symlink monitor.sh into /usr/local/bin
+
 ```
 
 ## TODO
