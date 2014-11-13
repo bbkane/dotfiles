@@ -67,7 +67,11 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+#Changing this for anaconda
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+
+#changing it... here
+export PATH="$HOME/anaconda3/bin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
