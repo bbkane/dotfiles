@@ -1,5 +1,5 @@
 # This is the start of BENS STUFF
-#
+# One note: don't try to execute progams here. It will lock up the shell :(
 #This i like the mac's open command. It overwrites the default open command.
 alias open="xdg-open"
 
