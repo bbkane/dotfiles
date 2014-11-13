@@ -39,7 +39,7 @@
 
 # Examples of commands:
 
-"xbindkeys_show" 
+"xbindkeys_show"
   control+shift + q
 
 # set directly keycode (here control + f with my keyboard)
@@ -70,8 +70,9 @@
 "exec google-chrome"
   mod4 + c
 
+# this isn't working for some reason...
 "exec dmenu"
-  mod1 + space
+  mod4 + Space
 
 ##################################
 # End of xbindkeys configuration #
