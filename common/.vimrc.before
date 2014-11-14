@@ -1,4 +1,8 @@
+"The things I'm disabling come from :scrip or :scriptname in vim.
+"I'm looking some of them up from the janus/janus/vim/tools github repo
+"
 "disable plugins!!
+"this was a spree of disabling stuff- I might want to disable some of these
 call janus#disable_plugin('ack')
 call janus#disable_plugin('ctrlp')
 call janus#disable_plugin('nerdtree')
@@ -9,4 +13,53 @@ call janus#disable_plugin('zoomwin')
 call janus#disable_plugin('buffergator')
 call janus#disable_plugin('vroom')
 call janus#disable_plugin('supertab')
+
+" start disabling language plugins
+call janus#disable_plugin('clojure')
+call janus#disable_plugin('coffeescript')
+call janus#disable_plugin('csv')
+call janus#disable_plugin('cucumber')
+call janus#disable_plugin('cucumber')
+call janus#disable_plugin('elixir')
+call janus#disable_plugin('haml')
+call janus#disable_plugin('liquid')
+call janus#disable_plugin('mustache_handlebars')
+call janus#disable_plugin('puppet')
+call janus#disable_plugin('rdoc')
+call janus#disable_plugin('scala')
+call janus#disable_plugin('slim')
+call janus#disable_plugin('textile')
+call janus#disable_plugin('erlang')
+call janus#disable_plugin('rspec')
+
+"disable tools that I know about and think I won't use
+"
+"undisable dispatch after learning
+call janus#disable_plugin('dispatch')
+"syntactic sugar for unix commands
+call janus#disable_plugin('eunuch')
+"gist stuff I don't want
+call janus#disable_plugin('gist')
+"check out gundo to visualise my undo tree
+call janus#disable_plugin('gundo')
+"indent-object is cool too. undisable after learning
+call janus#disable_plugin('indent-object')
+"disabe 'close a buffer that doesn't close the window'
+call janus#disable_plugin('kwbd')
+"multiple cursers highlights many words at the same time. Disabling for now,
+"but it's pretty cool
+call janus#disable_plugin('multiple-cursors')
+"narrow region lets you focus on one region of text. Don't care for now
+call janus#disable_plugin('narrowregion')
+"check out snipmate. It's cool. After checking it out, undisable
+call janus#disable_plugin('snipmate')
+"I will use unimpaired- especially the <bracket> <Space stuff for newlines
+"I don't think I need vim snippets now
+call janus#disable_plugin('vim-snippets')
+"Once I get the hankering to create a local wiki, vimwiki sounds like the way
+"to go
+call janus#disable_plugin('vimwiki')
+"I think it provides a |star| feature for |visual mode|
+call janus#disable_plugin('visualstar')
+
 

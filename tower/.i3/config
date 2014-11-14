@@ -33,14 +33,14 @@ exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
 
 #open chrome
 # bindsym $mod+c exec google-chrome
-# I'm now using xbindkeyst to do this in my .xbindkeysrc
 
-# start xbindkeys
-exec --no-startup-id xbindkeys
-
+# I'm now using xbindkeys to do this in my .xbindkeysrc
 # remap caps lock to super/mod4/Win
 #  I think this might only work in Ubuntu...
 exec --no-startup-id /usr/bin/setxkbmap -option "caps:super"
+
+# start xbindkeys
+exec --no-startup-id xbindkeys
 
 # End of Ben's Stuff
 

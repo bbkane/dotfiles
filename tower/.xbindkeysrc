@@ -67,12 +67,12 @@
 #
 # Start of Ben's commands
 
-"exec google-chrome"
+"google-chrome"
   mod4 + c
 
-# this isn't working for some reason...
-"exec dmenu"
-  mod4 + Space
+# alt + space. Won't work with mod4 + space
+"dmenu_run"
+  mod1 + space
 
 ##################################
 # End of xbindkeys configuration #
