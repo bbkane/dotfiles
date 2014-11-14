@@ -26,15 +26,17 @@ font pango: Ubuntu Mono 20 #BEN changed this
 #Set backgrounds for monitors
 # exec --no-startup-id feh --bg-fill '/home/ben/Pictures/Wallpapers/fIdt7Fr.jpg' --bg-fill '/home/ben/Pictures/uncharted-2-panorama.jpg' # '/home/ben/Pictures/14962598878_9e70f8a7e8_o.jpg'
 
+set $execi exec --no-startup-id
+
+# put NumLock on
+$execi numlockx on
+
+#set random wallpapers for both screens
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
 
 #Set volume controls to F7 and F8
 #bindcode $mod+^[[18~ exec amixer set Master 10%-
 
-#open chrome
-# bindsym $mod+c exec google-chrome
-
-# I'm now using xbindkeys to do this in my .xbindkeysrc
 # remap caps lock to super/mod4/Win
 #  I think this might only work in Ubuntu...
 exec --no-startup-id /usr/bin/setxkbmap -option "caps:super"
