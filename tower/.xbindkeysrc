@@ -71,7 +71,7 @@
   mod4 + c
 
 # alt + space. Won't work with mod4 + space
-"dmenu_run"
+"kupfer"
   mod1 + space
 
 ##################################

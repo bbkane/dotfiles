@@ -34,6 +34,12 @@ $execi numlockx on
 #set random wallpapers for both screens
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
 
+# compton
+$execi compton -cCGb
+
+# stop title bars
+new_window pixel
+
 #Set volume controls to F7 and F8
 #bindcode $mod+^[[18~ exec amixer set Master 10%-
 
