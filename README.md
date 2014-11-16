@@ -11,10 +11,12 @@ symlinks.
 
 To add the submodules to the common/.janus folder:
 If you already cloned the repo, it's:
+
 ```
 cd common/.janus
 git submodule update --init --recursive
 ```
+
 Otherwise, follow the below instructions
 
 So, if I reset everything on my tower, the steps would be:
@@ -42,6 +44,7 @@ stow tower
 ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
 
 ```
+
 ## Some useful applications
 ### Called in common
 - janus
@@ -51,21 +54,23 @@ ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
 - google-chrome
 - kupfer #app launcher and file opener
 
-## Called in tower/.zshrc
+### Called in tower/.zshrc
 - anaconda #changed path for it's python goodies
 
-## Called in tower/.i3/config
+### Called in tower/.i3/config
 - feh # for the wallpapers
 - compton #for clearer terminals etc. Must configure...
 - xkbmap #Don't need CapsLock yo
 - xbindkeys #Launch crap with a flick of the fingers
 - dmenu_run #I'm not using this as much but what the hey. App launcher
 
-## Other useful Ubuntu programs
+### Other useful Ubuntu programs
 - Ranger #vim-like file manager
 - pandoc #convert between markdown and pdf, etc...
+- goobox # play cds
+- urxvt # a really configurable terminal: if I could only configure it
 
-## Called in mac
+### Called in mac
 - anaconda
 
 ## TODO
@@ -74,3 +79,4 @@ ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
    monitor.sh to /usr/local/bin for my tower).
 2. make bootstrap scripts that will do all this for me (maybe in a
    backup/setup/ folder).
+3. figure out compton (opacity mostly) and customize urxvt
