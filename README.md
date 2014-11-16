@@ -69,6 +69,10 @@ ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
 - pandoc #convert between markdown and pdf, etc...
 - goobox # play cds
 - urxvt # a really configurable terminal: if I could only configure it
+- okular # pdf viewer
+- xvkbd # virtual keyboard that will send key-presses to a window.
+  Replace with Autokey?
+- autokey # automation, with the python
 
 ### Called in mac
 - anaconda
@@ -80,3 +84,4 @@ ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
 2. make bootstrap scripts that will do all this for me (maybe in a
    backup/setup/ folder).
 3. figure out compton (opacity mostly) and customize urxvt
+4. Figure out autokey

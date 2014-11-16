@@ -70,9 +70,35 @@
 "google-chrome"
   mod4 + c
 
+"firefox"
+  mod4 + f
+
 # alt + space. Won't work with mod4 + space
 "kupfer"
   mod1 + space
+
+# adjust volume up and down
+"amixer -D pulse sset Master 5%+"
+  F12
+
+"amixer -D pulse sset Master 5%-"
+  F11
+
+# anaconda stuff
+"~/anaconda3/bin/ipython qtconsole"
+  mod1 + 1
+
+"~/anaconda3/bin/ipython notebook"
+  mod1 + 2
+
+"~/anaconda3/bin/spyder"
+  mod1 + 3
+
+# start to automate running python scripts from vim to ipython qtconsole
+# xvbd is a virtual keyboard that can send text to an app
+"xvkbd -xsendevent -text "print('Hello')""
+  F5
+
 
 ##################################
 # End of xbindkeys configuration #
