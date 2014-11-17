@@ -4,14 +4,15 @@
 #set up dual monitors with this profile
 #https://wiki.ubuntu.com/X/Config/Resolution#How_to_setup_a_dual_monitor
 
-#DFP9 is my Samsung
-#DFP10 is my Dell
-
-#set Samsung to the right of Dell
-xrandr --output DFP9 --right-of DFP10
+SAMSUNG=HDMI-0
+DELL=DVI-0
 
 #Make the Dell the primary monitor
-xrandr --output DFP10 --primary
+xrandr --output $DELL --primary
+
+#set Samsung to the right of Dell
+xrandr --output $SAMSUNG --right-of $DELL
 
 #correct the resolution on the Samsung
-xrandr --output DFP9 --auto
+xrandr --output $SAMSUNG --auto
+# xrandr --output $DELL --auto
