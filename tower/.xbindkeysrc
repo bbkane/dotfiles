@@ -67,11 +67,8 @@
 #
 # Start of Ben's commands
 
-"google-chrome"
-  mod4 + c
-
 "firefox"
-  mod4 + f
+  mod4 + c
 
 # alt + space. Won't work with mod4 + space
 "kupfer"
