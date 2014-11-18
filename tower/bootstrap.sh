@@ -73,6 +73,9 @@ stow common
 rm ~/.zshrc ~/.i3/config
 stow tower
 '
+: '
 cd ~
-# wget http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Linux-x86_64.sh
+wget http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Linux-x86_64.sh
 bash Anaconda3-2.1.0-Linux-x86_64.sh
+'
+
