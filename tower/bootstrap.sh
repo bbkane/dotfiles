@@ -79,3 +79,49 @@ wget http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Linux-x86_64.sh
 bash Anaconda3-2.1.0-Linux-x86_64.sh
 '
 
+: '
+# start getting wallpapers!!
+git clone https://github.com/EndlesslyCurious/RedditImageGrab.git
+python2 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -score 1000 -num 25
+'
+
+# get firefox addons: vimperator, adblock plus, Reddit Enhancement Suite
+
+# get more programs (integrate into readme)
+#sudo apt-get install clang-3.5 eclipse #eclipse is HUGE!!
+# clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
+
+: '
+# This did not work!!! Im going to add the PPA instead. Dolphin is really glitchy... Keeps quittin on me...
+# install dolphin for wii and gamecube
+#sudo apt-get install cmake git g++ wx2.8-headers libwxbase2.8-dev libwxgtk2.8-dev libwxgtk3.0-dev libgtk2.0-dev libsdl1.2-dev libxrandr-dev libxext-dev libao-dev libasound2-dev libpulse-dev libbluetooth-dev libreadline-gplv2-dev libavcodec-dev libavformat-dev libswscale-dev libsdl2-dev libusb-1.0-0-dev
+#git clone https://github.com/dolphin-emu/dolphin.git
+cd ~/dolphin
+#mkdir Build && cd Build
+#cmake ..
+cd ~/dolphin/Build/
+make
+sudo make install
+'
+: '
+#add PPA
+sudo add-apt-repository ppa:glennric/dolphin-emu
+sudo apt-get update
+sudo apt-get install dolphin-emu-master 
+
+# install an antivirus for ROMs
+sudo apt-get install clamav
+#update definitions
+freshclam
+'
+: '
+# install unrar
+sudo apt-get install unrar
+# install tools for 7z
+sudo apt-get install p7zip
+'
+
+# try pcsx2. That didnt work either.... no package available!
+#sudo apt-add-repository ppa:gregory-hainaut/pcsx2.official.ppa
+#sudo apt-get update
+#sudo apt-get install pcsx2

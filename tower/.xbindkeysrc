@@ -93,8 +93,8 @@
 
 # start to automate running python scripts from vim to ipython qtconsole
 # xvbd is a virtual keyboard that can send text to an app
-"xvkbd -xsendevent -text "print('Hello')""
-  F5
+#"xvkbd -xsendevent -text "print('Hello')""
+#  F5
 
 
 ##################################

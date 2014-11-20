@@ -31,8 +31,8 @@ $execi numlockx on
 #set random wallpapers for both screens
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
 
-# compton
-$execi compton -cCGb
+# compton. I like compton, but I need to configure it for terminals only...
+# $execi compton -cCGb
 
 # stop title bars
 new_window pixel
