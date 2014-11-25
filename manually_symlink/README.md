@@ -17,3 +17,11 @@ file paths- no `./filname` in the command.
 
 I think this works..
 
+So, I made another directory in here called *tower_bin/*
+
+I want to symlink that folder to */usr/local/bin/*
+
+I can do that with stow. From the directory *manually_symlink* run the
+following command:
+
+`sudo stow tower_bin -t /usr/local/bin`

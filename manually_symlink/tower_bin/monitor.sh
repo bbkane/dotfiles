@@ -10,8 +10,8 @@
 
 # this is aliased in .zshrc
 
-DELL=DFP10
-SAMSUNG=DFP9
+DELL=DVI-0
+SAMSUNG=HDMI-0
 
 # No arguments
 if [[ $1 = "" ]]
