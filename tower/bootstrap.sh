@@ -8,7 +8,6 @@
 '
 
 : '
-echo "inside commented part"
 #get vim (from YouCompleteMe stuff
 sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev \
     libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
@@ -65,9 +64,11 @@ sudo apt-get install pulseaudio-utils pulseaudio
 #sudo apt-get install kupfer # dont think I need this anymore. I do. gnome do freezes my pc.
 sudo apt-get install feh compton  xbindkeys
 sudo apt-get install x11-xkb-utils # for setxkbmap for ditching CAPS
-sudo apt-get install stow
+sudo apt-get install stow eclipse 
+# clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
 '
 : '
+# get config files
 git clone --recursive https://github.com/bbk1524/backup.git
 cd ~/backup
 stow common
@@ -89,46 +90,6 @@ python2 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -sco
 
 # get firefox addons: vimperator, adblock plus, Reddit Enhancement Suite
 
-# get more programs (integrate into readme)
-#sudo apt-get install eclipse #eclipse is HUGE!!
-# clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
-
-: '
-# This did not work!!! Im going to add the PPA instead. Dolphin is really glitchy... Keeps quittin on me...
-# install dolphin for wii and gamecube
-#sudo apt-get install cmake git g++ wx2.8-headers libwxbase2.8-dev libwxgtk2.8-dev libwxgtk3.0-dev libgtk2.0-dev libsdl1.2-dev libxrandr-dev libxext-dev libao-dev libasound2-dev libpulse-dev libbluetooth-dev libreadline-gplv2-dev libavcodec-dev libavformat-dev libswscale-dev libsdl2-dev libusb-1.0-0-dev
-#git clone https://github.com/dolphin-emu/dolphin.git
-cd ~/dolphin
-#mkdir Build && cd Build
-#cmake ..
-cd ~/dolphin/Build/
-make
-sudo make install
-'
-: '
-#add PPA
-sudo add-apt-repository ppa:glennric/dolphin-emu
-sudo apt-get update
-sudo apt-get install dolphin-emu-master 
-
-# install an antivirus for ROMs
-#This didnt work either....
-sudo apt-get install clamav
-#update definitions
-freshclam
-'
-: '
-# install unrar
-sudo apt-get install unrar
-# install tools for 7z
-sudo apt-get install p7zip
-'
-
-# try pcsx2. That didnt work either.... no package available!
-#sudo apt-add-repository ppa:gregory-hainaut/pcsx2.official.ppa
-#sudo apt-get update
-#sudo apt-get install pcsx2
-
 : '
 #lets install steam...
 cd ~
@@ -145,15 +106,7 @@ rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libxcb.so.1
 #  now steam wont open...
 # If I use kupfer to launch steam on i3, it works... Hmmm. I can run games and everything! Yay!
 '
-: '
-#get retroarch. http://emulation-general.wikia.com/wiki
-/Using_RetroArch
-#http://filthypants.blogspot.com/
-sudo add-apt-repository ppa:hunter-kaller/ppa
-#sudo apt-get update
-sudo apt-get install retroarch
-sudo apt-get install libretro* #get all cores. Thats how I roll
-'
+
 : '
 # lets try the repo on the website
 sudo apt-add-repository ppa:libretro/stable
