@@ -12,7 +12,6 @@ call janus#disable_plugin('nrrwrgn')
 call janus#disable_plugin('zoomwin')
 call janus#disable_plugin('buffergator')
 call janus#disable_plugin('vroom')
-call janus#disable_plugin('supertab')
 
 " start disabling language plugins
 call janus#disable_plugin('clojure')

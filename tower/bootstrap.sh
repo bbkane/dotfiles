@@ -62,7 +62,8 @@ sudo apt-get install pulseaudio-utils pulseaudio
 '
 : '
 # get programs from my README
-sudo apt-get install kupfer feh compton  xbindkeys
+#sudo apt-get install kupfer # dont think I need this anymore. I do. gnome do freezes my pc.
+sudo apt-get install feh compton  xbindkeys
 sudo apt-get install x11-xkb-utils # for setxkbmap for ditching CAPS
 sudo apt-get install stow
 '
@@ -74,6 +75,7 @@ rm ~/.zshrc ~/.i3/config
 stow tower
 '
 : '
+# this might need a better url if it gets updated.
 cd ~
 wget http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Linux-x86_64.sh
 bash Anaconda3-2.1.0-Linux-x86_64.sh
@@ -88,7 +90,7 @@ python2 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -sco
 # get firefox addons: vimperator, adblock plus, Reddit Enhancement Suite
 
 # get more programs (integrate into readme)
-#sudo apt-get install clang-3.5 eclipse #eclipse is HUGE!!
+#sudo apt-get install eclipse #eclipse is HUGE!!
 # clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
 
 : '
@@ -110,6 +112,7 @@ sudo apt-get update
 sudo apt-get install dolphin-emu-master 
 
 # install an antivirus for ROMs
+#This didnt work either....
 sudo apt-get install clamav
 #update definitions
 freshclam
@@ -125,3 +128,39 @@ sudo apt-get install p7zip
 #sudo apt-add-repository ppa:gregory-hainaut/pcsx2.official.ppa
 #sudo apt-get update
 #sudo apt-get install pcsx2
+
+: '
+#lets install steam...
+cd ~
+wget http://media.steampowered.com/client/installer/steam.deb
+sudo apt-get install gdebi-core 
+sudo gdebi steam.deb
+
+# lets erase steams old gcc
+rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libstdc++.so.6
+rm ~/.steam/bin32/steam-runtime/i386/lib/i386-linux-gnu/libgcc_s.so.1
+rm ~/.steam/bin32/steam-runtime/amd64/lib/x86_64-linux-gnu/libgcc_s.so.1
+rm ~/.steam/bin32/steam-runtime/amd64/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libxcb.so.1
+#  now steam wont open...
+# If I use kupfer to launch steam on i3, it works... Hmmm. I can run games and everything! Yay!
+'
+: '
+#get retroarch. http://emulation-general.wikia.com/wiki
+/Using_RetroArch
+#http://filthypants.blogspot.com/
+sudo add-apt-repository ppa:hunter-kaller/ppa
+#sudo apt-get update
+sudo apt-get install retroarch
+sudo apt-get install libretro* #get all cores. Thats how I roll
+'
+: '
+# lets try the repo on the website
+sudo apt-add-repository ppa:libretro/stable
+sudo apt-get upgrade
+sudo apt-get install retroarch
+sudo apt-get install retroarch-joypad-autoconfig
+# Ok that worked. Some notes:
+# cores can be found on https://launchpad.net/~libretro/+archive/ubuntu/stable
+# Dont need to config anything. Google if I do for BIOS etc
+'
