@@ -6,7 +6,7 @@ echo ".benshellrc loaded"
 unsetopt AUTO_CD
 
 # make compiling easier
-go() {echo "using g++"; g++ "$1" -o "$1.out" && ./"$1.out";}
+go() {echo ""; clang++ -std=c++11 -lpthread "$1" -o "$1.out" ;}
 setedit() {alias edit="vim $1";}
 
 # set my own theme
