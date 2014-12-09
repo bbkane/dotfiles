@@ -9,6 +9,8 @@ unsetopt AUTO_CD
 go() {echo ""; clang++ -std=c++11 -lpthread "$1" -o "$1.out" && ./"$1.out";}
 setedit() {alias edit="vim $1";}
 
+lazygit() {git add . && git commit -m "$1" && git push;}
+
 # set my own theme
 ZSH_THEME="lambdarobbyrussell"
 
