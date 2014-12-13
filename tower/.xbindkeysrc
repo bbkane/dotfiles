@@ -85,12 +85,16 @@
 "~/anaconda3/bin/ipython qtconsole"
   mod1 + 1
 
+# with this, I must quit the kernal by searching for 'ipython' in the processes- ps -e | grep 'ipython' and killing it.
+# not optimal at all...
 "~/anaconda3/bin/ipython notebook"
   mod1 + 2
 
 "~/anaconda3/bin/spyder"
   mod1 + 3
 
+"sudo poweroff"
+  Control+Alt+Mod4 + Delete
 # start to automate running python scripts from vim to ipython qtconsole
 # xvbd is a virtual keyboard that can send text to an app
 #"xvkbd -xsendevent -text "print('Hello')""
