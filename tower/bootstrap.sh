@@ -117,3 +117,8 @@ sudo apt-get install retroarch-joypad-autoconfig
 # cores can be found on https://launchpad.net/~libretro/+archive/ubuntu/stable
 # Dont need to config anything. Google if I do for BIOS etc
 '
+
+# installing haskell plugins for vim
+# sudo apt-get install haskell-platform
+
+cabal install ghc-mod
