@@ -16,3 +16,6 @@
 [submodule "common/.janus/vim-ipython"]
 	path = common/.janus/vim-ipython
 	url = https://github.com/ivanov/vim-ipython.git
+[submodule "common/.janus/vim2hs"]
+	path = common/.janus/vim2hs
+	url = https://github.com/dag/vim2hs.git
