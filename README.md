@@ -44,6 +44,14 @@ stow tower
 ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
 
 ```
+To update submodules after I git pull, try
+```
+git submodule update --init --recursive
+```
+
+For Haskell stuff add ~/.cabal/bin to PATH. This might be different on
+Mac
+
 
 ## Some useful applications
 ### Called in common
