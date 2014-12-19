@@ -151,3 +151,10 @@ git config --global user.email "bbk1524@gmail.com"
 git config --global user.name "Ben-Lubuntu"
 git config --global push.default matching
 '
+
+: '
+echo "make power commands non-sudo"
+echo "add this in /etc/sudoers via"
+echo "visudo"
+echo "%sudo ALL = NOPASSWD: /sbin/shutdown /sbin/poweroff /sbin/reboot"
+'
