@@ -69,9 +69,10 @@ echo "pacmd set-default-sink <name of sink just found without angle brackets>"
 
 : '
 # get programs from my README
-#sudo apt-get -y install kupfer # dont think I need this anymore. I do. gnome do freezes my pc.
+sudo apt-get -y install kupfer # dont think I need this anymore. I do. gnome do freezes my pc.
 sudo apt-get -y install feh compton  xbindkeys
 sudo apt-get -y install x11-xkb-utils # for setxkbmap for ditching CAPS
+# eclipse is a large download
 sudo apt-get -y install stow eclipse 
 # clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
 '
@@ -83,6 +84,9 @@ cd ~/backup
 stow common
 rm ~/.zshrc ~/.i3/config
 stow tower
+echo " a note: .xprofile messes up my clock and stuff with LXDE"
+echo " change Terminal font to an appropriate size. LXTerminal->Edit->Style->Terminal font"
+
 '
 
 : '
@@ -107,7 +111,7 @@ cd ~
 wget http://media.steampowered.com/client/installer/steam.deb
 sudo apt-get install gdebi-core 
 sudo gdebi steam.deb
-echo "run Steam, then erase its gcc"
+echo "run Steam, then erase its gcc with the next set of commands"
 '
 
 : '
@@ -132,11 +136,18 @@ sudo apt-get install retroarch-joypad-autoconfig
 # Ok that worked. Some notes:
 # cores can be found on https://launchpad.net/~libretro/+archive/ubuntu/stable
 # Dont need to config anything. Google if I do for BIOS etc
+# The controls need serious reconfigs. How?
+'
+: '
+# haskell Stuff
+# sudo apt-get -y install haskell-platform
+cabal update
+cabal install ghc-mod
 '
 
-# installing haskell plugins for vim
-# sudo apt-get install haskell-platform
-
+: '
 # set up git
 git config --global user.email "bbk1524@gmail.com"
 git config --global user.name "Ben-Lubuntu"
+git config --global push.default matching
+'
