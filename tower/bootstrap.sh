@@ -74,6 +74,7 @@ sudo apt-get -y install feh compton  xbindkeys
 sudo apt-get -y install x11-xkb-utils # for setxkbmap for ditching CAPS
 # eclipse is a large download
 sudo apt-get -y install stow eclipse 
+sudo apt-get -y install vlc
 # clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
 '
 
@@ -158,3 +159,11 @@ echo "add this in /etc/sudoers via"
 echo "visudo"
 echo "%sudo ALL = NOPASSWD: /sbin/shutdown /sbin/poweroff /sbin/reboot"
 '
+
+: '
+echo "use lxappearance to set a gtk theme"
+echo "download a theme (right now Im using delorean-dark-3.10) to ~/.themes"
+echo "kupfer cant find lxappearance, so type it into the terminal to open it"
+'
+
+
