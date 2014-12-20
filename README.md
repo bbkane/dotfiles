@@ -52,6 +52,12 @@ git submodule update --init --recursive
 For Haskell stuff add ~/.cabal/bin to PATH. This might be different on
 Mac
 
+To create .desktop entries for lxde, use Menu Editor (menulibre). Click
+the '+' at the top right. 
+
+Another approach that might be better is to use lxshortcut. Add to
+desktop, and copy them to ~/.local/share/applications/ for kupfer to
+find.
 
 ## Some useful applications
 ### Called in common
