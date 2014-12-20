@@ -166,4 +166,11 @@ echo "download a theme (right now Im using delorean-dark-3.10) to ~/.themes"
 echo "kupfer cant find lxappearance, so type it into the terminal to open it"
 '
 
+: '
+echo "User Icon: .face should be a square .png in my backup/tower"
+echo "Login wallpaper: should be called /usr/share/lubuntu/wallpapers/name"
+echo "edit /etc/lighdm/lightdm-gtk-greeter.conf to match the name"
+echo "unless the name is login-wallpaper.jpg"
+'
+
 
