@@ -168,9 +168,8 @@ echo "kupfer cant find lxappearance, so type it into the terminal to open it"
 
 : '
 echo "User Icon: .face should be a square .png in my backup/tower"
-echo "Login wallpaper: should be called /usr/share/lubuntu/wallpapers/name"
-echo "edit /etc/lighdm/lightdm-gtk-greeter.conf to match the name"
-echo "unless the name is login-wallpaper.jpg"
+#echo "Login wallpaper: should be called /usr/share/lubuntu/wallpapers/name"
+echo "Edit /etc/lighdm/lightdm-gtk-greeter.conf to match the name of the wallpaper"
+echo "Unless the name is /home/benjamin/.login-wallpaper"
+echo "To fix the start panels length, right click it->Panel Settings->Width->1920 pixels"
 '
-
-
