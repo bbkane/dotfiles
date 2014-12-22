@@ -20,7 +20,7 @@ set foldcolumn=1
 set foldlevelstart=1
 
 " set line wrap
-set wrap
+"set wrap
 
 " set macvim font. Use :set gfn=* and :setgfn to find
 " set guifont=Menlo Regular:h13
