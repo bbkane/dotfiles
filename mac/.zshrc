@@ -2,11 +2,11 @@
 echo ".zshrc loaded"
 
 #virtual env
-export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
-source /usr/local/bin/virtualenvwrapper.sh
-export WORKON_HOME=~/Programming/Envs/
-export PIP_REQUIRE_VIRTUALENV=true
-alias mkvirtualenv="mkvirtualenv --python=/usr/local/bin/python3"
+#export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+#source /usr/local/bin/virtualenvwrapper.sh
+#export WORKON_HOME=~/Programming/Envs/
+#export PIP_REQUIRE_VIRTUALENV=true
+#alias mkvirtualenv="mkvirtualenv --python=/usr/local/bin/python3"
 
 # get common stuff
 source $HOME/.benshellrc
@@ -102,7 +102,7 @@ zpath
 
 
 # added by Anaconda3 2.0.1 installer
-alias apath='zpath && export PATH="/Users/benjaminkane/anaconda/bin:$PATH"'
+alias apath='zpath && export PATH="/Users/benjaminkane/anaconda3/bin:$PATH"'
 apath
 
 #add for haskell
