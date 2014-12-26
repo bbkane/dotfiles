@@ -39,7 +39,7 @@ cd backup
 stow common
 stow mac
 '
-#brew install clisp pandoc wget fdupes httrack 
+#brew install clisp pandoc wget fdupes httrack
 
 : '
 cd ~
@@ -47,6 +47,17 @@ cd ~
 #bash ~/Anaconda3-2.1.0-MacOSX-x86_64.sh
 '
 #brew cask install firefox skim dropbox google-drive functionflip skype transmission vlc eclipse-java
-#brew cask install alfred 
+#brew cask install alfred
 # echo add Caskroom to Alfed manually
+#echo install the latest JDK from the website
 #brew cask cleanup
+# activate function flip
+#brew cask install openemu
+
+
+#: '
+# start getting wallpapers!!
+cd ~
+#git clone https://github.com/EndlesslyCurious/RedditImageGrab.git
+python2.7 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -score 1000 -num 25
+#'
