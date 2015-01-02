@@ -68,6 +68,17 @@ echo "pacmd set-default-sink <name of sink just found without angle brackets>"
 '
 
 : '
+# Test fix for audio
+sudo apt-get -y install pulseaudio-utils pulseaudio
+# double quotes might not work here ...
+RIGHT_SINK=`pacmd list-sinks | grep -E "name:*hdmi"`
+# pass RIGHT_SINK to sed to get rid of angle brackets
+RIGHT_SINK=`sed "s/^<//; s/>$//" $RIGHT_SINK
+#pacmd set-default-sink $RIGHT_SINK
+echo "$RIGHT_SINK"
+'
+
+: '
 # get programs from my README
 sudo apt-get -y install kupfer # dont think I need this anymore. I do. gnome do freezes my pc.
 sudo apt-get -y install feh compton  xbindkeys
