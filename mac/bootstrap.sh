@@ -100,3 +100,7 @@ git clone https://github.com/EndlesslyCurious/RedditImageGrab.git
 python2.7 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -score 1000 -num 25
 echo Change Wallpaper settings in Preferences
 '
+echo "Im installing Steam from the website. Could do it with brew cask but I think this will be easier if I uninstall it"
+
+brew tap caskroom/fonts
+brew cask install font-source-code-pro
