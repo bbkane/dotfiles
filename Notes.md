@@ -20,5 +20,9 @@ httrack is a good for for downloading websites for offline viewing. Use
 in an empty folder
 
 stow -D <folder name> removes the symlinks
+stow <folder name> -t <target name> stows the folder to the target
+
+Kronos IHaskell is great for interactive Haskell dev work. Now if only
+we could get Anaconda Haskell Distro :)
 
 
