@@ -1,6 +1,9 @@
 # shut apt-get up
 DEBIAN_FRONTEND=noninteractive
 
+# get gedit for editing this
+# sudo apt-get install gedit
+
 : '
 # get i3wm. Maybe I should change this to the fork?
  echo "deb http://debian.sur5r.net/i3/ $(lsb_release -c -s) universe" >> /etc/apt/sources.list
@@ -42,13 +45,13 @@ sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
 sudo update-alternatives --set vi /usr/bin/vim
 '
 
- : '
+: '
 # get oh-my-zsh
 sudo apt-get install zsh git
 wget --no-check-certificate http://install.ohmyz.sh -O - | sh
 chsh -s /bin/zsh
 echo "**********now log out and log back in**********"
- '
+'
 
 : '
 # get janus
@@ -60,6 +63,7 @@ curl -Lo- https://bit.ly/janus-bootstrap | bash
 # fix audio
 sudo apt-get -y install pulseaudio-utils pulseaudio
 echo "**********INSTRUCTIONS FOR SOUND FIX************"
+echo "first, logout and log back in"
 echo "follow these steps to get to the right output"
 echo "pacmd list-sinks"
 echo "find the one that says hdmi and copy it"
@@ -68,6 +72,7 @@ echo "pacmd set-default-sink <name of sink just found without angle brackets>"
 '
 
 : '
+# doesnt work
 # Test fix for audio
 sudo apt-get -y install pulseaudio-utils pulseaudio
 # double quotes might not work here ...
@@ -84,21 +89,28 @@ sudo apt-get -y install kupfer # dont think I need this anymore. I do. gnome do 
 sudo apt-get -y install feh compton  xbindkeys
 sudo apt-get -y install x11-xkb-utils # for setxkbmap for ditching CAPS
 # eclipse is a large download
-sudo apt-get -y install stow eclipse 
+sudo apt-get -y install stow
+#eclipse is huge. Might wanna wait on this one.
+#sudo apt-get -y install eclipse
 sudo apt-get -y install vlc
 # clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
 '
 
 : '
+# Now it takes sudo to change zsh stuff. Must update this. Later.
 # get config files
 git clone --recursive https://github.com/bbk1524/backup.git
 cd ~/backup
 stow common
 rm ~/.zshrc ~/.i3/config
+# move bootstrap
+rm ~/backup/tower/bootsrap.sh
+mv ~/bootstrap.sh ~/backup/tower/
 stow tower
-echo " a note: .xprofile messes up my clock and stuff with LXDE"
+echo " a note: .xprofile messes up my clock and stuff with LXDE. This is fixed later."
 echo " change Terminal font to an appropriate size. LXTerminal->Edit->Style->Terminal font"
-
+cd ~/backup/manually_symlink
+sudo stow tower_bin -t /usr/local/bin
 '
 
 : '
@@ -113,6 +125,7 @@ bash Anaconda3-2.1.0-Linux-x86_64.sh -b
 cd ~
 git clone https://github.com/EndlesslyCurious/RedditImageGrab.git
 python2 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -score 1000 -num 25
+python2 ~/RedditImageGrab/redditdownload.py cityporn ~/Pictures/Wallpapers -score 1000 -num 25
 '
 
 #echo "get firefox addons: vimperator, adblock plus, Reddit Enhancement Suite"
@@ -121,7 +134,7 @@ python2 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -sco
 #lets install steam...
 cd ~
 wget http://media.steampowered.com/client/installer/steam.deb
-sudo apt-get install gdebi-core 
+sudo apt-get -y install gdebi-core 
 sudo gdebi steam.deb
 echo "run Steam, then erase its gcc with the next set of commands"
 '
@@ -131,12 +144,10 @@ echo "run Steam, then erase its gcc with the next set of commands"
 echo "Erasing steam crud"
 # This is all I needed to erase.. Leaving the rest commented
 rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libstdc++.so.6
-#rm ~/.steam/bin32/steam-runtime/i386/lib/i386-linux-gnu/libgcc_s.so.1
-#rm ~/.steam/bin32/steam-runtime/amd64/lib/x86_64-linux-gnu/libgcc_s.so.1
-#rm ~/.steam/bin32/steam-runtime/amd64/usr/lib/x86_64-linux-gnu/libstdc++.so.6
-#rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libxcb.so.1
-#  now steam wont open...
-# If I use kupfer to launch steam on i3, it works... Hmmm. I can run games and everything! Yay!
+rm ~/.steam/bin32/steam-runtime/i386/lib/i386-linux-gnu/libgcc_s.so.1
+rm ~/.steam/bin32/steam-runtime/amd64/lib/x86_64-linux-gnu/libgcc_s.so.1
+rm ~/.steam/bin32/steam-runtime/amd64/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libxcb.so.1
 '
 
 : '
@@ -168,13 +179,22 @@ git config --global push.default matching
 echo "make power commands non-sudo"
 echo "add this in /etc/sudoers via"
 echo "visudo"
-echo "%sudo ALL = NOPASSWD: /sbin/shutdown /sbin/poweroff /sbin/reboot"
+echo "%sudo ALL = NOPASSWD: /sbin/shutdown, /sbin/poweroff, /sbin/reboot"
+echo "dont forget the commas"
 '
 
 : '
 echo "use lxappearance to set a gtk theme"
 echo "download a theme (right now Im using delorean-dark-3.10) to ~/.themes"
 echo "kupfer cant find lxappearance, so type it into the terminal to open it"
+# themes found at:	 http://www.noobslab.com/p/themes-icons.html#icons
+#sudo apt-add-repository ppa:noobslab/themes
+#sudo apt-get update
+# sudo apt-get install polar-night-gtk
+# get icon themes
+sudo apt-add-repository ppa:numix/ppa
+sudo apt-get update
+sudo apt-get install numix-icon-theme numix-icon-theme-circle
 '
 
 : '
