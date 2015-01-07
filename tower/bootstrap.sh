@@ -90,8 +90,7 @@ sudo apt-get -y install feh compton  xbindkeys
 sudo apt-get -y install x11-xkb-utils # for setxkbmap for ditching CAPS
 # eclipse is a large download
 sudo apt-get -y install stow
-#eclipse is huge. Might wanna wait on this one.
-#sudo apt-get -y install eclipse
+# The repo eclipse is old. Use http://ubuntuhandbook.org/index.php/2014/06/install-latest-eclipse-ubuntu-14-04/ instead
 sudo apt-get -y install vlc
 # clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
 '
