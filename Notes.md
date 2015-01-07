@@ -16,6 +16,11 @@ https://USERNAME@github.com/REPO_OWNER/REPO_NAME.git
 2. Open windows (Colors, Brushes, Layers, etc), and grab the tab. drag it till you see a blue line. Then release, and blam, it fits
 3. To save these window preferences, use Edit->Preferences->Window Management->Save Windows Positions Now
 
+1. GIMP is Useful for cropping images as well
+2. If Hide Docks is selected in Windows, de-select it
+3. Use the selection tool, then get dimensions right on the little
+   window below it, then crop to selection
+
 httrack is a good for for downloading websites for offline viewing. Use
 in an empty folder
 
