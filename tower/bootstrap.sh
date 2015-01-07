@@ -108,6 +108,7 @@ rm ~/backup/tower/bootsrap.sh
 mv ~/bootstrap.sh ~/backup/tower/
 stow tower
 echo " a note: .xprofile messes up my clock and stuff with LXDE. This is fixed later."
+echo "To fix the start panels length, right click it->Panel Settings->Width->1920 pixels"
 echo " change Terminal font to an appropriate size. LXTerminal->Edit->Style->Terminal font"
 cd ~/backup/manually_symlink
 sudo stow tower_bin -t /usr/local/bin
@@ -199,8 +200,10 @@ sudo apt-get install numix-icon-theme numix-icon-theme-circle
 
 : '
 echo "User Icon: .face should be a square .png in my backup/tower"
-#echo "Login wallpaper: should be called /usr/share/lubuntu/wallpapers/name"
-echo "Edit /etc/lighdm/lightdm-gtk-greeter.conf to match the name of the wallpaper"
-echo "Unless the name is /home/benjamin/.login-wallpaper"
-echo "To fix the start panels length, right click it->Panel Settings->Width->1920 pixels"
+
+# sudo ln -s /home/ben/.login-wallpaper /usr/share/lubuntu/wallpapers/login-wallpaper
+echo "edit /etc/lightdm/lightdm-gtk-greeter.conf"
+echo "the line that says background should read"
+echo "\t background=/usr/share/lubuntu/wallpapers/login-wallpaper"
+echo "now simply save the wallpaper as ~/.login-wallpaper, and LightDM will find it."
 '
