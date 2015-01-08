@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Ipython Notebook
+Comment=Ipython Cross between Shell and IDE
+Exec=/home/ben/anaconda3/bin/ipython notebook
+Icon=/home/ben/Pictures/DesktopShortcutIcons/IPythonNotebookIcon.png
+Terminal=true
+Type=Application
+Categories=Utility;Application;
+X-KeepTerminal=true
