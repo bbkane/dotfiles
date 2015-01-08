@@ -206,3 +206,19 @@ echo "the line that says background should read"
 echo "\t background=/usr/share/lubuntu/wallpapers/login-wallpaper"
 echo "now simply save the wallpaper as ~/.login-wallpaper, and LightDM will find it."
 '
+
+: '
+# get eclipse luna
+sudo apt-get install openjdk-8-jdk
+# download eclipse to home folder http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR1/eclipse-java-luna-SR1-linux-gtk-x86_64.tar.gz
+cd ~
+#tar -xzvf name of tarfile
+# change how it looks in Window->Preferences->General->Appearance
+'
+
+: '
+# get haroopad for markdown
+cd ~/Downloads/
+wget https://bitbucket.org/rhiokim/haroopad-download/downloads/haroopad-v0.13.0-x64.deb
+sudo gdebi haroopad-v0.13.0-x64.deb
+'

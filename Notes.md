@@ -29,4 +29,7 @@ stow <folder name> -t <target name> stows the folder to the target
 
 Kronos IHaskell is great for interactive Haskell dev work. Now if only we could get Anaconda Haskell Distro :)
 
+## Gedit
+Gedit is super cool for my config file work where I need a mouse.
+Stop creating backup files in Edit->Preferences->Editor
 
