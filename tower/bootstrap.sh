@@ -222,3 +222,7 @@ cd ~/Downloads/
 wget https://bitbucket.org/rhiokim/haroopad-download/downloads/haroopad-v0.13.0-x64.deb
 sudo gdebi haroopad-v0.13.0-x64.deb
 '
+
+#: '
+# begin Conky stuff
+sudo apt-get install conky
