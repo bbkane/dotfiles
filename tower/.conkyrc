@@ -1,5 +1,5 @@
 use_xft yes
-xftfont Dejavu Sans:size=8
+xftfont Dejavu Sans:size=14
 xftalpha 1
 
 own_window yes
@@ -14,7 +14,7 @@ double_buffer yes
 alignment top_left
 gap_x 20
 gap_y 20
-maximum_width 190
+#maximum_width 190
 #default_color white
 #poll
 total_run_times 0
