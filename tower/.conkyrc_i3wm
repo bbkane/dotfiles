@@ -1,40 +1,23 @@
-background yes
-override_utf8_locale yes
-
 use_xft yes
-xftfont Open Sans:size=10
+xftfont Dejavu Sans:size=14
 xftalpha 1
 
-update_interval 1.0
-total_run_times 0
-
 own_window yes
+own_window_class Conky
+own_window_type override
 own_window_transparent yes
-own_window_type desktop
-own_window_argb_visual yes
-own_window_argb_value 180
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_hints below
 
+update_interval 1.0
 double_buffer yes
-minimum_size 200 200
-maximum_width 240
-
-draw_shades no
-draw_outline no
-draw_borders no
-draw_graph_borders no
-
-default_color 656667
-default_shade_color 000000
-default_outline_color 828282
-
 alignment top_left
 gap_x 20
 gap_y 20
-no_buffers yes
-uppercase no
-cpu_avg_samples 2
-override_utf8_locale no
+#maximum_width 190
+#default_color white
+#poll
+total_run_times 0
 ##############################################
 #  Output
 ##############################################
@@ -43,24 +26,27 @@ TEXT
 
 ${font Raleway:weight=Light :size=62}${time %H:%M}${font}
 
-${voffset 2}${alignc}${time %A, %d %B %Y}
+${voffset 2}${alignc}${time %A, %Y %B %d}
 
-SYSTEM 
 ${hr}
-${voffset 2}${font Arial Black:style=Bold:size=12}#!${font}   CrunchBang Linux  ${alignr}08.10.01
-${font StyleBats:size=16}A${font} CPU:   ${cpu cpu0}% ${alignr}${cpubar cpu1 8,60}
-${font StyleBats:size=16}g${font} RAM:   $mem/$memmax ${alignr}${membar 8,60}
-${font StyleBats:size=16}j${font} SWAP:  $swap/$swapmax ${alignr}${swapbar 8,60}
-${font StyleBats:size=16}q${font} UPTIME: ${alignr}${uptime}
+SYSTEM
+${hr}
+ CPU:   ${cpu cpu0}% ${alignr}${cpubar cpu1 8,60}
+ RAM:   $mem/$memmax ${alignr}${membar 8,60}
+ UPTIME: ${alignr}${uptime}
 
-TOP CPU 
+${hr}
+TOP CPU
 ${hr}
 ${top name 1}${alignr}${top cpu 1} %
 ${top name 2}${alignr}${top cpu 2} %
 ${top name 3}${alignr}${top cpu 3} %
+${top name 4}${alignr}${top cpu 4} %
 
-TOP MEMORY 
+${hr}
+TOP MEMORY
 ${hr}
 ${top_mem name 1}${alignr}${top mem 1} %
 ${top_mem name 2}${alignr}${top mem 2} %
 ${top_mem name 3}${alignr}${top mem 3} %
+${top_mem name 4}${alignr}${top mem 4} %
