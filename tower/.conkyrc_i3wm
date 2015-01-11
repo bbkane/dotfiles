@@ -9,13 +9,19 @@ own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 own_window_hints below
 
+draw_borders no
+
+#this works but it's ugly...
+draw_outline no
+
 update_interval 1.0
 double_buffer yes
 alignment top_left
 gap_x 20
 gap_y 20
 #maximum_width 190
-#default_color white
+default_color red
+default_outline_color blue
 #poll
 total_run_times 0
 ##############################################
