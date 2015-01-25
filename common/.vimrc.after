@@ -14,7 +14,7 @@ let g:lisp_rainbow=1
 let g:syntastic_cpp_checkers = ['clang_check']
 
 " see where folds are
-set foldcolumn=1
+" set foldcolumn=1
 
 " don't fold by default
 set foldlevelstart=1
