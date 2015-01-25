@@ -31,6 +31,8 @@ $execi numlockx on
 #set random wallpapers for both screens
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
 
+$execi conky -c ~/.conkyrc_i3wm
+
 # compton. I like compton, but I need to configure it for terminals only...
 # $execi compton -cCGb
 
