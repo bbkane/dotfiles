@@ -16,13 +16,24 @@ https://USERNAME@github.com/REPO_OWNER/REPO_NAME.git
 2. Open windows (Colors, Brushes, Layers, etc), and grab the tab. drag it till you see a blue line. Then release, and blam, it fits
 3. To save these window preferences, use Edit->Preferences->Window Management->Save Windows Positions Now
 
+1. GIMP is Useful for cropping images as well
+2. If Hide Docks is selected in Windows, de-select it
+3. Use the selection tool, then get dimensions right on the little
+   window below it, then crop to selection
+
 httrack is a good for for downloading websites for offline viewing. Use
 in an empty folder
 
 stow -D <folder name> removes the symlinks
 stow <folder name> -t <target name> stows the folder to the target
 
-Kronos IHaskell is great for interactive Haskell dev work. Now if only
-we could get Anaconda Haskell Distro :)
+Kronos IHaskell is great for interactive Haskell dev work. Now if only we could get Anaconda Haskell Distro :)
 
+## Gedit
+Gedit is super cool for my config file work where I need a mouse.
+Stop creating backup files in Edit->Preferences->Editor
+
+## Todo conky
+fix .conkyrc_i3wm from backup
+do the same for .conkyrc
 
