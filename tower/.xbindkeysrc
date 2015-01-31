@@ -84,6 +84,12 @@
 "amixer -D pulse sset Master 5%+"
   F8
 
+"amixer -D pulse sset Master 5%-"
+  Control + Alt + Down
+
+"amixer -D pulse sset Master 5%+"
+  Control + Alt + Up
+
 # anaconda stuff
 "~/anaconda3/bin/ipython qtconsole"
   mod1 + 1

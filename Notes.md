@@ -42,3 +42,8 @@ fix .conkyrc_i3wm from backup
 do the same for .conkyrc
 Also need to make .desktop file for QTConsole and Spyder
 
+## VPN Stuff
+sudo apt-get install network-manager-openvpn openvpn
+sudo restart network manager
+Open kupfer and select Network Connections
+I'll do it on mac now
