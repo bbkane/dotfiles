@@ -56,3 +56,5 @@ ${top_mem name 1}${alignr}${top mem 1} %
 ${top_mem name 2}${alignr}${top mem 2} %
 ${top_mem name 3}${alignr}${top mem 3} %
 ${top_mem name 4}${alignr}${top mem 4} %
+
+${rss https://bbs.archlinux.org/extern.php?action=feed&type=rss 1 item_titles 4}
