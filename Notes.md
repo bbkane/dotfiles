@@ -29,6 +29,10 @@ stow <folder name> -t <target name> stows the folder to the target
 
 Kronos IHaskell is great for interactive Haskell dev work. Now if only we could get Anaconda Haskell Distro :)
 
+`ln -s /media/ben/Stuff/ `pwd`/Stuff/` is nice to reach my external HDD
+
+Notes for .login-wallpaper are in bootstrap.sh
+
 ## Gedit
 Gedit is super cool for my config file work where I need a mouse.
 Stop creating backup files in Edit->Preferences->Editor
@@ -36,4 +40,10 @@ Stop creating backup files in Edit->Preferences->Editor
 ## Todo conky
 fix .conkyrc_i3wm from backup
 do the same for .conkyrc
+Also need to make .desktop file for QTConsole and Spyder
 
+## VPN Stuff
+sudo apt-get install network-manager-openvpn openvpn
+sudo restart network manager
+Open kupfer and select Network Connections
+I'll do it on mac now
