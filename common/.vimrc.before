@@ -4,7 +4,7 @@
 "disable plugins!!
 "this was a spree of disabling stuff- I might want to disable some of these
 call janus#disable_plugin('ack')
-call janus#disable_plugin('ctrlp')
+"call janus#disable_plugin('ctrlp')
 call janus#disable_plugin('nerdtree')
 call janus#disable_plugin('tagbar')
 call janus#disable_plugin('easymotion')
