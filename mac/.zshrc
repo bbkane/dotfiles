@@ -11,6 +11,9 @@ echo ".zshrc loaded"
 # get common stuff
 source $HOME/.benshellrc
 
+# syntax highlight less
+export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
+
 # END BENS STUFF
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
