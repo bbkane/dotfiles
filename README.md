@@ -2,7 +2,7 @@
 
 The configs for all of my dotfiles (and a few other config files) are
 here. Use with *gnu stow*. I'm using gnu stow in a folder named
-**backup**. **backup** has directories like *mac*, *tower*, and
+**backup**. **backup** has directories like *mac*, *lubuntu*, and
 *common*. Clone backup into my home folder, then enter it, and use the
 command `stow <folder name>` to make symlinks to everything in the
 *parent of the current directory*- in this case `$HOME`. To specify a
@@ -37,7 +37,7 @@ cd backup
 stow common
 
 # get my tower stuff done
-stow tower
+stow lubuntu
 
 # symlink monitor.sh into /usr/local/bin
 # remember not to depend on relative paths, like `./dir`
@@ -64,14 +64,14 @@ find.
 - janus
 - oh-my-zsh
 
-### Called in tower/.xbindkeysrc
+### Called in lubuntu/.xbindkeysrc
 - google-chrome
 - kupfer #app launcher and file opener
 
-### Called in tower/.zshrc
+### Called in lubuntu/.zshrc
 - anaconda #changed path for it's python goodies
 
-### Called in tower/.i3/config
+### Called in lubuntu/.i3/config
 - feh # for the wallpapers
 - compton #for clearer terminals etc. Must configure...
 - xkbmap #Don't need CapsLock yo

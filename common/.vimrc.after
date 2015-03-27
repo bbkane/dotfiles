@@ -5,6 +5,8 @@ inoremap jj <ESC>
 
 set nohlsearch
 
+set cursorline
+
 colorscheme elflord
 
 RainbowParenthesesToggle
