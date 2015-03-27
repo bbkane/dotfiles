@@ -9,6 +9,11 @@ own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 own_window_hints below
 
+# should make it semi-transparent
+# doesn't work
+# own_window_argb_visual yes
+# own_window_argb_value 100
+
 draw_borders no
 
 #this works but it's ugly...
@@ -57,4 +62,3 @@ ${top_mem name 2}${alignr}${top mem 2} %
 ${top_mem name 3}${alignr}${top mem 3} %
 ${top_mem name 4}${alignr}${top mem 4} %
 
-${rss https://bbs.archlinux.org/extern.php?action=feed&type=rss 1 item_titles 4}
