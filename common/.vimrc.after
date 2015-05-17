@@ -13,7 +13,7 @@ RainbowParenthesesToggle
 
 let g:paredit_mode=0
 let g:lisp_rainbow=1
-let g:syntastic_cpp_checkers = ['clang_check']
+"let g:syntastic_cpp_checkers = ['clang_check']
 
 " see where folds are
 " set foldcolumn=1
