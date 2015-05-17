@@ -6,12 +6,12 @@ DEBIAN_FRONTEND=noninteractive
 
 : '
 # get i3wm. Maybe I should change this to the fork?
- echo "deb http://debian.sur5r.net/i3/ $(lsb_release -c -s) universe" >> /etc/apt/sources.list
- apt-get update
- apt-get --allow-unauthenticated install sur5r-keyring
- apt-get update
- apt-get install i3
-echo "You can now log out and log back in to i3"
+sudo echo "deb http://debian.sur5r.net/i3/ $(lsb_release -c -s) universe" >> /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get --allow-unauthenticated install sur5r-keyring
+sudo apt-get update
+sudo apt-get install i3
+echo "@@@@@@@@@You can now log out and log back in to i3@@@@@@@@@"
 '
 
 : '
@@ -43,14 +43,13 @@ sudo update-alternatives --install /usr/bin/editor editor /usr/bin/vim 1
 sudo update-alternatives --set editor /usr/bin/vim
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
 sudo update-alternatives --set vi /usr/bin/vim
-'
+echo "@@@@@@@@@@@@@ Vim is now built! @@@@@@@@@@@@@@"
 
-: '
 # get oh-my-zsh
 sudo apt-get install zsh git
 wget --no-check-certificate http://install.ohmyz.sh -O - | sh
 chsh -s /bin/zsh
-echo "**********now log out and log back in**********"
+echo "@@@@@@@@@@ ZSH installed. Logout and log back in!! @@@@@@@@@@@"
 '
 
 : '
@@ -70,17 +69,32 @@ echo "find the one that says hdmi and copy it"
 echo "It looks something like <alsa_output.pci-0000_01_00.1.hdmi-stereo>"
 echo "pacmd set-default-sink <name of sink just found without angle brackets>"
 '
+: '
+# Test fix for audio
+#sudo apt-get -y install pulseaudio-utils pulseaudio
+pacmd list-sinks | egrep "name:.*hdmi.*" | read sink_clutter
+# get the only name that matters
+echo $sink_clutter | cut -d "<" -f2 | cut -d ">" -f1 | read sink_name
+pacmd set-default-sink $sink_name
+echo "@@@@@@@@@@@@@@ Now log out little grasshopper @@@@@@@@@@@@"
+'
 
 : '
-# doesnt work
-# Test fix for audio
-sudo apt-get -y install pulseaudio-utils pulseaudio
-# double quotes might not work here ...
-RIGHT_SINK=`pacmd list-sinks | grep -E "name:*hdmi"`
-# pass RIGHT_SINK to sed to get rid of angle brackets
-RIGHT_SINK=`sed "s/^<//; s/>$//" $RIGHT_SINK
-#pacmd set-default-sink $RIGHT_SINK
-echo "$RIGHT_SINK"
+#Eclipse
+# The repo eclipse is old. Use http://ubuntuhandbook.org/index.php/2014/06/install-latest-eclipse-ubuntu-14-04/ instead
+#sudo apt-get install openjdk-8-jdk #includes jre too
+echo "@@@@@@@ Download the latest version of Eclipse from www.eclipse.org @@@@@@@"
+# I cant simply wget it :(
+# move it to /usr/local (TODO: edit .desktop file)
+cd /usr/local/ && sudo tar -zxvf ~/Downloads/eclipse-*tar.gz
+'
+
+: '
+# this might need a better url if it gets updated.
+# Its from http://continuum.io/downloads
+cd ~
+wget https://3230d63b5fc54e62148e-c95ac804525aac4b6dba79b00b39d1d3.ssl.cf1.rackcdn.com/Anaconda3-2.2.0-Linux-x86_64.sh
+bash Anaconda3-2.2.0-Linux-x86_64.sh -b
 '
 
 : '
@@ -88,11 +102,10 @@ echo "$RIGHT_SINK"
 sudo apt-get -y install kupfer # dont think I need this anymore. I do. gnome do freezes my pc.
 sudo apt-get -y install feh compton  xbindkeys
 sudo apt-get -y install x11-xkb-utils # for setxkbmap for ditching CAPS
-# eclipse is a large download
 sudo apt-get -y install stow
-# The repo eclipse is old. Use http://ubuntuhandbook.org/index.php/2014/06/install-latest-eclipse-ubuntu-14-04/ instead
 sudo apt-get -y install vlc
-# clang3.3 is already installed by anaconda. If I need clang3.5, I can use the full name
+# clang3.3 is already installed by anaconda. If I need clang3.6, I can use the full name
+sudo apt-get -y install clang-3.6
 '
 
 : '
@@ -100,87 +113,37 @@ sudo apt-get -y install vlc
 # get config files
 git clone --recursive https://github.com/bbk1524/backup.git
 cd ~/backup
-stow common
 rm ~/.zshrc ~/.i3/config
-# move bootstrap
-rm ~/backup/tower/bootsrap.sh
-mv ~/bootstrap.sh ~/backup/tower/
-stow tower
+stow common
+# move bootstrap that Ive downloaded and continually worked on to the repo
+rm ~/backup/lubuntu/bootstrap.sh
+mv ~/bootstrap.sh ~/backup/lubuntu/
+stow lubuntu
 echo " a note: .xprofile messes up my clock and stuff with LXDE. This is fixed later."
 echo "To fix the start panels length, right click it->Panel Settings->Width->1920 pixels"
 echo " change Terminal font to an appropriate size. LXTerminal->Edit->Style->Terminal font"
 cd ~/backup/manually_symlink
-sudo stow tower_bin -t /usr/local/bin
+sudo stow lubuntu_bin -t /usr/local/bin
 '
 
-: '
-# this might need a better url if it gets updated.
-cd ~
-wget http://repo.continuum.io/anaconda3/Anaconda3-2.1.0-Linux-x86_64.sh
-bash Anaconda3-2.1.0-Linux-x86_64.sh -b
-'
-
-: '
-# start getting wallpapers!!
-cd ~
-git clone https://github.com/EndlesslyCurious/RedditImageGrab.git
-python2 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -score 1000 -num 25
-python2 ~/RedditImageGrab/redditdownload.py cityporn ~/Pictures/Wallpapers -score 1000 -num 25
-'
-
-#echo "get firefox addons: vimperator, adblock plus, Reddit Enhancement Suite"
-
-: '
-#lets install steam...
-cd ~
-wget http://media.steampowered.com/client/installer/steam.deb
-sudo apt-get -y install gdebi-core 
-sudo gdebi steam.deb
-echo "run Steam, then erase its gcc with the next set of commands"
-'
-
-: '
-# lets erase steams old gcc
-echo "Erasing steam crud"
-# This is all I needed to erase.. Leaving the rest commented
-rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libstdc++.so.6
-rm ~/.steam/bin32/steam-runtime/i386/lib/i386-linux-gnu/libgcc_s.so.1
-rm ~/.steam/bin32/steam-runtime/amd64/lib/x86_64-linux-gnu/libgcc_s.so.1
-rm ~/.steam/bin32/steam-runtime/amd64/usr/lib/x86_64-linux-gnu/libstdc++.so.6
-rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libxcb.so.1
-'
-
-: '
-# lets try the repo on the website
-sudo apt-add-repository ppa:libretro/stable
-sudo apt-get upgrade
-sudo apt-get install retroarch
-sudo apt-get install retroarch-joypad-autoconfig
-# Ok that worked. Some notes:
-# cores can be found on https://launchpad.net/~libretro/+archive/ubuntu/stable
-# Dont need to config anything. Google if I do for BIOS etc
-# The controls need serious reconfigs. How?
-'
-: '
-# haskell Stuff
-# sudo apt-get -y install haskell-platform
-cabal update
-cabal install ghc-mod
-'
-
-: '
 # set up git
 git config --global user.email "bbk1524@gmail.com"
 git config --global user.name "Ben-Lubuntu"
 git config --global push.default matching
-'
 
-: '
+
 echo "make power commands non-sudo"
 echo "add this in /etc/sudoers via"
 echo "visudo"
 echo "%sudo ALL = NOPASSWD: /sbin/shutdown, /sbin/poweroff, /sbin/reboot"
 echo "dont forget the commas"
+
+
+: '
+# haskell Stuff
+# sudo apt-get -y install haskell-platform
+cabal update
+cabal install ghc-mod
 '
 
 : '
@@ -223,6 +186,49 @@ wget https://bitbucket.org/rhiokim/haroopad-download/downloads/haroopad-v0.13.0-
 sudo gdebi haroopad-v0.13.0-x64.deb
 '
 
+
+: '
+# start getting wallpapers!!
+cd ~
+git clone https://github.com/EndlesslyCurious/RedditImageGrab.git
+python2 ~/RedditImageGrab/redditdownload.py earthporn ~/Pictures/Wallpapers -score 1000 -num 25
+python2 ~/RedditImageGrab/redditdownload.py cityporn ~/Pictures/Wallpapers -score 1000 -num 25
+'
+
+#echo "get firefox addons: vimperator, adblock plus, Reddit Enhancement Suite"
+
+: '
+#lets install steam...
+cd ~
+wget http://media.steampowered.com/client/installer/steam.deb
+sudo apt-get -y install gdebi-core 
+sudo gdebi steam.deb
+echo "run Steam, then erase its gcc with the next set of commands"
+'
+
+: '
+# lets erase steams old gcc
+echo "Erasing steam crud"
+# This is all I needed to erase.. Leaving the rest commented
+rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libstdc++.so.6
+rm ~/.steam/bin32/steam-runtime/i386/lib/i386-linux-gnu/libgcc_s.so.1
+rm ~/.steam/bin32/steam-runtime/amd64/lib/x86_64-linux-gnu/libgcc_s.so.1
+rm ~/.steam/bin32/steam-runtime/amd64/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+rm ~/.steam/bin32/steam-runtime/i386/usr/lib/i386-linux-gnu/libxcb.so.1
+'
+
+: '
+# lets try the repo on the website
+sudo apt-add-repository ppa:libretro/stable
+sudo apt-get upgrade
+sudo apt-get install retroarch
+sudo apt-get install retroarch-joypad-autoconfig
+# Ok that worked. Some notes:
+# cores can be found on https://launchpad.net/~libretro/+archive/ubuntu/stable
+# Dont need to config anything. Google if I do for BIOS etc
+# The controls need serious reconfigs. How?
+'
+
 #: '
 # begin Conky stuff
-sudo apt-get install conky
+# sudo apt-get install conky
