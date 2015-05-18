@@ -9,19 +9,24 @@ command `stow <folder name>` to make symlinks to everything in the
 target, for the symlinks, use `stow <folder name> -t <destination>` for
 symlinks.
 
-To add the submodules to the common/.janus folder:
-If you already cloned the repo, it's:
 
-```
-cd common/.janus
-git submodule update --init --recursive
-```
-
-Otherwise, follow the below instructions
+Follow the below instructions
 
 So, if I reset everything on my tower, the steps would be:
 
-Get the prereqs- oh-my-zsh and janus for vim
+Get the prereqs- oh-my-zsh
+
+Get Vim:
+
+1. Build Vim from bootstrap.sh
+2. clone Vundle from github (google it)
+3. run `vim +PluginInstall +qall`
+4. Install YouCompleteMe
+    1. Run `which python` and make sure the system python comes first
+    2. `sudo apt-get install build-essential cmake python-dev`
+    3. `cd ~/.vim/bundle/YouCompleteMe`
+    4. `./install.sh --clang-completer`
+
 
 ```
 # GNU stow makes this work well
@@ -53,7 +58,7 @@ For Haskell stuff add ~/.cabal/bin to PATH. This might be different on
 Mac
 
 To create .desktop entries for lxde, use Menu Editor (menulibre). Click
-the '+' at the top right. 
+the '+' at the top right.
 
 Another approach that might be better is to use lxshortcut. Add to
 desktop, and copy them to ~/.local/share/applications/ for kupfer to
@@ -61,7 +66,6 @@ find.
 
 ## Some useful applications
 ### Called in common
-- janus
 - oh-my-zsh
 
 ### Called in lubuntu/.xbindkeysrc

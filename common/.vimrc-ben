@@ -1,0 +1,47 @@
+"" General
+set number	" Show line numbers
+set linebreak	" Break lines at word (requires Wrap lines)
+set showbreak=+++ 	" Wrap-broken line prefix
+set textwidth=100	" Line wrap (number of cols)
+set showmatch	" Highlight matching brace
+set errorbells	" Beep or flash screen on errors
+
+set autoindent	" Auto-indent new lines
+set cindent	" Use 'C' style program indenting
+set expandtab	" Use spaces instead of tabs
+set shiftwidth=4	" Number of auto-indent spaces
+set smartindent	" Enable smart-indent
+set softtabstop=4	" Number of spaces per Tab
+
+"" Advanced
+set ruler	" Show row and column ruler information
+
+set undolevels=1000	" Number of undo levels
+set backspace=indent,eol,start	" Backspace behaviour
+
+let mapleader = ","
+
+inoremap jj <ESC>
+
+set nohlsearch
+
+" show cursor
+set cursorline
+
+colorscheme elflord
+set background=dark
+
+
+"save temporary files to ~/.vim/tmp/
+"if tmp doesn't exist, make it
+silent !mkdir ~/.vim/tmp/ > /dev/null 2>&1
+set backupdir=~/.vim/tmp,.
+set directory=~/.vim/tmp,.
+
+" I want to call :make and have it make a single file
+" spaces must be escaped and '%' expands to the filename
+" '%<' expands to filename without extension
+set makeprg=g++\ -std=c++11\ -Wall\ -Wextra\ -o\ %<\ %
+
+" save, make, run (depends on makeprg)
+map <F5> :w<CR> :make<CR> :!./%<<CR>
