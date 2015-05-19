@@ -11,6 +11,8 @@ git config remote.origin.url
 https://USERNAME@github.com/REPO_OWNER/REPO_NAME.git
 ```
 
+I can see what I've changed before adding and commit if I use `git diff`
+
 ## GIMP Notes
 1. To make it more like an IDE, use Windows->Single Window Mode
 2. Open windows (Colors, Brushes, Layers, etc), and grab the tab. drag it till you see a blue line. Then release, and blam, it fits
@@ -63,3 +65,12 @@ sudo stow bin #farm some symlinks
 # http://stackoverflow.com/questions/13428910/how-to-set-the-environmental-variable-ld-library-path-in-linux
 # add path to `clang3.6libs.conf` # I came up with the name
 sudo ldconfig #this is great, but I can sudo apt-get install it...
+
+## I want to mount my stuff hard drive automatically
+http://www.cyberciti.biz/faq/linux-finding-using-uuids-to-update-fstab/
+Mount the drive from PCManFM
+`sudo blkid` lists all mounts
+Then, edit /etc/fstab with the following
+UUID=123...456  /mnt/Stuff      ntfs    defaults,errors=remount-ro  0   1
+ntfs is the filesystem-it might be ext4, depending on blkid
+

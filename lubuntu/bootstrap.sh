@@ -53,6 +53,7 @@ echo "@@@@@@@@@@ ZSH installed. Logout and log back in!! @@@@@@@@@@@"
 '
 
 : '
+# Not using this anymore......
 # get janus
 sudo apt-get -y install ack-grep ctags git ruby rake curl
 curl -Lo- https://bit.ly/janus-bootstrap | bash
@@ -70,23 +71,13 @@ echo "It looks something like <alsa_output.pci-0000_01_00.1.hdmi-stereo>"
 echo "pacmd set-default-sink <name of sink just found without angle brackets>"
 '
 : '
-# Test fix for audio
+# Test fix for audio. Not currently working
 #sudo apt-get -y install pulseaudio-utils pulseaudio
 pacmd list-sinks | egrep "name:.*hdmi.*" | read sink_clutter
 # get the only name that matters
 echo $sink_clutter | cut -d "<" -f2 | cut -d ">" -f1 | read sink_name
 pacmd set-default-sink $sink_name
 echo "@@@@@@@@@@@@@@ Now log out little grasshopper @@@@@@@@@@@@"
-'
-
-: '
-#Eclipse
-# The repo eclipse is old. Use http://ubuntuhandbook.org/index.php/2014/06/install-latest-eclipse-ubuntu-14-04/ instead
-#sudo apt-get install openjdk-8-jdk #includes jre too
-echo "@@@@@@@ Download the latest version of Eclipse from www.eclipse.org @@@@@@@"
-# I cant simply wget it :(
-# move it to /usr/local (TODO: edit .desktop file)
-cd /usr/local/ && sudo tar -zxvf ~/Downloads/eclipse-*tar.gz
 '
 
 : '
@@ -186,7 +177,6 @@ cd ~/Downloads/
 wget https://bitbucket.org/rhiokim/haroopad-download/downloads/haroopad-v0.13.0-x64.deb
 sudo gdebi haroopad-v0.13.0-x64.deb
 '
-
 
 : '
 # start getting wallpapers!!
