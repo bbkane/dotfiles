@@ -13,6 +13,8 @@ https://USERNAME@github.com/REPO_OWNER/REPO_NAME.git
 
 I can see what I've changed before adding and commit if I use `git diff`
 
+mplayer is pretty good for playing podcasts. Use --ss <time> to start playing at a time.
+
 ## GIMP Notes
 1. To make it more like an IDE, use Windows->Single Window Mode
 2. Open windows (Colors, Brushes, Layers, etc), and grab the tab. drag it till you see a blue line. Then release, and blam, it fits
