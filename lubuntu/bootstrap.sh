@@ -106,6 +106,7 @@ sudo apt-get -y install stow
 sudo apt-get -y install vlc
 # clang3.3 is already installed by anaconda. If I need clang3.6, I can use the full name
 sudo apt-get -y install clang-3.6
+# I want to install clang-format and clang-modernize too
 '
 
 : '

@@ -12,6 +12,12 @@ alias onemon="monitor.sh right"
 #This turns on both monitors. Undoes onemon
 alias twomon="monitor.sh"
 
+alias clang++="clang++-3.6"
+
+# Set my compiler for Cmake
+export CXX=/usr/bin/clang++-3.6
+
+
 # This is the end of BENS STUFF
 #
 # Path to your oh-my-zsh installation.
