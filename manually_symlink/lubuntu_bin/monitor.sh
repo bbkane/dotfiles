@@ -4,6 +4,7 @@
 # Put this in the PATH, probably /usr/local/bin
 # The commnand is:
 # ln -s $HOME/backup/manually_symlink/monitor.sh /usr/local/bin/monitor.sh
+# I'm using GNU Stow now, so it will be symlinked with that
 
 #set up dual monitors with this profile
 #https://wiki.ubuntu.com/X/Config/Resolution#How_to_setup_a_dual_monitor

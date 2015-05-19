@@ -2,6 +2,8 @@
 
 echo ".benshellrc loaded"
 
+see_path() {echo $PATH | tr ":" "\n"}
+
 # disable auto-directory changes
 unsetopt AUTO_CD
 

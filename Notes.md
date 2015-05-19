@@ -47,3 +47,19 @@ sudo apt-get install network-manager-openvpn openvpn
 sudo restart network manager
 Open kupfer and select Network Connections
 I'll do it on mac now
+
+## Killing
+- pgrep <name> is useful for searching names
+- pkill -9 <name> is useful for killing by name
+- top lists all processes
+
+## Installing Clang
+```
+# Download from website
+tar xvf clang+llvm... #unzip
+sudo cp -R clang+llvm... /usr/local/bin #copy to /usr/local/bin
+cd /usr/local/bin/clang+llvm... 
+sudo stow bin #farm some symlinks
+# http://stackoverflow.com/questions/13428910/how-to-set-the-environmental-variable-ld-library-path-in-linux
+# add path to `clang3.6libs.conf` # I came up with the name
+sudo ldconfig #this is great, but I can sudo apt-get install it...

@@ -11,6 +11,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe'
+" Set global config file. This might need to be changed :)
 let g:ycm_global_ycm_extra_conf = '.vim/ycm_extra_conf.py'
 
 Plugin 'tpope/vim-sensible'
@@ -22,6 +23,14 @@ Plugin 'vim-scripts/a.vim'
 Plugin 'kien/rainbow_parentheses.vim'
 
 Plugin 'justinmk/vim-sneak'
+
+Plugin 'slurps-mad-rips/cmake.vim'
+
+Plugin 'tpope/vim-commentary'
+" Find filetype with `set filetype?` and escape spaces and use `%s` for the string
+autocmd FileType cmake set commentstring=#\ %s
+autocmd FileType cpp set commentstring=//\ %s
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -39,4 +48,5 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 "
 
+" Source my non-plugin-related keybindings
 source ~/.vimrc-ben
