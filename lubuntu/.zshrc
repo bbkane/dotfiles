@@ -17,7 +17,7 @@ alias clang++="clang++-3.6"
 # Set my compiler for Cmake
 export CXX=/usr/bin/clang++-3.6
 
-
+symlink() {ln -s  $(readlink -f $1) $(readlink -f $2) }
 # This is the end of BENS STUFF
 #
 # Path to your oh-my-zsh installation.
@@ -67,11 +67,15 @@ export ZSH=$HOME/.oh-my-zsh
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git vi-mode)
+
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+# Now that I'm using vi-mode, I need to set jj to <ESC>
+bindkey jj vi-cmd-mode
 
 #Changing this for anaconda
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -108,3 +112,4 @@ export PATH="$HOME/.cabal/bin:$PATH"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
