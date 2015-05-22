@@ -81,7 +81,7 @@ bindkey jj vi-cmd-mode
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 #changing it... here
-#export PATH="$HOME/anaconda3/bin:$PATH"
+export PATH="$HOME/anaconda3/bin:$PATH"
 
 # adding Haskell support to syntastic by letting it find the plugins
 export PATH="$HOME/.cabal/bin:$PATH"
