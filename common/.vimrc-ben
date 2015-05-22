@@ -48,3 +48,10 @@ set makeprg=g++\ -std=c++11\ -Wall\ -Wextra\ -o\ %<\ %
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%<<CR>
+
+function! StopIndenting()
+    setl noai nocin nosi inde=
+endfunction
+command! StopIndenting cal StopIndenting()
+
+

@@ -43,6 +43,9 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'Raimondi/delimitMate'
 " Ignore double quotes in vim
 au Filetype vim let b:delimitMate_quotes = "' `"
+" Ignore single quotes in shell
+au Filetype sh let b:delimitMate_quotes = "\" `"
+
 
 " colors parentheses. Must be toggled with RainbowToggle
 Plugin 'luochen1990/rainbow'
