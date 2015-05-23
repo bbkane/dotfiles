@@ -41,6 +41,7 @@ Plugin 'kien/ctrlp.vim'
 
 " autocomplete parens and stuff
 Plugin 'Raimondi/delimitMate'
+
 " Ignore double quotes in vim
 au Filetype vim let b:delimitMate_quotes = "' `"
 " Ignore single quotes in shell
@@ -53,6 +54,12 @@ let g:rainbow_active = 1 " Doesn't work for some reason
 
 "Align text by selecting, :Tab /<character to align, usually =>
 Plugin 'godlygeek/tabular'
+
+" When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
+Plugin 'tpope/vim-ragtag'
+
+" Add highlighting of functions and contanters and types
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

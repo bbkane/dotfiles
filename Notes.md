@@ -76,3 +76,6 @@ Then, edit /etc/fstab with the following
 UUID=123...456  /mnt/Stuff      ntfs    defaults,errors=remount-ro  0   1
 ntfs is the filesystem-it might be ext4, depending on blkid
 
+## Stop Lubuntu from sleeping
+Doable from xfce-power-manager-settings
+
