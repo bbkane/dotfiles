@@ -1,4 +1,3 @@
-"" General
 set number        " Show line numbers
 set linebreak     " Break lines at word (requires Wrap lines)
 set showbreak=+++ " Wrap-broken line prefix
@@ -13,7 +12,6 @@ set shiftwidth=4  " Number of auto-indent spaces
 set smartindent   " Enable smart-indent
 set softtabstop=4 " Number of spaces per Tab
 
-"" Advanced
 set ruler	" Show row and column ruler information
 
 set undolevels=1000	" Number of undo levels
@@ -50,5 +48,8 @@ set makeprg=g++\ -std=c++11\ -Wall\ -Wextra\ -o\ %<\ %
 map <F5> :w<CR> :make<CR> :!./%<<CR>
 
 " Sometimes I dont want to indent (yaml files in particular)
-command StopIndenting setl noai nocin nosi inde=
+command! StopIndenting setl noai nocin nosi inde=
+
+" reload vimrc
+command! ReloadVimrc source $MYVIMRC
 
