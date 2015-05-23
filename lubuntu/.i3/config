@@ -32,7 +32,8 @@ $execi numlockx on
 #exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
 $execi feh --randomize --bg-fill /mnt/Stuff/Pictures/*
 
-$execi conky -c ~/.conkyrc_i3wm
+$execi conky -c ~/.conkyrc-i3wm-left
+$execi conky -c ~/.conkyrc-i3wm-right
 
 # compton. I like compton, but I need to configure it for terminals only...
 # $execi compton -cCGb
