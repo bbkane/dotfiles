@@ -21,11 +21,11 @@ draw_outline no
 
 update_interval 1.0
 double_buffer yes
-alignment top_left
-gap_x 2950 # This is the only thing different...
+alignment top_right # Only thing I need to change
+gap_x 20
 gap_y 20
 #maximum_width 190
-default_color red
+default_color add8e5 # light blue
 default_outline_color blue
 #poll
 total_run_times 0
@@ -35,7 +35,7 @@ total_run_times 0
 
 TEXT
 
-${font Raleway:weight=Light :size=62}${time %H:%M}${font}
+${font Raleway:weight=Light :size=62}${alignc}${time %H:%M}${font}
 
 ${voffset 2}${alignc}${time %A, %Y %B %d}
 

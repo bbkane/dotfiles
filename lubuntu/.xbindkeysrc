@@ -104,6 +104,15 @@
 
 "sudo poweroff"
   Control+Alt+Mod4 + Delete
+
+# both monitors
+"monitor.sh"
+  Control+Alt+2
+
+# right monitor only
+"monitor.sh right"
+  Control+Alt+1
+
 # start to automate running python scripts from vim to ipython qtconsole
 # xvbd is a virtual keyboard that can send text to an app
 #"xvkbd -xsendevent -text "print('Hello')""

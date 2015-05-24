@@ -23,6 +23,8 @@ Plug 'slurps-mad-rips/cmake.vim'
 
 " easily comment line with `gcc` or selection with `gc`
 Plug 'tpope/vim-commentary'
+" set default commentstring
+" set commentstring=#\ %s
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
 autocmd FileType cmake set commentstring=#\ %s
 autocmd FileType cpp set commentstring=//\ %s
@@ -41,12 +43,10 @@ let g:ctrlp_follow_symlinks = 2
 
 " autocomplete parens and stuff
 Plug 'Raimondi/delimitMate'
-
 " Ignore double quotes in vim
 au Filetype vim let b:delimitMate_quotes = "' `"
 " Ignore single quotes in shell
 au Filetype sh let b:delimitMate_quotes = "\" `"
-
 
 " colors parentheses. Must be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'

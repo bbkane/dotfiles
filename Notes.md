@@ -78,4 +78,19 @@ ntfs is the filesystem-it might be ext4, depending on blkid
 
 ## Stop Lubuntu from sleeping
 Doable from xfce-power-manager-settings
+Or:
+Look at settings with `xset -q`
+Turn off DPMS (Energy Power Settings) with `xset -dpms`
+Turn off screen blanking with `xset s off`
 
+## Ripping CDs
+sudo apt-get install abcde lame #might also need cd-diskid and cdparanoia
+Then, cd into the target folder and use
+`abcde -1 -N -o mp3 -a read,encode -x`
+-1 : whole cd
+-N : Non-interactive
+-o mp3 : mp3 output (requires lame)
+-a read,encode : read cd, encode to output
+-x : eject cd when finished
+
+Then I can play it in mplayer!!
