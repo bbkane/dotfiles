@@ -26,12 +26,9 @@ set nohlsearch
 " show cursor
 set cursorline
 
-" using this before pasting means vim won't try to autoindent for me
-" set pastetoggle=<F2>
-
 colorscheme elflord
+" colorscheme desert
 set background=dark
-
 
 "save temporary files to ~/.vim/tmp/
 "if tmp doesn't exist, make it

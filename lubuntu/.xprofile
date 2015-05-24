@@ -16,3 +16,9 @@ xrandr --output $SAMSUNG --right-of $DELL
 #correct the resolution on the Samsung
 xrandr --output $SAMSUNG --auto
 # xrandr --output $DELL --auto
+
+# set up desktop
+# in order for this to work in LXDE, PCManFM managing the desktop must be disabled
+# Start->Preferences->Default applications for LXSession->Core Applications
+# Change Desktop Manager from 'filemanager' to a blank box
+feh --randomize --bg-fill /mnt/Stuff/Pictures/*

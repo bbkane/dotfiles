@@ -139,19 +139,17 @@ cabal update
 cabal install ghc-mod
 '
 
-: '
-echo "use lxappearance to set a gtk theme"
-echo "download a theme (right now Im using delorean-dark-3.10) to ~/.themes"
-echo "kupfer cant find lxappearance, so type it into the terminal to open it"
-# themes found at:	 http://www.noobslab.com/p/themes-icons.html#icons
-#sudo apt-add-repository ppa:noobslab/themes
-#sudo apt-get update
+# echo "use lxappearance to set a gtk theme"
+# echo "download a theme (right now Im using delorean-dark-3.10) to ~/.themes"
+# echo "kupfer cant find lxappearance, so type it into the terminal to open it"
+# # themes found at:	 http://www.noobslab.com/p/themes-icons.html#icons
+# sudo apt-add-repository ppa:noobslab/themes
+# sudo apt-get update
 # sudo apt-get install polar-night-gtk
 # get icon themes
-sudo apt-add-repository ppa:numix/ppa
-sudo apt-get update
-sudo apt-get install numix-icon-theme numix-icon-theme-circle
-'
+# sudo apt-add-repository ppa:numix/ppa
+# sudo apt-get update
+# sudo apt-get install numix-icon-theme numix-icon-theme-circle
 
 : '
 echo "User Icon: .face should be a square .png in my backup/tower"
@@ -226,4 +224,4 @@ sudo apt-get install retroarch-joypad-autoconfig
 # sudo apt-get install conky
 
 # Lets try to add a PCSX2 repo here...
-sudo apt-add-repository ppa:gregory-hainaut/pcsx2.official.ppa
+# sudo apt-add-repository ppa:gregory-hainaut/pcsx2.official.ppa

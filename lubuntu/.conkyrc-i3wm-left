@@ -35,7 +35,7 @@ total_run_times 0
 
 TEXT
 
-${font Raleway:weight=Light :size=62}${time %H:%M}${font}
+${font Raleway:weight=Light :size=62}${alignc}${time %H:%M}${font}
 
 ${voffset 2}${alignc}${time %A, %Y %B %d}
 
