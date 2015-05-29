@@ -17,8 +17,10 @@ xrandr --output $SAMSUNG --right-of $DELL
 xrandr --output $SAMSUNG --auto
 # xrandr --output $DELL --auto
 
-# set up desktop
+# set up desktop wallpapers
 # in order for this to work in LXDE, PCManFM managing the desktop must be disabled
 # Start->Preferences->Default applications for LXSession->Core Applications
 # Change Desktop Manager from 'filemanager' to a blank box
 feh --randomize --bg-fill /mnt/Stuff/Pictures/*
+# pcmanfm -w "$(find /mnt/Stuff/Pictures -type -f | shuf -n1)"
+
