@@ -29,8 +29,6 @@ set $execi exec --no-startup-id
 $execi numlockx on
 
 #set random wallpapers for both screens
-#exec --no-startup-id feh --randomize --bg-fill ~/Pictures/Wallpapers/*
-$execi feh --randomize --bg-fill /mnt/Stuff/Pictures/*
 
 $execi conky -c ~/.conkyrc-i3wm-left
 $execi conky -c ~/.conkyrc-i3wm-right

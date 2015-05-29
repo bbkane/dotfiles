@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Conky Left autostart
+Comment=Start Conky
+Exec=conky -c ~/.conkyrc-test

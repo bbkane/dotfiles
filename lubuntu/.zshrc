@@ -6,6 +6,8 @@ alias open="xdg-open"
 # use my common config
 source $HOME/.benshellrc
 
+alias aptget="sudo apt-get install"
+
 #This turns off the Dell Monitor. Useful for PS3
 alias onemon="monitor.sh right"
 
