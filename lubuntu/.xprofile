@@ -24,3 +24,6 @@ xrandr --output $SAMSUNG --auto
 feh --randomize --bg-fill /mnt/Stuff/Pictures/*
 # pcmanfm -w "$(find /mnt/Stuff/Pictures -type -f | shuf -n1)"
 
+# start compton
+# Starting compton here is breaking stuff
+# compton

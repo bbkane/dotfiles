@@ -73,7 +73,8 @@ playcd() {mplayer -cdrom-device /dev/sr0 cdda://$1}
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode)
+# plugins=(git vi-mode)
+plugins=(git)
 
 
 source $ZSH/oh-my-zsh.sh
@@ -81,7 +82,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # Now that I'm using vi-mode, I need to set jj to <ESC>
-bindkey jj vi-cmd-mode
+# bindkey jj vi-cmd-mode
 
 #Changing this for anaconda
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
