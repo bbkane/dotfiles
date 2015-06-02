@@ -39,10 +39,12 @@ set directory=~/.vim/tmp,.
 " I want to call :make and have it make a single file
 " spaces must be escaped and '%' expands to the filename
 " '%<' expands to filename without extension
-set makeprg=g++\ -std=c++11\ -Wall\ -Wextra\ -o\ %<\ %
+" '%:r' is the non-deprecated way to drop extensions
+set makeprg=clang++-3.6\ -std=c++14\ -Wall\ -Wextra\ -o\ %:r.out\ %
+
 
 " save, make, run (depends on makeprg)
-map <F5> :w<CR> :make<CR> :!./%<<CR>
+map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
 
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
