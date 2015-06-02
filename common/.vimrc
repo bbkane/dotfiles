@@ -4,7 +4,7 @@ call plug#begin('~/.vim/bundle')
 " C++ autocompleter. Needs to be compiled too.
 Plug 'Valloric/YouCompleteMe'
 " Set global config file. This might need to be changed :)
-let g:ycm_global_ycm_extra_conf = '.vim/ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 
 " Good default settings
 Plug 'tpope/vim-sensible'
