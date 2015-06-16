@@ -1,10 +1,15 @@
+" Determine OS
+let os = substitute(system('uname'), "\n", "", "")
+
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
+if os == "Linux"
 " C++ autocompleter. Needs to be compiled too.
 Plug 'Valloric/YouCompleteMe'
 " Set global config file. This might need to be changed :)
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+endif
 
 " Good default settings
 Plug 'tpope/vim-sensible'
