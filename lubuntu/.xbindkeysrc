@@ -75,20 +75,27 @@
   mod1 + space
 
 # adjust volume up and down
-"amixer -D pulse sset Master 0%"
+"amixer -q -D pulse set Master toggle"
   F6
 
-"amixer -D pulse sset Master 5%-"
+"amixer -q -D pulse set Master 5%- unmute"
   F7
 
-"amixer -D pulse sset Master 5%+"
+"amixer -q -D pulse set Master 5%+ unmute"
   F8
 
-"amixer -D pulse sset Master 5%-"
-  Control + Alt + Down
 
-"amixer -D pulse sset Master 5%+"
-  Control + Alt + Up
+# "amixer -D pulse sset Master 5%-"
+#   F7
+
+# "amixer -D pulse sset Master 5%+"
+#   F8
+
+# "amixer -D pulse sset Master 5%-"
+#   Control + Alt + Down
+
+# "amixer -D pulse sset Master 5%+"
+#   Control + Alt + Up
 
 # anaconda stuff
 "~/anaconda3/bin/ipython qtconsole"
