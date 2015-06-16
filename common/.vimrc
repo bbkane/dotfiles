@@ -1,14 +1,25 @@
 " Determine OS
 let os = substitute(system('uname'), "\n", "", "")
 
+" Install vim-plug if it isn't
+if empty(glob("~/.vim/autoload/plug.vim"))
+    let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    " '.' concatenates the variable with the command
+    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' . plugpath
+endif
+
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
 if os == "Linux"
-" C++ autocompleter. Needs to be compiled too.
-Plug 'Valloric/YouCompleteMe'
-" Set global config file. This might need to be changed :)
-let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+    " C++ autocompleter. Needs to be compiled too.
+    Plug 'Valloric/YouCompleteMe'
+    " Set global config file. This might need to be changed :)
+    let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+elseif has("lua")
+    Plug 'Shougo/neocomplete'
+else
+    Plug 'ervandew/supertab'
 endif
 
 " Good default settings
