@@ -24,11 +24,18 @@ git config --global user.email "bbk1524@gmail.com"
 git config --global user.name "Ben-MacbookPro"
 git config --global push.default matching
 '
+: '
+Install vim with python2 and lua
+brew install lua luajit
+brew install vim --with-lua --with-luajit
+brew install macvim --with-lua --with-luajit
+brew linkapps
+'
 
 : '
 # get vim , macvim, and janus
-brew install vim macvim
-brew linkapps macvim
+# brew install vim macvim
+# brew linkapps macvim
 brew install ack
 curl -Lo- https://bit.ly/janus-bootstrap | bash
 '
@@ -39,7 +46,7 @@ brew install zsh
 echo "change shells through preferences in GDoc, then restart"
 curl -L http://install.ohmyz.sh | sh
 '
-
+# This link is probably dead by now... 
 : '
 # Get Anaconda for python
 cd ~
@@ -102,5 +109,5 @@ echo Change Wallpaper settings in Preferences
 '
 echo "Im installing Steam from the website. Could do it with brew cask but I think this will be easier if I uninstall it"
 
-brew tap caskroom/fonts
-brew cask install font-source-code-pro
+# brew tap caskroom/fonts
+# brew cask install font-source-code-pro
