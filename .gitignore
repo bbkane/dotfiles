@@ -1,2 +1,3 @@
 .DS_Store
 common/.vim/bundle
+common/.vim/tmp
