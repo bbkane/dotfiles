@@ -40,8 +40,15 @@ set directory=~/.vim/tmp,.
 " spaces must be escaped and '%' expands to the filename
 " '%<' expands to filename without extension
 " '%:r' is the non-deprecated way to drop extensions
-set makeprg=clang++-3.6\ -std=c++14\ -Wall\ -Wextra\ -o\ %:r.out\ %
-
+if os == "Linux"
+    set makeprg=clang++-3.6\ -std=c++11\ -Wall\ -Wextra\ -o\ %:r.out\ %
+elseif os == "Darwin"
+    set makeprg=clang++\ -std=c++11\ -Wall\ -Wextra\ -o\ %:r.out\ %
+elseif os == "Cygwin"
+    set makeprg=echo\ "Set up compiler for Cygwin
+else
+    set makeprg=echo\ "Set up something??? for make"
+endif
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>

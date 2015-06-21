@@ -6,6 +6,7 @@ if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     " '.' concatenates the variable with the command
     execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' . plugpath
+    autocmd VimEnter * PlugInstall
 endif
 
 " look for plugins in bundle/
@@ -25,7 +26,7 @@ endif
 " Good default settings
 Plug 'tpope/vim-sensible'
 
-" Highligts and fixes trailing whitespace
+" Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
 " use :A to switch between .cpp and .h
@@ -48,13 +49,13 @@ autocmd FileType cpp set commentstring=//\ %s
 " <C-p> opens a search window to find stuff
 Plug 'kien/ctrlp.vim'
 " let ctrlp see my .vimrc
-let g:ctrlp_show_hidden = 1
+" let g:ctrlp_show_hidden = 1
 " limit ctrlp to current directory (see github for this) (might change)
 let g:ctrlp_working_path_mode = 'c'
 " only scan in the current file (should this be 0 or 1?
-let g:ctrlp_max_depth = 10
+" let g:ctrlp_max_depth = 10
 " also follow symlinks
-let g:ctrlp_follow_symlinks = 2
+" let g:ctrlp_follow_symlinks = 2
 " This isn't exactly working now......
 
 " autocomplete parens and stuff
