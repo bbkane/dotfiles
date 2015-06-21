@@ -1,7 +1,12 @@
 " Determine OS
-let os = substitute(system('uname'), "\n", "", "")
+" Mac, Linux, Cygwin
+if has("unix")
+    let os = substitute(system('uname'), "\n", "", "")
+elseif has("win32")
+    let os = "Windows"
+endif
 
-" Install vim-plug if it isn't
+" Install vim-plug if it isn't (on windows, manually download it...)
 if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     " '.' concatenates the variable with the command
