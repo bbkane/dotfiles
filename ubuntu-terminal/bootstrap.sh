@@ -3,12 +3,14 @@
 # shut apt-get up
 DEBIAN_FRONTEND=noninteractive
 
-: '
+sudo apt-get update
+
 #get vim (from YouCompleteMe stuff)
 sudo apt-get -y install libncurses5-dev libgnome2-dev libgnomeui-dev \
     libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
     libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
-    ruby-dev mercurial
+    ruby-dev mercurial build-essential liblua5.1-0
+
 
 sudo apt-get remove vim vim-runtime gvim
 sudo apt-get remove vim-tiny vim-common vim-gui-common
@@ -33,17 +35,15 @@ sudo update-alternatives --set editor /usr/bin/vim
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/vim 1
 sudo update-alternatives --set vi /usr/bin/vim
 echo "@@@@@@@@@@@@@ Vim is now built! @@@@@@@@@@@@@@"
-
+: '
 # get oh-my-zsh
 sudo apt-get install zsh git
 wget --no-check-certificate http://install.ohmyz.sh -O - | sh
-sudo chsh -s /bin/zsh
+chsh -s /bin/zsh
 echo "@@@@@@@@@@ ZSH installed. Logout and log back in!! @@@@@@@@@@@"
-'
 
 echo "@@@@@@@@@@@@@@ GET ANACONDA FOR PYTHON @@@@@@@@@@@@@"
 
-: '
 # get programs from my README
 sudo apt-get -y install xbindkeys
 sudo apt-get -y install x11-xkb-utils # for setxkbmap for ditching CAPS
@@ -51,9 +51,7 @@ sudo apt-get -y install stow
 # clang3.3 is already installed by anaconda. If I need clang3.6, I can use the full name
 sudo apt-get -y install clang-3.6
 # I want to install clang-format and clang-modernize too
-'
 
-: '
 # Now it takes sudo to change zsh stuff. Must update this. Later.
 # get config files
 cd ~/backup
@@ -63,7 +61,6 @@ stow common
 stow ubuntu-terminal
 cd ~/backup/manually_symlink
 sudo stow lubuntu_bin -t /usr/local/bin
-'
 
  
 # set up git
@@ -77,5 +74,4 @@ echo "add this in /etc/sudoers via"
 echo "visudo"
 echo "%sudo ALL = NOPASSWD: /sbin/shutdown, /sbin/poweroff, /sbin/reboot"
 echo "dont forget the commas"
-
-
+'
