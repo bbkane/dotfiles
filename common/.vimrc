@@ -53,26 +53,17 @@ autocmd FileType cpp set commentstring=//\ %s
 
 " <C-p> opens a search window to find stuff
 Plug 'kien/ctrlp.vim'
-" let ctrlp see my .vimrc
-" let g:ctrlp_show_hidden = 1
 " limit ctrlp to current directory (see github for this) (might change)
 let g:ctrlp_working_path_mode = 'c'
-" only scan in the current file (should this be 0 or 1?
-" let g:ctrlp_max_depth = 10
-" also follow symlinks
-" let g:ctrlp_follow_symlinks = 2
-" This isn't exactly working now......
 
-" autocomplete parens and stuff
-Plug 'Raimondi/delimitMate'
-" Ignore double quotes in vim
-au Filetype vim let b:delimitMate_quotes = "' `"
+" auto-matching
+Plug 'jiangmiao/auto-pairs'
 " Ignore single quotes in shell
-au Filetype sh let b:delimitMate_quotes = "\" `"
+au FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 
-" colors parentheses. Must be toggled with RainbowToggle
+" colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
-let g:rainbow_active = 1 " Doesn't work for some reason
+let g:rainbow_active = 1
 
 "Align text by selecting, :Tab /<character to align, usually =>
 Plug 'godlygeek/tabular'
@@ -80,10 +71,10 @@ Plug 'godlygeek/tabular'
 " When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
 Plug 'tpope/vim-ragtag'
 
-" Add highlighting of functions and contanters and types
+" Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-" Pimps my statusbar
+" Sexy statusbar
 Plug 'bling/vim-airline'
 
 " End plugins
