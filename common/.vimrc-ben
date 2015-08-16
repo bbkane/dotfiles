@@ -11,8 +11,8 @@ set expandtab     " Use spaces instead of tabs
 set shiftwidth=4  " Number of auto-indent spaces
 set smartindent   " Enable smart-indent
 set softtabstop=4 " Number of spaces per Tab
-
 set ruler	" Show row and column ruler information
+set wildmenu "Use tab to complete stuff in vim menu
 
 set undolevels=1000	" Number of undo levels
 set backspace=indent,eol,start	" Backspace behaviour
@@ -26,7 +26,7 @@ set nohlsearch
 " show cursor
 set cursorline
 
-colorscheme elflord
+" colorscheme elflord
 " colorscheme desert
 set background=dark
 
@@ -49,6 +49,14 @@ elseif os == "Cygwin"
 else
     set makeprg=echo\ "Set up something??? for make"
 endif
+set makeprg=cd\ ../Build\ &&\ make\ &&\ cd\ ../Game\ &&\ ./Nested_Rectangles
+" elseif os == "Darwin"
+"     set makeprg=clang++\ -std=c++11\ -Wall\ -Wextra\ -o\ %:r.out\ %
+" elseif os == "Cygwin"
+"     set makeprg=echo\ "Set up compiler for Cygwin
+" else
+"     set makeprg=echo\ "Set up something??? for make"
+" endif
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
