@@ -6,6 +6,11 @@ elseif has("win32")
     let os = "Windows"
 endif
 
+" set appropriate paths for Windows. Test this...
+if os == "Windows"
+    set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+endif
+
 " Install vim-plug if it isn't (on windows, manually download it...)
 if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
@@ -22,8 +27,6 @@ if os == "Linux"
     Plug 'Valloric/YouCompleteMe'
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-elseif has("lua")
-    Plug 'Shougo/neocomplete'
 else
     Plug 'ervandew/supertab'
 endif
@@ -74,7 +77,10 @@ Plug 'tpope/vim-ragtag'
 " Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-" Sexy statusbar
+" Use a colorscheme until I find a better one
+colorscheme elflord
+
+" Pimps my statusbar
 Plug 'bling/vim-airline'
 
 " End plugins
