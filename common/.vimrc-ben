@@ -49,7 +49,7 @@ set directory=~/.vim/tmp,.
 if os == "Linux"
     set makeprg=clang++-3.6\ -std=c++14\ -Wall\ -Wextra\ -o\ %:r.out\ %
 elseif os == "Darwin"
-    set makeprg=clang++\ -std=c++14\ -Wall\ -Wextra\ -o\ %:r.out\ %
+    set makeprg=clang++\ -std=c++1y\ -Wall\ -Wextra\ -o\ %:r.out\ %
 elseif os == "Cygwin"
     set makeprg=echo\ "Set up compiler for Cygwin
 else
