@@ -6,11 +6,6 @@ elseif has("win32")
     let os = "Windows"
 endif
 
-" set appropriate paths for Windows. Test this...
-if os == "Windows"
-    set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-endif
-
 " Install vim-plug if it isn't (on windows, manually download it...)
 if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
@@ -68,7 +63,7 @@ au FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
 
-"Align text by selecting, :Tab /<character to align, usually =>
+"Align text by selecting, :Tab /<character to align, usually '='>
 Plug 'godlygeek/tabular'
 
 " When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
@@ -78,6 +73,7 @@ Plug 'tpope/vim-ragtag'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Use a colorscheme until I find a better one
+set background=dark
 colorscheme elflord
 
 " Pimps my statusbar
