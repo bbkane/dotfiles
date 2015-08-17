@@ -30,6 +30,7 @@ set errorbells    " Beep or flash screen on errors
 set undolevels=1000	" Number of undo levels
 set nohlsearch
 set cursorline " show cursor"
+set shell=bash " Should fix my Can't open error file"
 
 let mapleader = ","
 
@@ -54,14 +55,6 @@ elseif os == "Cygwin"
 else
     set makeprg=echo\ "Set up something??? for make"
 endif
-set makeprg=cd\ ../Build\ &&\ make\ &&\ cd\ ../Game\ &&\ ./Nested_Rectangles
-" elseif os == "Darwin"
-"     set makeprg=clang++\ -std=c++11\ -Wall\ -Wextra\ -o\ %:r.out\ %
-" elseif os == "Cygwin"
-"     set makeprg=echo\ "Set up compiler for Cygwin
-" else
-"     set makeprg=echo\ "Set up something??? for make"
-" endif
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
@@ -72,3 +65,18 @@ command! StopIndenting setl noai nocin nosi inde=
 " reload vimrc
 command! ReloadVimrc source $MYVIMRC
 
+" Search for a project specific vimrc upward
+" THIS IS INSECURE. BE CAREFUL.
+" :help fnamemodify to learn to search only search one upwards.
+" Need to do that
+function! SourceFileUpwards(filename)
+    let proj = findfile(a:filename, ".;")
+    if proj != ""
+        exec "source".proj
+    else
+        echo "No " . a:filename . " found"
+    endif
+endfunction
+
+" Insecure!!!
+command! LoadProjectVimrc call SourceFileUpwards(".vimrc-project")
