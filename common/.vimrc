@@ -11,20 +11,33 @@ if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     " '.' concatenates the variable with the command
     execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' . plugpath
-    autocmd VimEnter * PlugInstall
 endif
 
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
 if os == "Linux"
-    " C++ autocompleter. Needs to be compiled too.
+    " C++ autocompleter. Needs Steps outside of this one
     Plug 'Valloric/YouCompleteMe'
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 else
     Plug 'ervandew/supertab'
+
+    Plug 'scrooloose/syntastic'
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 0
+    let g:syntastic_check_on_wq = 0
+    " let g:syntastic_cpp_checkers = ['gcc']
+    " let g:syntastic_cpp_compiler = 'gcc'
+    let g:syntastic_cpp_compiler_options = '-std=c++14'
 endif
+
 
 " Good default settings
 Plug 'tpope/vim-sensible'
