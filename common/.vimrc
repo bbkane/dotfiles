@@ -6,11 +6,6 @@ elseif has("win32")
     let os = "Windows"
 endif
 
-" set appropriate paths for Windows. Test this...
-if os == "Windows"
-    set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-endif
-
 " Install vim-plug if it isn't (on windows, manually download it...)
 if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
@@ -58,37 +53,29 @@ Plug 'tpope/vim-surround'
 
 " <C-p> opens a search window to find stuff
 Plug 'kien/ctrlp.vim'
-" let ctrlp see my .vimrc
-" let g:ctrlp_show_hidden = 1
 " limit ctrlp to current directory (see github for this) (might change)
 let g:ctrlp_working_path_mode = 'c'
-" only scan in the current file (should this be 0 or 1?
-" let g:ctrlp_max_depth = 10
-" also follow symlinks
-" let g:ctrlp_follow_symlinks = 2
-" This isn't exactly working now......
 
-" autocomplete parens and stuff
-Plug 'Raimondi/delimitMate'
-" Ignore double quotes in vim
-au Filetype vim let b:delimitMate_quotes = "' `"
+" auto-matching
+Plug 'jiangmiao/auto-pairs'
 " Ignore single quotes in shell
-au Filetype sh let b:delimitMate_quotes = "\" `"
+au FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 
-" colors parentheses. Must be toggled with RainbowToggle
+" colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
-let g:rainbow_active = 1 " Doesn't work for some reason
+let g:rainbow_active = 1
 
-"Align text by selecting, :Tab /<character to align, usually =>
+"Align text by selecting, :Tab /<character to align, usually '='>
 Plug 'godlygeek/tabular'
 
 " When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
 Plug 'tpope/vim-ragtag'
 
-" Add highlighting of functions and contanters and types
+" Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Use a colorscheme until I find a better one
+set background=dark
 colorscheme elflord
 
 " Pimps my statusbar

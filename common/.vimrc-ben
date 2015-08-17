@@ -1,34 +1,40 @@
-set number        " Show line numbers
-set linebreak     " Break lines at word (requires Wrap lines)
-set showbreak=+++ " Wrap-broken line prefix
-" set textwidth=100 " Line wrap (number of cols)
-set showmatch     " Highlight matching brace
-set errorbells    " Beep or flash screen on errors
+" use stuff from vim.wikia.com example vimrc
+set nocompatible
+filetype indent plugin on
+syntax on
+set wildmenu "Use tab to complete stuff in vim menu
+set showcmd " show partial commands in the last line of screen
+" case insensitive search except for capital letters
+set ignorecase
+set smartcase
+set backspace=indent,eol,start	" allow backspacing over characters
+set autoindent    " Auto-indent new lines if no filetype
+set ruler	" Show row and column ruler information
+set confirm "open a save dialog when quitting"
 
-set autoindent    " Auto-indent new lines
-set cindent       " Use 'C' style program indenting
+" Only use a soft wrap, not a hard one
+set wrap
+set linebreak     " Break lines at word (requires Wrap lines)
+set nolist
+set showbreak=+++ " Wrap-broken line prefix
+set textwidth=0 " Line wrap (number of cols)
+set wrapmargin=0
+
 set expandtab     " Use spaces instead of tabs
 set shiftwidth=4  " Number of auto-indent spaces
-set smartindent   " Enable smart-indent
 set softtabstop=4 " Number of spaces per Tab
-set ruler	" Show row and column ruler information
-set wildmenu "Use tab to complete stuff in vim menu
 
+set number        " Show line numbers
+set showmatch     " Highlight matching brace
+set errorbells    " Beep or flash screen on errors
 set undolevels=1000	" Number of undo levels
-set backspace=indent,eol,start	" Backspace behaviour
+set nohlsearch
+set cursorline " show cursor"
+set shell=bash " Should fix my Can't open error file"
 
 let mapleader = ","
 
 inoremap jj <ESC>
-
-set nohlsearch
-
-" show cursor
-set cursorline
-
-" colorscheme elflord
-" colorscheme desert
-set background=dark
 
 "save temporary files to ~/.vim/tmp/
 "if tmp doesn't exist, make it
@@ -40,14 +46,15 @@ set directory=~/.vim/tmp,.
 " spaces must be escaped and '%' expands to the filename
 " '%<' expands to filename without extension
 " '%:r' is the non-deprecated way to drop extensions
-set makeprg=cd\ ../Build\ &&\ make\ &&\ cd\ ../Game\ &&\ ./Nested_Rectangles
-" elseif os == "Darwin"
-"     set makeprg=clang++\ -std=c++11\ -Wall\ -Wextra\ -o\ %:r.out\ %
-" elseif os == "Cygwin"
-"     set makeprg=echo\ "Set up compiler for Cygwin
-" else
-"     set makeprg=echo\ "Set up something??? for make"
-" endif
+if os == "Linux"
+    set makeprg=clang++-3.6\ -std=c++14\ -Wall\ -Wextra\ -o\ %:r.out\ %
+elseif os == "Darwin"
+    set makeprg=clang++\ -std=c++14\ -Wall\ -Wextra\ -o\ %:r.out\ %
+elseif os == "Cygwin"
+    set makeprg=echo\ "Set up compiler for Cygwin
+else
+    set makeprg=echo\ "Set up something??? for make"
+endif
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
@@ -58,3 +65,18 @@ command! StopIndenting setl noai nocin nosi inde=
 " reload vimrc
 command! ReloadVimrc source $MYVIMRC
 
+" Search for a project specific vimrc upward
+" THIS IS INSECURE. BE CAREFUL.
+" :help fnamemodify to learn to search only search one upwards.
+" Need to do that
+function! SourceFileUpwards(filename)
+    let proj = findfile(a:filename, ".;")
+    if proj != ""
+        exec "source".proj
+    else
+        echo "No " . a:filename . " found"
+    endif
+endfunction
+
+" Insecure!!!
+command! LoadProjectVimrc call SourceFileUpwards(".vimrc-project")
