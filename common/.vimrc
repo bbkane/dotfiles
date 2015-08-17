@@ -54,6 +54,8 @@ Plug 'tpope/vim-commentary'
 autocmd FileType cmake set commentstring=#\ %s
 autocmd FileType cpp set commentstring=//\ %s
 
+Plug 'tpope/vim-surround'
+
 " <C-p> opens a search window to find stuff
 Plug 'kien/ctrlp.vim'
 " let ctrlp see my .vimrc
