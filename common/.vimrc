@@ -28,16 +28,16 @@ else
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
-
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 1
-    let g:syntastic_check_on_open = 0
+    let g:syntastic_enable_signs=0 " See errors in first column
+    let g:syntastic_always_populate_loc_list = 1 " Fill in location for error highlighting
+    " let g:syntastic_auto_loc_list = 1 " Uses Separate window for errors
+    let g:syntastic_auto_loc_list = 2 " Uses one line at the bottom for errors
+    let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 0
     " let g:syntastic_cpp_checkers = ['gcc']
     " let g:syntastic_cpp_compiler = 'gcc'
-    let g:syntastic_cpp_compiler_options = '-std=c++14'
+    let g:syntastic_cpp_compiler_options = '-std=c++1y' " If this flag is wrong, it stops working
 endif
-
 
 " Good default settings
 Plug 'tpope/vim-sensible'
