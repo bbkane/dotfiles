@@ -79,4 +79,4 @@ function! SourceFileUpwards(filename)
 endfunction
 
 " Insecure!!!
-command! LoadProjectVimrc call SourceFileUpwards(".vimrc-project")
+command! LoadProjectVimrc call SourceFileUpwards("project.vim")

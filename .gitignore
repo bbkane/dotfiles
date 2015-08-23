@@ -1,3 +1,4 @@
 .DS_Store
 common/.vim/bundle
 common/.vim/tmp
+common/.vim/.netrwhist
