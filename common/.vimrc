@@ -16,9 +16,9 @@ endif
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
-if os == "Linux"
+if os == "Linux" || has("gui_running")
     " C++ autocompleter. Needs Steps outside of this one
-    Plug 'Valloric/YouCompleteMe'
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 else
@@ -76,7 +76,7 @@ au FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
-let g:rainbow_active = 1
+let g:rainbow_active = 0
 
 "Align text by selecting, :Tab /<character to align, usually '='>
 Plug 'godlygeek/tabular'
@@ -88,8 +88,11 @@ Plug 'tpope/vim-ragtag'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Use a colorscheme until I find a better one
-set background=dark
-colorscheme elflord
+if has("gui_running")
+    colorscheme desert
+else
+    colorscheme elflord
+endif
 
 " Pimps my statusbar
 Plug 'bling/vim-airline'

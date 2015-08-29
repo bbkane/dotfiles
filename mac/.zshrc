@@ -111,10 +111,11 @@ apath
 #add for haskell
 export PATH="$HOME/Library/Haskell/bin:$PATH"
 
+export WINEDIR="$HOME/.wine/drive_c/Program Files"
 # added by Anaconda3 2.0.1 installer
 # export PATH="/Users/benjaminkane/anaconda/bin:$PATH"
 
 # call my common config file
 
-
-#END BEN"S STUFF
+# Brew wanted this...
+export PATH="/usr/local/sbin:$PATH"
