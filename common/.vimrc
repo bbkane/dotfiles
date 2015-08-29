@@ -6,7 +6,7 @@ elseif has("win32")
     let os = "Windows"
 endif
 
-" Install vim-plug if it isn't (on windows, manually download it...)
+" Install vim-plug if it isn't
 if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     " '.' concatenates the variable with the command
@@ -21,7 +21,7 @@ if os == "Linux" || has("gui_running")
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-else
+else " TODO: experiment on how to combine supertab and YCM
     Plug 'ervandew/supertab'
 
     Plug 'scrooloose/syntastic'
@@ -62,6 +62,8 @@ Plug 'tpope/vim-commentary'
 autocmd FileType cmake set commentstring=#\ %s
 autocmd FileType cpp set commentstring=//\ %s
 
+" change enclosing symbols with `cs`. Ex: `cs'(` to chang from quotes to
+" parens
 Plug 'tpope/vim-surround'
 
 " <C-p> opens a search window to find stuff
