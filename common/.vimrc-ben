@@ -10,7 +10,10 @@ set smartcase
 set backspace=indent,eol,start	" allow backspacing over characters
 set autoindent    " Auto-indent new lines if no filetype
 set ruler	" Show row and column ruler information
-set confirm "open a save dialog when quitting"
+
+if !has("gui_running")
+    set confirm "open a save dialog when quitting"
+endif
 
 " Only use a soft wrap, not a hard one
 set wrap
@@ -31,6 +34,7 @@ set undolevels=1000	" Number of undo levels
 set nohlsearch
 set cursorline " show cursor"
 set shell=zsh " Should fix my Can't open error file"
+set guifont=Source\ Code\ Pro:h13 " set font for macvim
 
 let mapleader = ","
 
