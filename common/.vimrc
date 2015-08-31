@@ -89,6 +89,16 @@ Plug 'tpope/vim-ragtag'
 " Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
+set background=dark " Tell vim I'm in a dark terminal
+
+" Colorschemes
+Plug 'nanotech/jellybeans.vim'
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+let g:solarized_termcolors=256 " Even with this, only the dark background works...
+Plug 'jpo/vim-railscasts-theme'
+Plug 'rainux/vim-desert-warm-256'
+
 " Use a colorscheme until I find a better one
 if has("gui_running")
     colorscheme desert
