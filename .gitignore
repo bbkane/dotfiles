@@ -2,3 +2,6 @@
 common/.vim/bundle
 common/.vim/tmp
 common/.vim/.netrwhist
+lubuntu/.local/share/applications/chrome*
+lubuntu/.local/share/applications/mimeapps.list
+

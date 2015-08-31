@@ -89,18 +89,35 @@ Plug 'tpope/vim-ragtag'
 " Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-" Use a colorscheme until I find a better one
-if has("gui_running")
-    colorscheme desert
-else
-    colorscheme elflord
-endif
-
 " Pimps my statusbar
 Plug 'bling/vim-airline'
 
+set background=dark " Tell vim I'm in a dark terminal
+
+" Colorschemes
+Plug 'nanotech/jellybeans.vim'
+Plug 'tomasr/molokai'
+Plug 'altercation/vim-colors-solarized'
+let g:solarized_termcolors=256 " Even with this, only the dark background works...
+Plug 'jpo/vim-railscasts-theme'
+Plug 'rainux/vim-desert-warm-256'
+
 " End plugins
 call plug#end()
+
+
+" setting colorschemes here because plugins
+" colorschemes must be set after plug#end()
+if has("gui_running")
+    colorscheme desert
+else
+    " colorscheme elflord
+    " colorscheme railscasts
+    colorscheme solarized
+endif
+
+" Must be set after setting the colorscheme
+set background=dark " Tell vim I'm in a dark terminal
 
 " Source my non-plugin-related keybindings
 source ~/.vimrc-ben
