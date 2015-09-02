@@ -32,7 +32,7 @@ else " TODO: experiment on how to combine supertab and YCM
     let g:syntastic_always_populate_loc_list = 1 " Fill in location for error highlighting
     let g:syntastic_auto_loc_list = 1 " Uses Separate window for errors
     " let g:syntastic_auto_loc_list = 2 " Uses one line at the bottom for errors
-    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_open = 0 " Set to 0 for faster opening cpp files
     let g:syntastic_check_on_wq = 0
     " let g:syntastic_cpp_checkers = ['gcc']
     " let g:syntastic_cpp_compiler = 'gcc'
@@ -98,7 +98,7 @@ set background=dark " Tell vim I'm in a dark terminal
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
-let g:solarized_termcolors=256 " Even with this, only the dark background works...
+let g:solarized_termcolors=256
 Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
 
@@ -111,13 +111,11 @@ call plug#end()
 if has("gui_running")
     colorscheme desert
 else
-    " colorscheme elflord
-    " colorscheme railscasts
-    colorscheme solarized
+    colorscheme desert-warm-256
 endif
 
 " Must be set after setting the colorscheme
-set background=dark " Tell vim I'm in a dark terminal
+set background=light " Tell vim I'm in a dark terminal
 
 " Source my non-plugin-related keybindings
 source ~/.vimrc-ben
