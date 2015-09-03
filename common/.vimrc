@@ -16,11 +16,20 @@ endif
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
-if os == "Linux" || has("gui_running")
+if os == "Linux" || has("gui_running") || has("nvim")
     " C++ autocompleter. Needs Steps outside of this one
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+    " auto-load completion file INSECURE BY DEFAULT
+    let g:ycm_confirm_extra_conf = 0
+
+    " stop the preview window
+    set completeopt-=preview
+    let g:ycm_add_preview_to_completeopt = 0
+
+    " Works on mac... but not Linux
+    Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
 else " TODO: experiment on how to combine supertab and YCM
     Plug 'ervandew/supertab'
 
@@ -92,8 +101,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 " Pimps my statusbar
 Plug 'bling/vim-airline'
 
-set background=dark " Tell vim I'm in a dark terminal
-
 " Colorschemes
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
@@ -109,13 +116,13 @@ call plug#end()
 " setting colorschemes here because plugins
 " colorschemes must be set after plug#end()
 if has("gui_running")
-    colorscheme desert
+    colorscheme desert-warm-256
 else
     colorscheme desert-warm-256
 endif
 
 " Must be set after setting the colorscheme
-set background=light " Tell vim I'm in a dark terminal
+set background=dark " Tell vim I'm in a dark terminal
 
 " Source my non-plugin-related keybindings
 source ~/.vimrc-ben
