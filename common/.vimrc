@@ -117,10 +117,10 @@ call plug#end()
 " colorschemes must be set after plug#end()
 " background must be set after setting the colorscheme
 if has("gui_running")
-    colorscheme desert-warm-256
+    colorscheme molokai
     set background=dark " Tell vim I'm in a dark terminal
 elseif has("nvim")
-    colorscheme molokai
+    colorscheme desert-warm-256
     set background=dark " Tell vim I'm in a dark terminal
 else
     colorscheme solarized
