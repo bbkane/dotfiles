@@ -117,8 +117,10 @@ call plug#end()
 " colorschemes must be set after plug#end()
 if has("gui_running")
     colorscheme desert-warm-256
+elseif has("nvim")
+    colorscheme molokai
 else
-    colorscheme desert-warm-256
+    colorscheme solarized
 endif
 
 " Must be set after setting the colorscheme

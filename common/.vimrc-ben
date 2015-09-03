@@ -70,6 +70,9 @@ map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
 
+" Set Visual Studio style indents
+command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
 " reload vimrc
 command! ReloadVimrc source $MYVIMRC
 
