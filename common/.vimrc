@@ -87,7 +87,7 @@ au FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
-let g:rainbow_active = 0
+let g:rainbow_active = 1
 
 "Align text by selecting, :Tab /<character to align, usually '='>
 Plug 'godlygeek/tabular'
