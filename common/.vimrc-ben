@@ -42,7 +42,10 @@ nmap k gk
 
 let mapleader = ","
 
-inoremap jj <ESC>
+" Remapping this to fd to be consistent with SpaceMacs
+" Gonna take some getting used to...
+" inoremap jj <ESC>
+inoremap fd <ESC>
 
 "save temporary files to ~/.vim/tmp/
 "if tmp doesn't exist, make it
@@ -80,14 +83,18 @@ command! ReloadVimrc source $MYVIMRC
 " THIS IS INSECURE. BE CAREFUL.
 " :help fnamemodify to learn to search only search one upwards.
 " Need to do that
+" For some reason this fails in ~/Programming/Bens-Game
 function! SourceFileUpwards(filename)
     let proj = findfile(a:filename, ".;")
     if proj != ""
         exec "source".proj
-    else
-        echo "No " . a:filename . " found"
+    " else
+    "     echo "No " . a:filename . " found"
     endif
 endfunction
 
 " Insecure!!!
-command! LoadProjectVimrc call SourceFileUpwards("project.vim")
+command! LoadProjectVim call SourceFileUpwards("project.vim")
+
+" Calling this for convenience
+LoadProjectVim
