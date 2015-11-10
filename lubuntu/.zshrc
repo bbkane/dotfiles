@@ -14,10 +14,11 @@ alias onemon="monitor.sh right"
 #This turns on both monitors. Undoes onemon
 alias twomon="monitor.sh"
 
-alias clang++="clang++-3.6"
+# alias clang++="clang++-3.6"
 
 # Set my compiler for Cmake
-export CXX=/usr/bin/clang++-3.6
+export CXX='/usr/bin/clang++-3.6'
+export CC='/usr/bin/clang-3.6'
 
 symlink() {ln -s  $(readlink -f $1) $(readlink -f $2) }
 # This is the end of BENS STUFF
@@ -85,10 +86,10 @@ source $ZSH/oh-my-zsh.sh
 # bindkey jj vi-cmd-mode
 
 #Changing this for anaconda
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 #changing it... here
-export PATH="$HOME/anaconda3/bin:$PATH"
+# export PATH="$HOME/anaconda3/bin:$PATH"
 
 # adding Haskell support to syntastic by letting it find the plugins
 export PATH="$HOME/.cabal/bin:$PATH"
