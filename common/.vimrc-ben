@@ -42,7 +42,10 @@ nmap k gk
 
 let mapleader = ","
 
-inoremap jj <ESC>
+" Remapping this to fd to be consistent with SpaceMacs
+" Gonna take some getting used to...
+" inoremap jj <ESC>
+inoremap fd <ESC>
 
 "save temporary files to ~/.vim/tmp/
 "if tmp doesn't exist, make it
@@ -70,6 +73,9 @@ map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
 
+" Set Visual Studio style indents
+command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
 " reload vimrc
 command! ReloadVimrc source $MYVIMRC
 
@@ -77,14 +83,18 @@ command! ReloadVimrc source $MYVIMRC
 " THIS IS INSECURE. BE CAREFUL.
 " :help fnamemodify to learn to search only search one upwards.
 " Need to do that
+" For some reason this fails in ~/Programming/Bens-Game
 function! SourceFileUpwards(filename)
     let proj = findfile(a:filename, ".;")
     if proj != ""
         exec "source".proj
-    else
-        echo "No " . a:filename . " found"
+    " else
+    "     echo "No " . a:filename . " found"
     endif
 endfunction
 
 " Insecure!!!
-command! LoadProjectVimrc call SourceFileUpwards("project.vim")
+command! LoadProjectVim call SourceFileUpwards("project.vim")
+
+" Calling this for convenience
+LoadProjectVim
