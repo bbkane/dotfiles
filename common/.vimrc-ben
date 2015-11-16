@@ -87,7 +87,7 @@ command! ReloadVimrc source $MYVIMRC
 function! SourceFileUpwards(filename)
     let proj = findfile(a:filename, ".;")
     if proj != ""
-        exec "source".proj
+        exec "source " . proj
     " else
     "     echo "No " . a:filename . " found"
     endif
