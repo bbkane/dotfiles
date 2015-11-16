@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-echo ".benshellrc loaded"
-
 see_path() {echo $PATH | tr ":" "\n"}
 
 # disable auto-directory changes
@@ -37,3 +35,5 @@ function mkcd {
 autoload run-help
 HELPDIR=/usr/local/share/zsh/help
 
+# if fortune is on here, say it
+hash fortune && fortune || echo ".benshellrc loaded"

@@ -108,6 +108,14 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 let g:session_autosave = 'no'
 
+Plug 'mhinz/vim-startify'
+
+Plug 'airblade/vim-gitgutter'
+
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+" let g:UltiSnipsExpandTrigger="<tab>"
+
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
