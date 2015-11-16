@@ -100,8 +100,15 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Pimps my statusbar
 Plug 'bling/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnameod = ':t'
 
-" Colorschemes
+"TODO: research this carefully
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+let g:session_autosave = 'no'
+
+" colorschemes
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
@@ -121,6 +128,7 @@ if has("gui_running")
     set background=dark " Tell vim I'm in a dark terminal
 elseif has("nvim")
     colorscheme desert-warm-256
+    colorscheme solarized
     set background=dark " Tell vim I'm in a dark terminal
 else
     colorscheme solarized
