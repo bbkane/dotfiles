@@ -18,7 +18,7 @@ call plug#begin('~/.vim/bundle')
 
 if os == "Linux" || has("gui_running") || has("nvim")
     " C++ autocompleter. Needs Steps outside of this one
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+"    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
     " auto-load completion file INSECURE BY DEFAULT
