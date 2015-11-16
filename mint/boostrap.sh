@@ -20,6 +20,10 @@ sudo apt-get -y install build-essential python-dev cmake
 echo "get python from https://www.continuum.io/downloads"
 '
 
+# cd ~
+# wget https://cmake.org/files/v3.4/cmake-3.4.0-Linux-x86_64.sh
+# echo "Install with 'bash <name of cmake> --prefix=$HOME/bin --include-subdir"
+
 # echo "get clang from ppa. it's on firefox somewhere"
 # echo "get firefox addons: vimperator, adblock plus, reddit enhancement suite"
 
@@ -52,6 +56,21 @@ sudo apt-get install i3
 echo "@@@@@@@@@You can now log out and log back in to i3@@@@@@@@@"
 '
 
+#gcc
+# sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+# sudo apt-get update
+# sudo apt-get install gcc-4.9 g++-4.9
+
+# These commands have to be repeated
+# sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
+# sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20
+# sudo update-alternatives --remove-all gcc
+# sudo update-alternatives --remove-all g++
+# sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 20
+# sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 20
+# sudo update-alternatives --config gcc
+# sudo update-alternatives --config g++
+
 # BUILDS
 
 # get oh-my-zsh
@@ -75,6 +94,7 @@ stow mint
 '
 
 # sudo ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
+sudo ln -s /usr/bin/clang-3.6 /usr/bin/clang
 # sudo ln -s /usr/bin/vim /usr/bin/nvim
 
 # nvim things (I wan to try to make it compatible with vim)
