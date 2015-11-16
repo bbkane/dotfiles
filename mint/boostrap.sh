@@ -27,6 +27,12 @@ echo "get python from https://www.continuum.io/downloads"
 # echo "get clang from ppa. it's on firefox somewhere"
 # echo "get firefox addons: vimperator, adblock plus, reddit enhancement suite"
 
+#java
+
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+
 # eclipse
 : '
 # get eclipse luna
