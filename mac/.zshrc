@@ -119,3 +119,6 @@ export WINEDIR="$HOME/.wine/drive_c/Program Files"
 
 # Brew wanted this...
 export PATH="/usr/local/sbin:$PATH"
+
+alias vim=nvim
+
