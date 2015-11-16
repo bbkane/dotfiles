@@ -4,4 +4,6 @@ common/.vim/tmp
 common/.vim/.netrwhist
 lubuntu/.local/share/applications/chrome*
 lubuntu/.local/share/applications/mimeapps.list
+# Linux Mint's cmake
+common/bin/cmake-3.4.0-Linux-x86_64/
 *.pyc

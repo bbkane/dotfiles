@@ -47,6 +47,11 @@ let mapleader = ","
 " inoremap jj <ESC>
 inoremap fd <ESC>
 
+if has("nvim")
+    tnoremap <Esc> <C-\><C-n>
+endif
+
+
 "save temporary files to ~/.vim/tmp/
 "if tmp doesn't exist, make it
 silent !mkdir ~/.vim/tmp/ > /dev/null 2>&1
@@ -87,7 +92,7 @@ command! ReloadVimrc source $MYVIMRC
 function! SourceFileUpwards(filename)
     let proj = findfile(a:filename, ".;")
     if proj != ""
-        exec "source".proj
+        exec "source " . proj
     " else
     "     echo "No " . a:filename . " found"
     endif
