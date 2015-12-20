@@ -109,12 +109,16 @@ Plug 'xolox/vim-session'
 let g:session_autosave = 'no'
 
 Plug 'mhinz/vim-startify'
+let g:startify_custom_header =
+  \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 
 Plug 'airblade/vim-gitgutter'
 
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
 " let g:UltiSnipsExpandTrigger="<tab>"
+
+Plug 'scrooloose/nerdtree'
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
