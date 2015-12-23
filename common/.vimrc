@@ -110,6 +110,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 let g:session_autosave = 'no'
 
+" :SaveSeesion and :OpenSession to begin with
 Plug 'mhinz/vim-startify'
 let g:startify_custom_header =
   \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
