@@ -7,3 +7,5 @@ lubuntu/.local/share/applications/mimeapps.list
 # Linux Mint's cmake
 common/bin/cmake-3.4.0-Linux-x86_64/
 *.pyc
+# ignore the symlink to common/.vimrc for nvim
+common/.vim/init.vim
