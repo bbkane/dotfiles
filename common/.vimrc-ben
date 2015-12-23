@@ -1,5 +1,10 @@
+" disable error bels
+if !has("nvim")
+    set nocompatible
+    set noerrorbells visualbell t_vb=
+endif
+
 " use stuff from vim.wikia.com example vimrc
-" set nocompatible
 filetype indent plugin on
 syntax on
 set wildmenu "Use tab to complete stuff in vim menu
@@ -36,11 +41,6 @@ set nohlsearch
 set shell=zsh " Should fix my Can't open error file"
 set guifont=Source\ Code\ Pro:h13 " set font for macvim
 
-" disable error bels
-if !has("nvim")
-    set noerrorbells visualbell t_vb=
-endif
-
 " map j to gj and k to gk, so line navigation ignores line wrap
 nmap j gj
 nmap k gk
@@ -52,13 +52,25 @@ let mapleader = ","
 " inoremap jj <ESC>
 inoremap fd <ESC>
 
+" save without sudo vim
 cmap w!! w !sudo tee > /dev/null %
 
 
 if has("nvim")
     tnoremap <Esc> <C-\><C-n>
+    tnoremap fd  <C-\><C-n>
+    command! Term :vert sp | term
 endif
 
+
+" split settings
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+nnoremap <C-l> <C-w><C-l>
+nnoremap <C-h> <C-w><C-h>
+
+set splitbelow
+set splitright
 
 "save temporary files to ~/.vim/tmp/
 "if tmp doesn't exist, make it
@@ -121,4 +133,4 @@ function! ShowFuncName()
     call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfunction
 
-command ShowFuncName call ShowFuncName()
+command! ShowFuncName call ShowFuncName()
