@@ -134,3 +134,18 @@ function! ShowFuncName()
 endfunction
 
 command! ShowFuncName call ShowFuncName()
+
+
+function! BensCommands()
+    echo "<C-g> : Name of buffer"
+    echo "gd : local var definition"
+    echo "gD : global var definition"
+    echo "<C-i> : go forward"
+    echo "<C-o> : go back"
+    echo "-- CTAGS --"
+    echo "<C-]> : goto def"
+    echo "<C-t> : come from"
+    echo "-- END CTAGS --"
+endfunction
+
+command! BensCommands call BensCommands()
