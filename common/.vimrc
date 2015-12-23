@@ -17,8 +17,10 @@ endif
 call plug#begin('~/.vim/bundle')
 
 if os == "Linux" || has("gui_running") || has("nvim")
+
+    let g:python_host_prog = '/usr/bin/python'
     " C++ autocompleter. Needs Steps outside of this one
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+    " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
     " auto-load completion file INSECURE BY DEFAULT
@@ -131,17 +133,18 @@ call plug#end()
 " setting colorschemes here because plugins
 " colorschemes must be set after plug#end()
 " background must be set after setting the colorscheme
-if has("gui_running")
-    colorscheme molokai
-    set background=dark " Tell vim I'm in a dark terminal
-elseif has("nvim")
-    colorscheme desert-warm-256
-    colorscheme solarized
-    set background=dark " Tell vim I'm in a dark terminal
-else
-    colorscheme solarized
-    set background=light " Tell vim I'm in a light terminal
-endif
+" if has("gui_running")
+"     colorscheme molokai
+"     set background=dark " Tell vim I'm in a dark terminal
+" elseif has("nvim")
+"     colorscheme desert-warm-256
+"     colorscheme solarized
+"     set background=dark " Tell vim I'm in a dark terminal
+" else
+"     colorscheme solarized
+"     set background=light " Tell vim I'm in a light terminal
+" endif
+colorscheme elflord
 
 
 " Source my non-plugin-related keybindings

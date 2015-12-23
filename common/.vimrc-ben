@@ -1,5 +1,5 @@
 " use stuff from vim.wikia.com example vimrc
-set nocompatible
+" set nocompatible
 filetype indent plugin on
 syntax on
 set wildmenu "Use tab to complete stuff in vim menu
@@ -29,12 +29,17 @@ set softtabstop=4 " Number of spaces per Tab
 
 set number        " Show line numbers
 set showmatch     " Highlight matching brace
-set errorbells    " Beep or flash screen on errors
+" set errorbells    " Beep or flash screen on errors
 set undolevels=1000	" Number of undo levels
 set nohlsearch
-" set cursorline " show cursor"
+" set cursorline " show cursor
 set shell=zsh " Should fix my Can't open error file"
 set guifont=Source\ Code\ Pro:h13 " set font for macvim
+
+" disable error bels
+if !has("nvim")
+    set noerrorbells visualbell t_vb=
+endif
 
 " map j to gj and k to gk, so line navigation ignores line wrap
 nmap j gj
@@ -46,6 +51,9 @@ let mapleader = ","
 " Gonna take some getting used to...
 " inoremap jj <ESC>
 inoremap fd <ESC>
+
+cmap w!! w !sudo tee > /dev/null %
+
 
 if has("nvim")
     tnoremap <Esc> <C-\><C-n>
@@ -103,3 +111,14 @@ command! LoadProjectVim call SourceFileUpwards("project.vim")
 
 " Calling this for convenience
 LoadProjectVim
+
+function! ShowFuncName()
+    let lnum = line(".")
+    let col = col(".")
+    echohl ModeMsg
+    echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
+    echohl None
+    call search("\\%" . lnum . "l" . "\\%" . col . "c")
+endfunction
+
+command ShowFuncName call ShowFuncName()
