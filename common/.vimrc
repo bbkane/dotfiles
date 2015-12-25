@@ -20,7 +20,7 @@ if os == "Linux" || has("gui_running") || has("nvim")
 
     let g:python_host_prog = '/usr/bin/python'
     " C++ autocompleter. Needs Steps outside of this one
-    " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+    Plug 'Valloric/YouCompleteMe', {'for': 'cpp'}
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
     " auto-load completion file INSECURE BY DEFAULT
@@ -31,6 +31,7 @@ if os == "Linux" || has("gui_running") || has("nvim")
     let g:ycm_add_preview_to_completeopt = 0
 
     " Works on mac... but not Linux
+    " Need to symlink clang++-3.? to clang++ -> sudo ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
     Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
 else " TODO: experiment on how to combine supertab and YCM
     Plug 'ervandew/supertab'
@@ -113,15 +114,22 @@ let g:session_autosave = 'no'
 " :SaveSeesion and :OpenSession to begin with
 Plug 'mhinz/vim-startify'
 let g:startify_custom_header =
-  \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
+      \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 
 Plug 'airblade/vim-gitgutter'
+
+Plug 'vim-scripts/BufOnly.vim'
 
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
 " let g:UltiSnipsExpandTrigger="<tab>"
 
 Plug 'scrooloose/nerdtree'
+let g:NERDTreeWinSize=22
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'tmhedberg/SimpylFold'
+Plug 'vim-scripts/indentpython.vim'
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
@@ -134,23 +142,7 @@ Plug 'rainux/vim-desert-warm-256'
 " End plugins
 call plug#end()
 
-
-" setting colorschemes here because plugins
-" colorschemes must be set after plug#end()
-" background must be set after setting the colorscheme
-" if has("gui_running")
-"     colorscheme molokai
-"     set background=dark " Tell vim I'm in a dark terminal
-" elseif has("nvim")
-"     colorscheme desert-warm-256
-"     colorscheme solarized
-"     set background=dark " Tell vim I'm in a dark terminal
-" else
-"     colorscheme solarized
-"     set background=light " Tell vim I'm in a light terminal
-" endif
-colorscheme elflord
-
+colorscheme desert-warm-256
 
 " Source my non-plugin-related keybindings
 source ~/.vimrc-ben
