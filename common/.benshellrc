@@ -36,4 +36,6 @@ autoload run-help
 HELPDIR=/usr/local/share/zsh/help
 
 # if fortune is on here, say it
-hash fortune  &> /dev/null && fortune || echo ".benshellrc loaded"
+# hash fortune && fortune || echo ".benshellrc loaded"
+# hash fortune && echo $(tput setaf $(shuf -i1-17 -n1))$(fortune)$(tput sgr0) || echo ".benshellrc loaded"
+hash fortune && echo $(tput setaf $(( ($RANDOM % 17)+1 )) )$(fortune)$(tput sgr0) || echo ".benshellrc loaded"
