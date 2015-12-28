@@ -16,11 +16,22 @@ endif
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
-if os == "Linux" || has("gui_running") || has("nvim")
+" let b:cpp_file=0
+" autocmd BufNewFile *.cpp let b:cpp_file=1
+" autocmd BufRead *.cpp let b:cpp_file=1
 
+" function! UsingCPP()
+"     echo "UsingCPP"
+"     let g:using_cpp = 1
+" endfunction
+
+let g:using_cpp = 1
+
+" Only use YCM for cpp
+if has("nvim") && g:using_cpp == 1
     let g:python_host_prog = '/usr/bin/python'
     " C++ autocompleter. Needs Steps outside of this one
-    Plug 'Valloric/YouCompleteMe', {'for': 'cpp'}
+    Plug 'Valloric/YouCompleteMe'
     " Set global config file. This might need to be changed :)
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
     " auto-load completion file INSECURE BY DEFAULT
@@ -33,7 +44,8 @@ if os == "Linux" || has("gui_running") || has("nvim")
     " Works on mac... but not Linux
     " Need to symlink clang++-3.? to clang++ -> sudo ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
     Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
-else " TODO: experiment on how to combine supertab and YCM
+else
+    " echo "no  YCM"
     Plug 'ervandew/supertab'
 
     Plug 'scrooloose/syntastic'
@@ -59,12 +71,13 @@ Plug 'bronson/vim-trailing-whitespace'
 
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
+" cmake syntax
+Plug 'slurps-mad-rips/cmake.vim'
+" Add highlighting of functions and containers and types
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 " s <two letters> to jump to words
 Plug 'justinmk/vim-sneak'
-
-" cmake syntax
-Plug 'slurps-mad-rips/cmake.vim'
 
 " easily comment line with `gcc` or selection with `gc`
 Plug 'tpope/vim-commentary'
@@ -81,7 +94,7 @@ Plug 'tpope/vim-surround'
 " <C-p> opens a search window to find stuff
 Plug 'kien/ctrlp.vim'
 " limit ctrlp to current directory (see github for this) (might change)
-let g:ctrlp_working_path_mode = 'c'
+" let g:ctrlp_working_path_mode = 'c'
 
 " auto-matching
 Plug 'jiangmiao/auto-pairs'
@@ -97,9 +110,8 @@ Plug 'godlygeek/tabular'
 
 " When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
 Plug 'tpope/vim-ragtag'
-
-" Add highlighting of functions and containers and types
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'vim-scripts/closetag.vim'
 
 " Pimps my statusbar
 Plug 'bling/vim-airline'
@@ -118,18 +130,25 @@ let g:startify_custom_header =
 
 Plug 'airblade/vim-gitgutter'
 
+" Use BufClose to close stuff
 Plug 'vim-scripts/BufOnly.vim'
 
 " Plug 'SirVer/ultisnips'
 " Plug 'honza/vim-snippets'
 " let g:UltiSnipsExpandTrigger="<tab>"
 
+" use NERDTreeToggle
 Plug 'scrooloose/nerdtree'
 let g:NERDTreeWinSize=22
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-Plug 'tmhedberg/SimpylFold'
+Plug 'christoomey/vim-tmux-navigator'
+
+" Python Plugins
+" Plug 'tmhedberg/SimpylFold'
 Plug 'vim-scripts/indentpython.vim'
+Plug 'nvie/vim-flake8'
+let python_highlight_all=1
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
