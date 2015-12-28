@@ -1,0 +1,131 @@
+# For the benefit of emacs users: -*- shell-script -*-
+###########################
+# xbindkeys configuration #
+###########################
+#
+# Version: 1.8.6
+#
+# If you edit this file, do not forget to uncomment any lines
+# that you change.
+# The pound(#) symbol may be used anywhere for comments.
+#
+# To specify a key, you can use 'xbindkeys --key' or
+# 'xbindkeys --multikey' and put one of the two lines in this file.
+#
+# The format of a command line is:
+#    "command to start"
+#       associated key
+#
+#
+# A list of keys is in /usr/include/X11/keysym.h and in
+# /usr/include/X11/keysymdef.h
+# The XK_ is not needed.
+#
+# List of modifier:
+#   Release, Control, Shift, Mod1 (Alt), Mod2 (NumLock),
+#   Mod3 (CapsLock), Mod4 (Windows key), Mod5 (Scroll).
+#
+
+# The release modifier is not a standard X modifier, but you can
+# use it if you want to catch release events instead of press events
+
+# By defaults, xbindkeys does not pay attention with the modifiers
+# NumLock, CapsLock and ScrollLock.
+# Uncomment the lines above if you want to pay attention to them.
+
+#keystate_numlock = enable
+#keystate_capslock = enable
+#keystate_scrolllock= enable
+
+# Examples of commands:
+
+"xbindkeys_show"
+  control+shift + q
+
+# set directly keycode (here control + f with my keyboard)
+#"xterm"
+#  c:41 + m:0x4
+
+# specify a mouse button
+#"xterm"
+#  control + b:2
+
+#"xterm -geom 50x20+20+20"
+#   Shift+Mod2+alt + s
+#
+## set directly keycode (here control+alt+mod2 + f with my keyboard)
+#"xterm"
+#  alt + c:0x29 + m:4 + mod2
+#
+## Control+Shift+a  release event starts rxvt
+#"rxvt"
+#  release+control+shift + a
+#
+## Control + mouse button 2 release event starts rxvt
+#"rxvt"
+#  Control + b:2 + Release
+#
+# Start of Ben's commands
+
+"firefox"
+  mod4 + c
+
+# alt + space. Won't work with mod4 + space
+"kupfer"
+  mod1 + space
+
+# adjust volume up and down
+"amixer -q -D pulse set Master toggle"
+  F6
+
+"amixer -q -D pulse set Master 5%- unmute"
+  F7
+
+"amixer -q -D pulse set Master 5%+ unmute"
+  F8
+
+
+# "amixer -D pulse sset Master 5%-"
+#   F7
+
+# "amixer -D pulse sset Master 5%+"
+#   F8
+
+# "amixer -D pulse sset Master 5%-"
+#   Control + Alt + Down
+
+# "amixer -D pulse sset Master 5%+"
+#   Control + Alt + Up
+
+# anaconda stuff
+"~/anaconda3/bin/ipython qtconsole"
+  mod1 + 1
+
+# with this, I must quit the kernal by searching for 'ipython' in the processes- ps -e | grep 'ipython' and killing it.
+# not optimal at all...
+"~/anaconda3/bin/ipython notebook"
+  mod1 + 2
+
+"~/anaconda3/bin/spyder"
+  mod1 + 3
+
+"sudo poweroff"
+  Control+Alt+Mod4 + Delete
+
+# both monitors
+"monitor.sh"
+  Control+Alt+2
+
+# right monitor only
+"monitor.sh right"
+  Control+Alt+1
+
+# start to automate running python scripts from vim to ipython qtconsole
+# xvbd is a virtual keyboard that can send text to an app
+#"xvkbd -xsendevent -text "print('Hello')""
+#  F5
+
+
+##################################
+# End of xbindkeys configuration #
+##################################
