@@ -1,5 +1,4 @@
 # BENS STUFF
-echo ".zshrc loaded"
 
 #virtual env
 #export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python

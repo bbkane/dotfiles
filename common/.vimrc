@@ -16,7 +16,7 @@ endif
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
-if os == "Linux" || has("gui_running") || has("nvim")
+if (&ft=='c' || &ft=='cpp')
     " C++ autocompleter. Needs Steps outside of this one
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     " Set global config file. This might need to be changed :)
@@ -30,6 +30,13 @@ if os == "Linux" || has("gui_running") || has("nvim")
 
     " Works on mac... but not Linux
     Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
+
+    " use :A to switch between .cpp and .h
+    Plug 'vim-scripts/a.vim'
+
+    " Add highlighting of functions and containers and types
+    Plug 'octol/vim-cpp-enhanced-highlight'
+
 else " TODO: experiment on how to combine supertab and YCM
     Plug 'ervandew/supertab'
 
@@ -54,14 +61,13 @@ Plug 'tpope/vim-sensible'
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
-" use :A to switch between .cpp and .h
-Plug 'vim-scripts/a.vim'
-
 " s <two letters> to jump to words
 Plug 'justinmk/vim-sneak'
 
 " cmake syntax
 Plug 'slurps-mad-rips/cmake.vim'
+
+Plug 'ChesleyTan/wordCount.vim'
 
 " easily comment line with `gcc` or selection with `gc`
 Plug 'tpope/vim-commentary'
@@ -95,8 +101,6 @@ Plug 'godlygeek/tabular'
 " When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
 Plug 'tpope/vim-ragtag'
 
-" Add highlighting of functions and containers and types
-Plug 'octol/vim-cpp-enhanced-highlight'
 
 " Pimps my statusbar
 Plug 'bling/vim-airline'
@@ -142,7 +146,6 @@ else
     colorscheme solarized
     set background=light " Tell vim I'm in a light terminal
 endif
-
 
 " Source my non-plugin-related keybindings
 source ~/.vimrc-ben

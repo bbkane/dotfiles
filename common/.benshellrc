@@ -36,4 +36,4 @@ autoload run-help
 HELPDIR=/usr/local/share/zsh/help
 
 # if fortune is on here, say it
-hash fortune && fortune || echo ".benshellrc loaded"
+hash fortune  &> /dev/null && fortune || echo ".benshellrc loaded"
