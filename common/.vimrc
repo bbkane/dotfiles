@@ -25,10 +25,11 @@ call plug#begin('~/.vim/bundle')
 "     let g:using_cpp = 1
 " endfunction
 
-let g:using_cpp = 1
+let g:using_cpp = 0
+let g:at_work = 1
 
 " Only use YCM for cpp
-if has("nvim") && g:using_cpp == 1
+if has("nvim") && g:using_cpp == 1 && g:at_work == 0
     let g:python_host_prog = '/usr/bin/python'
     " C++ autocompleter. Needs Steps outside of this one
     Plug 'Valloric/YouCompleteMe'
@@ -122,6 +123,7 @@ let g:airline#extensions#tabline#fnameod = ':t'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 let g:session_autosave = 'no'
+let g:session_autoload = 'no'
 
 " :SaveSeesion and :OpenSession to begin with
 Plug 'mhinz/vim-startify'
@@ -161,7 +163,11 @@ Plug 'rainux/vim-desert-warm-256'
 " End plugins
 call plug#end()
 
-colorscheme desert-warm-256
+if g:at_work == 1
+    colorscheme elflord
+else
+    colorscheme desert-warm-256
+endif
 
 " Source my non-plugin-related keybindings
 source ~/.vimrc-ben
