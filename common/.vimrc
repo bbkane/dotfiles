@@ -26,7 +26,7 @@ call plug#begin('~/.vim/bundle')
 " endfunction
 
 let g:using_cpp = 0
-let g:at_work = 0
+let g:at_work = 1
 
 " Only use YCM for cpp
 if has("nvim") && g:using_cpp == 1 && g:at_work == 0

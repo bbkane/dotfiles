@@ -138,6 +138,9 @@ command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 command! ReloadVimrc source $MYVIMRC
 command! EditVimrc :edit $MYVIMRC
 
+" command! ReDLVimrc !rm ~/.vimrc ~/.vimrc-ben && wget https://raw.githubusercontent.com/bbkane/backup/master/common/{.vimrc,.vimrc-ben}
+command! ReDLVimrc !mv ~/.vimrc{,.bak} && mv ~/.vimrc-ben{,.bak} && wget -P ~ https://raw.githubusercontent.com/bbkane/backup/master/common/{.vimrc,.vimrc-ben} --no-check-certificate
+
 " Search for a project specific vimrc upward
 " THIS IS INSECURE. BE CAREFUL.
 " :help fnamemodify to learn to search only search one upwards.
