@@ -36,7 +36,7 @@ set showmatch     " Highlight matching brace
 set undolevels=1000	" Number of undo levels
 set nohlsearch
 " set cursorline " show cursor
-set shell=zsh " Should fix my Can't open error file"
+" set shell=zsh " Should fix my Can't open error file"
 set guifont=Source\ Code\ Pro:h13 " set font for macvim
 
 " map j to gj and k to gk, so line navigation ignores line wrap
