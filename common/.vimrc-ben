@@ -186,3 +186,14 @@ function! BensCommands()
 endfunction
 
 command! BensCommands call BensCommands()
+
+
+function! AddName(name)
+    execute ':silent! %s/\<note\>\c/Note (' . a:name . ')/g'
+    execute ':silent! %s/\<todo\>\c/TODO (' . a:name . ')/g'
+    " TODO (bkane): I don't know why these shortcuts aren't working
+    " execute ':silent! %s/\<t\:\>/TODO ('. a:name . ')/g'
+    " execute ':silent! %s/\<n\:\>/Note ('. a:name . ')/g'
+endfunction
+
+command! AddName call AddName("bbkane")
