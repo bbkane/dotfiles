@@ -26,7 +26,7 @@ call plug#begin('~/.vim/bundle')
 " endfunction
 
 let g:using_cpp = 0
-let g:at_work = 1
+let g:at_work = $at_work
 
 " Only use YCM for cpp
 if has("nvim") && g:using_cpp == 1 && g:at_work == 0
@@ -70,7 +70,9 @@ Plug 'tpope/vim-sensible'
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
-Plug 'ChesleyTan/wordCount.vim'
+if g:at_work == 0
+    Plug 'ChesleyTan/wordCount.vim'
+endif
 
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
