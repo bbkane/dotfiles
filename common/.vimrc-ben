@@ -27,7 +27,7 @@ set wrapmargin=0
 set expandtab     " Use spaces instead of tabs
 set shiftwidth=4  " Number of auto-indent spaces
 set softtabstop=4 " Number of spaces per Tab
-set fileformat=unix
+" set fileformat=unix
 " set encoding=utf-8
 
 set number        " Show line numbers
@@ -138,8 +138,12 @@ command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 command! ReloadVimrc source $MYVIMRC
 command! EditVimrc :edit $MYVIMRC
 
-" command! ReDLVimrc !rm ~/.vimrc ~/.vimrc-ben && wget https://raw.githubusercontent.com/bbkane/backup/master/common/{.vimrc,.vimrc-ben}
-command! ReDLVimrc !mv ~/.vimrc{,.bak} && mv ~/.vimrc-ben{,.bak} && wget -P ~ https://raw.githubusercontent.com/bbkane/backup/master/common/{.vimrc,.vimrc-ben} --no-check-certificate
+function! ReDLVimrcs()
+    if input("Do you want to redownload ~/.vimrc and ~/.vimrc-ben? (yes) ") == "yes"
+        execute '!mv ~/.vimrc{,.bak} && mv ~/.vimrc-ben{,.bak} && wget -P ~ https://raw.githubusercontent.com/bbkane/backup/master/common/{.vimrc,.vimrc-ben} --no-check-certificate'
+    endif
+endfunction
+command! ReDLVimrcs call ReDLVimrcs()
 
 " Search for a project specific vimrc upward
 " THIS IS INSECURE. BE CAREFUL.
