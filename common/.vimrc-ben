@@ -199,5 +199,7 @@ function! AddName(name)
     " execute ':silent! %s/\<t\:\>/TODO ('. a:name . ')/g'
     " execute ':silent! %s/\<n\:\>/Note ('. a:name . ')/g'
 endfunction
-
 command! AddName call AddName("bbkane")
+
+command! -nargs=1 Help vert help <args>
+
