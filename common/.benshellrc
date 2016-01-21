@@ -16,7 +16,7 @@ lazygit() {git add . && git commit -m "$1" && git push;}
 ZSH_THEME="lambdarobbyrussell"
 
 #set today to the date
-today=$(date +%y-%m-%d)
+today=$(date +%Y-%m-%d)
 
 # mk and cd directory
 function mkcd {

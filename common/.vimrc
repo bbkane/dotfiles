@@ -25,12 +25,16 @@ call plug#begin('~/.vim/bundle')
 "     let g:using_cpp = 1
 " endfunction
 
-let g:using_cpp = 0
+let g:using_ycm = 1
 let g:at_work = 0
 
 " Only use YCM for cpp
-if has("nvim") && g:using_cpp == 1 && g:at_work == 0
-    let g:python_host_prog = '/usr/bin/python'
+if has("nvim") && g:using_ycm == 1 && g:at_work == 0
+    if os == "Darwin"
+        " let g:python_host_prog = '/Users/benjaminkane/anaconda3/envs/neovim/bin/python'
+    else
+        let g:python_host_prog = '/usr/bin/python'
+    endif
     " C++ autocompleter. Needs Steps outside of this one
     Plug 'Valloric/YouCompleteMe'
     " Set global config file. This might need to be changed :)
@@ -46,7 +50,7 @@ if has("nvim") && g:using_cpp == 1 && g:at_work == 0
     " Need to symlink clang++-3.? to clang++ -> sudo ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
     Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
 else
-    " echo "no  YCM"
+    echo "no  YCM"
     Plug 'ervandew/supertab'
 
     Plug 'scrooloose/syntastic'
