@@ -16,20 +16,11 @@ endif
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
-" let b:cpp_file=0
-" autocmd BufNewFile *.cpp let b:cpp_file=1
-" autocmd BufRead *.cpp let b:cpp_file=1
-
-" function! UsingCPP()
-"     echo "UsingCPP"
-"     let g:using_cpp = 1
-" endfunction
-
-let g:using_ycm = 1
-let g:at_work = 0
+let g:using_cpp = 0
+let g:at_work = $at_work
 
 " Only use YCM for cpp
-if has("nvim") && g:using_ycm == 1 && g:at_work == 0
+if has("nvim") && g:using_cpp == 1 && g:at_work == 0
     if os == "Darwin"
         " let g:python_host_prog = '/Users/benjaminkane/anaconda3/envs/neovim/bin/python'
     else
@@ -50,22 +41,21 @@ if has("nvim") && g:using_ycm == 1 && g:at_work == 0
     " Need to symlink clang++-3.? to clang++ -> sudo ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
     Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
 else
-    echo "no  YCM"
     Plug 'ervandew/supertab'
 
-    Plug 'scrooloose/syntastic'
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-    let g:syntastic_enable_signs=0 " See errors in first column
-    let g:syntastic_always_populate_loc_list = 1 " Fill in location for error highlighting
-    let g:syntastic_auto_loc_list = 1 " Uses Separate window for errors
-    " let g:syntastic_auto_loc_list = 2 " Uses one line at the bottom for errors
-    let g:syntastic_check_on_open = 0 " Set to 0 for faster opening cpp files
-    let g:syntastic_check_on_wq = 0
-    " let g:syntastic_cpp_checkers = ['gcc']
-    " let g:syntastic_cpp_compiler = 'gcc'
-    let g:syntastic_cpp_compiler_options = '-std=c++1y' " If this flag is wrong, it stops working
+    " Plug 'scrooloose/syntastic'
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
+    " let g:syntastic_enable_signs=0 " See errors in first column
+    " let g:syntastic_always_populate_loc_list = 1 " Fill in location for error highlighting
+    " let g:syntastic_auto_loc_list = 1 " Uses Separate window for errors
+    " " let g:syntastic_auto_loc_list = 2 " Uses one line at the bottom for errors
+    " let g:syntastic_check_on_open = 0 " Set to 0 for faster opening cpp files
+    " let g:syntastic_check_on_wq = 0
+    " " let g:syntastic_cpp_checkers = ['gcc']
+    " " let g:syntastic_cpp_compiler = 'gcc'
+    " let g:syntastic_cpp_compiler_options = '-std=c++1y' " If this flag is wrong, it stops working
 endif
 
 " Good default settings
@@ -74,7 +64,9 @@ Plug 'tpope/vim-sensible'
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
-Plug 'ChesleyTan/wordCount.vim'
+if g:at_work == 0
+    Plug 'ChesleyTan/wordCount.vim'
+endif
 
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
