@@ -27,7 +27,7 @@ set wrapmargin=0
 set expandtab     " Use spaces instead of tabs
 set shiftwidth=4  " Number of auto-indent spaces
 set softtabstop=4 " Number of spaces per Tab
-set fileformat=unix
+" set fileformat=unix
 " set encoding=utf-8
 
 set number        " Show line numbers
@@ -36,7 +36,7 @@ set showmatch     " Highlight matching brace
 set undolevels=1000	" Number of undo levels
 set nohlsearch
 " set cursorline " show cursor
-set shell=zsh " Should fix my Can't open error file"
+" set shell=zsh " Should fix my Can't open error file"
 set guifont=Source\ Code\ Pro:h13 " set font for macvim
 
 " map j to gj and k to gk, so line navigation ignores line wrap
@@ -138,6 +138,13 @@ command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 command! ReloadVimrc source $MYVIMRC
 command! EditVimrc :edit $MYVIMRC
 
+function! ReDLVimrcs()
+    if input("Do you want to redownload ~/.vimrc and ~/.vimrc-ben? (yes) ") == "yes"
+        execute '!mv ~/.vimrc{,.bak} && mv ~/.vimrc-ben{,.bak} && wget -P ~ https://raw.githubusercontent.com/bbkane/backup/master/common/{.vimrc,.vimrc-ben} --no-check-certificate'
+    endif
+endfunction
+command! ReDLVimrcs call ReDLVimrcs()
+
 " Search for a project specific vimrc upward
 " THIS IS INSECURE. BE CAREFUL.
 " :help fnamemodify to learn to search only search one upwards.
@@ -183,3 +190,16 @@ function! BensCommands()
 endfunction
 
 command! BensCommands call BensCommands()
+
+
+function! AddName(name)
+    execute ':silent! %s/\<note\>\c/Note (' . a:name . ')/g'
+    execute ':silent! %s/\<todo\>\c/TODO (' . a:name . ')/g'
+    " TODO (bkane): I don't know why these shortcuts aren't working
+    " execute ':silent! %s/\<t\:\>/TODO ('. a:name . ')/g'
+    " execute ':silent! %s/\<n\:\>/Note ('. a:name . ')/g'
+endfunction
+command! AddName call AddName("bbkane")
+
+command! -nargs=1 Help vert help <args>
+
