@@ -42,8 +42,13 @@ if has("nvim") && g:using_cpp == 1 && g:at_work == 0
     Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
 else
     Plug 'ervandew/supertab'
+    Plug 'davidhalter/jedi-vim'
+    " Use <C-<Space>> for autocomplete
+    let g:jedi#popup_on_dot = 0
+    " autocmd FileType python setlocal completeopt-=preview 
 
-    " Plug 'scrooloose/syntastic'
+    " needs flake8: conda install flake8
+    Plug 'scrooloose/syntastic'
     " set statusline+=%#warningmsg#
     " set statusline+=%{SyntasticStatuslineFlag()}
     " set statusline+=%*
@@ -53,9 +58,6 @@ else
     " " let g:syntastic_auto_loc_list = 2 " Uses one line at the bottom for errors
     " let g:syntastic_check_on_open = 0 " Set to 0 for faster opening cpp files
     " let g:syntastic_check_on_wq = 0
-    " " let g:syntastic_cpp_checkers = ['gcc']
-    " " let g:syntastic_cpp_compiler = 'gcc'
-    " let g:syntastic_cpp_compiler_options = '-std=c++1y' " If this flag is wrong, it stops working
 endif
 
 " Good default settings
@@ -81,7 +83,6 @@ Plug 'justinmk/vim-sneak'
 " easily comment line with `gcc` or selection with `gc`
 Plug 'tpope/vim-commentary'
 " set default commentstring
-" set commentstring=#\ %s
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
 autocmd FileType cmake set commentstring=#\ %s
 autocmd FileType cpp set commentstring=//\ %s
@@ -111,13 +112,14 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-ragtag'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'vim-scripts/closetag.vim'
+Plug 'https://github.com/Valloric/MatchTagAlways.git'
 
 " Pimps my statusbar
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnameod = ':t'
 
-"TODO: research this carefully
+" :SaveSession and :OpenSession
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 let g:session_autosave = 'no'
@@ -145,10 +147,10 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Python Plugins
-" Plug 'tmhedberg/SimpylFold'
 Plug 'vim-scripts/indentpython.vim'
-Plug 'nvie/vim-flake8'
-let python_highlight_all=1
+" Use <F7> to run file
+" Plug 'nvie/vim-flake8'
+" let python_highlight_all=1
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
