@@ -1,5 +1,4 @@
 " Determine OS
-" Mac, Linux, Cygwin
 if has("unix")
     let os = substitute(system('uname'), "\n", "", "")
 elseif has("win32")
@@ -16,11 +15,12 @@ endif
 " look for plugins in bundle/
 call plug#begin('~/.vim/bundle')
 
-let g:using_cpp = 0
+" bash: `export use_ycm=1`
+let g:use_ycm = $use_ycm
 let g:at_work = $at_work
 
 " Only use YCM for cpp
-if has("nvim") && g:using_cpp == 1 && g:at_work == 0
+if has("nvim") && g:use_ycm == 1 && g:at_work == 0
     if os == "Darwin"
         " let g:python_host_prog = '/Users/benjaminkane/anaconda3/envs/neovim/bin/python'
     else
@@ -37,17 +37,21 @@ if has("nvim") && g:using_cpp == 1 && g:at_work == 0
     set completeopt-=preview
     let g:ycm_add_preview_to_completeopt = 0
 
-    " Works on mac... but not Linux
     " Need to symlink clang++-3.? to clang++ -> sudo ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
     Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
 else
     Plug 'ervandew/supertab'
-    Plug 'davidhalter/jedi-vim'
-    " Use <C-<Space>> for autocomplete
-    let g:jedi#popup_on_dot = 0
-    " autocmd FileType python setlocal completeopt-=preview 
 
-    " needs flake8: conda install flake8
+    " use the right python (must pip install nevim in all virtual envs)
+    let g:jedi#force_py_version=3
+    let g:python_host_prog = system('which python | tr -d "\n"')
+    let g:python3_host_prog = system('which python3 | tr -d "\n"')
+    " Use <C-<Space>> for autocomplete
+    Plug 'davidhalter/jedi-vim'
+    let g:jedi#popup_on_dot = 0
+    " autocmd FileType python setlocal completeopt-=preview
+
+    " syntastic needs flake8: conda install flake8
     Plug 'scrooloose/syntastic'
     " set statusline+=%#warningmsg#
     " set statusline+=%{SyntasticStatuslineFlag()}
@@ -135,10 +139,6 @@ Plug 'airblade/vim-gitgutter'
 " Use BufClose to close stuff
 Plug 'vim-scripts/BufOnly.vim'
 
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
-" let g:UltiSnipsExpandTrigger="<tab>"
-
 " use NERDTreeToggle
 Plug 'scrooloose/nerdtree'
 let g:NERDTreeWinSize=22
@@ -147,9 +147,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Python Plugins
-Plug 'vim-scripts/indentpython.vim'
-" Use <F7> to run file
-" Plug 'nvie/vim-flake8'
+Plug 'hynek/vim-python-pep8-indent'
 " let python_highlight_all=1
 
 " colorschemes
