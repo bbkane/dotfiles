@@ -111,20 +111,6 @@ silent !mkdir ~/.vim/tmp/ > /dev/null 2>&1
 set backupdir=~/.vim/tmp,.
 set directory=~/.vim/tmp,.
 
-" I want to call :make and have it make a single file
-" spaces must be escaped and '%' expands to the filename
-" '%<' expands to filename without extension
-" '%:r' is the non-deprecated way to drop extensions
-if os == "Linux"
-    set makeprg=clang++-3.6\ -std=c++14\ -Wall\ -Wextra\ -o\ %:r.out\ %
-elseif os == "Darwin"
-    set makeprg=clang++\ -std=c++1y\ -Wall\ -Wextra\ -o\ %:r.out\ %
-elseif os == "Cygwin"
-    set makeprg=echo\ "Set up compiler for Cygwin
-else
-    set makeprg=echo\ "Set up something??? for make"
-endif
-
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
 
