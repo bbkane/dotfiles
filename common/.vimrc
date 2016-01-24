@@ -147,8 +147,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Python Plugins
-Plug 'hynek/vim-python-pep8-indent'
-" let python_highlight_all=1
+Plug 'hdima/python-syntax'
+let python_highlight_all=1
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
