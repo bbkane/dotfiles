@@ -70,6 +70,9 @@ if has("nvim")
     tnoremap <Esc> <C-\><C-n>
     tnoremap fd  <C-\><C-n>
     " split settings
+    " This doesn't work with my tmux plugin
+    " go to next bufer
+    tnoremap <C-n> <C-\><C-n><C-w><C-w>
     " Map Ctrl+ <motion> to <Terminal escape> + < Window Control> + <Motion>
     tnoremap <C-j> <C-\><C-n><C-w><C-j>
     tnoremap <C-k> <C-\><C-n><C-w><C-k>
@@ -88,11 +91,13 @@ if !has("nvim")
 endif
 
 " This is now on plug in
-" " split settings
-" nnoremap <C-j> <C-w><C-j>
-" nnoremap <C-k> <C-w><C-k>
-" nnoremap <C-l> <C-w><C-l>
-" nnoremap <C-h> <C-w><C-h>
+" split settings
+nnoremap <C-n> <C-w><C-w>
+nnoremap <C-j> <C-w><C-j>
+nnoremap <C-k> <C-w><C-k>
+nnoremap <C-l> <C-w><C-l>
+" all the other mappings work but this one...
+nnoremap <C-h> <C-w><C-h>
 
 set splitbelow
 set splitright
