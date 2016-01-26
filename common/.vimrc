@@ -43,15 +43,21 @@ else
     Plug 'ervandew/supertab'
 
     " use the right python (must pip install nevim in all virtual envs)
+    let right_python3 = system('which python3 | tr -d "\n"')
+    " echo right_python3
     let g:jedi#force_py_version=3
     let g:python_host_prog = system('which python | tr -d "\n"')
-    let g:python3_host_prog = system('which python3 | tr -d "\n"')
+    let g:python3_host_prog = right_python3
     " Use <C-<Space>> for autocomplete
     Plug 'davidhalter/jedi-vim'
     let g:jedi#popup_on_dot = 0
     " autocmd FileType python setlocal completeopt-=preview
 
     " syntastic needs flake8: conda install flake8
+    let g:syntastic_python_python_exec = right_python3
+    let g:syntastic_python_checkers = ['flake8']
+    " ignore longer lines
+    let g:syntastic_python_flake8_args = '--ignore=E501'
     Plug 'scrooloose/syntastic'
     " set statusline+=%#warningmsg#
     " set statusline+=%{SyntasticStatuslineFlag()}
@@ -90,6 +96,7 @@ Plug 'tpope/vim-commentary'
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
 autocmd FileType cmake set commentstring=#\ %s
 autocmd FileType cpp set commentstring=//\ %s
+autocmd FileType sql set commentstring=--\ %s
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to chang from quotes to
 " parens
@@ -144,7 +151,7 @@ Plug 'scrooloose/nerdtree'
 let g:NERDTreeWinSize=22
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-Plug 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 
 " Python Plugins
 Plug 'hdima/python-syntax'

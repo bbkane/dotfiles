@@ -121,3 +121,5 @@ export PATH="/usr/local/sbin:$PATH"
 
 alias vim=nvim
 
+# Note: this is horribly insecure and shouldn't be used for anything important
+alias bensql='mysql -u root --password=password'
