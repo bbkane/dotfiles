@@ -155,6 +155,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Python Plugins
 Plug 'hdima/python-syntax'
+Plug 'hynek/vim-python-pep8-indent'
 let python_highlight_all=1
 
 " colorschemes
