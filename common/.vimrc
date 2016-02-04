@@ -127,6 +127,7 @@ Plug 'https://github.com/Valloric/MatchTagAlways.git'
 
 " Pimps my statusbar
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnameod = ':t'
 
@@ -156,6 +157,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Python Plugins
 Plug 'hdima/python-syntax'
 let python_highlight_all=1
+Plug 'hynek/vim-python-pep8-indent'
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'

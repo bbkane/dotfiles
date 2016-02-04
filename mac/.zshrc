@@ -113,6 +113,7 @@ export PATH="$HOME/Library/Haskell/bin:$PATH"
 export WINEDIR="$HOME/.wine/drive_c/Program Files"
 # added by Anaconda3 2.0.1 installer
 # export PATH="/Users/benjaminkane/anaconda/bin:$PATH"
+export at_work=0
 
 # call my common config file
 
