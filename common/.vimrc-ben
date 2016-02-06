@@ -46,7 +46,7 @@ nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :wri
 " let mapleader = "\<SPACE>"
 let mapleader = ","
 
-set clipboard+=unnamedplus
+" set clipboard+=unnamedplus
 
 " Copy to clipboard
 vnoremap  <leader>y  "+y
@@ -126,7 +126,7 @@ function! ReDLVimrcs()
         execute '!mv ~/.vimrc{,.bak} && mv ~/.vimrc-ben{,.bak} && wget -P ~ https://raw.githubusercontent.com/bbkane/backup/master/common/{.vimrc,.vimrc-ben} --no-check-certificate'
     endif
 endfunction
-command! ReDLVimrcs call ReDLVimrcs()
+" command! ReDLVimrcs call ReDLVimrcs()
 
 " Search for a project specific vimrc upward
 " THIS IS INSECURE. BE CAREFUL.
@@ -173,4 +173,18 @@ endfunction
 command! BensCommands call BensCommands()
 
 command! -nargs=1 Help vert help <args>
+
+function! NvimLinkConfigs()
+    execute "!" . "ln -s ~/.vim ~/.config/nvim"
+    execute "!" . "ln -s ~/.vimrc ~/.config/nvim/init.vim"
+endfunction
+
+function! NvimInstallPythonDeps()
+    let current_python = system('which python | tr -d "\n"')
+    echo "GCC MUST BE INSTALLED. Output of `which gcc` : " . system('which gcc | tr -d "\n"')
+    if input("Do you want to install neovim and flake8 for " . current_python . " ? ") == "yes"
+        execute "!" . "pip install neovim"
+        execute "!" . "pip install flake8"
+    endif
+endfunction
 
