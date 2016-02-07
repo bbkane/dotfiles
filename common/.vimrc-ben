@@ -84,6 +84,8 @@ if has("nvim")
     autocmd TermOpen * set bufhidden=hide
 endif
 
+au BufRead,BufNewFile *.rs set filetype=rust
+
 " disable error bels
 if !has("nvim")
     set nocompatible
@@ -175,6 +177,7 @@ command! BensCommands call BensCommands()
 command! -nargs=1 Help vert help <args>
 
 function! NvimLinkConfigs()
+    silent !mkdir ~/.config > /dev/null 2>&1
     execute "!" . "ln -s ~/.vim ~/.config/nvim"
     execute "!" . "ln -s ~/.vimrc ~/.config/nvim/init.vim"
 endfunction
