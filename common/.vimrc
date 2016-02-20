@@ -9,7 +9,10 @@ endif
 if empty(glob("~/.vim/autoload/plug.vim"))
     let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     " '.' concatenates the variable with the command
-    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' . plugpath
+    silent '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' . plugpath
+    " This doesn't work...
+    " I have to manually PlugInstall
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
 " look for plugins in bundle/
@@ -20,7 +23,7 @@ let g:use_ycm = $use_ycm
 let g:at_work = $at_work
 
 " Only use YCM for cpp
-if has("nvim") && g:use_ycm == 1 && g:at_work == 0
+if has("nvim") && g:use_ycm == 1
     if os == "Darwin"
         let g:python_host_prog = '/usr/local/bin/python2.7'
     else
@@ -123,7 +126,9 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-ragtag'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'vim-scripts/closetag.vim'
-Plug 'https://github.com/Valloric/MatchTagAlways.git'
+if has("python")
+    Plug 'https://github.com/Valloric/MatchTagAlways.git'
+endif
 
 " Pimps my statusbar
 Plug 'bling/vim-airline'
@@ -158,7 +163,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 let python_highlight_all=1
-Plug 'hynek/vim-python-pep8-indent'
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
