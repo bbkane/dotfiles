@@ -22,7 +22,7 @@ let g:at_work = $at_work
 " Only use YCM for cpp
 if has("nvim") && g:use_ycm == 1 && g:at_work == 0
     if os == "Darwin"
-        " let g:python_host_prog = '/Users/benjaminkane/anaconda3/envs/neovim/bin/python'
+        let g:python_host_prog = '/usr/local/bin/python2.7'
     else
         let g:python_host_prog = '/usr/bin/python'
     endif
