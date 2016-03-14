@@ -124,3 +124,5 @@ export PATH="$HOME/bin/cmake-3.4.0-Linux-x86_64/bin:$PATH"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+source activate flask
+source ~/api_keys.sh
