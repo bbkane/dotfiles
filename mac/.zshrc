@@ -130,3 +130,4 @@ function stackoverflowit {
 }
 alias kindle_copy=~/Programming/Random-Scripts/kindle_copy.py
 source ~/Dropbox/api_keys.sh
+alias html_templage='cp ~/Programming/html_templates/* .'
