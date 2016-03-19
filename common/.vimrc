@@ -158,7 +158,7 @@ Plug 'scrooloose/nerdtree'
 let g:NERDTreeWinSize=22
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Python Plugins
 Plug 'hdima/python-syntax'
