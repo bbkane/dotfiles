@@ -107,7 +107,7 @@ autocmd FileType jinja set commentstring=<!--\ %s\ -->
 Plug 'tpope/vim-surround'
 
 " <C-p> opens a search window to find stuff
-Plug 'kien/ctrlp.vim'
+" Plug 'kien/ctrlp.vim'
 " limit ctrlp to current directory (see github for this) (might change)
 " let g:ctrlp_working_path_mode = 'c'
 
@@ -159,6 +159,7 @@ let g:NERDTreeWinSize=22
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'troydm/zoomwintab.vim'
 
 " Python Plugins
 Plug 'hdima/python-syntax'

@@ -192,3 +192,12 @@ function! NvimInstallPythonDeps()
     endif
 endfunction
 
+function! Open()
+    if has("darwin")
+        execute "silent !open %"
+    else
+        execute "silent !xdg-open %"
+    endif
+endfunction
+command! Open call Open()
+
