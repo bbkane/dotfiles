@@ -124,3 +124,10 @@ alias vim=nvim
 
 # Note: this is horribly insecure and shouldn't be used for anything important
 alias bensql='mysql -u root --password=password'
+
+function stackoverflowit {
+    cat $1 | sed 's/^/    /g' | pbcopy
+}
+alias kindle_copy=~/Programming/Random-Scripts/kindle_copy.py
+source ~/Dropbox/api_keys.sh
+alias html_templage='cp ~/Programming/html_templates/* .'
