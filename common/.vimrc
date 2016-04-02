@@ -23,9 +23,9 @@ let g:use_ycm = $use_ycm
 let g:at_work = $at_work
 
 " Only use YCM for cpp
-if has("nvim") && g:use_ycm == 1 && g:at_work == 0
+if has("nvim") && g:use_ycm == 1
     if os == "Darwin"
-        " let g:python_host_prog = '/Users/benjaminkane/anaconda3/envs/neovim/bin/python'
+        let g:python_host_prog = '/usr/local/bin/python2.7'
     else
         let g:python_host_prog = '/usr/bin/python'
     endif
@@ -107,7 +107,7 @@ autocmd FileType jinja set commentstring=<!--\ %s\ -->
 Plug 'tpope/vim-surround'
 
 " <C-p> opens a search window to find stuff
-Plug 'kien/ctrlp.vim'
+" Plug 'kien/ctrlp.vim'
 " limit ctrlp to current directory (see github for this) (might change)
 " let g:ctrlp_working_path_mode = 'c'
 
@@ -159,6 +159,7 @@ let g:NERDTreeWinSize=22
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'troydm/zoomwintab.vim'
 
 " Python Plugins
 Plug 'hdima/python-syntax'

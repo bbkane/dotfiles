@@ -88,6 +88,8 @@ if has("nvim")
     autocmd TermOpen * set bufhidden=hide
 endif
 
+au BufRead,BufNewFile *.rs set filetype=rust
+
 " disable error bels
 if !has("nvim")
     set nocompatible
@@ -96,6 +98,7 @@ endif
 
 " This is now on plug in
 " split settings
+" Still doesn't hurt to have it here...
 nnoremap <C-n> <C-w><C-w>
 nnoremap <C-j> <C-w><C-j>
 nnoremap <C-k> <C-w><C-k>
@@ -179,6 +182,7 @@ command! BensCommands call BensCommands()
 command! -nargs=1 Help vert help <args>
 
 function! NvimLinkConfigs()
+    silent !mkdir ~/.config > /dev/null 2>&1
     execute "!" . "ln -s ~/.vim ~/.config/nvim"
     execute "!" . "ln -s ~/.vimrc ~/.config/nvim/init.vim"
 endfunction
@@ -191,4 +195,13 @@ function! NvimInstallPythonDeps()
         execute "!" . "pip install flake8"
     endif
 endfunction
+
+function! Open()
+    if has("darwin")
+        execute "silent !open %"
+    else
+        execute "silent !xdg-open %"
+    endif
+endfunction
+command! Open call Open()
 
