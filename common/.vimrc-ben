@@ -67,6 +67,10 @@ cmap w!! w !sudo tee > /dev/null %
 
 
 if has("nvim")
+
+    " Disable mouse
+    set mouse-=a
+
     tnoremap <Esc> <C-\><C-n>
     tnoremap fd  <C-\><C-n>
     " split settings
