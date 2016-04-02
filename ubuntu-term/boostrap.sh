@@ -17,6 +17,8 @@
 # git clone https://github.com/bbkane/backup.git
 # cd ~/backup
 # stow common
+# echo 'source ~/.benshellrc' >> ~/.zshrc
+
 
 ## Network
 # sudo apt-get install openssh-server
@@ -25,6 +27,7 @@
 # sudo apt-get install xsel
 # Pyhon deps
 # sudo apt-get install gcc # needed for pip install neovim
+# pip install python
 # Inside Neovim run:
 # - PlugInstall
 # - call Nvim functions

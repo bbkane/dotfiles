@@ -100,6 +100,7 @@ Plug 'tpope/vim-commentary'
 autocmd FileType cmake set commentstring=#\ %s
 autocmd FileType cpp set commentstring=//\ %s
 autocmd FileType sql set commentstring=--\ %s
+autocmd FileType jinja set commentstring=<!--\ %s\ -->
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to chang from quotes to
 " parens
@@ -157,7 +158,7 @@ Plug 'scrooloose/nerdtree'
 let g:NERDTreeWinSize=22
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 
 " Python Plugins
 Plug 'hdima/python-syntax'
