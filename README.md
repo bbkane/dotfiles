@@ -1,5 +1,7 @@
 ## Ben's great backup!!
 
+### **This is out of date. These instructions may not work anymore. You have been warned.**
+
 The configs for all of my dotfiles (and a few other config files) are
 here. Use with *gnu stow*. I'm using gnu stow in a folder named
 **backup**. **backup** has directories like *mac*, *lubuntu*, and
