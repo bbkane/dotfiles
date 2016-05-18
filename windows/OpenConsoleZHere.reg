@@ -1,0 +1,13 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\Console]
+@="Console Here"
+
+[HKEY_CLASSES_ROOT\Directory\shell\Console\command]
+@="\"E:\\Portable Programs\\ConsoleZ.x64.1.13.0.15044\\Console.exe\" -d \"%V\""
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\Console]
+@="Console Here"
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\Console\command]
+@="\"E:\\Portable Programs\\ConsoleZ.x64.1.13.0.15044\\Console.exe\" -d \"%V\""
