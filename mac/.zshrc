@@ -1,5 +1,4 @@
 # BENS STUFF
-echo ".zshrc loaded"
 
 #virtual env
 #export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
@@ -114,8 +113,21 @@ export PATH="$HOME/Library/Haskell/bin:$PATH"
 export WINEDIR="$HOME/.wine/drive_c/Program Files"
 # added by Anaconda3 2.0.1 installer
 # export PATH="/Users/benjaminkane/anaconda/bin:$PATH"
+export at_work=0
 
 # call my common config file
 
 # Brew wanted this...
 export PATH="/usr/local/sbin:$PATH"
+
+alias vim=nvim
+
+# Note: this is horribly insecure and shouldn't be used for anything important
+alias bensql='mysql -u root --password=password'
+
+function stackoverflowit {
+    cat $1 | sed 's/^/    /g' | pbcopy
+}
+alias kindle_copy=~/Programming/Random-Scripts/kindle_copy.py
+source ~/Dropbox/api_keys.sh
+alias html_templage='cp ~/Programming/html_templates/* .'
