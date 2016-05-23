@@ -1,13 +1,22 @@
 # edit this file with: npp $profile
-# reload profile in PowerShell with: .$profile
+# reload profile in PowerShell with: . $profile
 # get help with (including creation of ) profiles with: Get-Help about_Profiles -ShowWindow
-
-# My Powershell
-# C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
 
 # PSReadline goodness (Ctrl + Space makes zsh-style completion guide)
 # more at https://rkeithhill.wordpress.com/2013/10/18/psreadline-a-better-line-editing-experience-for-the-powershell-console/
 Import-Module PSReadline
+
+# Load posh-git example profile
+. 'C:\Users\Ben\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
+
+Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
+
+Set-Alias msbuild "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
+
+# override profile
+Set-Variable -Force PROFILE $MyInvocation.MyCommand.Path
+
+Set-Variable CurrentProject "E:\Git Repos\Bens-Game"
 
 function Set-DevPrompt() {
 	#Set environment variables for Visual Studio Command Prompt
@@ -19,20 +28,8 @@ function Set-DevPrompt() {
 	  }
 	}
 	popd
-	write-host "`nVisual Studio 2013 Command Prompt variables set." -ForegroundColor Yellow
+	write-host "`nVisual Studio 2015 Command Prompt variables set." -ForegroundColor Yellow
 }
-
-Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
-
-Set-Alias msbuild "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
-
-Set-Variable CurrentProject "E:\Git Repos\Bens-Game"
-
-function cc($folder) {cmake -G "Visual Studio 12" $folder}
-function rmcc($folder) { rm * -Recurse -Force; cc $folder}
-function rmccmsbuild($folder) { rmcc $folder; msbuild .\ALL_BUILD.vcxproj}
-function rmallhere() {rm -Recurse -Force *;}
-
 
 function Show-Path() {($env:Path).Replace(';',"`n")}
 
@@ -58,6 +55,13 @@ function poweroff([int]$minutes) {
 # open Admin PowerShell for choco :)
 function Start-PSAdmin {Start-Process PowerShell -Verb RunAs}
 
-# Load posh-git example profile
-. 'C:\Users\Ben\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
-
+#Choco Installs
+function Install-Choco([string]$name, 
+                       [string]$log_dir="$env:USERPROFILE\Documents\Choco_Install_Logs")
+{
+    $log_path = "$log_dir\$name.log"
+    $date = Get-Date
+    Write-Output "Date: $date" > $log_path
+    # -append requires newer powershell
+    choco install -y $name | Tee-Object -append -file $log_path
+}
