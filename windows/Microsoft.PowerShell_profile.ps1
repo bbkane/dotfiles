@@ -6,6 +6,11 @@
 # more at https://rkeithhill.wordpress.com/2013/10/18/psreadline-a-better-line-editing-experience-for-the-powershell-console/
 Import-Module PSReadline
 
+# See all KeyHandlers with Get-PSReadlineKeyHandler
+Set-PSReadlineKeyHandler -Key Ctrl+P -Function PreviousHistory
+Set-PSReadlineKeyHandler -Key Ctrl+N -Function NextHistory
+Set-PSReadlineKeyHandler -Key Ctrl+U -Function BackwardDeleteLine
+
 # Load posh-git example profile
 . 'C:\Users\Ben\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
 
@@ -17,6 +22,15 @@ Set-Alias msbuild "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
 Set-Variable -Force PROFILE $MyInvocation.MyCommand.Path
 
 Set-Variable CurrentProject "E:\Git Repos\Bens-Game"
+
+# when using this, surround call with parens: if ( (Is-Admin) ) { # whatever... }
+function Is-Admin() {
+	If (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+	{
+		return $true
+	}
+	return $false
+}
 
 function Set-DevPrompt() {
 	#Set environment variables for Visual Studio Command Prompt
@@ -59,9 +73,15 @@ function Start-PSAdmin {Start-Process PowerShell -Verb RunAs}
 function Install-Choco([string]$name, 
                        [string]$log_dir="$env:USERPROFILE\Documents\Choco_Install_Logs")
 {
-    $log_path = "$log_dir\$name.log"
-    $date = Get-Date
-    Write-Output "Date: $date" > $log_path
-    # -append requires newer powershell
-    choco install -y $name | Tee-Object -append -file $log_path
+
+	if (! (Is-Admin) )
+	{
+		Write-Host "Run as admin!" -ForegroundColor Red
+		return
+	}
+	$log_path = "$log_dir\$name.log"
+	$date = Get-Date
+	Write-Output "Date: $date" > $log_path
+	# -append requires newer powershell
+	choco install -y $name | Tee-Object -append -file $log_path
 }
