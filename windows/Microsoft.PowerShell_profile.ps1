@@ -34,7 +34,7 @@ function Init-PowerShellGoodies()
     {
         # If its installed, run customizations
 
-        # $posh_git_profile will be sourced at the end of the file
+        . $posh_git_profile
 
         # PSReadline goodness (Ctrl + Space makes zsh-style completion guide)
         # more at https://rkeithhill.wordpress.com/2013/10/18/psreadline-a-better-line-editing-experience-for-the-powershell-console/
@@ -52,6 +52,7 @@ function Init-PowerShellGoodies()
         {
             Install-PowerShellGoodies
             Write-Host '". $PROFILE"" to load changes' -ForegroundColor blue -BackgroundColor black
+            Write-Host 'My favorite tools are stored in $apps. Think about Install-All them' -ForegroundColor Cyan
         }
     }
 }
@@ -67,7 +68,7 @@ function Get-Batchfile ($file) {
     }
 }
 
-function Set-VSVars32()
+function Set-VisualStudioVars32()
 {
     #Scan for the most recent version of Visual Studio
     #Order:
@@ -94,6 +95,7 @@ function Set-VSVars32()
 
     $batchFile = [System.IO.Path]::Combine($vscomntools, "vsvars32.bat")
     Get-Batchfile $BatchFile
+    Write-Host "Visual Studio variables set from $batchFile!" -ForegroundColor yellow
 }
 
 function Show-Path() {($env:Path).Replace(';',"`n")}
@@ -145,6 +147,26 @@ Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
 Set-Alias msbuild "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
 Set-Alias open Invoke-Item
 Set-Alias touch New-File
+Set-Alias VsVars32 Set-VisualStudioVars32
+
+$apps = "
+7zip.install
+androidstudio
+conemu
+firefox
+gamesavemanager
+jdk8
+putty
+ruby
+sharex
+skype
+vagrant
+virtualbox
+VisualStudioCode
+"
+# install git.install with appropriate switches
+# that should also install vim
+# visual studio can be installed with an xml file too...
 
 # override $profile with location of this file
 # To originally load this file, source it in original $profile
