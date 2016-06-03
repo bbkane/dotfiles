@@ -2,26 +2,6 @@
 # reload profile in PowerShell with: . $profile
 # get help with (including creation of ) profiles with: Get-Help about_Profiles -ShowWindow
 
-# PSReadline goodness (Ctrl + Space makes zsh-style completion guide)
-# more at https://rkeithhill.wordpress.com/2013/10/18/psreadline-a-better-line-editing-experience-for-the-powershell-console/
-Import-Module PSReadline
-
-# See all KeyHandlers with Get-PSReadlineKeyHandler
-Set-PSReadlineKeyHandler -Key Ctrl+P -Function PreviousHistory
-Set-PSReadlineKeyHandler -Key Ctrl+N -Function NextHistory
-Set-PSReadlineKeyHandler -Key Ctrl+U -Function BackwardDeleteLine
-
-# Load posh-git example profile
-. 'C:\Users\Ben\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
-
-Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
-
-Set-Alias msbuild "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
-
-# override profile
-Set-Variable -Force PROFILE $MyInvocation.MyCommand.Path
-
-Set-Variable CurrentProject "E:\Git Repos\Bens-Game"
 
 # when using this, surround call with parens: if ( (Is-Admin) ) { # whatever... }
 function Is-Admin() {
@@ -32,17 +12,88 @@ function Is-Admin() {
 	return $false
 }
 
-function Set-DevPrompt() {
-	#Set environment variables for Visual Studio Command Prompt
-	pushd 'c:\Program Files (x86)\Microsoft Visual Studio 14.0\VC'
-	cmd /c "vcvarsall.bat&set" |
-	foreach {
-	  if ($_ -match "=") {
-		$v = $_.split("="); set-item -force -path "ENV:\$($v[0])"  -value "$($v[1])"
-	  }
-	}
-	popd
-	write-host "`nVisual Studio 2015 Command Prompt variables set." -ForegroundColor Yellow
+# open Admin PowerShell for choco :)
+function Start-PSAdmin {Start-Process PowerShell -Verb RunAs}
+
+function Install-PowerShellGoodies()
+{
+
+    (new-object Net.WebClient).DownloadString("http://psget.net/GetPsGet.ps1") | iex
+
+    Install-Module PSReadline
+    # Don't forget to install git to make this work
+    Install-Module posh-git
+}
+
+function Init-PowerShellGoodies()
+{
+    # Install the modules if needed
+    $posh_git_profile = "C:\Users\$env:USERNAME\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1"
+
+    if (Test-Path $posh_git_profile)
+    {
+        # If its installed, run customizations
+
+        # $posh_git_profile will be sourced at the end of the file
+
+        # PSReadline goodness (Ctrl + Space makes zsh-style completion guide)
+        # more at https://rkeithhill.wordpress.com/2013/10/18/psreadline-a-better-line-editing-experience-for-the-powershell-console/
+        Import-Module PSReadline
+
+        # See all KeyHandlers with Get-PSReadlineKeyHandler
+        Set-PSReadlineKeyHandler -Key Ctrl+P -Function PreviousHistory
+        Set-PSReadlineKeyHandler -Key Ctrl+N -Function NextHistory
+        Set-PSReadlineKeyHandler -Key Ctrl+U -Function BackwardDeleteLine
+    }
+    else
+    {
+        $permission = Read-Host "Install PowerShellGoodies (yes)? "
+        if ($permission.Equals("yes"))
+        {
+            Install-PowerShellGoodies
+            Write-Host '". $PROFILE"" to load changes' -ForegroundColor blue -BackgroundColor black
+        }
+    }
+}
+
+# https://github.com/Microsoft/PTVS/blob/master/PowershellEnvironment.ps1
+function Get-Batchfile ($file) {
+    $cmd = "`"$file`" & set"
+    cmd /c $cmd | Foreach-Object {
+        $p, $v = $_.split('=')
+        if($p -ne '') {
+            Set-Item -path env:$p -value $v
+        }
+    }
+}
+
+function Set-VSVars32()
+{
+    #Scan for the most recent version of Visual Studio
+    #Order:
+    #   Visual Studio 2015
+    #   Visual Studio 2013
+    #   Visual Studio 2012
+    #   Visual Studio 2010
+    #
+    $vscomntools = (Get-ChildItem env:VS140COMNTOOLS).Value
+    if([string]::IsNullOrEmpty($vscomntools)) {
+        "Visual Studio 2015 not installed, Falling back to 2013"
+        $vscomntools = (Get-ChildItem env:VS120COMNTOOLS).Value
+        if([string]::IsNullOrEmpty($vscomntools))
+        {
+            "Visual Studio 2013 not installed, Falling back to 2012"
+            $vscomntools = (Get-ChildItem env:VS110COMNTOOLS).Value
+            if([string]::IsNullOrEmpty($vscomntools))
+            {
+                "Visual Studio 2012 not installed, Falling back to 2010"
+                $vscomntools = (Get-ChildItem env:VS100COMNTOOLS).Value
+            }
+        }
+    }
+
+    $batchFile = [System.IO.Path]::Combine($vscomntools, "vsvars32.bat")
+    Get-Batchfile $BatchFile
 }
 
 function Show-Path() {($env:Path).Replace(';',"`n")}
@@ -66,14 +117,10 @@ function poweroff([int]$minutes) {
 	Write-Output "Enter shutdown /a to abort shutdown in $minutes minutes at $shutdown_date"
 }
 
-# open Admin PowerShell for choco :)
-function Start-PSAdmin {Start-Process PowerShell -Verb RunAs}
-
 #Choco Installs
 function Install-Choco([string]$name, 
                        [string]$log_dir="$env:USERPROFILE\Documents\Choco_Install_Logs")
 {
-
 	if (! (Is-Admin) )
 	{
 		Write-Host "Run as admin!" -ForegroundColor Red
@@ -85,3 +132,20 @@ function Install-Choco([string]$name,
 	# -append requires newer powershell
 	choco install -y $name | Tee-Object -append -file $log_path
 }
+
+function Install-All([string]$app_list)
+{
+    $app_list.Split() | foreach { Install-Choco($_) }
+}
+
+Init-PowerShellGoodies
+
+# Aliases
+Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
+Set-Alias msbuild "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
+Set-Alias open Invoke-Item
+Set-Alias touch New-File
+
+# override $profile with location of this file
+# To originally load this file, source it in original $profile
+Set-Variable -Force PROFILE $MyInvocation.MyCommand.Path
