@@ -140,6 +140,14 @@ function Install-All([string]$app_list)
     $app_list.Split() | foreach { Install-Choco($_) }
 }
 
+# http://askubuntu.com/questions/673442/downloading-youtube-playlist-with-youtube-dl-skipping-existing-files
+function Update-Songs([string]$dir="$ENV:HOME\Music\YouTube",
+                      [string]$songs="https://www.youtube.com/playlist?list=PL28F0B690233E29E0")
+{
+    cd $dir
+    youtube-dl --download-archive downloaded.txt --no-post-overwrites --max-downloads 10 -ciwx --audio-format mp3 -o "%(title)s.%(ext)s" $songs   
+}
+
 Init-PowerShellGoodies
 
 # Aliases
