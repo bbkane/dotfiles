@@ -23,7 +23,7 @@ choco install powershell4
 
 @powershell Set-ExecutionPolicy RemoteSigned
 
-:: For some reasion, the path saving isn't working...
+REM For some reasion, the path saving isn't working...
 echo "Saving Path to %HOMEPATH%\path.txt"
 echo %PATH% > "%HOMEPATH%\path.txt"
 mkdir %HOMEPATH%\bin
