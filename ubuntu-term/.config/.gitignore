@@ -1,0 +1,4 @@
+lxterminal/
+user-dirs.dirs
+user-dirs.locale
+nvim/autoload/plug.vim
