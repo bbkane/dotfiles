@@ -28,7 +28,7 @@ function Install-PowerShellGoodies()
 function Init-PowerShellGoodies()
 {
     # Install the modules if needed
-    $posh_git_profile = "C:\Users\$env:USERNAME\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1"
+    $posh_git_profile = "C:\Users\$env:HOMEPATH\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1"
 
     if (Test-Path $posh_git_profile)
     {
@@ -135,20 +135,51 @@ function Install-Choco([string]$name,
 	choco install -y $name | Tee-Object -append -file $log_path
 }
 
+function Install-Special([bool]$install=$false)
+{
+    if( !$install)
+    {
+        Write-Output "git"
+        Write-Output 'Pass $true to Install-Special to actually install'
+    }
+    else
+    {
+        if (! (Is-Admin) )
+	    {
+		    Write-Host "Run as admin!" -ForegroundColor Red
+		    return
+	    }
+        # TODO: actually test this...
+        choco install git.install -params '"/GitAndUnixToolsOnPath"'
+    }
+}
+
 function Install-All([string]$app_list)
 {
     $app_list.Split() | foreach { Install-Choco($_) }
 }
 
 # http://askubuntu.com/questions/673442/downloading-youtube-playlist-with-youtube-dl-skipping-existing-files
-function Update-Songs([string]$dir="$ENV:HOME\Music\YouTube",
+function Update-Songs([string]$dir="$env:HOMEPATH\Music\YouTube",
                       [string]$songs="https://www.youtube.com/playlist?list=PL28F0B690233E29E0")
 {
-    cd $dir
+    cd $dir -ErrorAction Stop
     youtube-dl --download-archive downloaded.txt --no-post-overwrites --max-downloads 10 -ciwx --audio-format mp3 -o "%(title)s.%(ext)s" $songs   
 }
 
-Init-PowerShellGoodies
+function Remove-SkypeAds()
+{
+    Stop-Process -processname Skype -ErrorAction SilentlyContinue
+    # Start-Sleep -s 7
+    # $skype_config = "$env:HOME\AppData\Roaming\Skype\bbk1524\config.xml"
+    $skype_config = "C:\Users\Ben\Desktop\config.xml"
+    (Get-Content $skype_config) -NotMatch '<AdvertPlaceholder>'  | Out-File "$skype_config.2.xml" -Encoding ascii
+    # Set-ItemProperty -Path $skype_config -Name IsReadOnly -Value $true
+    # TODO: figure out how to add to hosts file or restricted sites...
+}
+
+
+# Init-PowerShellGoodies
 
 # Aliases
 Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
