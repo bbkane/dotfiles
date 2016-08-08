@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
         config.vm.provider "virtualbox" do |vb|
             vb.gui = true
 
-            # http://www.virtualbox.org/manual/ch03.html#settings-motherboard
+            # http://www.virtualbox.org/manual/ch08.html
             # http://portalstack.blogspot.com/2013/11/vagrant-virtualbox-ubuntu-for-linux.html
             # not sure how much these help, but they don't seem to hurt :)
             vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
@@ -25,7 +25,8 @@ Vagrant.configure(2) do |config|
             # google and vs-code depend on no graphics acceleration (or use the --disable-gpu flag)
             vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
             vb.customize ["modifyvm", :id, "--vram", "128"]
-
+            # requres virtualbox extension pack
+            vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
             vb.memory = "4096"
         end
         # Ansible chokes without this. I don't know why
