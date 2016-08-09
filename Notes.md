@@ -91,3 +91,7 @@ Then, cd into the target folder and use
 -x : eject cd when finished
 
 Then I can play it in mplayer!!
+
+## SpaceMacs
+Search help with <SPC> h <SPC>
+Expand bullet points with <TAB>
