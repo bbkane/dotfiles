@@ -92,6 +92,6 @@ Then, cd into the target folder and use
 
 Then I can play it in mplayer!!
 
-## SpaceMacs
-Search help with <SPC> h <SPC>
-Expand bullet points with <TAB>
+## SpaceMacs Notes
+Use <SPC> h <SPC> to search help
+use <TAB> to expand bullets in org mode

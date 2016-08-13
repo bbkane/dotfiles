@@ -18,10 +18,14 @@
     - stow
     - gdebi # this will let me install debs
 
+    # need to create a config directory so stow doesn't create item
+    # as a symlink
+  - name: Create config directory
+    become_user: vagrant
+    file: path=~/.config/ state=directory
   - name: Git configs
     become_user: vagrant
     git: repo=https://github.com/bbkane/backup.git dest=~/backup
-
   - name: Stow configs
     become_user: vagrant
     command: stow ubuntu-term chdir=~/backup
