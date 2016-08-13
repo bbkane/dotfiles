@@ -28,7 +28,7 @@ function Install-PowerShellGoodies()
 function Init-PowerShellGoodies()
 {
     # Install the modules if needed
-    $posh_git_profile = "C:\Users\$env:HOMEPATH\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1"
+    $posh_git_profile = "c:$env:HOMEPATH\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1"
 
     if (Test-Path $posh_git_profile)
     {
@@ -160,7 +160,7 @@ function Install-All([string]$app_list)
 }
 
 # http://askubuntu.com/questions/673442/downloading-youtube-playlist-with-youtube-dl-skipping-existing-files
-function Update-Songs([string]$dir="$env:HOMEPATH\Music\YouTube",
+function Update-Songs([string]$dir="c:$env:HOMEPATH\Music\YouTube",
                       [string]$songs="https://www.youtube.com/playlist?list=PL28F0B690233E29E0")
 {
     cd $dir -ErrorAction Stop
@@ -179,7 +179,7 @@ function Remove-SkypeAds()
 }
 
 
-# Init-PowerShellGoodies
+Init-PowerShellGoodies
 
 # Aliases
 Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
