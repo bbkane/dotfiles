@@ -86,13 +86,13 @@ let g:solarized_termcolors=256
 Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
 
+" Source IDE Plugins
+source ~/.config/nvim/ide.vim
+
 " End plugins
 call plug#end()
 
 colorscheme desert-warm-256
-
-" Source IDE type settings
-source ~/.config/nvim/ide.vim
 
 " Source my non-plugin-related keybindings
 source ~/.config/nvim/ben.vim
