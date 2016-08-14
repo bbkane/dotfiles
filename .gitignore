@@ -10,5 +10,6 @@ common/bin/cmake-3.4.0-Linux-x86_64/
 # ignore the symlink to common/.vimrc for nvim
 common/.vim/init.vim
 common/.vim/sessions/
-ubuntu-term/.config/nvim/bundle
+neovim/.config/nvim/bundle
 .vagrant
+

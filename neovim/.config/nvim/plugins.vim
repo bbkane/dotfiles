@@ -1,6 +1,3 @@
-" look for plugins in bundle/
-call plug#begin('~/.config/nvim/bundle')
-
 Plug 'ervandew/supertab'
 
 " Good default settings
@@ -86,9 +83,4 @@ let g:solarized_termcolors=256
 Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
 
-" Source IDE Plugins
-source ~/.config/nvim/ide.vim
-
-" End plugins
-call plug#end()
-
+Plug 'thinca/vim-quickrun'
