@@ -29,6 +29,9 @@
   - name: Stow configs
     become_user: vagrant
     command: stow ubuntu-term chdir=~/backup
+  - name: Stow neovim configs
+    become_user: vagrant
+    command: stow neovim chdir=~/backup
 
   - name: Download Vs-Code
     get_url: url=https://go.microsoft.com/fwlink/?LinkID=760868 dest=/tmp/vscode.deb
