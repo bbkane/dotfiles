@@ -1,12 +1,18 @@
+let os=substitute(system('uname'), '\n', '', '')
+" os == 'Darwin' or os == 'Linux'
 
 " look for plugins in bundle/
 call plug#begin('~/.config/nvim/bundle')
 
 " Source my plugins!
 source ~/.config/nvim/plugins.vim
+command! EditPlugins :edit ~/.config/nvim/plugins.vim
 
-" Source IDE Plugins
-source ~/.config/nvim/ide.vim
+" Source IDE Plugins (not available on Mac yet)
+if os == 'Linux'
+    source ~/.config/nvim/ide.vim
+    command! EditIDE :edit ~/.config/nvim/ide.vim
+endif
 
 " End plugins
 call plug#end()
