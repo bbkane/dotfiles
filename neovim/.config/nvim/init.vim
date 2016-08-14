@@ -1,5 +1,16 @@
+
+" look for plugins in bundle/
+call plug#begin('~/.config/nvim/bundle')
+
 " Source my plugins!
 source ~/.config/nvim/plugins.vim
+
+" Source IDE Plugins
+source ~/.config/nvim/ide.vim
+
+" End plugins
+call plug#end()
+
 
 colorscheme desert-warm-256
 
