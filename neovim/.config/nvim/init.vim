@@ -9,10 +9,8 @@ source ~/.config/nvim/plugins.vim
 command! EditPlugins :edit ~/.config/nvim/plugins.vim
 
 " Source IDE Plugins (not available on Mac yet)
-if os == 'Linux'
-    source ~/.config/nvim/ide.vim
-    command! EditIDE :edit ~/.config/nvim/ide.vim
-endif
+source ~/.config/nvim/ide.vim
+command! EditIDE :edit ~/.config/nvim/ide.vim
 
 " End plugins
 call plug#end()
