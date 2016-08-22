@@ -75,6 +75,12 @@ Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 let python_highlight_all=1
 
+" Command: QuickRun
+Plug 'thinca/vim-quickrun'
+
+" Command: Man
+Plug 'vim-utils/vim-man'
+
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
@@ -83,4 +89,3 @@ let g:solarized_termcolors=256
 Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
 
-Plug 'thinca/vim-quickrun'
