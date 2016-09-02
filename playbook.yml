@@ -33,12 +33,13 @@
     become_user: vagrant
     command: stow neovim chdir=~/backup
 
-  - name: Download Vs-Code
-    get_url: url=https://go.microsoft.com/fwlink/?LinkID=760868 dest=/tmp/vscode.deb
   - name: Check if VS-Code is installed
     command: which code
     register: vscode_installed
+  - name: Download Vs-Code
+    get_url: url=https://go.microsoft.com/fwlink/?LinkID=760868 dest=/tmp/vscode.deb
     ignore_errors: true
+    when: vscode_installed|failed
   - name: Install VS-Code
     command: gdebi /tmp/vscode.deb -n
     when: vscode_installed|failed
@@ -67,3 +68,10 @@
     alternatives: name=editor path=/usr/bin/nvim link=/usr/bin/editor
   # TODO: install dev tools, get and symlink configs from github with stow
   # TODO: make neovim playlist
+  - name: YCM Dependencies
+    apt: name={{item}} update_cache=true
+    with_items:
+    - build-essential
+    - cmake
+    - python-dev
+    - python3-dev
