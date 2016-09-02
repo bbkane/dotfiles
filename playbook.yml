@@ -36,9 +36,9 @@
   - name: Check if VS-Code is installed
     command: which code
     register: vscode_installed
+    ignore_errors: true
   - name: Download Vs-Code
     get_url: url=https://go.microsoft.com/fwlink/?LinkID=760868 dest=/tmp/vscode.deb
-    ignore_errors: true
     when: vscode_installed|failed
   - name: Install VS-Code
     command: gdebi /tmp/vscode.deb -n
@@ -66,8 +66,6 @@
     alternatives: name=vim path=/usr/bin/nvim link=/usr/bin/vim
   - name: Update Editor
     alternatives: name=editor path=/usr/bin/nvim link=/usr/bin/editor
-  # TODO: install dev tools, get and symlink configs from github with stow
-  # TODO: make neovim playlist
   - name: YCM Dependencies
     apt: name={{item}} update_cache=true
     with_items:
