@@ -1,4 +1,6 @@
 " source vim_ide_status from the environment
+" Ex: export vim_ide_status="ycm rust cpp"
+" don't forget to 'pip install neovim'
 let vim_ide_status=$vim_ide_status
 if vim_ide_status =~ 'ycm'
     let g:ycm_python_binary_path = 'python'

@@ -32,7 +32,6 @@
   - name: Stow neovim configs
     become_user: vagrant
     command: stow neovim chdir=~/backup
-
   
   - name: Add Neovim Repo
     apt_repository: repo='ppa:neovim-ppa/unstable'
