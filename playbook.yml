@@ -33,16 +33,6 @@
     become_user: vagrant
     command: stow neovim chdir=~/backup
 
-  - name: Check if VS-Code is installed
-    command: which code
-    register: vscode_installed
-    ignore_errors: true
-  - name: Download Vs-Code
-    get_url: url=https://go.microsoft.com/fwlink/?LinkID=760868 dest=/tmp/vscode.deb
-    when: vscode_installed|failed
-  - name: Install VS-Code
-    command: gdebi /tmp/vscode.deb -n
-    when: vscode_installed|failed
   
   - name: Add Neovim Repo
     apt_repository: repo='ppa:neovim-ppa/unstable'
@@ -73,3 +63,15 @@
     - cmake
     - python-dev
     - python3-dev
+
+
+    #  - name: Check if VS-Code is installed
+    #command: which code
+    #register: vscode_installed
+    #ignore_errors: true
+    #- name: Download Vs-Code
+    #get_url: url=https://go.microsoft.com/fwlink/?LinkID=760868 dest=/tmp/vscode.deb
+    #when: vscode_installed|failed
+    #- name: Install VS-Code
+    #command: gdebi /tmp/vscode.deb -n
+    #when: vscode_installed|failed
