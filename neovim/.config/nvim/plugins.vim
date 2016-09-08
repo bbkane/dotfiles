@@ -79,6 +79,9 @@ let python_highlight_all=1
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {}
 let g:quickrun_config.python = {'command' : 'python3'}
+" After running this, QuickRun runs on :w
+" bad for long running code (will freeze vim)
+command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
 " Command: Man
 Plug 'vim-utils/vim-man'
