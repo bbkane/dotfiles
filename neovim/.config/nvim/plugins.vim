@@ -78,6 +78,8 @@ let python_highlight_all=1
 
 " Command: QuickRun
 Plug 'thinca/vim-quickrun'
+let g:quickrun_config = {}
+let g:quickrun_config.python = {'command' : 'python3'}
 
 " Command: Man
 Plug 'vim-utils/vim-man'
