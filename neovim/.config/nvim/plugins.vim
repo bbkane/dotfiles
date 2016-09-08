@@ -23,8 +23,7 @@ autocmd FileType sql set commentstring=--\ %s
 autocmd FileType jinja set commentstring=<!--\ %s\ -->
 autocmd FileType asm set commentstring=;\ %s
 
-" change enclosing symbols with `cs`. Ex: `cs'(` to chang from quotes to
-" parens
+" change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
 Plug 'tpope/vim-surround'
 
 " auto-matching
