@@ -3,7 +3,7 @@
 " don't forget to 'pip install neovim'
 let vim_ide_status=$vim_ide_status
 if vim_ide_status =~ 'ycm'
-    let g:ycm_python_binary_path = 'python'
+    let g:ycm_python_binary_path = 'python3'
     let ycm_options = { 'dir': '~/.config/nvim/bundle/YouCompleteMe', 'do': './install.py' }
 
     if vim_ide_status =~ 'rust'
@@ -28,7 +28,8 @@ if vim_ide_status =~ 'ycm'
 endif
 
 
-Plug 'scrooloose/syntastic'
+" TODO: fix when the next version of Syntastic works
+" Plug 'scrooloose/syntastic'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -37,7 +38,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-" Don't forget to install flake8 into each conda env for linting
+" don't forget to 'pip3 install flake8'
 let g:syntastic_python_checkers = ['flake8']
 " ignore longer lines
 let g:syntastic_python_flake8_args = '--ignore=E501'
