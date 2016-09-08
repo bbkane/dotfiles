@@ -71,6 +71,9 @@ nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :wri
 " let mapleader = "\<SPACE>"
 let mapleader = ","
 
+" Use bash highlighting instead of sh highlighting
+let g:is_posix = 1
+
 " set clipboard+=unnamedplus
 
 inoremap fd <ESC>
@@ -107,6 +110,23 @@ if !has("nvim")
     set nocompatible
     set visualbell t_vb=
 endif
+
+" Valloric tweaks
+" Unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
+if has("multi_byte") && !has("nvim")
+    if &termencoding == ""
+        let &termencoding = &encoding
+    endif
+    set encoding=utf-8
+    setglobal fileencoding=utf-8
+    set fileencodings=ucs-bom,utf-8,latin1
+endif
+
+augroup vimrc
+    " Automatically delete trailing DOS-returns and whitespace on file open and
+    " write.
+    autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
+augroup END
 
 " This is now on plug in
 " split settings
