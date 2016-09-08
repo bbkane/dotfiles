@@ -15,43 +15,49 @@ command! EditIDE :edit ~/.config/nvim/ide.vim
 " End plugins
 call plug#end()
 
-
+" This is actually a plugin
+" If not using plugins, replace it
 colorscheme desert-warm-256
 
 " use stuff from vim.wikia.com example vimrc
 filetype indent plugin on
 syntax on
-set wildmenu "Use tab to complete stuff in vim menu
-set showcmd " show partial commands in the last line of screen
-" case insensitive search except for capital letters
-set ignorecase
+set wildmenu                      " Use tab to complete stuff in vim menu
+set showcmd                       " show partial commands in the last line of screen
+set ignorecase                    " case insensitive search except for capital letters
 set smartcase
-set backspace=indent,eol,start	" allow backspacing over characters
-set autoindent    " Auto-indent new lines if no filetype
-set ruler	" Show row and column ruler information
+set backspace=indent,eol,start    " allow backspacing over characters
+set autoindent                    " Auto-indent new lines if no filetype
+set ruler                         " Show row and column ruler information
 set noerrorbells
+
+set wrap                          " Only use a soft wrap, not a hard one
+set linebreak                     " Break lines at word (requires Wrap lines)
+set nolist
+set showbreak=+++                 " Wrap-broken line prefix
+set textwidth=0                   " Line wrap (number of cols)
+set wrapmargin=0
+
+set expandtab                     " Use spaces instead of tabs
+set shiftwidth=4                  " Number of auto-indent spaces
+set softtabstop=4                 " Number of spaces per Tab
+
+set number                        " Show line numbers
+set showmatch                     " Highlight matching brace
+set undolevels=1000               " Number of undo levels
+set nohlsearch
+set guifont=Source\ Code\ Pro:h13 " set font for macvim
+set splitbelow
+set splitright
+
+"save temporary files to /tmp/
+"if tmp doesn't exist, make it
+set backupdir=~/tmp,.
+set directory=~/tmp,.
 
 if !has("gui_running")
     set confirm "open a save dialog when quitting"
 endif
-
-" Only use a soft wrap, not a hard one
-set wrap
-set linebreak     " Break lines at word (requires Wrap lines)
-set nolist
-set showbreak=+++ " Wrap-broken line prefix
-set textwidth=0 " Line wrap (number of cols)
-set wrapmargin=0
-
-set expandtab     " Use spaces instead of tabs
-set shiftwidth=4  " Number of auto-indent spaces
-set softtabstop=4 " Number of spaces per Tab
-
-set number        " Show line numbers
-set showmatch     " Highlight matching brace
-set undolevels=1000	" Number of undo levels
-set nohlsearch
-set guifont=Source\ Code\ Pro:h13 " set font for macvim
 
 " map j to gj and k to gk, so line navigation ignores line wrap
 nmap j gj
@@ -96,7 +102,7 @@ endif
 
 au BufRead,BufNewFile *.rs set filetype=rust
 
-" disable error bels
+" disable error bells
 if !has("nvim")
     set nocompatible
     set visualbell t_vb=
@@ -111,14 +117,6 @@ nnoremap <C-k> <C-w><C-k>
 nnoremap <C-l> <C-w><C-l>
 " all the other mappings work but this one...
 nnoremap <C-h> <C-w><C-h>
-
-set splitbelow
-set splitright
-
-"save temporary files to /tmp/
-"if tmp doesn't exist, make it
-set backupdir=~/tmp,.
-set directory=~/tmp,.
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
