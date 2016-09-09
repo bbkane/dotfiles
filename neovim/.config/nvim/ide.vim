@@ -45,6 +45,7 @@ let g:neomake_python_enabled_makers = ['flake8']
 
 " Run Neomake on every write
 autocmd! BufWritePost * Neomake
+autocmd! BufWritePost *.rs NeomakeProject cargo
 
 " Open errors in separate window
 let g:neomake_open_list = 2
