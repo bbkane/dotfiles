@@ -12,4 +12,4 @@ common/.vim/init.vim
 common/.vim/sessions/
 neovim/.config/nvim/bundle
 .vagrant
-
+change-name.sh
