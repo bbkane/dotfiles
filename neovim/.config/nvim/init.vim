@@ -128,6 +128,12 @@ augroup vimrc
     autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
 augroup END
 
+
+augroup vagrant
+  au!
+  au BufRead,BufNewFile Vagrantfile set filetype=ruby
+augroup END
+
 " This is now on plug in
 " split settings
 " Still doesn't hurt to have it here...
