@@ -89,6 +89,9 @@ Plug 'vim-utils/vim-man'
 
 Plug 'cespare/vim-toml'
 
+Plug 'elzr/vim-json'
+let g:vim_json_syntax_conceal = 0
+
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
