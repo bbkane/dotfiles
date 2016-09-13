@@ -16,12 +16,13 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 " easily comment line with `gcc` or selection with `gc`
 Plug 'tpope/vim-commentary'
 " set default commentstring
+setglobal commentstring=#\ %s
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
-autocmd FileType cmake set commentstring=#\ %s
-autocmd FileType cpp set commentstring=//\ %s
-autocmd FileType sql set commentstring=--\ %s
-autocmd FileType jinja set commentstring=<!--\ %s\ -->
-autocmd FileType asm set commentstring=;\ %s
+autocmd FileType cmake setlocal commentstring=#\ %s
+autocmd FileType cpp setlocal commentstring=//\ %s
+autocmd FileType sql setlocal commentstring=--\ %s
+autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
+autocmd FileType asm setlocal commentstring=;\ %s
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
 Plug 'tpope/vim-surround'
