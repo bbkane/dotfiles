@@ -1,5 +1,6 @@
-let os=substitute(system('uname'), '\n', '', '')
+" let os=substitute(system('uname'), '\n', '', '')
 " os == 'Darwin' or os == 'Linux'
+" use has("darwin") for mac and !has("darwin") for linux
 
 if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
     " look for plugins in bundle/
@@ -12,7 +13,7 @@ if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
     endif
 
     if !empty(glob("~/.config/nvim/ide.vim"))
-        " Source IDE Plugins (not available on Mac yet)
+        " Source IDE Plugins
         source ~/.config/nvim/ide.vim
         command! EditIDE :edit ~/.config/nvim/ide.vim
     endif
@@ -20,7 +21,7 @@ if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
     " End plugins
     call plug#end()
 else
-    echom "Install vim-plug with command InstallVimPlug"
+    autocmd VimEnter * echom "Install vim-plug with command InstallVimPlug"
 endif
 
 try
