@@ -1,23 +1,31 @@
 let os=substitute(system('uname'), '\n', '', '')
 " os == 'Darwin' or os == 'Linux'
 
-" look for plugins in bundle/
-call plug#begin('~/.config/nvim/bundle')
+if !empty(glob("~/.config/nvim/autoload/plug.vim"))
+    " look for plugins in bundle/
+    call plug#begin('~/.config/nvim/bundle')
 
-" Source my plugins!
-source ~/.config/nvim/plugins.vim
-command! EditPlugins :edit ~/.config/nvim/plugins.vim
+    " Source my plugins!
+    source ~/.config/nvim/plugins.vim
+    command! EditPlugins :edit ~/.config/nvim/plugins.vim
 
-" Source IDE Plugins (not available on Mac yet)
-source ~/.config/nvim/ide.vim
-command! EditIDE :edit ~/.config/nvim/ide.vim
+    " Source IDE Plugins (not available on Mac yet)
+    source ~/.config/nvim/ide.vim
+    command! EditIDE :edit ~/.config/nvim/ide.vim
 
-" End plugins
-call plug#end()
+    " End plugins
+    call plug#end()
+else
+    echom "Install vim-plug with command InstallVimPlug"
+endif
 
-" This is actually a plugin
-" If not using plugins, replace it
-colorscheme desert-warm-256
+try
+    " This is actually a plugin
+    " If not using plugins, replace it
+    colorscheme desert-warm-256
+catch /^Vim\%((\a\+)\)\=:E185/
+    colorscheme elflord
+endtry
 
 " use stuff from vim.wikia.com example vimrc
 filetype indent plugin on
@@ -204,4 +212,19 @@ function! Open()
     endif
 endfunction
 command! Open call Open()
+
+function! InstallVimPlug()
+    if empty(glob("~/.config/nvim/autoload/plug.vim"))
+        if executable('curl')
+            let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+            silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        else
+            echom "Install curl"
+        endif
+    else
+        echom "vim-plug installed!"
+    endif
+endfunction
+command! InstallVimPlug call InstallVimPlug()
 
