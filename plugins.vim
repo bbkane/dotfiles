@@ -16,10 +16,11 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 " easily comment line with `gcc` or selection with `gc`
 Plug 'tpope/vim-commentary'
 " set default commentstring
-setglobal commentstring=#\ %s
+" setglobal commentstring=#\ %s
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
 autocmd FileType cmake setlocal commentstring=#\ %s
 autocmd FileType cpp setlocal commentstring=//\ %s
+autocmd FileType php setlocal commentstring=//\ %s
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
 autocmd FileType asm setlocal commentstring=;\ %s
@@ -91,6 +92,8 @@ Plug 'cespare/vim-toml'
 
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
+
+Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
