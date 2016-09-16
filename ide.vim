@@ -28,34 +28,51 @@ if vim_ide_status =~ 'ycm'
 endif
 
 
-" Use :ll to go to the first error
-Plug 'neomake/neomake'
+if has("nvim")
+    " Use :ll to go to the first error
+    Plug 'neomake/neomake'
 
-" Don't forget to 'pip3 install flake8'
-" Not sure if the errorformat stuff is necessary
-let g:neomake_python_flake8_maker = {
-    \ 'args': ['--ignore=E501',  '--format=default'],
-    \ 'errorformat':
-        \ '%E%f:%l: could not compile,%-Z%p^,' .
-        \ '%A%f:%l:%c: %t%n %m,' .
-        \ '%A%f:%l: %t%n %m,' .
-        \ '%-G%.%#',
-    \ }
-let g:neomake_python_enabled_makers = ['flake8']
+    " Don't forget to 'pip3 install flake8'
+    " Not sure if the errorformat stuff is necessary
+    let g:neomake_python_flake8_maker = {
+        \ 'args': ['--ignore=E501',  '--format=default'],
+        \ 'errorformat':
+            \ '%E%f:%l: could not compile,%-Z%p^,' .
+            \ '%A%f:%l:%c: %t%n %m,' .
+            \ '%A%f:%l: %t%n %m,' .
+            \ '%-G%.%#',
+        \ }
+    let g:neomake_python_enabled_makers = ['flake8']
 
-" Run Neomake on every write
-autocmd! BufWritePost * Neomake
-autocmd! BufWritePost *.rs NeomakeProject cargo
+    " Run Neomake on every write
+    autocmd! BufWritePost * Neomake
+    autocmd! BufWritePost *.rs NeomakeProject cargo
 
-" Open errors in separate window
-let g:neomake_open_list = 2
+    " Open errors in separate window
+    let g:neomake_open_list = 2
 
-" Get some simple fonts for warnings and errors
-let g:neomake_warning_sign = {
-  \ 'text': 'W',
-  \ 'texthl': 'WarningMsg',
-  \ }
-let g:neomake_error_sign = {
-  \ 'text': 'E',
-  \ 'texthl': 'ErrorMsg',
-  \ }
+    " Get some simple fonts for warnings and errors
+    let g:neomake_warning_sign = {
+      \ 'text': 'W',
+      \ 'texthl': 'WarningMsg',
+      \ }
+    let g:neomake_error_sign = {
+      \ 'text': 'E',
+      \ 'texthl': 'ErrorMsg',
+      \ }
+else " Use syntastic on vim
+    Plug 'scrooloose/syntastic'
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+
+    " don't forget to 'pip3 install flake8'
+    let g:syntastic_python_checkers = ['flake8']
+    " ignore longer lines
+    let g:syntastic_python_flake8_args = '--ignore=E501'
+endif
+
