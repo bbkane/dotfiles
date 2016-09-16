@@ -44,9 +44,19 @@ if has("nvim")
         \ }
     let g:neomake_python_enabled_makers = ['flake8']
 
-    " Run Neomake on every write
-    autocmd! BufWritePost * Neomake
-    autocmd! BufWritePost *.rs NeomakeProject cargo
+    function! NeoMakeOnWrite()
+        " If NeoMake isn't installed, don't do this
+        if exists(":Neomake")
+            augroup neomake
+                " Run Neomake on every write
+                autocmd!
+                autocmd BufWritePost * Neomake
+                autocmd BufWritePost *.rs NeomakeProject cargo
+            augroup END
+        endif
+    endfunction
+
+    autocmd VimEnter * call NeoMakeOnWrite()
 
     " Open errors in separate window
     let g:neomake_open_list = 2
