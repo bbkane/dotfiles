@@ -32,6 +32,9 @@ if has("nvim")
     " Use :ll to go to the first error
     Plug 'neomake/neomake'
 
+    " For reddit_get_top_images
+    " \ 'args': ['--ignore=E501,E221,E402',  '--format=default'],
+
     " Don't forget to 'pip3 install flake8'
     " Not sure if the errorformat stuff is necessary
     let g:neomake_python_flake8_maker = {
