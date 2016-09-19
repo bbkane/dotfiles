@@ -25,10 +25,18 @@ else
 endif
 
 try
-    " This is actually a plugin
-    " If not using plugins, replace it
-    colorscheme desert-warm-256
+    " These colorschemes are plugins
+    " If they're not available, use a default
+    if has('termguicolors')
+        set termguicolors
+        colorscheme gruvbox
+        set background=dark
+    else
+        " no termguicolors
+        colorscheme desert-warm-256
+    endif
 catch /^Vim\%((\a\+)\)\=:E185/
+    " no plugins available
     colorscheme elflord
 endtry
 
@@ -62,6 +70,10 @@ set nohlsearch
 set guifont=Source\ Code\ Pro:h13 " set font for macvim
 set splitbelow
 set splitright
+
+if has('termguicolors')
+    set termguicolors " Use gui colors in terminal if possible
+endif
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
