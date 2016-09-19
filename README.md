@@ -28,7 +28,7 @@ mv ~/.vim ~/.vim.$(date +%Y-%m-%d)
 
 ```
 ln -s ~/.config/nvim/init.vim ~/.vimrc
-ln -s ~/.config/nvim/ ~/.vim/
+ln -s ~/.config/nvim/ ~/.vim
 ```
 
 ## Install Plugins
