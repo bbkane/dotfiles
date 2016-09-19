@@ -102,4 +102,5 @@ Plug 'altercation/vim-colors-solarized'
 let g:solarized_termcolors=256
 Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
+Plug 'morhetz/gruvbox'
 
