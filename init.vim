@@ -234,8 +234,9 @@ function! InstallVimPlug()
     if empty(glob("~/.config/nvim/autoload/plug.vim"))
         if executable('curl')
             let plugpath = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-            silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+            silent exec "!curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs " . plugpath
+            redraw!
+            echom "Now restart the editor"
         else
             echom "Install curl"
         endif
