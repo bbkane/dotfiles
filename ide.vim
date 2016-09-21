@@ -92,3 +92,14 @@ else " Use syntastic on vim
     let g:syntastic_python_flake8_args = '--ignore=E501'
 endif
 
+" Command: QuickRun
+Plug 'thinca/vim-quickrun'
+let g:quickrun_config = {}
+let g:quickrun_config.python = {'command' : 'python3'}
+let g:quickrun_config['cpp'] = {
+            \ 'command': 'clang++',
+            \ 'cmdopt': '-std=c++14 -Wextra -Wall -g',
+            \ 'exec' : ['%c %o %s -o %s:p:r', '%s:p:r %a'],
+            \ 'tempfile': '{tempname()}.cpp',
+            \ 'hook/sweep/files': '%S:p:r'
+            \ }
