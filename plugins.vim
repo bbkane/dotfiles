@@ -77,10 +77,6 @@ Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 let python_highlight_all=1
 
-" Command: QuickRun
-Plug 'thinca/vim-quickrun'
-let g:quickrun_config = {}
-let g:quickrun_config.python = {'command' : 'python3'}
 " After running this, QuickRun runs on :w
 " bad for long running code (will freeze vim)
 command! AutoQuickRun  autocmd BufWritePost * QuickRun
@@ -94,6 +90,8 @@ Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 
 Plug 'Matt-Deacalion/vim-systemd-syntax'
+
+Plug 'tpope/vim-fugitive'
 
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
