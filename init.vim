@@ -245,3 +245,10 @@ function! InstallVimPlug()
 endfunction
 command! InstallVimPlug call InstallVimPlug()
 
+if executable('autoflake')
+    command! AutoFlake !autoflake --in-place %
+endif
+
+if executable('autopep8')
+    command! AutoPep8 !autopep8 --in-place --max-line-length 150 %
+endif
