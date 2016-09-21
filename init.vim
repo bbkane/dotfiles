@@ -246,9 +246,9 @@ endfunction
 command! InstallVimPlug call InstallVimPlug()
 
 if executable('autoflake')
-    command! AutoFlake !autoflake --in-place %
+    command! AutoFlake silent exec "!autoflake --in-place " . bufname("%")
 endif
 
 if executable('autopep8')
-    command! AutoPep8 !autopep8 --in-place --max-line-length 150 %
+    command! AutoPep8 silent exec "!autopep8 --in-place --max-line-length 150 " . bufname("%")
 endif
