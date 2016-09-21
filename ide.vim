@@ -48,7 +48,7 @@ if has("nvim")
     let g:neomake_python_enabled_makers = ['flake8']
 
     let g:neomake_cpp_enable_markers=['clang']
-    let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-g"]
+    let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall"]
 
     function! NeoMakeOnWrite()
         " If NeoMake isn't installed, don't do this
@@ -96,10 +96,10 @@ endif
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {}
 let g:quickrun_config.python = {'command' : 'python3'}
-let g:quickrun_config['cpp'] = {
-            \ 'command': 'clang++',
-            \ 'cmdopt': '-std=c++14 -Wextra -Wall -g',
-            \ 'exec' : ['%c %o %s -o %s:p:r', '%s:p:r %a'],
-            \ 'tempfile': '{tempname()}.cpp',
-            \ 'hook/sweep/files': '%S:p:r'
-            \ }
+ let g:quickrun_config['cpp'] = {
+     \ 'command': 'clang++',
+     \ 'cmdopt': '-std=c++14 -Wextra -Wall',
+     \ 'exec': ['%c %o %s -o %s:p:r', '%s:p:r %a'],
+     \ 'tempfile': '%{tempname()}.cpp',
+     \ 'hook/sweep/files': ['%S:p:r']
+     \ }
