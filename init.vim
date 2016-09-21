@@ -246,14 +246,21 @@ function! InstallVimPlug()
 endfunction
 command! InstallVimPlug call InstallVimPlug()
 
+" pip
 if executable('autoflake')
     command! AutoFlake silent exec "!autoflake --in-place " . bufname("%")
 endif
 
+" pip
 if executable('autopep8')
     command! AutoPep8 silent exec "!autopep8 --in-place --max-line-length 150 " . bufname("%")
 endif
 
 if executable('cloc')
     command! VimConfigStats !cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload %:p:h
+endif
+
+" cpanmn Perl::Tidy
+if executable('perltidy')
+    autocmd FileType perl setlocal equalprg=perltidy\ -st
 endif
