@@ -45,7 +45,10 @@ if has("nvim")
             \ '%A%f:%l: %t%n %m,' .
             \ '%-G%.%#',
         \ }
-    let g:neomake_python_enabled_makers = ['flake8']
+
+    if executable('flake8')
+        let g:neomake_python_enabled_makers = ['flake8']
+    endif
 
     let g:neomake_cpp_enable_markers=['clang']
     let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall"]
@@ -87,7 +90,10 @@ else " Use syntastic on vim
     let g:syntastic_check_on_wq = 0
 
     " don't forget to 'pip3 install flake8'
-    let g:syntastic_python_checkers = ['flake8']
+    if executable('flake8')
+        let g:syntastic_python_checkers = ['flake8']
+    endif
+
     " ignore longer lines
     let g:syntastic_python_flake8_args = '--ignore=E501'
 endif
@@ -103,3 +109,4 @@ let g:quickrun_config.python = {'command' : 'python3'}
      \ 'tempfile': '%{tempname()}.cpp',
      \ 'hook/sweep/files': ['%S:p:r']
      \ }
+
