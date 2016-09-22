@@ -27,16 +27,18 @@ endif
 try
     " These colorschemes are plugins
     " If they're not available, use a default
-    if has('termguicolors')
+    " It doesn't work on linux :(
+    if has('termguicolors') && has('darwin')
         set termguicolors
         colorscheme gruvbox
         set background=dark
     else
-        " no termguicolors
+        " no termguicolors or linux
         colorscheme desert-warm-256
     endif
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
+    set background=dark
     colorscheme elflord
 endtry
 
@@ -70,10 +72,6 @@ set nohlsearch
 set guifont=Source\ Code\ Pro:h13 " set font for macvim
 set splitbelow
 set splitright
-
-if has('termguicolors')
-    set termguicolors " Use gui colors in terminal if possible
-endif
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
