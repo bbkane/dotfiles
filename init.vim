@@ -260,7 +260,8 @@ if executable('cloc')
     command! VimConfigStats !cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload %:p:h
 endif
 
-" cpanmn Perl::Tidy
+" install: cpanmn Perl::Tidy
+" use: select the region to tidy and hit '='
 if executable('perltidy')
     autocmd FileType perl setlocal equalprg=perltidy\ -st
 endif
