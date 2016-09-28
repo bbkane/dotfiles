@@ -30,6 +30,10 @@
     become_user: vagrant
     command: stow ubuntu-term chdir=~/backup
 
+  - name: Git nvim config
+    become_user: vagrant
+    git: repo=https://github.com/bbkane/nvim.git dest=~/.config/nvim
+
   - name: Add Neovim Repo
     apt_repository: repo='ppa:neovim-ppa/unstable'
   - name: Install Neovim
