@@ -28,7 +28,7 @@ try
     " These colorschemes are plugins
     " If they're not available, use a default
     " It doesn't work on linux :(
-    if has('termguicolors') && has('darwin')
+    if has('termguicolors') && has('mac')
         set termguicolors
         colorscheme gruvbox
         set background=dark
@@ -220,7 +220,7 @@ command! BensCommands call BensCommands()
 command! -nargs=1 Help vert help <args>
 
 function! Open()
-    if has("darwin")
+    if has('mac')
         execute "silent !open %"
     else
         execute "silent !xdg-open %"
@@ -258,7 +258,8 @@ if executable('cloc')
     command! VimConfigStats !cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload %:p:h
 endif
 
-" cpanmn Perl::Tidy
+" install: cpanmn Perl::Tidy
+" use: select the region to tidy and hit '='
 if executable('perltidy')
     autocmd FileType perl setlocal equalprg=perltidy\ -st
 endif

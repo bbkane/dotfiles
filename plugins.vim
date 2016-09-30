@@ -93,6 +93,10 @@ Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 Plug 'tpope/vim-fugitive'
 
+if executable('clang-format')
+    Plug 'rhysd/vim-clang-format'
+endif
+
 " colorschemes
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
