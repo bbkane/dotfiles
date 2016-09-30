@@ -26,9 +26,12 @@
   - name: Git configs
     become_user: vagrant
     git: repo=https://github.com/bbkane/backup.git dest=~/backup
-  - name: Stow configs
+  - name: Stow ubuntu-term
     become_user: vagrant
     command: stow ubuntu-term chdir=~/backup
+  - name: Stow common
+    become_user: vagrant
+    command: stow common chdir=~/backup
 
   - name: Git nvim config
     become_user: vagrant
