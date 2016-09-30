@@ -73,3 +73,7 @@ fi
 # if fortune is on here, say it
 # shellcheck disable=SC2039
 # hash fortune && echo "$(tput setaf $(( ($RANDOM % 17)+1 )) )$(fortune)$(tput sgr0)"
+
+if [[ -f "$HOME/.config/machine.sh" ]]; then
+    source "$HOME/.config/machine.sh"
+fi
