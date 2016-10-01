@@ -1,0 +1,9 @@
+[user]
+	name = Benjamin Kane
+	email = bbk1524@gmail.com
+[credential "https://github.com"]
+	username = bbkane
+[push]
+	default = simple
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative
