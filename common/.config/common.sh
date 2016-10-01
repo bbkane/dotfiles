@@ -65,6 +65,7 @@ man() {
 
 if [[ -n "$ZSH_VERSION" ]]; then
     unsetopt AUTO_CD
+    ZSH_THEME="lambdarobbyrussell"
 elif [[ -n "$BASH_VERSION" ]]; then
     export PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\t \[$(tput setaf 2)\][\[$(tput setaf 6)\]\u\[$(tput setaf 6)\]@\[$(tput setaf 6)\]\h \[$(tput setaf 6)\]\W\[$(tput setaf 2)\]]\n\\$ \[$(tput setaf 4)\]\[$(tput sgr0)\]"
     bind 'TAB:menu-complete'
@@ -77,3 +78,6 @@ fi
 if [[ -f "$HOME/.config/machine.sh" ]]; then
     source "$HOME/.config/machine.sh"
 fi
+
+# if I have nvim, use it instead of vim
+which nvim &> /dev/null && alias vim=nvim
