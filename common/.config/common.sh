@@ -16,6 +16,10 @@ lazygit() {
     git add . && git commit -m "$1" && git push;
 }
 
+stackoverflowit() {
+    cat $1 | sed 's/^/    /g' | pbcopy
+}
+
 #set today to the date
 today=$(date +%Y-%m-%d)
 export today
