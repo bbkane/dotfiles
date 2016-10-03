@@ -103,6 +103,8 @@ endif
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {}
 let g:quickrun_config.python = {'command' : 'python3'}
+" According to the help line 526, this should work...
+let g:quickrun_config['outputter/buffer/name'] = "quickrun_output"
 if executable('clang')
     let g:quickrun_config['cpp'] = {
                 \ 'command': 'clang++',
