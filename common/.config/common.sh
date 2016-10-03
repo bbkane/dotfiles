@@ -77,3 +77,5 @@ fi
 if [[ -f "$HOME/.config/machine.sh" ]]; then
     source "$HOME/.config/machine.sh"
 fi
+
+alias ls='ls -G'
