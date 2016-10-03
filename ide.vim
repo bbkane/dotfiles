@@ -112,4 +112,12 @@ if executable('clang')
                 \ 'hook/sweep/files': ['%S:p:r']
                 \ }
 endif
+if executable('stack')
+    let g:quickrun_config['haskell'] = {
+    \   'command': 'stack',
+    \   'cmdopt': 'runghc',
+    \   'tempfile': '%{tempname()}.hs',
+    \   'hook/eval/template': 'main = print \$ %s'
+    \ }
+endif
 
