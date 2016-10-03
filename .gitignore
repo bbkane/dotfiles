@@ -13,3 +13,4 @@ common/.vim/sessions/
 neovim/.config/nvim/bundle
 .vagrant
 change-name.sh
+*.swp
