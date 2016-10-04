@@ -83,5 +83,6 @@ if [[ -f "$HOME/.config/machine.sh" ]]; then
     source "$HOME/.config/machine.sh"
 fi
 
+alias ls='ls -G'
 # if I have nvim, use it instead of vim
 which nvim &> /dev/null && alias vim=nvim
