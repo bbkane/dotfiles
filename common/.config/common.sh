@@ -1,3 +1,5 @@
+#!/bin/bash
+
 see_path() {
     echo "$PATH" | tr ":" "\n"
 }
@@ -17,7 +19,7 @@ lazygit() {
 }
 
 stackoverflowit() {
-    cat $1 | sed 's/^/    /g' | pbcopy
+    cat "$1"| sed 's/^/    /g' | pbcopy
 }
 
 #set today to the date
@@ -39,6 +41,11 @@ mkcd() {
 logit() {
     today=$(date +%Y-%m-%d.%H.%M)
     "$@" > >(tee "$1".stdout."$today".log) 2> >(tee "$1".stderr."$today".log >&2)
+}
+
+fullpath() {
+    local dirname=$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1")
+    echo "$dirname"
 }
 
 # https://bpaste.net/show/c689a3ea783f
