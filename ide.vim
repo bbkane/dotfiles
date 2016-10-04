@@ -2,7 +2,16 @@
 " Ex: export vim_ide_status="ycm rust cpp"
 " don't forget to 'pip install neovim'
 let vim_ide_status=$vim_ide_status
-if vim_ide_status =~ 'ycm'
+
+" Python only requires cmake on mac
+if has('mac')
+    let ycm_can_compile = executable('cmake')
+else
+    " TODO: make ubuntu check for this
+    let ycm_can_compile = 1
+endif
+
+if vim_ide_status =~ 'ycm' && ycm_can_compile
     let g:ycm_python_binary_path = 'python3'
     let ycm_options = { 'dir': '~/.config/nvim/bundle/YouCompleteMe', 'do': './install.py' }
 
