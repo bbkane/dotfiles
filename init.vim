@@ -91,13 +91,13 @@ nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :wri
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
 " This seems to make my space key slow...
-" let mapleader = "\<SPACE>"
+" let mapleader = "\<space>"
 let mapleader = ","
 
 " Use bash highlighting instead of sh highlighting
 let g:is_posix = 1
 
-" set clipboard+=unnamedplus
+set clipboard^=unnamedplus,unnamed
 
 inoremap fd <ESC>
 
