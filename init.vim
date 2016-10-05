@@ -73,6 +73,9 @@ set guifont=Source\ Code\ Pro:h13 " set font for macvim
 set splitbelow
 set splitright
 
+" I think this will shorten YCM's function doc window
+set previewheight=5
+
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
 set backupdir=~/tmp,.
