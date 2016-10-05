@@ -40,6 +40,13 @@ endif
 if has("nvim")
     " Use :ll to go to the first error
     Plug 'neomake/neomake'
+    let g:neomake_open_list = 0
+    let g:neomake_echo_current_error = 1
+    let g:neomake_list_height = 3
+
+    " 0 : Errors only
+    " 1 : Quiet message (default)
+    let g:neomake_verbose = 0
 
     " For reddit_get_top_images
     " \ 'args': ['--ignore=E501,E221,E402',  '--format=default'],
