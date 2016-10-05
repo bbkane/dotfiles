@@ -42,7 +42,7 @@ if has("nvim")
     Plug 'neomake/neomake'
     let g:neomake_open_list = 0
     let g:neomake_echo_current_error = 1
-    let g:neomake_list_height = 3
+    let g:neomake_list_height = 5
 
     " 0 : Errors only
     " 1 : Quiet message (default)
