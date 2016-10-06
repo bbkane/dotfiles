@@ -18,6 +18,15 @@ lazygit() {
     git add . && git commit -m "$1" && git push;
 }
 
+see_biggest() {
+    if [[ "$(uname)" == "Darwin" ]]; then
+        du -ax ./* | sort | tail -n "${1-50}"
+    elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+        # Do something under GNU/Linux platform
+        du -ahx ./* | sort -h | tail -n "${1-50}"
+    fi
+}
+
 #set today to the date
 today=$(date +%Y-%m-%d)
 export today
