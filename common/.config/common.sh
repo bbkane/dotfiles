@@ -18,10 +18,6 @@ lazygit() {
     git add . && git commit -m "$1" && git push;
 }
 
-stackoverflowit() {
-    cat "$1"| sed 's/^/    /g' | pbcopy
-}
-
 #set today to the date
 today=$(date +%Y-%m-%d)
 export today
@@ -86,10 +82,41 @@ fi
 # shellcheck disable=SC2039
 # hash fortune && echo "$(tput setaf $(( ($RANDOM % 17)+1 )) )$(fortune)$(tput sgr0)"
 
-if [[ -f "$HOME/.config/machine.sh" ]]; then
-    source "$HOME/.config/machine.sh"
-fi
 
 alias ls='ls -G'
 # if I have nvim, use it instead of vim
 which nvim &> /dev/null && alias vim=nvim
+
+# PATH stuff
+
+# TODO: make this generic? prepend_to_path?
+# Making anaconda functional so I can rm it when homebrew whines
+anaconda_bin_dir="$HOME/anaconda3/bin"
+add_anaconda() {
+    if [[ "$PATH" != *"${anaconda_bin_dir}"* ]]; then
+        export PATH="${anaconda_bin_dir}:$PATH"
+    fi
+}
+
+rm_anaconda() {
+    export PATH=$(echo $PATH | sed 's|'"${anaconda_bin_dir}:"'||g')
+}
+
+# add it by default
+add_anaconda
+
+perlbrew_bashrc="$HOME/perl5/perlbrew/etc/bashrc"
+[[ -e "${perlbrew_bashrc}" ]] && source "${perlbrew_bashrc}"
+
+stack_bin_dir="$HOME/.local/bin"
+[[ -d  "${stack_bin_dir}" ]] && export PATH="${stack_bin_dir}:$PATH"
+
+user_bin_dir="$HOME/bin"
+[[ -d  "${user_bin_dir}" ]] && export PATH="${user_bin_dir}:$PATH"
+
+
+# end PATH stuff
+
+if [[ -f "$HOME/.config/machine.sh" ]]; then
+    source "$HOME/.config/machine.sh"
+fi
