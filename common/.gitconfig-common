@@ -1,3 +1,5 @@
+# this is named .gitconfig-common because I don't want it to conflict with
+# my work .gitconfig. After stowing it on other machines, just mv it to the right name
 [user]
 	name = Benjamin Kane
 	email = bbk1524@gmail.com
