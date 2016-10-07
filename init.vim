@@ -266,3 +266,13 @@ endif
 if executable('perltidy')
     autocmd FileType perl setlocal equalprg=perltidy\ -st
 endif
+
+function! SpellCheckToggle()
+    if &spell
+        setlocal nospell
+    else
+        setlocal spell spelllang=en_us
+    endif
+endfunction
+command! SpellCheckToggle call SpellCheckToggle()
+
