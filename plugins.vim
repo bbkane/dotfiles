@@ -62,8 +62,6 @@ let g:session_autosave = 'no'
 let g:session_autoload = 'no'
 
 Plug 'mhinz/vim-startify'
-let g:startify_custom_header =
-      \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 
 Plug 'airblade/vim-gitgutter'
 
