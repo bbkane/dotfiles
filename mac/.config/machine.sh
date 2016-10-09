@@ -1,9 +1,11 @@
+# make vim use ycm
+export vim_ide_status='ycm'
 
-# Should these go in .zshenv?
-export PATH="/Users/bbkane/anaconda3/bin:$PATH"
+stackoverflowit() {
+    cat "$1"| sed 's/^/    /g' | pbcopy
+}
 
-perlbrew_bashrc="$HOME/perl5/perlbrew/etc/bashrc"
-[[ -e "${perlbrew_bashrc}" ]] && source "${perlbrew_bashrc}"
+# Homebrew
+homebrew_bin_dir="/usr/local/bin"
+export PATH="${homebrew_bin_dir}:$PATH"
 
-stack_bin_dir="$HOME/.local/bin"
-[[ -d  "${stack_bin_dir}" ]] && export PATH="${stack_bin_dir}:$PATH"
