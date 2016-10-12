@@ -3,3 +3,4 @@
 
 export vim_ide_status='ycm'
 
+alias ls='ls --color'
