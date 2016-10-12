@@ -1,4 +1,5 @@
 autoload/plug.vim
 bundle/
+spell/
 *.swp
 .netrwhist
