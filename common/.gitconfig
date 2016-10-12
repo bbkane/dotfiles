@@ -1,11 +1,15 @@
-# this is named .gitconfig-common because I don't want it to conflict with
-# my work .gitconfig. After stowing it on other machines, just mv it to the right name
 [user]
 	name = Benjamin Kane
-	email = bbk1524@gmail.com
 [credential "https://github.com"]
 	username = bbkane
 [push]
 	default = simple
 [alias]
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --date=relative
+	lg = log --graph --all --decorate --pretty --date=relative
+	ls = ls-files
+[color]
+	ui = true
+
+# This is primarily for setting user.email differently at work
+[include]
+	path = ~/.gitconfig.local
