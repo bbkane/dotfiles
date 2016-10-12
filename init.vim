@@ -257,6 +257,11 @@ if executable('autopep8')
     command! AutoPep8 silent exec "!autopep8 --in-place --max-line-length 150 " . bufname("%")
 endif
 
+" https://github.com/FriendsOfPHP/PHP-CS-Fixer
+if executable('php-cs-fixer.phar')
+    command! AutoPHPCSFixer silent exec "!php-cs-fixer.phar fix " . bufname("%")
+endif
+
 if executable('cloc')
     command! VimConfigStats !cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload %:p:h
 endif
@@ -267,11 +272,16 @@ if executable('perltidy')
     autocmd FileType perl setlocal equalprg=perltidy\ -st
 endif
 
+" use zg to add word to word-list
+" ]s and [s jump to misspelled words
 function! SpellCheckToggle()
     if &spell
         setlocal nospell
+        set complete-=kspell
     else
         setlocal spell spelllang=en_us
+        " turn on auto-completion with C-n, C-p
+        set complete+=kspell
     endif
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
