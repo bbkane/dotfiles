@@ -5,7 +5,8 @@
 [push]
 	default = simple
 [alias]
-	lg = log --graph --all --decorate --pretty --date=relative
+        # using a function mostly so I can pass --oneline as an argument when I want to
+        lg = "!f() { git log --graph --all --decorate --pretty --date=relative $@; }; f"
 	ls = ls-files
 [color]
 	ui = true
