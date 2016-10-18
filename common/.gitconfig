@@ -6,7 +6,7 @@
 	default = simple
 [alias]
         # using a function mostly so I can pass --oneline as an argument when I want to
-        lg = "!git log --graph --all --decorate --pretty --date=relative \"$@\""
+        lg = "!git log --graph --all --decorate --date=relative \"$@\""
 	ls = ls-files
 [color]
 	ui = true
