@@ -138,4 +138,8 @@ if executable('stack')
     \   'hook/eval/template': 'main = print \$ %s'
     \ }
 endif
+" Not sure I need this or not...
+" let g:quickrun_config['python'] = {
+" \   'command': 'python'
+" \ }
 
