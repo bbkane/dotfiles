@@ -14,3 +14,4 @@ neovim/.config/nvim/bundle
 .vagrant
 change-name.sh
 *.swp
+tmp.html
