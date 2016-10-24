@@ -286,3 +286,12 @@ function! SpellCheckToggle()
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
 
+function SearchHLToggle()
+    if &hlsearch
+        set nohlsearch
+    else
+        set hlsearch
+    endif
+endfunction
+command! SearchHLToggle call SearchHLToggle()
+
