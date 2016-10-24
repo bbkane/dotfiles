@@ -1,0 +1,137 @@
+#!/usr/bin/python
+
+from __future__ import print_function
+
+try:
+    from urllib import pathname2url
+except:
+    from urllib.request import pathname2url
+
+from contextlib import closing
+import datetime
+import json
+import os
+import webbrowser
+import sqlite3
+import sys
+
+# TODO: Add date ranges and argparse
+
+TEMPLATE = """
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{title}</title>
+    <link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+<body>
+    <div id="timeline"></div>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://raw.githubusercontent.com/jiahuang/d3-timeline/master/src/d3-timeline.js"></script>
+    <script>
+        var width = window.innerWidth || document.body.clientWidth;
+        var testData = {data};
+        var chart = d3.timeline().beginning({beginning}).ending({ending}).showToday();
+        var svg = d3.select("#timeline").append("svg").attr("width", width).datum(testData).call(chart);
+    </script>
+</body>
+</html>
+"""
+
+DB_PATH = '~/.sleepwatch.sqlite3'
+DB_PATH = os.path.expanduser(DB_PATH)
+# Debug
+# DB_PATH = ':memory:'
+
+sqlite3.register_adapter(bool, int)
+sqlite3.register_converter("BOOLEAN", lambda v: bool(int(v)))
+
+
+# d3-timeline uses milliseconds since epoch
+def get_timestamp(dt):
+    epoch = datetime.datetime.utcfromtimestamp(0)
+    # adjust our timestamp to deal with timezone differences
+    dt = dt + datetime.timedelta(hours=5)
+    return int((dt - epoch).total_seconds() * 1000)
+
+
+def insert_into_db(db_path, awake):
+    with closing(sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+        # http://stackoverflow.com/a/16936992/2958070
+
+        c = conn.cursor()
+
+        c.execute('''CREATE TABLE IF NOT EXISTS Wake(moment TIMESTAMP PRIMARY KEY, awake BOOLEAN)''')
+
+        c.execute('INSERT INTO Wake(moment, awake) values (?, ?)', (datetime.datetime.now(), awake))
+
+        conn.commit()
+
+
+def graph(db_path):
+    with closing(sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+        cur = conn.cursor()
+        starts = list(cur.execute('SELECT moment from Wake WHERE awake = 1 ORDER BY DATETIME(moment) ASC'))
+        starts = [entry[0] for entry in starts if entry[0].day == datetime.datetime.today().day]
+
+        ends = list(cur.execute('SELECT moment from Wake WHERE awake = 0 ORDER BY DATETIME(moment) ASC'))
+        ends = [entry[0] for entry in ends if entry[0].day == datetime.datetime.today().day]
+
+        # make sure the first wake is before the first sleep
+        # and the last sleep is after the last wake
+        if starts[0] > ends[0]:
+            del ends[0]
+        if starts[-1] > ends[-1]:
+            ends.append(datetime.datetime.now())
+        assert len(starts) == len(ends)
+        assert all(s < e for s, e in zip(starts, ends))
+
+        times = [dict(starting_time=get_timestamp(s), ending_time=get_timestamp(e))
+                 for s, e in zip(starts, ends)]
+
+        today_times = [{'label': str(datetime.datetime.today()), 'times': times}]
+
+        # these are for the graph beginning at 7 and ending at 6
+        beginning = get_timestamp(starts[0].replace(hour=7, minute=0))
+        ending = get_timestamp(ends[0].replace(hour=18, minute=0))
+
+        # print(json.dumps(today_times, indent=2))
+        with open('tmp.html', 'w') as html:
+            html_string = TEMPLATE.format(title=datetime.datetime.today(),
+                                          data=json.dumps(today_times, indent=2),
+                                          beginning=beginning,
+                                          ending=ending)
+            print(html_string, file=html)
+
+    webbrowser.open('file:{}'.format(pathname2url(os.path.abspath('tmp.html'))))
+
+
+def list_times(db_path):
+    with closing(sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+        cur = conn.cursor()
+        cur.execute('SELECT moment, awake FROM Wake ORDER BY DATETIME(moment) ASC')
+        for (moment, awake) in cur:
+            # %a -> abbreviated weekday
+            print(moment.strftime('%a'), moment, 'wake' if awake else 'sleep')
+
+
+def main():
+    USAGE = "Usage: %s [wake|sleep|graph|list]"
+    if len(sys.argv) != 2:
+        raise SystemExit(USAGE)
+    else:
+        if sys.argv[1] == 'wake':
+            insert_into_db(DB_PATH, True)
+        elif sys.argv[1] == 'sleep':
+            insert_into_db(DB_PATH, False)
+        elif sys.argv[1] == 'graph':
+            graph(DB_PATH)
+        elif sys.argv[1] == 'list':
+            list_times(DB_PATH)
+        else:
+            raise SystemExit(USAGE)
+
+
+if __name__ == '__main__':
+    main()
