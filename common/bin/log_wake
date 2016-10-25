@@ -8,14 +8,14 @@ except:
     from urllib.request import pathname2url
 
 from contextlib import closing
+import argparse
 import datetime
 import json
 import os
 import webbrowser
 import sqlite3
-import sys
 
-# TODO: Add date ranges and argparse
+# TODO: Add date ranges
 
 TEMPLATE = """
 <!DOCTYPE html>
@@ -39,11 +39,6 @@ TEMPLATE = """
 </html>
 """
 
-DB_PATH = '~/.sleepwatch.sqlite3'
-DB_PATH = os.path.expanduser(DB_PATH)
-# Debug
-# DB_PATH = ':memory:'
-
 sqlite3.register_adapter(bool, int)
 sqlite3.register_converter("BOOLEAN", lambda v: bool(int(v)))
 
@@ -57,7 +52,7 @@ def get_timestamp(dt):
 
 
 def insert_into_db(db_path, awake):
-    with closing(sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+    with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         # http://stackoverflow.com/a/16936992/2958070
 
         cur = conn.cursor()
@@ -69,7 +64,10 @@ def insert_into_db(db_path, awake):
 
         if last:  # there is something in the table
             if last[0][1] == awake:  # if it's not toggling, abort ship!
-                raise SystemExit("Last value is the same as this one!")
+                if awake:
+                    raise SystemExit("Already awake! Cancelling...")
+                else:
+                    raise SystemExit("Already asleep! Cancelling...")
 
         cur.execute('INSERT INTO Wake(moment, awake) values (?, ?)', (datetime.datetime.now(), awake))
 
@@ -77,7 +75,7 @@ def insert_into_db(db_path, awake):
 
 
 def graph(db_path):
-    with closing(sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+    with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         cur = conn.cursor()
         starts = list(cur.execute('SELECT moment from Wake WHERE awake = 1 ORDER BY DATETIME(moment) ASC'))
         starts = [entry[0] for entry in starts if entry[0].day == datetime.datetime.today().day]
@@ -115,7 +113,7 @@ def graph(db_path):
 
 
 def list_times(db_path):
-    with closing(sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+    with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         cur = conn.cursor()
         cur.execute('SELECT moment, awake FROM Wake ORDER BY DATETIME(moment) ASC')
         for (moment, awake) in cur:
@@ -124,20 +122,48 @@ def list_times(db_path):
 
 
 def main():
-    USAGE = "Usage: %s [wake|sleep|graph|list]"
-    if len(sys.argv) != 2:
-        raise SystemExit(USAGE)
+    # create the top-level parser
+    parser = argparse.ArgumentParser(description='Log waking and sleeping')
+    parser.add_argument('--database', '-db',
+                        default='~/.sleepwatch.sqlite3',
+                        help='database to use')
+
+    subparsers = parser.add_subparsers(dest='subcommand')
+    subparsers.required = True
+
+    list_parser = subparsers.add_parser('list',
+                                        help='list wakings and sleepings')
+    list_parser.add_argument('--timeframe', '-t',
+                             default='w',
+                             choices=['d', 'w', 'm'],
+                             help="[d]ay, [w]eek, [m]onth")
+
+    graph_parser = subparsers.add_parser('graph',
+                                         help='graph wakings and sleepings')
+    graph_parser.add_argument('--timeframe', '-t',
+                              default='w',
+                              choices=['d', 'w', 'm'],
+                              help="[d]ay, [w]eek, [m]onth")
+
+    subparsers.add_parser('wake',
+                          help='log wakeup')
+    subparsers.add_parser('sleep',
+                          help='log sleep')
+
+    # Finally parse and deal with the parsed arguments
+    args = parser.parse_args()
+    database = os.path.expanduser(args.database)
+
+    if args.subcommand == 'wake':
+        insert_into_db(database, True)
+    elif args.subcommand == 'sleep':
+        insert_into_db(database, False)
+    elif args.subcommand == 'graph':
+        graph(database)
+    elif args.subcommand == 'list':
+        list_times(database)
     else:
-        if sys.argv[1] == 'wake':
-            insert_into_db(DB_PATH, True)
-        elif sys.argv[1] == 'sleep':
-            insert_into_db(DB_PATH, False)
-        elif sys.argv[1] == 'graph':
-            graph(DB_PATH)
-        elif sys.argv[1] == 'list':
-            list_times(DB_PATH)
-        else:
-            raise SystemExit(USAGE)
+        raise SystemExit("How did you evade the argparser?")
 
 
 if __name__ == '__main__':
