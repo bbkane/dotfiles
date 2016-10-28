@@ -14,6 +14,7 @@ import json
 import os
 import webbrowser
 import sqlite3
+import tempfile
 
 # TODO: Add date ranges
 
@@ -85,6 +86,11 @@ def graph(db_path):
 
         # make sure the first wake is before the first sleep
         # and the last sleep is after the last wake
+
+        # TODO: refactor this (can probably just move the second if up)
+        # if this is the first time, ends will be empty. Add it
+        if not ends:
+            ends.append(datetime.datetime.now())
         if starts[0] > ends[0]:
             del ends[0]
         if starts[-1] > ends[-1]:
@@ -102,14 +108,17 @@ def graph(db_path):
         ending = get_timestamp(ends[0].replace(hour=18, minute=0))
 
         # print(json.dumps(today_times, indent=2))
-        with open('tmp.html', 'w') as html:
+        # Note: on Mac this can fill /var/folders/...
+        tmp = tempfile.NamedTemporaryFile(suffix='.html', delete=False)
+        print(tmp.name)
+        with open(tmp.name, 'w') as html:
             html_string = TEMPLATE.format(title=datetime.datetime.today(),
                                           data=json.dumps(today_times, indent=2),
                                           beginning=beginning,
                                           ending=ending)
             print(html_string, file=html)
 
-    webbrowser.open('file:{}'.format(pathname2url(os.path.abspath('tmp.html'))))
+    webbrowser.open('file:{}'.format(pathname2url(tmp.name)))
 
 
 def list_times(db_path):
