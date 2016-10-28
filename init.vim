@@ -24,23 +24,28 @@ else
     autocmd VimEnter * echom "Install vim-plug with command InstallVimPlug"
 endif
 
-try
-    " These colorschemes are plugins
-    " If they're not available, use a default
-    " It doesn't work on linux :(
-    if has('termguicolors') && has('mac')
-        set termguicolors
-        colorscheme gruvbox
-        set background=dark
-    else
-        " no termguicolors or linux
-        colorscheme desert-warm-256
-    endif
-catch /^Vim\%((\a\+)\)\=:E185/
-    " no plugins available
-    set background=dark
-    colorscheme elflord
-endtry
+" try
+"     " These colorschemes are plugins
+"     " If they're not available, use a default
+"     " It doesn't work on linux :(
+"     if has('termguicolors') && has('mac')
+"         set termguicolors
+"         colorscheme gruvbox
+"         set background=dark
+"     else
+"         " no termguicolors or linux
+"         colorscheme desert-warm-256
+"     endif
+" catch /^Vim\%((\a\+)\)\=:E185/
+"     " no plugins available
+"     set background=dark
+"     colorscheme elflord
+" endtry
+
+if has('termguicolors')
+    set termguicolors
+endif
+colorscheme elflord
 
 " use stuff from vim.wikia.com example vimrc
 filetype indent plugin on
@@ -136,24 +141,6 @@ if !has("nvim")
     set nocompatible
     set visualbell t_vb=
 endif
-
-" Valloric tweaks
-" Unicode support (taken from http://vim.wikia.com/wiki/Working_with_Unicode)
-if has("multi_byte") && !has("nvim")
-    if &termencoding == ""
-        let &termencoding = &encoding
-    endif
-    set encoding=utf-8
-    setglobal fileencoding=utf-8
-    set fileencodings=ucs-bom,utf-8,latin1
-endif
-
-augroup vimrc
-    " Automatically delete trailing DOS-returns and whitespace on file open and
-    " write.
-    autocmd BufRead,BufWritePre,FileWritePre * silent! %s/[\r \t]\+$//
-augroup END
-
 
 augroup vagrant
   au!
