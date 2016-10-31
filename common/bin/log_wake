@@ -16,6 +16,9 @@ import webbrowser
 import sqlite3
 import tempfile
 
+# DEBUG
+from pprint import pprint
+
 # TODO: Add date ranges
 
 TEMPLATE = """
@@ -75,7 +78,24 @@ def insert_into_db(db_path, awake):
         conn.commit()
 
 
+# This will eventually take arguments so I can get dates...
+def get_dates_from_db(db_path, start_day, end_day):
+    with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+        cur = conn.cursor()
+        start_day = start_day.replace(hour=0, minute=0, second=0)
+        end_day = end_day.replace(hour=23, minute=59, second=59)
+        datetimes = list(cur.execute('SELECT moment, awake from Wake WHERE moment >= ? AND moment <= ? ORDER BY DATETIME(moment) ASC', (start_day, end_day)))
+        pprint(datetimes)
+
+
 def graph(db_path):
+
+    # TODO:
+    # Use get_dates_from_db to get dates
+    # use groupby to get them by day
+    # make and normalize starts and ends
+    # get the min and max of all of the days
+    # write and insert the JS to make the charts
     with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         cur = conn.cursor()
         starts = list(cur.execute('SELECT moment from Wake WHERE awake = 1 ORDER BY DATETIME(moment) ASC'))
@@ -122,6 +142,7 @@ def graph(db_path):
 
 
 def list_times(db_path):
+    # TODO: use get_dates_from_db
     with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         cur = conn.cursor()
         cur.execute('SELECT moment, awake FROM Wake ORDER BY DATETIME(moment) ASC')
@@ -177,3 +198,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # db_path = '~/.sleepwatch.sqlite3'
+    # database = os.path.expanduser(db_path)
+    # get_dates_from_db(database, datetime.datetime.now(), datetime.datetime.now())
