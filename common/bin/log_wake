@@ -21,7 +21,7 @@ from pprint import pprint
 
 # TODO: Add date ranges
 
-TEMPLATE = """
+HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,14 +33,19 @@ TEMPLATE = """
     <div id="timeline"></div>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://raw.githubusercontent.com/jiahuang/d3-timeline/master/src/d3-timeline.js"></script>
+    <!-- Will contain one or more graphs -->
+    {script}
+</body>
+</html>
+"""
+
+SCRIPT_TEMPLATE = """
     <script>
         var width = window.innerWidth || document.body.clientWidth;
         var testData = {data};
         var chart = d3.timeline().beginning({beginning}).ending({ending}).showToday();
         var svg = d3.select("#timeline").append("svg").attr("width", width).datum(testData).call(chart);
     </script>
-</body>
-</html>
 """
 
 sqlite3.register_adapter(bool, int)
@@ -79,13 +84,27 @@ def insert_into_db(db_path, awake):
 
 
 # This will eventually take arguments so I can get dates...
-def get_dates_from_db(db_path, start_day, end_day):
+def get_dates_range_from_db(db_path, start_day, end_day):
     with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         cur = conn.cursor()
         start_day = start_day.replace(hour=0, minute=0, second=0)
         end_day = end_day.replace(hour=23, minute=59, second=59)
         datetimes = list(cur.execute('SELECT moment, awake from Wake WHERE moment >= ? AND moment <= ? ORDER BY DATETIME(moment) ASC', (start_day, end_day)))
         pprint(datetimes)
+
+
+# TODO: work this out and add it to the argumentparser
+def get_dates_period_from_db(db_path, period):
+    if period == 'd':
+        pass
+    elif period == 'w':
+        pass
+    elif period == 'm':
+        pass
+    elif period == 'a':
+        pass
+    else:
+        raise ValueError("`period` must be 'd', 'w', 'm', or 'a'. Not %r, silly" % period)
 
 
 def graph(db_path):
@@ -129,13 +148,14 @@ def graph(db_path):
 
         # print(json.dumps(today_times, indent=2))
         # Note: on Mac this can fill /var/folders/...
-        tmp = tempfile.NamedTemporaryFile(suffix='.html', delete=False)
+        tmp = tempfile.NamedTemporaryFile(prefix='log_wake', suffix='.html', delete=False)
         print(tmp.name)
         with open(tmp.name, 'w') as html:
-            html_string = TEMPLATE.format(title=datetime.datetime.today(),
-                                          data=json.dumps(today_times, indent=2),
-                                          beginning=beginning,
-                                          ending=ending)
+            script_string = SCRIPT_TEMPLATE.format(data=json.dumps(today_times, indent=2),
+                                                   beginning=beginning,
+                                                   ending=ending)
+            html_string = HTML_TEMPLATE.format(title=datetime.datetime.today(),
+                                               script=script_string)
             print(html_string, file=html)
 
     webbrowser.open('file:{}'.format(pathname2url(tmp.name)))
@@ -153,6 +173,7 @@ def list_times(db_path):
 
 def main():
     # create the top-level parser
+    # TODO: rejigger this so the timeframe can be the period too. Add 'a'
     parser = argparse.ArgumentParser(description='Log waking and sleeping')
     parser.add_argument('--database', '-db',
                         default='~/.sleepwatch.sqlite3',
