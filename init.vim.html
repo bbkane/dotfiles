@@ -1,0 +1,335 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/.config/nvim/init.vim.html</title>
+<meta name="Generator" content="Vim/7.4">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="vim">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="0x7A69_dark">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.PreProc { color: #c000c0; }
+.Type { color: #008000; font-weight: bold; }
+.Constant { color: #af5f00; }
+.Error { color: #c0c0c0; background-color: #c00000; padding-bottom: 1px; }
+.Comment { color: #008080; }
+.Special { color: #c000c0; }
+.Identifier { color: #008080; }
+.Statement { color: #804000; font-weight: bold; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Comment">&quot; let os=substitute(system('uname'), '\n', '', '')</span>
+<span class="Comment">&quot; os == 'Darwin' or os == 'Linux'</span>
+<span class="Comment">&quot; use has(&quot;darwin&quot;) for mac and !has(&quot;darwin&quot;) for linux</span>
+
+<span class="Statement">if</span> <span class="Identifier">executable</span><span class="Special">(</span><span class="Constant">'git'</span><span class="Special">)</span> <span class="Statement">&amp;&amp;</span> !<span class="Identifier">empty</span><span class="Special">(</span><span class="Identifier">glob</span><span class="Special">(</span><span class="Constant">&quot;~/.config/nvim/autoload/plug.vim&quot;</span><span class="Special">))</span>
+<span class="Comment">    &quot; look for plugins in bundle/</span>
+    <span class="Statement">call</span> plug#begin<span class="Special">(</span><span class="Constant">'~/.config/nvim/bundle'</span><span class="Special">)</span>
+
+    <span class="Statement">if</span> !<span class="Identifier">empty</span><span class="Special">(</span><span class="Identifier">glob</span><span class="Special">(</span><span class="Constant">&quot;~/.config/nvim/plugins.vim&quot;</span><span class="Special">))</span>
+<span class="Comment">        &quot; Source my plugins!</span>
+        <span class="Statement">source</span> ~/<span class="Statement">.</span>config/nvim/plugins<span class="Statement">.</span><span class="Statement">vim</span>
+        <span class="Statement">command</span>! EditPlugins <span class="Statement">:</span><span class="Statement">edit</span> ~/<span class="Statement">.</span>config/nvim/plugins<span class="Statement">.</span><span class="Statement">vim</span>
+    <span class="Statement">endif</span>
+
+    <span class="Statement">if</span> !<span class="Identifier">empty</span><span class="Special">(</span><span class="Identifier">glob</span><span class="Special">(</span><span class="Constant">&quot;~/.config/nvim/ide.vim&quot;</span><span class="Special">))</span>
+<span class="Comment">        &quot; Source IDE Plugins</span>
+        <span class="Statement">source</span> ~/<span class="Statement">.</span>config/nvim/ide<span class="Statement">.</span><span class="Statement">vim</span>
+        <span class="Statement">command</span>! EditIDE <span class="Statement">:</span><span class="Statement">edit</span> ~/<span class="Statement">.</span>config/nvim/ide<span class="Statement">.</span><span class="Statement">vim</span>
+    <span class="Statement">endif</span>
+
+<span class="Comment">    &quot; End plugins</span>
+    <span class="Statement">call</span> plug#end<span class="Special">()</span>
+<span class="Statement">else</span>
+    <span class="Statement">autocmd</span> <span class="Type">VimEnter</span> * <span class="Statement">echom</span> <span class="Constant">&quot;Install vim-plug with command InstallVimPlug&quot;</span>
+<span class="Statement">endif</span>
+
+<span class="Comment">&quot; Try to use a colorscheme plugin</span>
+<span class="Comment">&quot; but fallback to a default one</span>
+<span class="Statement">try</span>
+<span class="Comment">    &quot; Linux has termguicolors but it ruins the colors...</span>
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">'termguicolors'</span><span class="Special">)</span> <span class="Statement">&amp;&amp;</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">'mac'</span><span class="Special">)</span> <span class="Statement">&amp;&amp;</span> <span class="Constant">1</span>
+        <span class="Statement">set</span> <span class="PreProc">termguicolors</span>
+    <span class="Statement">endif</span>
+<span class="Comment">    &quot; colorscheme gruvbox</span>
+<span class="Comment">    &quot; colorscheme desert-warm-256</span>
+<span class="Comment">    &quot; colorscheme elflord</span>
+<span class="Comment">    &quot; colorscheme railscasts</span>
+<span class="Comment">    &quot; colorscheme dracula</span>
+    <span class="Statement">colorscheme</span> <span class="Constant">0x7A69</span>_dark
+<span class="Statement">catch</span> <span class="Constant">/^Vim</span><span class="Special">\%(</span><span class="Constant">(\a\+)</span><span class="Special">\)</span><span class="Constant">\=:E185/</span>
+<span class="Comment">    &quot; no plugins available</span>
+    <span class="Statement">colorscheme</span> elflord
+<span class="Statement">endtry</span>
+<span class="Statement">set</span> <span class="PreProc">background</span>=dark
+
+<span class="Comment">&quot; use stuff from vim.wikia.com example vimrc</span>
+<span class="Statement">filetype</span> <span class="Type">indent</span> <span class="Type">plugin</span> <span class="Type">on</span>
+<span class="Statement">syntax</span> <span class="Type">on</span>
+<span class="Statement">set</span> <span class="PreProc">wildmenu</span>                      <span class="Comment">&quot; Use tab to complete stuff in vim menu</span>
+<span class="Statement">set</span> <span class="PreProc">showcmd</span>                       <span class="Comment">&quot; show partial commands in the last line of screen</span>
+<span class="Statement">set</span> <span class="PreProc">ignorecase</span>                    <span class="Comment">&quot; case insensitive search except for capital letters</span>
+<span class="Statement">set</span> <span class="PreProc">smartcase</span>
+<span class="Statement">set</span> <span class="PreProc">backspace</span>=indent<span class="Statement">,</span>eol<span class="Statement">,</span><span class="Statement">start</span>    <span class="Comment">&quot; allow backspacing over characters</span>
+<span class="Statement">set</span> <span class="PreProc">autoindent</span>                    <span class="Comment">&quot; Auto-indent new lines if no filetype</span>
+<span class="Statement">set</span> <span class="PreProc">ruler</span>                         <span class="Comment">&quot; Show row and column ruler information</span>
+<span class="Statement">set</span> <span class="PreProc">noerrorbells</span>
+
+<span class="Statement">set</span> <span class="PreProc">wrap</span>                          <span class="Comment">&quot; Only use a soft wrap, not a hard one</span>
+<span class="Statement">set</span> <span class="PreProc">linebreak</span>                     <span class="Comment">&quot; Break lines at word (requires Wrap lines)</span>
+<span class="Statement">set</span> <span class="PreProc">nolist</span>
+<span class="Statement">set</span> <span class="PreProc">showbreak</span>=+++                 <span class="Comment">&quot; Wrap-broken line prefix</span>
+<span class="Statement">set</span> <span class="PreProc">textwidth</span>=0                   <span class="Comment">&quot; Line wrap (number of cols)</span>
+<span class="Statement">set</span> <span class="PreProc">wrapmargin</span>=0
+
+<span class="Statement">set</span> <span class="PreProc">expandtab</span>                     <span class="Comment">&quot; Use spaces instead of tabs</span>
+<span class="Statement">set</span> <span class="PreProc">shiftwidth</span>=4                  <span class="Comment">&quot; Number of auto-indent spaces</span>
+<span class="Statement">set</span> <span class="PreProc">softtabstop</span>=4                 <span class="Comment">&quot; Number of spaces per Tab</span>
+
+<span class="Comment">&quot; set number                        &quot; Show line numbers</span>
+<span class="Statement">set</span> <span class="PreProc">showmatch</span>                     <span class="Comment">&quot; Highlight matching brace</span>
+<span class="Statement">set</span> <span class="PreProc">undolevels</span>=1000               <span class="Comment">&quot; Number of undo levels</span>
+<span class="Statement">set</span> <span class="PreProc">nohlsearch</span>
+<span class="Statement">set</span> <span class="PreProc">guifont</span>=Source\ Code\ Pro<span class="Statement">:</span>h13 <span class="Comment">&quot; set font for macvim</span>
+<span class="Statement">set</span> <span class="PreProc">splitbelow</span>
+<span class="Statement">set</span> <span class="PreProc">splitright</span>
+
+<span class="Comment">&quot; I think this will shorten YCM's function doc window</span>
+<span class="Statement">set</span> <span class="PreProc">previewheight</span>=5
+
+<span class="Comment">&quot;save temporary files to /tmp/</span>
+<span class="Comment">&quot;if tmp doesn't exist, make it</span>
+<span class="Statement">set</span> <span class="PreProc">backupdir</span>=~/tmp<span class="Statement">,</span>.
+<span class="Statement">set</span> <span class="PreProc">directory</span>=~/tmp<span class="Statement">,</span>.
+
+<span class="Statement">if</span> !<span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;gui_running&quot;</span><span class="Special">)</span>
+    <span class="Statement">set</span> <span class="PreProc">confirm</span> <span class="Comment">&quot;open a save dialog when quitting&quot;</span>
+<span class="Statement">endif</span>
+
+<span class="Comment">&quot; map j to gj and k to gk, so line navigation ignores line wrap</span>
+<span class="Statement">nmap</span> j gj
+<span class="Statement">nmap</span> k gk
+
+<span class="Comment">&quot; Tab through buffers (writes to them...)</span>
+<span class="Statement">nnoremap</span>  <span class="Special">&lt;</span><span class="Special">silent</span><span class="Special">&gt;</span>   <span class="Special">&lt;</span><span class="Special">tab</span><span class="Special">&gt;</span>  :if &amp;modifiable &amp;&amp; !&amp;readonly &amp;&amp; &amp;modified <span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span> :write<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span> :endif<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>:bnext<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+<span class="Statement">nnoremap</span>  <span class="Special">&lt;</span><span class="Special">silent</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">s-tab</span><span class="Special">&gt;</span>  :if &amp;modifiable &amp;&amp; !&amp;readonly &amp;&amp; &amp;modified <span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span> :write<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span> :endif<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>:bprevious<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+
+<span class="Comment">&quot; This seems to make my space key slow...</span>
+<span class="Comment">&quot; let mapleader = </span><span class="Constant">&quot;\&lt;space&gt;&quot;</span>
+<span class="Statement">let</span> <span class="Identifier">mapleader</span> <span class="Statement">=</span> <span class="Constant">&quot;,&quot;</span>
+
+<span class="Comment">&quot; Use bash highlighting instead of sh highlighting</span>
+<span class="Statement">let</span> <span class="Identifier">g:is_posix</span> <span class="Statement">=</span> <span class="Constant">1</span>
+
+<span class="Comment">&quot; To use the clipboard on linux, install xsel</span>
+<span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">'clipboard'</span><span class="Special">)</span>
+    <span class="Statement">set</span> <span class="PreProc">clipboard</span>^=unnamedplus<span class="Statement">,</span>unnamed
+<span class="Statement">endif</span>
+
+<span class="Statement">inoremap</span> fd <span class="Special">&lt;</span><span class="Special">ESC</span><span class="Special">&gt;</span>
+
+<span class="Comment">&quot; save without sudo vim</span>
+<span class="Statement">cmap</span> w!! w !sudo tee &gt; /dev/null %
+
+
+<span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;nvim&quot;</span><span class="Special">)</span>
+<span class="Comment">    &quot; Disable mouse</span>
+    <span class="Statement">set</span> <span class="PreProc">mouse</span>-=a
+
+    <span class="Statement">tnoremap</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;&lt;</span><span class="Special">C-n</span><span class="Special">&gt;</span>
+    <span class="Statement">tnoremap</span> fd  <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;&lt;</span><span class="Special">C-n</span><span class="Special">&gt;</span>
+<span class="Comment">    &quot; split settings</span>
+<span class="Comment">    &quot; This doesn't work with my tmux plugin</span>
+<span class="Comment">    &quot; go to next bufer</span>
+    <span class="Statement">tnoremap</span> <span class="Special">&lt;</span><span class="Special">C-n</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;&lt;</span><span class="Special">C-n</span><span class="Special">&gt;&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-w</span><span class="Special">&gt;</span>
+<span class="Comment">    &quot; Map Ctrl+ &lt;motion&gt; to &lt;Terminal escape&gt; + &lt; Window Control&gt; + &lt;Motion&gt;</span>
+    <span class="Statement">tnoremap</span> <span class="Special">&lt;</span><span class="Special">C-j</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;&lt;</span><span class="Special">C-n</span><span class="Special">&gt;&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-j</span><span class="Special">&gt;</span>
+    <span class="Statement">tnoremap</span> <span class="Special">&lt;</span><span class="Special">C-k</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;&lt;</span><span class="Special">C-n</span><span class="Special">&gt;&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-k</span><span class="Special">&gt;</span>
+    <span class="Statement">tnoremap</span> <span class="Special">&lt;</span><span class="Special">C-l</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;&lt;</span><span class="Special">C-n</span><span class="Special">&gt;&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-l</span><span class="Special">&gt;</span>
+    <span class="Statement">tnoremap</span> <span class="Special">&lt;</span><span class="Special">C-h</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;&lt;</span><span class="Special">C-n</span><span class="Special">&gt;&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-h</span><span class="Special">&gt;</span>
+<span class="Comment">    &quot; open terminal in vertical split instead of new buffer</span>
+    <span class="Statement">command</span>! Term <span class="Statement">:</span><span class="Statement">vert</span> <span class="Statement">sp</span> | <span class="Statement">term</span>
+<span class="Comment">    &quot; Hopefully, this keeps buffers when I switch windows</span>
+    <span class="Statement">autocmd</span> <span class="Type">TermOpen</span> * <span class="Statement">set</span> <span class="PreProc">bufhidden</span>=hide
+<span class="Statement">endif</span>
+
+<span class="Statement">au</span> <span class="Type">BufRead</span>,<span class="Type">BufNewFile</span> *.rs <span class="Statement">set</span> <span class="PreProc">filetype</span>=rust
+
+<span class="Comment">&quot; disable error bells</span>
+<span class="Statement">if</span> !<span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;nvim&quot;</span><span class="Special">)</span>
+    <span class="Statement">set</span> <span class="Error">nocompatible</span>
+    <span class="Statement">set</span> <span class="PreProc">visualbell</span> <span class="Error">t_vb</span>=
+<span class="Statement">endif</span>
+
+<span class="Statement">augroup</span> vagrant
+  <span class="Statement">au</span>!
+  <span class="Statement">au</span> BufRead,BufNewFile Vagrantfile <span class="Statement">set</span> <span class="Statement">filetype</span><span class="Statement">=</span><span class="Statement">ruby</span>
+<span class="Statement">augroup</span> END
+
+<span class="Comment">&quot; This is now on plug in</span>
+<span class="Comment">&quot; split settings</span>
+<span class="Comment">&quot; Still doesn't hurt to have it here...</span>
+<span class="Statement">nnoremap</span> <span class="Special">&lt;</span><span class="Special">C-n</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-w</span><span class="Special">&gt;</span>
+<span class="Statement">nnoremap</span> <span class="Special">&lt;</span><span class="Special">C-j</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-j</span><span class="Special">&gt;</span>
+<span class="Statement">nnoremap</span> <span class="Special">&lt;</span><span class="Special">C-k</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-k</span><span class="Special">&gt;</span>
+<span class="Statement">nnoremap</span> <span class="Special">&lt;</span><span class="Special">C-l</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-l</span><span class="Special">&gt;</span>
+<span class="Comment">&quot; all the other mappings work but this one...</span>
+<span class="Statement">nnoremap</span> <span class="Special">&lt;</span><span class="Special">C-h</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-w</span><span class="Special">&gt;&lt;</span><span class="Special">C-h</span><span class="Special">&gt;</span>
+
+<span class="Comment">&quot; save, make, run (depends on makeprg)</span>
+<span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">F5</span><span class="Special">&gt;</span> :w<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span> :make<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span> :!./%:r.out<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+
+<span class="Comment">&quot; Sometimes I dont want to indent (yaml files in particular)</span>
+<span class="Statement">command</span>! StopIndenting <span class="Statement">setl</span> <span class="PreProc">noai</span> <span class="PreProc">nocin</span> <span class="PreProc">nosi</span> <span class="PreProc">inde</span>=
+
+<span class="Comment">&quot; Set Visual Studio style indents</span>
+<span class="Statement">command</span>! VSIndentStyle <span class="Statement">set</span> <span class="PreProc">tabstop</span>=4 <span class="PreProc">softtabstop</span>=4 <span class="PreProc">shiftwidth</span>=4 <span class="PreProc">noexpandtab</span>
+
+<span class="Comment">&quot; reload vimrc</span>
+<span class="Statement">command</span>! ReloadVimrc <span class="Statement">source</span> $MYVIMRC
+<span class="Statement">command</span>! EditVimrc <span class="Statement">:</span><span class="Statement">edit</span> $MYVIMRC
+
+<span class="Comment">&quot; Search for a project specific vimrc upward</span>
+<span class="Comment">&quot; THIS IS INSECURE. BE CAREFUL.</span>
+<span class="Comment">&quot; :help fnamemodify to learn to search only search one upwards.</span>
+<span class="Comment">&quot; Need to do that</span>
+<span class="Statement">function</span>! SourceFileUpwards<span class="Special">(</span>filename<span class="Special">)</span>
+    <span class="Statement">let</span> <span class="Identifier">proj</span> <span class="Statement">=</span> <span class="Identifier">findfile</span><span class="Special">(</span><span class="Identifier">a:filename</span>, <span class="Constant">&quot;.;&quot;</span><span class="Special">)</span>
+    <span class="Statement">if</span> proj <span class="Statement">!=</span> <span class="Constant">&quot;&quot;</span>
+        <span class="Statement">exec</span> <span class="Constant">&quot;source &quot;</span> <span class="Statement">.</span> <span class="Identifier">proj</span>
+<span class="Comment">    &quot; else</span>
+<span class="Comment">    &quot;     echo </span><span class="Constant">&quot;No &quot;</span><span class="Comment"> . a:filename . </span><span class="Constant">&quot; found&quot;</span>
+    <span class="Statement">endif</span>
+<span class="Statement">endfunction</span>
+
+<span class="Statement">function</span>! ShowFuncName<span class="Special">()</span>
+    <span class="Statement">let</span> <span class="Identifier">lnum</span> <span class="Statement">=</span> <span class="Identifier">line</span><span class="Special">(</span><span class="Constant">&quot;.&quot;</span><span class="Special">)</span>
+    <span class="Statement">let</span> <span class="Identifier">col</span> <span class="Statement">=</span> <span class="Identifier">col</span><span class="Special">(</span><span class="Constant">&quot;.&quot;</span><span class="Special">)</span>
+    <span class="Statement">echohl</span> <span class="Type">ModeMsg</span>
+    <span class="Statement">echo</span> <span class="Identifier">getline</span>(<span class="Identifier">search</span>(<span class="Constant">&quot;^[^ \t#/]</span><span class="Constant">\\</span><span class="Constant">{2}.*[^:]\s*$&quot;</span>, <span class="Constant">'bW'</span>))
+    <span class="Statement">echohl</span> <span class="Type">None</span>
+    <span class="Statement">call</span> <span class="Identifier">search</span><span class="Special">(</span><span class="Constant">&quot;</span><span class="Constant">\\</span><span class="Constant">%&quot;</span> <span class="Statement">.</span> lnum <span class="Statement">.</span> <span class="Constant">&quot;l&quot;</span> <span class="Statement">.</span> <span class="Constant">&quot;</span><span class="Constant">\\</span><span class="Constant">%&quot;</span> <span class="Statement">.</span> col <span class="Statement">.</span> <span class="Constant">&quot;c&quot;</span><span class="Special">)</span>
+<span class="Statement">endfunction</span>
+
+<span class="Statement">command</span>! ShowFuncName <span class="Identifier">call</span> ShowFuncName()
+
+<span class="Statement">function</span>! BensCommands<span class="Special">()</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;&lt;C-g&gt; : Name of buffer&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;gd : local var definition&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;gD : global var definition&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;&lt;C-i&gt; : go forward&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;&lt;C-o&gt; : go back&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;-- CTAGS --&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;&lt;C-]&gt; : goto def&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;&lt;C-t&gt; : come from&quot;</span>
+    <span class="Statement">echo</span> <span class="Constant">&quot;-- END CTAGS --&quot;</span>
+<span class="Statement">endfunction</span>
+<span class="Statement">command</span>! BensCommands <span class="Identifier">call</span> BensCommands()
+
+<span class="Statement">command</span>! <span class="Statement">-</span><span class="PreProc">nargs</span><span class="Statement">=</span><span class="Type">1</span> Help <span class="Statement">vert</span> <span class="Statement">help</span> <span class="Special">&lt;</span><span class="Special">args</span><span class="Special">&gt;</span>
+
+<span class="Statement">function</span>! Open<span class="Special">()</span>
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">'mac'</span><span class="Special">)</span>
+        <span class="Statement">execute</span> <span class="Constant">&quot;silent !open %&quot;</span>
+    <span class="Statement">else</span>
+        <span class="Statement">execute</span> <span class="Constant">&quot;silent !xdg-open %&quot;</span>
+    <span class="Statement">endif</span>
+<span class="Statement">endfunction</span>
+<span class="Statement">command</span>! Open <span class="Identifier">call</span> Open()
+
+<span class="Statement">function</span>! InstallVimPlug<span class="Special">()</span>
+    <span class="Statement">if</span> <span class="Identifier">empty</span><span class="Special">(</span><span class="Identifier">glob</span><span class="Special">(</span><span class="Constant">&quot;~/.config/nvim/autoload/plug.vim&quot;</span><span class="Special">))</span>
+        <span class="Statement">if</span> <span class="Identifier">executable</span><span class="Special">(</span><span class="Constant">'curl'</span><span class="Special">)</span>
+            <span class="Statement">let</span> <span class="Identifier">plugpath</span> <span class="Statement">=</span> <span class="Constant">&quot;<a href="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim">https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim</a>&quot;</span>
+            <span class="Statement">silent</span> <span class="Statement">exec</span> <span class="Constant">&quot;!curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs &quot;</span> <span class="Statement">.</span> <span class="Identifier">plugpath</span>
+            <span class="Statement">redraw</span>!
+            <span class="Statement">echom</span> <span class="Constant">&quot;Now restart the editor&quot;</span>
+        <span class="Statement">else</span>
+            <span class="Statement">echom</span> <span class="Constant">&quot;Install curl&quot;</span>
+        <span class="Statement">endif</span>
+    <span class="Statement">else</span>
+        <span class="Statement">echom</span> <span class="Constant">&quot;vim-plug installed!&quot;</span>
+    <span class="Statement">endif</span>
+<span class="Statement">endfunction</span>
+<span class="Statement">command</span>! InstallVimPlug <span class="Identifier">call</span> InstallVimPlug()
+
+<span class="Comment">&quot; pip</span>
+<span class="Statement">if</span> <span class="Identifier">executable</span><span class="Special">(</span><span class="Constant">'autoflake'</span><span class="Special">)</span>
+    <span class="Statement">command</span>! AutoFlake <span class="Statement">silent</span> <span class="Statement">exec</span> <span class="Constant">&quot;!autoflake --in-place &quot;</span> <span class="Statement">.</span> <span class="Identifier">bufname</span>(<span class="Constant">&quot;%&quot;</span>)
+<span class="Statement">endif</span>
+
+<span class="Comment">&quot; pip</span>
+<span class="Statement">if</span> <span class="Identifier">executable</span><span class="Special">(</span><span class="Constant">'autopep8'</span><span class="Special">)</span>
+    <span class="Statement">command</span>! AutoPep8 <span class="Statement">silent</span> <span class="Statement">exec</span> <span class="Constant">&quot;!autopep8 --in-place --max-line-length 150 &quot;</span> <span class="Statement">.</span> <span class="Identifier">bufname</span>(<span class="Constant">&quot;%&quot;</span>)
+<span class="Statement">endif</span>
+
+<span class="Comment">&quot; <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer">https://github.com/FriendsOfPHP/PHP-CS-Fixer</a></span>
+<span class="Statement">if</span> <span class="Identifier">executable</span><span class="Special">(</span><span class="Constant">'php-cs-fixer.phar'</span><span class="Special">)</span>
+    <span class="Statement">command</span>! AutoPHPCSFixer <span class="Statement">silent</span> <span class="Statement">exec</span> <span class="Constant">&quot;!php-cs-fixer.phar fix &quot;</span> <span class="Statement">.</span> <span class="Identifier">bufname</span>(<span class="Constant">&quot;%&quot;</span>)
+<span class="Statement">endif</span>
+
+<span class="Statement">if</span> <span class="Identifier">executable</span><span class="Special">(</span><span class="Constant">'cloc'</span><span class="Special">)</span>
+    <span class="Statement">command</span>! VimConfigStats !cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload <span class="Identifier">%</span><span class="Identifier">:p:h</span>
+<span class="Statement">endif</span>
+
+<span class="Comment">&quot; install: cpanmn Perl::Tidy</span>
+<span class="Comment">&quot; use: select the region to tidy and hit '='</span>
+<span class="Statement">if</span> <span class="Identifier">executable</span><span class="Special">(</span><span class="Constant">'perltidy'</span><span class="Special">)</span>
+    <span class="Statement">autocmd</span> <span class="Type">FileType</span> perl <span class="Statement">setlocal</span> <span class="PreProc">equalprg</span>=perltidy\ -st
+<span class="Statement">endif</span>
+
+<span class="Comment">&quot; use zg to add word to word-list</span>
+<span class="Comment">&quot; ]s and [s jump to misspelled words</span>
+<span class="Statement">function</span>! SpellCheckToggle<span class="Special">()</span>
+    <span class="Statement">if</span> &amp;<span class="Statement">spell</span>
+        <span class="Statement">setlocal</span> <span class="PreProc">nospell</span>
+        <span class="Statement">set</span> <span class="PreProc">complete</span>-=kspell
+    <span class="Statement">else</span>
+        <span class="Statement">setlocal</span> <span class="PreProc">spell</span> <span class="PreProc">spelllang</span>=en_us
+<span class="Comment">        &quot; turn on auto-completion with C-n, C-p</span>
+        <span class="Statement">set</span> <span class="PreProc">complete</span>+=kspell
+    <span class="Statement">endif</span>
+<span class="Statement">endfunction</span>
+<span class="Statement">command</span>! SpellCheckToggle <span class="Identifier">call</span> SpellCheckToggle()
+
+<span class="Statement">function</span>! SearchHLToggle<span class="Special">()</span>
+    <span class="Statement">if</span> &amp;hlsearch
+        <span class="Statement">set</span> <span class="PreProc">nohlsearch</span>
+    <span class="Statement">else</span>
+        <span class="Statement">set</span> <span class="PreProc">hlsearch</span>
+    <span class="Statement">endif</span>
+<span class="Statement">endfunction</span>
+<span class="Statement">command</span>! SearchHLToggle <span class="Identifier">call</span> SearchHLToggle()
+
+<span class="Statement">function</span>! NumberToggle<span class="Special">()</span>
+    <span class="Statement">if</span> &amp;<span class="Statement">number</span>
+        <span class="Statement">setlocal</span> <span class="PreProc">nonumber</span>
+    <span class="Statement">else</span>
+        <span class="Statement">setlocal</span> <span class="PreProc">number</span>
+    <span class="Statement">endif</span>
+<span class="Statement">endfunction</span>
+<span class="Statement">command</span>! NumberToggle <span class="Identifier">call</span> NumberToggle()
+
+<span class="Statement">function</span>! WriteHTML<span class="Special">(</span>filename<span class="Special">)</span>
+    <span class="Statement">silent</span> <span class="Statement">exec</span> <span class="Constant">&quot;TOhtml&quot;</span>
+    <span class="Statement">silent</span> <span class="Statement">exec</span> <span class="Constant">&quot;w &quot;</span> <span class="Statement">.</span> <span class="Identifier">filename</span>
+    <span class="Statement">silent</span> <span class="Statement">exec</span> <span class="Constant">&quot;q&quot;</span>
+<span class="Statement">endfunction</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

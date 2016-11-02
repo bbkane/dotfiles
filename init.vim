@@ -28,12 +28,15 @@ endif
 " but fallback to a default one
 try
     " Linux has termguicolors but it ruins the colors...
-    if has('termguicolors') && has('mac')
+    if has('termguicolors') && has('mac') && 1
         set termguicolors
     endif
-    colorscheme gruvbox
+    " colorscheme gruvbox
     " colorscheme desert-warm-256
     " colorscheme elflord
+    " colorscheme railscasts
+    " colorscheme dracula
+    colorscheme 0x7A69_dark
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
     colorscheme elflord
@@ -63,7 +66,7 @@ set expandtab                     " Use spaces instead of tabs
 set shiftwidth=4                  " Number of auto-indent spaces
 set softtabstop=4                 " Number of spaces per Tab
 
-set number                        " Show line numbers
+" set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
 set nohlsearch
@@ -269,7 +272,7 @@ function! SpellCheckToggle()
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
 
-function SearchHLToggle()
+function! SearchHLToggle()
     if &hlsearch
         set nohlsearch
     else
@@ -278,3 +281,19 @@ function SearchHLToggle()
 endfunction
 command! SearchHLToggle call SearchHLToggle()
 
+function! NumberToggle()
+    if &number
+        setlocal nonumber
+    else
+        setlocal number
+    endif
+endfunction
+command! NumberToggle call NumberToggle()
+
+" TODO: optional filename to save to
+function! WriteHTML()
+    silent exec "TOhtml"
+    silent exec "w"
+    silent exec "q"
+endfunction
+command! WriteHTML call WriteHTML()

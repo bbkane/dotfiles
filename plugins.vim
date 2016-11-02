@@ -79,10 +79,8 @@ let python_highlight_all=1
 " bad for long running code (will freeze vim)
 command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
-" Command: Man
-Plug 'vim-utils/vim-man'
-
 Plug 'cespare/vim-toml'
+Plug 'StanAngeloff/php.vim'
 
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
@@ -91,15 +89,27 @@ Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 Plug 'tpope/vim-fugitive'
 
+" autocomplete inside search
+Plug 'vim-scripts/SearchComplete'
+
 if executable('clang-format')
     Plug 'rhysd/vim-clang-format'
 endif
 
+" :RandomColorScheme
+Plug 'xolox/vim-colorscheme-switcher'
+
 " colorschemes
+
+" This adds a *bunch* of colorschemes
+Plug 'flazz/vim-colorschemes'
+
+" Tests
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
-Plug 'altercation/vim-colors-solarized'
-let g:solarized_termcolors=256
+Plug 'dracula/vim'
+
+" Ones I know I like
 Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
