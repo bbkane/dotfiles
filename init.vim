@@ -24,28 +24,21 @@ else
     autocmd VimEnter * echom "Install vim-plug with command InstallVimPlug"
 endif
 
-" try
-"     " These colorschemes are plugins
-"     " If they're not available, use a default
-"     " It doesn't work on linux :(
-"     if has('termguicolors') && has('mac')
-"         set termguicolors
-"         colorscheme gruvbox
-"         set background=dark
-"     else
-"         " no termguicolors or linux
-"         colorscheme desert-warm-256
-"     endif
-" catch /^Vim\%((\a\+)\)\=:E185/
-"     " no plugins available
-"     set background=dark
-"     colorscheme elflord
-" endtry
-
-if has('termguicolors')
-    set termguicolors
-endif
-colorscheme elflord
+" Try to use a colorscheme plugin
+" but fallback to a default one
+try
+    " Linux has termguicolors but it ruins the colors...
+    if has('termguicolors') && has('mac')
+        set termguicolors
+    endif
+    colorscheme gruvbox
+    " colorscheme desert-warm-256
+    " colorscheme elflord
+catch /^Vim\%((\a\+)\)\=:E185/
+    " no plugins available
+    colorscheme elflord
+endtry
+set background=dark
 
 " use stuff from vim.wikia.com example vimrc
 filetype indent plugin on
@@ -105,7 +98,10 @@ let mapleader = ","
 " Use bash highlighting instead of sh highlighting
 let g:is_posix = 1
 
-set clipboard^=unnamedplus,unnamed
+" To use the clipboard on linux, install xsel
+if has('clipboard')
+    set clipboard^=unnamedplus,unnamed
+endif
 
 inoremap fd <ESC>
 
