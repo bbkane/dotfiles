@@ -93,7 +93,6 @@ def get_dates_range_from_db(db_path, start_day, end_day):
 
 
 def list_times(db_path, datetimes):
-    # TODO: use get_dates_from_db
     for (moment, awake) in datetimes:
         # %a -> abbreviated weekday
         print(moment.strftime('%a'), moment, 'wake' if awake else 'sleep')
@@ -101,14 +100,11 @@ def list_times(db_path, datetimes):
 
 def graph(db_path, datetimes):
 
-    # TODO:
-    # get the min and max of all of the days by making and normalizi starts and ends
-    # write and insert the JS to make the charts
     all_starts = [moment for (moment, awake) in datetimes if awake]
     all_ends = [moment for (moment, awake) in datetimes if not awake]
 
-    # make sure the first wake is before the first sleep
-    # and the last sleep is after the last wake
+    earliest_hour = min(all_starts, key=lambda d: d.hour).hour
+    latest_hour = max(all_ends, key=lambda d: d.hour).hour + 1
 
     # pprint([list(g) for k, g in itertools.groupby(starts, lambda d: d.day)])
     grouped_starts = [list(g) for k, g in itertools.groupby(all_starts, lambda d: d.day)]
@@ -122,6 +118,9 @@ def graph(db_path, datetimes):
         script_string = ''
         for starts, ends in zip(grouped_starts, grouped_ends):
 
+            # make sure the first wake is before the first sleep
+            # and the last sleep is after the last wake
+
             if starts[0] > ends[0]:
                 del ends[0]
             if starts[-1] > ends[-1]:
@@ -132,11 +131,11 @@ def graph(db_path, datetimes):
             times = [dict(starting_time=get_timestamp(s), ending_time=get_timestamp(e))
                      for s, e in zip(starts, ends)]
 
-            today_times = [{'label': str(datetime.datetime.today()), 'times': times}]
+            today_times = [{'label': starts[0].strftime('%a'), 'times': times}]
 
             # these are for the graph beginning at 7 and ending at 6
-            beginning = get_timestamp(starts[0].replace(hour=7, minute=0))
-            ending = get_timestamp(ends[0].replace(hour=18, minute=0))
+            beginning = get_timestamp(starts[0].replace(hour=earliest_hour, minute=0))
+            ending = get_timestamp(ends[0].replace(hour=latest_hour, minute=0))
 
             # print(json.dumps(today_times, indent=2))
             # Note: on Mac this can fill /var/folders/...
