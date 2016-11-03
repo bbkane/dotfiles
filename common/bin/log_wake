@@ -10,6 +10,7 @@ except:
 from contextlib import closing
 import argparse
 import datetime
+import itertools
 import json
 import os
 import webbrowser
@@ -17,7 +18,7 @@ import sqlite3
 import tempfile
 
 # DEBUG
-from pprint import pprint
+# from pprint import pprint
 
 # TODO: Add date ranges
 
@@ -79,96 +80,83 @@ def insert_into_db(db_path, awake):
                     raise SystemExit("Already asleep! Cancelling...")
 
         cur.execute('INSERT INTO Wake(moment, awake) values (?, ?)', (datetime.datetime.now(), awake))
-
         conn.commit()
 
 
-# This will eventually take arguments so I can get dates...
 def get_dates_range_from_db(db_path, start_day, end_day):
     with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         cur = conn.cursor()
         start_day = start_day.replace(hour=0, minute=0, second=0)
         end_day = end_day.replace(hour=23, minute=59, second=59)
         datetimes = list(cur.execute('SELECT moment, awake from Wake WHERE moment >= ? AND moment <= ? ORDER BY DATETIME(moment) ASC', (start_day, end_day)))
-        pprint(datetimes)
+        return datetimes
 
 
-# TODO: work this out and add it to the argumentparser
-def get_dates_period_from_db(db_path, period):
-    if period == 'd':
-        pass
-    elif period == 'w':
-        pass
-    elif period == 'm':
-        pass
-    elif period == 'a':
-        pass
-    else:
-        raise ValueError("`period` must be 'd', 'w', 'm', or 'a'. Not %r, silly" % period)
+def list_times(db_path, datetimes):
+    # TODO: use get_dates_from_db
+    for (moment, awake) in datetimes:
+        # %a -> abbreviated weekday
+        print(moment.strftime('%a'), moment, 'wake' if awake else 'sleep')
 
 
-def graph(db_path):
+def graph(db_path, datetimes):
 
     # TODO:
-    # Use get_dates_from_db to get dates
-    # use groupby to get them by day
-    # make and normalize starts and ends
-    # get the min and max of all of the days
+    # get the min and max of all of the days by making and normalizi starts and ends
     # write and insert the JS to make the charts
-    with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
-        cur = conn.cursor()
-        starts = list(cur.execute('SELECT moment from Wake WHERE awake = 1 ORDER BY DATETIME(moment) ASC'))
-        starts = [entry[0] for entry in starts if entry[0].day == datetime.datetime.today().day]
+    all_starts = [moment for (moment, awake) in datetimes if awake]
+    all_ends = [moment for (moment, awake) in datetimes if not awake]
 
-        ends = list(cur.execute('SELECT moment from Wake WHERE awake = 0 ORDER BY DATETIME(moment) ASC'))
-        ends = [entry[0] for entry in ends if entry[0].day == datetime.datetime.today().day]
+    # make sure the first wake is before the first sleep
+    # and the last sleep is after the last wake
 
-        # make sure the first wake is before the first sleep
-        # and the last sleep is after the last wake
+    # pprint([list(g) for k, g in itertools.groupby(starts, lambda d: d.day)])
+    grouped_starts = [list(g) for k, g in itertools.groupby(all_starts, lambda d: d.day)]
+    grouped_ends = [list(g) for k, g in itertools.groupby(all_ends, lambda d: d.day)]
 
-        # TODO: refactor this (can probably just move the second if up)
-        # if this is the first time, ends will be empty. Add it
-        if not ends:
-            ends.append(datetime.datetime.now())
-        if starts[0] > ends[0]:
-            del ends[0]
-        if starts[-1] > ends[-1]:
-            ends.append(datetime.datetime.now())
-        assert len(starts) == len(ends)
-        assert all(s < e for s, e in zip(starts, ends))
+    # TODO: handle the case where first thing in the morning, I haven't slept yet
+    assert len(grouped_starts) == len(grouped_ends)
 
-        times = [dict(starting_time=get_timestamp(s), ending_time=get_timestamp(e))
-                 for s, e in zip(starts, ends)]
+    tmp = tempfile.NamedTemporaryFile(prefix='log_wake', suffix='.html', delete=False)
+    with open(tmp.name, 'w') as html:
+        script_string = ''
+        for starts, ends in zip(grouped_starts, grouped_ends):
 
-        today_times = [{'label': str(datetime.datetime.today()), 'times': times}]
+            if starts[0] > ends[0]:
+                del ends[0]
+            if starts[-1] > ends[-1]:
+                ends.append(datetime.datetime.now())
+            assert len(starts) == len(ends)
+            assert all(s < e for s, e in zip(starts, ends))
 
-        # these are for the graph beginning at 7 and ending at 6
-        beginning = get_timestamp(starts[0].replace(hour=7, minute=0))
-        ending = get_timestamp(ends[0].replace(hour=18, minute=0))
+            times = [dict(starting_time=get_timestamp(s), ending_time=get_timestamp(e))
+                     for s, e in zip(starts, ends)]
 
-        # print(json.dumps(today_times, indent=2))
-        # Note: on Mac this can fill /var/folders/...
-        tmp = tempfile.NamedTemporaryFile(prefix='log_wake', suffix='.html', delete=False)
-        print(tmp.name)
-        with open(tmp.name, 'w') as html:
-            script_string = SCRIPT_TEMPLATE.format(data=json.dumps(today_times, indent=2),
-                                                   beginning=beginning,
-                                                   ending=ending)
-            html_string = HTML_TEMPLATE.format(title=datetime.datetime.today(),
-                                               script=script_string)
-            print(html_string, file=html)
+            today_times = [{'label': str(datetime.datetime.today()), 'times': times}]
+
+            # these are for the graph beginning at 7 and ending at 6
+            beginning = get_timestamp(starts[0].replace(hour=7, minute=0))
+            ending = get_timestamp(ends[0].replace(hour=18, minute=0))
+
+            # print(json.dumps(today_times, indent=2))
+            # Note: on Mac this can fill /var/folders/...
+            script_string += SCRIPT_TEMPLATE.format(data=json.dumps(today_times, indent=2),
+                                                    beginning=beginning,
+                                                    ending=ending)
+        html_string = HTML_TEMPLATE.format(title=datetime.datetime.today(),
+                                           script=script_string)
+        print(html_string, file=html)
 
     webbrowser.open('file:{}'.format(pathname2url(tmp.name)))
 
 
-def list_times(db_path):
-    # TODO: use get_dates_from_db
-    with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
-        cur = conn.cursor()
-        cur.execute('SELECT moment, awake FROM Wake ORDER BY DATETIME(moment) ASC')
-        for (moment, awake) in cur:
-            # %a -> abbreviated weekday
-            print(moment.strftime('%a'), moment, 'wake' if awake else 'sleep')
+def test():
+    db_path = '~/.sleepwatch.sqlite3'
+    database = os.path.expanduser(db_path)
+    now = datetime.datetime.today()
+    two_days_ago = now - datetime.timedelta(days=4)
+    list_times(database, get_dates_range_from_db(database, two_days_ago, now))
+    graph(database, get_dates_range_from_db(database, two_days_ago, now))
 
 
 def main():
@@ -189,12 +177,22 @@ def main():
                              choices=['d', 'w', 'm'],
                              help="[d]ay, [w]eek, [m]onth")
 
+    list_parser.add_argument('--days', '-d',
+                             type=int,
+                             default=1,
+                             help="number of days back")
+
     graph_parser = subparsers.add_parser('graph',
                                          help='graph wakings and sleepings')
     graph_parser.add_argument('--timeframe', '-t',
                               default='w',
                               choices=['d', 'w', 'm'],
                               help="[d]ay, [w]eek, [m]onth")
+
+    graph_parser.add_argument('--days', '-d',
+                              type=int,
+                              default=1,
+                              help="number of days back")
 
     subparsers.add_parser('wake',
                           help='log wakeup')
@@ -209,16 +207,18 @@ def main():
         insert_into_db(database, True)
     elif args.subcommand == 'sleep':
         insert_into_db(database, False)
-    elif args.subcommand == 'graph':
-        graph(database)
-    elif args.subcommand == 'list':
-        list_times(database)
+    elif args.subcommand == 'graph' or args.subcommand == 'list':
+        now = datetime.datetime.today()
+        n_days_ago = now - datetime.timedelta(days=args.days - 1)
+        if args.subcommand == 'graph':
+            graph(database, get_dates_range_from_db(database, n_days_ago, now))
+        if args.subcommand == 'list':
+            list_times(database, get_dates_range_from_db(database, n_days_ago, now))
+
     else:
         raise SystemExit("How did you evade the argparser?")
 
 
 if __name__ == '__main__':
     main()
-    # db_path = '~/.sleepwatch.sqlite3'
-    # database = os.path.expanduser(db_path)
-    # get_dates_from_db(database, datetime.datetime.now(), datetime.datetime.now())
+    # test()
