@@ -66,7 +66,7 @@ set expandtab                     " Use spaces instead of tabs
 set shiftwidth=4                  " Number of auto-indent spaces
 set softtabstop=4                 " Number of spaces per Tab
 
-" set number                        " Show line numbers
+set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
 set nohlsearch
@@ -250,6 +250,7 @@ endif
 
 if executable('cloc')
     command! VimConfigStats !cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload %:p:h
+    command! Cloc !cloc %
 endif
 
 " install: cpanmn Perl::Tidy
