@@ -82,7 +82,12 @@ if has("nvim")
         endif
     endfunction
 
+    " When Vim starts, register the neomake autogroup if possible
     autocmd VimEnter * call NeoMakeOnWrite()
+
+    " Add a command to disable NeomakeOnWrite
+    " http://superuser.com/questions/439078/how-to-disable-autocmd-or-augroup-in-vim
+    command! NoNeoMakeOnWrite autocmd! neomake BufWritePost *
 
     " Open errors in separate window
     let g:neomake_open_list = 2
