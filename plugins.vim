@@ -97,6 +97,7 @@ if executable('clang-format')
 endif
 
 " :RandomColorScheme
+" F8
 Plug 'xolox/vim-colorscheme-switcher'
 
 " colorschemes
