@@ -1,7 +1,3 @@
-" let os=substitute(system('uname'), '\n', '', '')
-" os == 'Darwin' or os == 'Linux'
-" use has("darwin") for mac and !has("darwin") for linux
-
 if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
     " look for plugins in bundle/
     call plug#begin('~/.config/nvim/bundle')
