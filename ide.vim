@@ -50,13 +50,17 @@ if has("nvim")
 
     " For reddit_get_top_images
     " \ 'args': ['--ignore=E501,E221,E402',  '--format=default'],
+    let flake8_ignore = '--ignore=E501'
+
+    " When experimenting, I don't want to deal with a bunch of this...
+    let flake8_ignore .= ',E302,E301,E261,W391,F401'
 
     " Don't forget to 'pip3 install flake8'
     " Not sure if the errorformat stuff is necessary
     if executable('flake8')
         let g:neomake_python_enabled_makers = ['flake8']
         let g:neomake_python_flake8_maker = {
-            \ 'args': ['--ignore=E501',  '--format=default'],
+            \ 'args': [flake8_ignore, '--format=default'],
             \ 'errorformat':
                 \ '%E%f:%l: could not compile,%-Z%p^,' .
                 \ '%A%f:%l:%c: %t%n %m,' .
