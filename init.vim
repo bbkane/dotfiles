@@ -32,7 +32,8 @@ try
     " colorscheme elflord
     " colorscheme railscasts
     " colorscheme dracula
-    colorscheme 0x7A69_dark
+    " colorscheme 0x7A69_dark
+    colorscheme desertedocean
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
     colorscheme elflord
