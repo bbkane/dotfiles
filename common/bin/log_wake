@@ -55,9 +55,7 @@ sqlite3.register_converter("BOOLEAN", lambda v: bool(int(v)))
 
 # d3-timeline uses milliseconds since epoch
 def get_timestamp(dt):
-    epoch = datetime.datetime.utcfromtimestamp(0)
-    # adjust our timestamp to deal with timezone differences
-    dt = dt + datetime.timedelta(hours=5)
+    epoch = datetime.datetime.fromtimestamp(0)
     return int((dt - epoch).total_seconds() * 1000)
 
 
@@ -102,6 +100,10 @@ def graph(db_path, datetimes):
 
     all_starts = [moment for (moment, awake) in datetimes if awake]
     all_ends = [moment for (moment, awake) in datetimes if not awake]
+
+    # Because we're awake when we run this, insert a sleep for the graphing
+    # into the list so we can end the graph where we are
+    all_ends.append(datetime.datetime.now())
 
     earliest_hour = min(all_starts, key=lambda d: d.hour).hour
     latest_hour = max(all_ends, key=lambda d: d.hour).hour + 1
