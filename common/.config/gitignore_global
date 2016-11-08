@@ -8,6 +8,7 @@
 *.so
 *.pyc
 *.pyo
+__pycache__/
 
 # Packages #
 ############
