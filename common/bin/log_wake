@@ -160,48 +160,57 @@ def test():
     graph(database, get_dates_range_from_db(database, two_days_ago, now))
 
 
-def main():
+def parse_args(args=None, namespace=None):
+
+    class ArgHolder:
+        """Hold the arguments and keyword arguments to later unpack into a function call"""
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+
     # create the top-level parser
-    # TODO: rejigger this so the timeframe can be the period too. Add 'a'
     parser = argparse.ArgumentParser(description='Log waking and sleeping')
+
+    # top level options
     parser.add_argument('--database', '-db',
                         default='~/.sleepwatch.sqlite3',
                         help='database to use')
 
+    # add a mandatory subcommand available after parsing at args.subcommand
     subparsers = parser.add_subparsers(dest='subcommand')
     subparsers.required = True
 
+    # I'm going to be adding the same option to multiple subcommands
+    # so encapulate them in a class for easy unpacking
+    days_args = ArgHolder('--days', '-d',
+                          type=int,
+                          default=1,
+                          help="number of days")
+
+    # Make the list subcommand
     list_parser = subparsers.add_parser('list',
                                         help='list wakings and sleepings')
-    list_parser.add_argument('--timeframe', '-t',
-                             default='w',
-                             choices=['d', 'w', 'm'],
-                             help="[d]ay, [w]eek, [m]onth")
+    list_parser.add_argument(*days_args.args, **days_args.kwargs)
 
-    list_parser.add_argument('--days', '-d',
-                             type=int,
-                             default=1,
-                             help="number of days back")
-
+    # make the graph subcommand
     graph_parser = subparsers.add_parser('graph',
                                          help='graph wakings and sleepings')
-    graph_parser.add_argument('--timeframe', '-t',
-                              default='w',
-                              choices=['d', 'w', 'm'],
-                              help="[d]ay, [w]eek, [m]onth")
+    graph_parser.add_argument(*days_args.args, **days_args.kwargs)
 
-    graph_parser.add_argument('--days', '-d',
-                              type=int,
-                              default=1,
-                              help="number of days back")
-
+    # make the wake and sleep subcommands
+    # These don't have any options attached to them, so they don't need to be assigned to variables
     subparsers.add_parser('wake',
                           help='log wakeup')
     subparsers.add_parser('sleep',
                           help='log sleep')
 
     # Finally parse and deal with the parsed arguments
-    args = parser.parse_args()
+    args = parser.parse_args(args, namespace)
+    return args
+
+
+def main():
+    args = parse_args()
     database = os.path.expanduser(args.database)
 
     if args.subcommand == 'wake':
