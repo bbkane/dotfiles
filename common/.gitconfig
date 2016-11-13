@@ -1,5 +1,6 @@
 [user]
 	name = Benjamin Kane
+	email = bbk1524@gmail.com
 [credential "https://github.com"]
 	username = bbkane
 [push]
@@ -10,9 +11,11 @@
 	ls = ls-files
 [color]
 	ui = true
-
-# This is primarily for setting user.email differently at work
-[include]
-	path = ~/.gitconfig.local
 [core]
 	excludesfile = ~/.config/gitignore_global
+	editor = nvim
+
+# This is primarily for setting user.email differently at work
+# and needs to go at the bottom so it overwrites above settings
+[include]
+	path = ~/.gitconfig.local
