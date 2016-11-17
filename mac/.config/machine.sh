@@ -1,6 +1,4 @@
-# make vim use ycm
-export vim_ide_status='ycm'
-
+# pbcopy is mac specific
 stackoverflowit() {
     cat "$1"| sed 's/^/    /g' | pbcopy
 }
