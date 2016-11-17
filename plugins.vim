@@ -26,7 +26,10 @@ autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
 autocmd FileType asm setlocal commentstring=;\ %s
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
+" add add parens with ysiw( or ysiw)
 Plug 'tpope/vim-surround'
+" make the surround movements work with .
+Plug 'tpope/vim-repeat'
 
 " auto-matching
 Plug 'jiangmiao/auto-pairs'
@@ -88,6 +91,9 @@ let g:vim_json_syntax_conceal = 0
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 Plug 'tpope/vim-fugitive'
+
+Plug 'vim-scripts/LargeFile'
+let g:LargeFile = 20
 
 " autocomplete inside search
 Plug 'vim-scripts/SearchComplete'

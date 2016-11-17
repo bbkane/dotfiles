@@ -17,7 +17,7 @@ if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
     " End plugins
     call plug#end()
 else
-    autocmd VimEnter * echom "Install vim-plug with command InstallVimPlug"
+    autocmd VimEnter * echom "Install vim-plug with :InstallVimPlug and plugins with :PlugInstall"
 endif
 
 " Try to use a colorscheme plugin
@@ -27,13 +27,18 @@ try
     if has('termguicolors') && has('mac') && 1
         set termguicolors
     endif
-    " colorscheme gruvbox
-    " colorscheme desert-warm-256
-    " colorscheme elflord
-    " colorscheme railscasts
-    " colorscheme dracula
-    " colorscheme 0x7A69_dark
-    colorscheme desertedocean
+    " get the colorscheme from the environment if it's there
+    if !empty($vim_colorscheme)
+        colorscheme $vim_colorscheme
+    else
+        colorscheme gruvbox
+        " colorscheme desert-warm-256
+        " colorscheme elflord
+        " colorscheme railscasts
+        " colorscheme dracula
+        " colorscheme 0x7A69_dark
+        " colorscheme desertedocean
+    endif
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
     colorscheme elflord
@@ -67,7 +72,7 @@ set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
 set nohlsearch
-set guifont=Source\ Code\ Pro:h13 " set font for macvim
+set guifont=Source\ Code\ Pro:h16 " set font for macvim
 set splitbelow
 set splitright
 
@@ -246,7 +251,9 @@ if executable('php-cs-fixer.phar')
 endif
 
 if executable('cloc')
-    command! VimConfigStats !cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload %:p:h
+    " :p -> get full path and :h -> dirname
+    let vim_config_dir = fnamemodify(expand('$MYVIMRC'), ':p:h')
+    command! VimConfigStats exec '!cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload ' . vim_config_dir
     command! Cloc !cloc %
 endif
 
