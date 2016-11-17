@@ -79,6 +79,25 @@ man() {
     fi
 }
 
+
+set_vim_colorscheme()
+{
+    export vim_colorscheme="$1"
+}
+
+_set_vim_colorscheme_options()
+{
+  local curr_arg;
+  local colorschemes
+
+  curr_arg=${COMP_WORDS[COMP_CWORD]}
+  colorschemes='elflord gruvbox desert-warm-256 elflord railscasts dracula 0x7A69_dark desertedocean'
+
+  COMPREPLY=( $(compgen -W "$colorschemes" -- $curr_arg ) );
+}
+complete -F _set_vim_colorscheme_options set_vim_colorscheme
+
+
 if [[ -n "$ZSH_VERSION" ]]; then
     unsetopt AUTO_CD
     ZSH_THEME="lambdarobbyrussell"
