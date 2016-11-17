@@ -33,6 +33,7 @@ if vim_ide_status =~ 'ycm' && ycm_can_compile
     endif
 
     Plug 'Valloric/YouCompleteMe', ycm_options
+    command! GoTo YcmCompleter GoTo
 
 endif
 
@@ -53,7 +54,7 @@ if has("nvim")
     let flake8_ignore = '--ignore=E501'
 
     " When experimenting, I don't want to deal with a bunch of this...
-    let flake8_ignore .= ',E302,E301,E261,W391,F401'
+    let flake8_ignore .= ',E302,E301,E261,W391,F401,E402,E731,E226'
 
     " Don't forget to 'pip3 install flake8'
     " Not sure if the errorformat stuff is necessary
