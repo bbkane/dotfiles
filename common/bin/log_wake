@@ -20,8 +20,14 @@ import tempfile
 # DEBUG
 # from pprint import pprint
 
-# TODO: Add date ranges
+# This isn't working anymore...
+D3_TIMELINE_SRC = "https://raw.githubusercontent.com/jiahuang/d3-timeline/master/src/d3-timeline.js"
 
+# TODO: fix this... Maybe host it somewhere (https://cdnjs.com) ?
+D3_TIMELINE_SRC = "/Users/bkane/Code/JavaScript/d3-timeline.js"
+
+
+# the following format is ugly, but I need to only partially format it
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
@@ -33,12 +39,15 @@ HTML_TEMPLATE = """
 <body>
     <div id="timeline"></div>
     <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="https://raw.githubusercontent.com/jiahuang/d3-timeline/master/src/d3-timeline.js"></script>
+    <script src="{D3_TIMELINE_SRC}"></script>
     <!-- Will contain one or more graphs -->
     {script}
 </body>
 </html>
-"""
+""".format(title="{title}",
+           D3_TIMELINE_SRC=D3_TIMELINE_SRC,
+           script="{script}")
+
 
 SCRIPT_TEMPLATE = """
     <script>

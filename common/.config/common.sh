@@ -91,7 +91,7 @@ _set_vim_colorscheme_options()
   local colorschemes
 
   curr_arg=${COMP_WORDS[COMP_CWORD]}
-  colorschemes='elflord gruvbox desert-warm-256 elflord railscasts dracula 0x7A69_dark desertedocean'
+  colorschemes='abbott elflord gruvbox desert-warm-256 elflord railscasts dracula 0x7A69_dark desertedocean'
 
   COMPREPLY=( $(compgen -W "$colorschemes" -- $curr_arg ) );
 }
