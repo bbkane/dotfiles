@@ -148,6 +148,14 @@ augroup vagrant
   au BufRead,BufNewFile Vagrantfile set filetype=ruby
 augroup END
 
+
+" http://stackoverflow.com/a/18444962/2958070
+" TODO: maybe use plugin for this
+augroup templates
+    au!
+    autocmd BufNewFile *.* silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand("<afile>:e")
+augroup END
+
 " This is now on plug in
 " split settings
 " Still doesn't hurt to have it here...
@@ -251,9 +259,7 @@ if executable('php-cs-fixer.phar')
 endif
 
 if executable('cloc')
-    " :p -> get full path and :h -> dirname
-    let vim_config_dir = fnamemodify(expand('$MYVIMRC'), ':p:h')
-    command! VimConfigStats exec '!cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload ' . vim_config_dir
+    command! VimConfigStats exec '!cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload,templates ~/.config/nvim'
     command! Cloc !cloc %
 endif
 
