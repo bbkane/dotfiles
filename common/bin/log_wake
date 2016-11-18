@@ -68,7 +68,11 @@ def get_timestamp(dt):
     return int((dt - epoch).total_seconds() * 1000)
 
 
-def insert_into_db(db_path, awake):
+def insert_into_db(db_path, awake, timestamp=None):
+
+    if timestamp is None:
+        timestamp = datetime.datetime.now()
+
     with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         # http://stackoverflow.com/a/16936992/2958070
 
@@ -76,8 +80,8 @@ def insert_into_db(db_path, awake):
 
         cur.execute('''CREATE TABLE IF NOT EXISTS Wake(moment TIMESTAMP PRIMARY KEY, awake BOOLEAN)''')
 
-        # check if the last wake value is not the current awake value. These should toggle
-        last = list(cur.execute('SELECT moment, awake FROM wake ORDER BY DATETIME(moment) DESC LIMIT 1'))
+        # check if the last wake value before the timestamp is not the current awake value. These should toggle
+        last = list(cur.execute('SELECT moment, awake FROM wake WHERE moment <= ? ORDER BY DATETIME(moment) DESC LIMIT 1', (timestamp, )))
 
         if last:  # there is something in the table
             if last[0][1] == awake:  # if it's not toggling, abort ship!
@@ -86,7 +90,7 @@ def insert_into_db(db_path, awake):
                 else:
                     raise SystemExit("Already asleep! Cancelling...")
 
-        cur.execute('INSERT INTO Wake(moment, awake) values (?, ?)', (datetime.datetime.now(), awake))
+        cur.execute('INSERT INTO Wake(moment, awake) values (?, ?)', (timestamp, awake))
         conn.commit()
 
 
@@ -173,6 +177,7 @@ def parse_args(args=None, namespace=None):
 
     class ArgHolder:
         """Hold the arguments and keyword arguments to later unpack into a function call"""
+
         def __init__(self, *args, **kwargs):
             self.args = args
             self.kwargs = kwargs
@@ -213,6 +218,14 @@ def parse_args(args=None, namespace=None):
     subparsers.add_parser('sleep',
                           help='log sleep')
 
+    insert_parser = subparsers.add_parser('insert',
+                                          help='insert a status at a specified date')
+    insert_parser.add_argument('date',
+                               help='Date must be of form \'YYYY-MM-DD HH:MM\'')
+    insert_parser.add_argument('status',
+                               choices=['wake', 'sleep'],
+                               help='are you waking or sleeping?')
+
     # Finally parse and deal with the parsed arguments
     args = parser.parse_args(args, namespace)
     return args
@@ -226,6 +239,10 @@ def main():
         insert_into_db(database, True)
     elif args.subcommand == 'sleep':
         insert_into_db(database, False)
+    elif args.subcommand == 'insert':
+        timestamp = datetime.datetime.strptime(args.date, '%Y-%m-%d %H:%M')
+        awake = args.status == 'wake'
+        insert_into_db(database, awake, timestamp)
     elif args.subcommand == 'graph' or args.subcommand == 'list':
         now = datetime.datetime.today()
         n_days_ago = now - datetime.timedelta(days=args.days - 1)
