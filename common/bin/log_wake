@@ -68,17 +68,26 @@ def get_timestamp(dt):
     return int((dt - epoch).total_seconds() * 1000)
 
 
-def insert_into_db(db_path, awake, timestamp=None):
+def create_database(db_path):
+    with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
+        # http://stackoverflow.com/a/16936992/2958070
+        cur = conn.cursor()
+
+        cur.execute('''CREATE TABLE IF NOT EXISTS Wake(moment TIMESTAMP PRIMARY KEY, awake BOOLEAN, comment TEXT)''')
+        conn.commit()
+
+
+def insert_into_db(db_path, awake, timestamp=None, comment=None):
 
     if timestamp is None:
         timestamp = datetime.datetime.now()
+
+    create_database(db_path)
 
     with closing(sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)) as conn:
         # http://stackoverflow.com/a/16936992/2958070
 
         cur = conn.cursor()
-
-        cur.execute('''CREATE TABLE IF NOT EXISTS Wake(moment TIMESTAMP PRIMARY KEY, awake BOOLEAN)''')
 
         # check if the last wake value before the timestamp is not the current awake value. These should toggle
         last = list(cur.execute('SELECT moment, awake FROM wake WHERE moment <= ? ORDER BY DATETIME(moment) DESC LIMIT 1', (timestamp, )))
@@ -90,7 +99,11 @@ def insert_into_db(db_path, awake, timestamp=None):
                 else:
                     raise SystemExit("Already asleep! Cancelling...")
 
-        cur.execute('INSERT INTO Wake(moment, awake) values (?, ?)', (timestamp, awake))
+        # TODO: make this cleaner?
+        if comment is None:
+            cur.execute('INSERT INTO Wake(moment, awake) values (?, ?)', (timestamp, awake))
+        else:
+            cur.execute('INSERT INTO Wake(moment, awake, comment) values (?, ?, ?)', (timestamp, awake, comment))
         conn.commit()
 
 
@@ -99,20 +112,26 @@ def get_dates_range_from_db(db_path, start_day, end_day):
         cur = conn.cursor()
         start_day = start_day.replace(hour=0, minute=0, second=0)
         end_day = end_day.replace(hour=23, minute=59, second=59)
-        datetimes = list(cur.execute('SELECT moment, awake from Wake WHERE moment >= ? AND moment <= ? ORDER BY DATETIME(moment) ASC', (start_day, end_day)))
+        datetimes = list(cur.execute('SELECT moment, awake, comment from Wake WHERE moment >= ? AND moment <= ? ORDER BY DATETIME(moment) ASC', (start_day, end_day)))
         return datetimes
 
 
 def list_times(db_path, datetimes):
-    for (moment, awake) in datetimes:
+
+    create_database(db_path)
+
+    for (moment, awake, comment) in datetimes:
         # %a -> abbreviated weekday
-        print(moment.strftime('%a'), moment, 'wake' if awake else 'sleep')
+        comment = comment if comment is not None else ''
+        print(moment.strftime('%a'), moment, 'wake' if awake else 'sleep', comment)
 
 
 def graph(db_path, datetimes):
 
-    all_starts = [moment for (moment, awake) in datetimes if awake]
-    all_ends = [moment for (moment, awake) in datetimes if not awake]
+    create_database(db_path)
+
+    all_starts = [moment for (moment, awake, _) in datetimes if awake]
+    all_ends = [moment for (moment, awake, _) in datetimes if not awake]
 
     # Because we're awake when we run this, insert a sleep for the graphing
     # into the list so we can end the graph where we are
@@ -211,12 +230,16 @@ def parse_args(args=None, namespace=None):
                                          help='graph wakings and sleepings')
     graph_parser.add_argument(*days_args.args, **days_args.kwargs)
 
-    # make the wake and sleep subcommands
-    # These don't have any options attached to them, so they don't need to be assigned to variables
-    subparsers.add_parser('wake',
-                          help='log wakeup')
-    subparsers.add_parser('sleep',
-                          help='log sleep')
+    comment_arg = ArgHolder('--comment', '-c',
+                            help="optional comment")
+
+    wake_parser = subparsers.add_parser('wake',
+                                        help='log wakeup')
+    wake_parser.add_argument(*comment_arg.args, **comment_arg.kwargs)
+
+    sleep_parser = subparsers.add_parser('sleep',
+                                         help='log sleep')
+    sleep_parser.add_argument(*comment_arg.args, **comment_arg.kwargs)
 
     insert_parser = subparsers.add_parser('insert',
                                           help='insert a status at a specified date')
@@ -225,6 +248,7 @@ def parse_args(args=None, namespace=None):
     insert_parser.add_argument('status',
                                choices=['wake', 'sleep'],
                                help='are you waking or sleeping?')
+    insert_parser.add_argument(*comment_arg.args, **comment_arg.kwargs)
 
     # Finally parse and deal with the parsed arguments
     args = parser.parse_args(args, namespace)
@@ -236,13 +260,13 @@ def main():
     database = os.path.expanduser(args.database)
 
     if args.subcommand == 'wake':
-        insert_into_db(database, True)
+        insert_into_db(database, True, comment=args.comment)
     elif args.subcommand == 'sleep':
-        insert_into_db(database, False)
+        insert_into_db(database, False, comment=args.comment)
     elif args.subcommand == 'insert':
         timestamp = datetime.datetime.strptime(args.date, '%Y-%m-%d %H:%M')
         awake = args.status == 'wake'
-        insert_into_db(database, awake, timestamp)
+        insert_into_db(database, awake, timestamp, comment=args.comment)
     elif args.subcommand == 'graph' or args.subcommand == 'list':
         now = datetime.datetime.today()
         n_days_ago = now - datetime.timedelta(days=args.days - 1)
