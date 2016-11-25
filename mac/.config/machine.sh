@@ -7,3 +7,5 @@ stackoverflowit() {
 homebrew_bin_dir="/usr/local/bin"
 export PATH="${homebrew_bin_dir}:$PATH"
 
+export vim_ide_status='ycm'
+
