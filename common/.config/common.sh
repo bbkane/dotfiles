@@ -95,6 +95,11 @@ _set_vim_colorscheme_options()
 
   COMPREPLY=( $(compgen -W "$colorschemes" -- $curr_arg ) );
 }
+
+if [[ -n "$ZSH_VERSION" ]]; then
+    autoload bashcompinit
+    bashcompinit
+fi
 complete -F _set_vim_colorscheme_options set_vim_colorscheme
 
 
@@ -145,6 +150,7 @@ user_bin_dir="$HOME/bin"
 
 # end PATH stuff
 
+# Add an optional machine level shell init file
 if [[ -f "$HOME/.config/machine.sh" ]]; then
     source "$HOME/.config/machine.sh"
 fi
