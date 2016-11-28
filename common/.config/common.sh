@@ -85,22 +85,19 @@ set_vim_colorscheme()
     export vim_colorscheme="$1"
 }
 
-_set_vim_colorscheme_options()
-{
-  local curr_arg;
-  local colorschemes
-
-  curr_arg=${COMP_WORDS[COMP_CWORD]}
-  colorschemes='abbott elflord gruvbox desert-warm-256 elflord railscasts dracula 0x7A69_dark desertedocean'
-
-  COMPREPLY=( $(compgen -W "$colorschemes" -- $curr_arg ) );
-}
-
+# make zsh emulate bash if necessary
 if [[ -n "$ZSH_VERSION" ]]; then
     autoload bashcompinit
     bashcompinit
 fi
-complete -F _set_vim_colorscheme_options set_vim_colorscheme
+
+# make the autocompletions
+# https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html
+_vim_colorschemes='abbott elflord gruvbox desert-warm-256 elflord railscasts dracula 0x7A69_dark desertedocean'
+complete -W "${_vim_colorschemes}" 'set_vim_colorscheme'
+_jupyter_options='console kernelspec migrate nbconvert nbextension notebook qtconsole serverextension trust'
+# bashdefault is the rest of the bash default completion and default is readline's default completion
+complete -W "${_jupyter_options}" -o bashdefault -o default 'jupyter'
 
 
 if [[ -n "$ZSH_VERSION" ]]; then
