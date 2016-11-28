@@ -66,6 +66,10 @@
     - cmake
     - python-dev
     - python3-dev
+  # http://stackoverflow.com/a/39842508/2958070
+  # TODO: test this
+  - name: Change locale
+    command: sudo update-locale LANG=en_US.UTF-8 LANGUAGE=en.UTF-8
 
 
     #  - name: Check if VS-Code is installed
