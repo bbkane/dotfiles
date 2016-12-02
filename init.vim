@@ -81,8 +81,14 @@ set previewheight=5
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
-set backupdir=~/tmp,.
-set directory=~/tmp,.
+" http://stackoverflow.com/a/15317146/2958070
+" https://www.reddit.com/r/vim/comments/2jpcbo/mkdir_issue/
+silent! call mkdir($HOME . '/.config/nvim/backup', 'p')
+set backupdir=~/.config/nvim/backup//
+silent! call mkdir($HOME . '/.config/nvim/swap', 'p')
+set directory=~/.config/nvim/swap//
+silent! call mkdir($HOME . '/.config/nvim/undo', 'p')
+set undodir=~/.config/nvim/undo//
 
 if !has("gui_running")
     set confirm "open a save dialog when quitting"
@@ -102,6 +108,10 @@ let mapleader = ","
 
 " Use bash highlighting instead of sh highlighting
 let g:is_posix = 1
+
+" Make some stuff uncopyable on HTML output
+" :help :TOhtml
+let g:html_prevent_copy = "fn"
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
