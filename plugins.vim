@@ -18,12 +18,16 @@ Plug 'tpope/vim-commentary'
 " set default commentstring
 " setglobal commentstring=#\ %s
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
-autocmd FileType cmake setlocal commentstring=#\ %s
-autocmd FileType cpp setlocal commentstring=//\ %s
-autocmd FileType php setlocal commentstring=//\ %s
-autocmd FileType sql setlocal commentstring=--\ %s
-autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
-autocmd FileType asm setlocal commentstring=;\ %s
+augroup commentsrings
+    autocmd!
+    autocmd FileType cmake setlocal commentstring=#\ %s
+    autocmd FileType cpp setlocal commentstring=//\ %s
+    autocmd FileType php setlocal commentstring=//\ %s
+    autocmd FileType sql setlocal commentstring=--\ %s
+    autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
+    autocmd FileType asm setlocal commentstring=;\ %s
+    autocmd FileType text setlocal commentstring=#\ %s
+augroup end
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
 " add add parens with ysiw( or ysiw)
