@@ -27,6 +27,9 @@ Vagrant.configure(2) do |config|
             vb.customize ["modifyvm", :id, "--vram", "128"]
             # requres virtualbox extension pack
             vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+            # https://github.com/chef/bento/issues/688
+            vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+
             vb.memory = "4096"
         end
         # Ansible chokes without this. I don't know why
