@@ -1,17 +1,16 @@
-.DS_Store
-common/.vim/bundle
-common/.vim/tmp
-common/.vim/.netrwhist
-lubuntu/.local/share/applications/chrome*
-lubuntu/.local/share/applications/mimeapps.list
-# Linux Mint's cmake
-common/bin/cmake-3.4.0-Linux-x86_64/
-*.pyc
 # ignore the symlink to common/.vimrc for nvim
-common/.vim/init.vim
-common/.vim/sessions/
-neovim/.config/nvim/bundle
+*.pyc
+*.swp
+.DS_Store
 .vagrant
 change-name.sh
-*.swp
+common/.vim/.netrwhist
+common/.vim/bundle
+common/.vim/init.vim
+common/.vim/sessions/
+common/.vim/tmp
+common/bin/cmake-3.4.0-Linux-x86_64/
+lubuntu/.local/share/applications/chrome*
+lubuntu/.local/share/applications/mimeapps.list
+neovim/.config/nvim/bundle
 tmp.html
