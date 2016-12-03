@@ -1,7 +1,9 @@
 Plug 'ervandew/supertab'
 
 " Good default settings
-Plug 'tpope/vim-sensible'
+if !has("nvim")
+    Plug 'tpope/vim-sensible'
+endif
 
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
