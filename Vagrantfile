@@ -24,7 +24,7 @@ Vagrant.configure(2) do |config|
             vb.customize ["modifyvm", :id, "--ioapic", "on"]
             # google and vs-code depend on no graphics acceleration (or use the --disable-gpu flag)
             # vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
-            # vb.customize ["modifyvm", :id, "--vram", "128"]
+            vb.customize ["modifyvm", :id, "--vram", "128"]
             # requres virtualbox extension pack
             vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
             # https://github.com/chef/bento/issues/688
