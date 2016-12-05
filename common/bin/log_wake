@@ -51,6 +51,13 @@ HTML_TEMPLATE = """
 
 SCRIPT_TEMPLATE = """
     <script>
+        // Add date
+        var dateElement = document.createElement("p");
+        dateElement.innerHTML = "{date}";
+        var timelineElement = document.getElementById("timeline");
+        timelineElement.appendChild(dateElement);
+
+        // Add the chart
         var width = window.innerWidth || document.body.clientWidth;
         var testData = {data};
         var chart = d3.timeline().beginning({beginning}).ending({ending}).showToday();
@@ -173,7 +180,8 @@ def graph(db_path, datetimes):
 
             # print(json.dumps(today_times, indent=2))
             # Note: on Mac this can fill /var/folders/...
-            script_string += SCRIPT_TEMPLATE.format(data=json.dumps(today_times, indent=2),
+            script_string += SCRIPT_TEMPLATE.format(date=str(starts[0]),
+                                                    data=json.dumps(today_times, indent=2),
                                                     beginning=beginning,
                                                     ending=ending)
         html_string = HTML_TEMPLATE.format(title=datetime.datetime.today(),
