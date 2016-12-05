@@ -120,7 +120,7 @@ function poweroff([int]$minutes) {
 }
 
 #Choco Installs
-function Install-Choco([string]$name, 
+function Install-Choco([string]$name,
                        [string]$log_dir="$env:USERPROFILE\Documents\Choco_Install_Logs")
 {
 	if (! (Is-Admin) )
@@ -164,7 +164,7 @@ function Update-Songs([string]$dir="c:$env:HOMEPATH\Music\YouTube",
                       [string]$songs="https://www.youtube.com/playlist?list=PL28F0B690233E29E0")
 {
     cd $dir -ErrorAction Stop
-    youtube-dl --download-archive downloaded.txt --no-post-overwrites --max-downloads 10 -ciwx --audio-format mp3 -o "%(title)s.%(ext)s" $songs   
+    youtube-dl --download-archive downloaded.txt --no-post-overwrites --max-downloads 10 -ciwx --audio-format mp3 -o "%(title)s.%(ext)s" $songs
 }
 
 function Remove-SkypeAds()
@@ -206,6 +206,9 @@ VisualStudioCode
 # install git.install with appropriate switches
 # that should also install vim
 # visual studio can be installed with an xml file too...
+
+# load the new-symlink script
+. $PSScriptRoot/New-SymLink.ps1
 
 # override $profile with location of this file
 # To originally load this file, source it in original $profile
