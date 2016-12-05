@@ -8,7 +8,8 @@ if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
         command! EditPlugins :edit ~/.config/nvim/plugins.vim
     endif
 
-    if !empty(glob("~/.config/nvim/ide.vim"))
+    " Neovim-qt (Windows) opens in a really small window when this is sourced.
+    if !has('win32') && !empty(glob("~/.config/nvim/ide.vim"))
         " Source IDE Plugins
         source ~/.config/nvim/ide.vim
         command! EditIDE :edit ~/.config/nvim/ide.vim
@@ -24,7 +25,7 @@ endif
 " but fallback to a default one
 try
     " Linux has termguicolors but it ruins the colors...
-    if has('termguicolors') && has('mac') && 1
+    if has('termguicolors') && has('mac') || has('win32')
         set termguicolors
     endif
     " get the colorscheme from the environment if it's there
@@ -210,7 +211,6 @@ function! ShowFuncName()
     echohl None
     call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfunction
-
 command! ShowFuncName call ShowFuncName()
 
 function! BensCommands()
@@ -229,13 +229,26 @@ command! BensCommands call BensCommands()
 command! -nargs=1 Help vert help <args>
 
 function! Open()
-    if has('mac')
+    if has('win32')
+        execute "silent !start %"
+    elseif has('mac')
         execute "silent !open %"
     else
         execute "silent !xdg-open %"
     endif
 endfunction
 command! Open call Open()
+
+function! OpenDir()
+    if has('win32')
+        execute "silent !start ."
+    elseif has('mac')
+        execute "silent !open ."
+    else
+        execute "silent !xdg-open ."
+    endif
+endfunction
+command! OpenDir call OpenDir()
 
 function! InstallVimPlug()
     if empty(glob("~/.config/nvim/autoload/plug.vim"))

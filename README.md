@@ -73,3 +73,22 @@ Others: refer to each project.
 - [YouCompleteMe](https://github.com/Valloric/YouCompleteMe/issues)
 
 Install on your own. To see what I've done, look at [ide.vim](ide.vim).
+
+## Windows (Experimental)
+
+- Install Neovim according to the [wiki](https://github.com/neovim/neovim/wiki/Installing-Neovim#windows).
+- Clone this repo into `~/.config/nvim`
+- Make a symlink from `~/.config/nvim` to `~\AppData\Local\nvim`. I used a [PowerShell Script](https://learn-powershell.net/2013/07/16/creating-a-symbolic-link-using-powershell/) and the following command, but `mklink` has got to be easier.
+
+```
+New-SymLink -Path "C:\Users\Ben\.config\nvim" -Symname C:\Users\Ben\AppData\Local\nvim -Directory -Verbose
+```
+
+- Manually save [plug.vim](https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim) to `~/.config/nvim/autoload/plug.vim`. (`:InstallVimPlug` isn't working yet for Windows).
+
+- Install Plugins
+
+```
+:PlugInstall
+```
+
