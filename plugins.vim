@@ -116,6 +116,7 @@ Plug 'xolox/vim-colorscheme-switcher'
 
 " This adds a *bunch* of colorschemes
 Plug 'flazz/vim-colorschemes'
+Plug 'Soares/base16.nvim'
 
 " Tests
 Plug 'nanotech/jellybeans.vim'

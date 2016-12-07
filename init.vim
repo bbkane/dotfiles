@@ -95,6 +95,11 @@ if !has("gui_running")
     set confirm "open a save dialog when quitting"
 endif
 
+if exists('&inccommand')
+    set inccommand=split
+endif
+
+
 " map j to gj and k to gk, so line navigation ignores line wrap
 nmap j gj
 nmap k gk
@@ -146,7 +151,6 @@ if has("nvim")
     autocmd TermOpen * set bufhidden=hide
 endif
 
-au BufRead,BufNewFile *.rs set filetype=rust
 
 " disable error bells
 if !has("nvim")
@@ -154,9 +158,12 @@ if !has("nvim")
     set visualbell t_vb=
 endif
 
-augroup vagrant
-  au!
-  au BufRead,BufNewFile Vagrantfile set filetype=ruby
+augroup custum_filetypes
+    au!
+    au BufRead,BufNewFile *.rs set filetype=rust
+    au BufRead,BufNewFile Vagrantfile set filetype=ruby
+    " custom Lync highlighting
+    au BufRead,BufNewFile *.lync set filetype=lync
 augroup END
 
 
