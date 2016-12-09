@@ -27,6 +27,16 @@ see_biggest() {
     fi
 }
 
+update_configs() {
+    local oldpwd
+    oldpwd=$(pwd)
+    set -x
+    cd ~/backup && git pull
+    cd ~/.config/nvim && git pull
+    set +x
+    cd "${oldpwd}" || echo "${oldpwd} no longer exists!"
+}
+
 #set today to the date
 today=$(date +%Y-%m-%d)
 export today
