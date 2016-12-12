@@ -105,8 +105,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/LargeFile'
 let g:LargeFile = 20
 
+" I think this is messing up the autocomplete
+" for other commands
 " autocomplete inside search
-Plug 'vim-scripts/SearchComplete'
+" Plug 'vim-scripts/SearchComplete'
 
 if executable('clang-format')
     Plug 'rhysd/vim-clang-format'

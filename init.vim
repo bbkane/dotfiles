@@ -8,8 +8,7 @@ if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
         command! EditPlugins :edit ~/.config/nvim/plugins.vim
     endif
 
-    " Neovim-qt (Windows) opens in a really small window when this is sourced.
-    if !has('win32') && !empty(glob("~/.config/nvim/ide.vim"))
+    if !empty(glob("~/.config/nvim/ide.vim"))
         " Source IDE Plugins
         source ~/.config/nvim/ide.vim
         command! EditIDE :edit ~/.config/nvim/ide.vim
@@ -73,7 +72,6 @@ set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
 set nohlsearch
-set guifont=Source\ Code\ Pro:h16 " set font for macvim
 set splitbelow
 set splitright
 
@@ -247,12 +245,13 @@ endfunction
 command! Open call Open()
 
 function! OpenDir()
+    let cur_file_dir = expand('%:p:h')
     if has('win32')
-        execute "silent !start ."
+        execute "silent !start " . cur_file_dir
     elseif has('mac')
-        execute "silent !open ."
+        execute "silent !open " . cur_file_dir
     else
-        execute "silent !xdg-open ."
+        execute "silent !xdg-open " . cur_file_dir
     endif
 endfunction
 command! OpenDir call OpenDir()
