@@ -6,6 +6,8 @@ let vim_ide_status=$vim_ide_status
 " Python only requires cmake on mac
 if has('mac')
     let ycm_can_compile = executable('cmake')
+elseif has('win32')
+    let ycm_can_compile = 0
 else
     " TODO: make ubuntu check for this
     let ycm_can_compile = 1
