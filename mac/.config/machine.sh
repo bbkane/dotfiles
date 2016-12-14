@@ -9,3 +9,4 @@ export PATH="${homebrew_bin_dir}:$PATH"
 
 export vim_ide_status='ycm'
 
+complete -W 'start stop restart reload force-relead status configtest bootstrap' 'mysql.server'
