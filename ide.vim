@@ -51,9 +51,9 @@ if has("nvim")
     " 1 : Quiet message (default)
     let g:neomake_verbose = 0
 
-    " For reddit_get_top_images
-    " \ 'args': ['--ignore=E501,E221,E402',  '--format=default'],
-    let flake8_ignore = '--ignore=E501'
+    " E501: line length
+    " W503: line break before binary operator
+    let flake8_ignore = '--ignore=E501,W503'
 
     " When experimenting, I don't want to deal with a bunch of this...
     if !empty($vim_flake8_lax_mode)

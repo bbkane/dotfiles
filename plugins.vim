@@ -37,6 +37,9 @@ Plug 'tpope/vim-surround'
 " make the surround movements work with .
 Plug 'tpope/vim-repeat'
 
+" Get me some sweet command line mappings for vim
+Plug 'tpope/vim-rsi'
+
 " auto-matching
 Plug 'jiangmiao/auto-pairs'
 " Ignore single quotes in shell
