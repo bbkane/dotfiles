@@ -26,6 +26,7 @@ augroup commentsrings
     autocmd FileType cpp setlocal commentstring=//\ %s
     autocmd FileType php setlocal commentstring=//\ %s
     autocmd FileType sql setlocal commentstring=--\ %s
+    autocmd FileType mysql setlocal commentstring=--\ %s
     autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
     autocmd FileType asm setlocal commentstring=;\ %s
     autocmd FileType text setlocal commentstring=#\ %s

@@ -226,6 +226,7 @@ function! BensCommands()
     echo "gD : global var definition"
     echo "<C-i> : go forward"
     echo "<C-o> : go back"
+    echo "gq : Format selected text"
     echo "-- CTAGS --"
     echo "<C-]> : goto def"
     echo "<C-t> : come from"
