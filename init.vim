@@ -20,13 +20,14 @@ else
     autocmd VimEnter * echom "Install vim-plug with :InstallVimPlug and plugins with :PlugInstall"
 endif
 
+" Linux has termguicolors but it ruins the colors...
+if has('termguicolors') && (has('mac') || has('win32'))
+    set termguicolors
+endif
+
 " Try to use a colorscheme plugin
 " but fallback to a default one
 try
-    " Linux has termguicolors but it ruins the colors...
-    if has('termguicolors') && has('mac') || has('win32')
-        set termguicolors
-    endif
     " get the colorscheme from the environment if it's there
     if !empty($vim_colorscheme)
         colorscheme $vim_colorscheme
@@ -312,6 +313,7 @@ function! SpellCheckToggle()
     endif
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
+command! BlogMode :set textwidth=80 | :call SpellCheckToggle()
 
 function! SearchHLToggle()
     if &hlsearch
