@@ -1,7 +1,9 @@
 Plug 'ervandew/supertab'
 
 " Good default settings
-Plug 'tpope/vim-sensible'
+if !has("nvim")
+    Plug 'tpope/vim-sensible'
+endif
 
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
@@ -18,18 +20,26 @@ Plug 'tpope/vim-commentary'
 " set default commentstring
 " setglobal commentstring=#\ %s
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
-autocmd FileType cmake setlocal commentstring=#\ %s
-autocmd FileType cpp setlocal commentstring=//\ %s
-autocmd FileType php setlocal commentstring=//\ %s
-autocmd FileType sql setlocal commentstring=--\ %s
-autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
-autocmd FileType asm setlocal commentstring=;\ %s
+augroup commentsrings
+    autocmd!
+    autocmd FileType cmake setlocal commentstring=#\ %s
+    autocmd FileType cpp setlocal commentstring=//\ %s
+    autocmd FileType php setlocal commentstring=//\ %s
+    autocmd FileType sql setlocal commentstring=--\ %s
+    autocmd FileType mysql setlocal commentstring=--\ %s
+    autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
+    autocmd FileType asm setlocal commentstring=;\ %s
+    autocmd FileType text setlocal commentstring=#\ %s
+augroup end
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
 " add add parens with ysiw( or ysiw)
 Plug 'tpope/vim-surround'
 " make the surround movements work with .
 Plug 'tpope/vim-repeat'
+
+" Get me some sweet command line mappings for vim
+Plug 'tpope/vim-rsi'
 
 " auto-matching
 Plug 'jiangmiao/auto-pairs'
@@ -65,6 +75,10 @@ let g:session_autosave = 'no'
 let g:session_autoload = 'no'
 
 Plug 'mhinz/vim-startify'
+if executable('cowsay') && executable('fortune')
+    let g:startify_custom_header =
+          \ map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
+endif
 
 Plug 'airblade/vim-gitgutter'
 
@@ -95,8 +109,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/LargeFile'
 let g:LargeFile = 20
 
+" I think this is messing up the autocomplete
+" for other commands
 " autocomplete inside search
-Plug 'vim-scripts/SearchComplete'
+" Plug 'vim-scripts/SearchComplete'
 
 if executable('clang-format')
     Plug 'rhysd/vim-clang-format'
@@ -110,6 +126,7 @@ Plug 'xolox/vim-colorscheme-switcher'
 
 " This adds a *bunch* of colorschemes
 Plug 'flazz/vim-colorschemes'
+Plug 'Soares/base16.nvim'
 
 " Tests
 Plug 'nanotech/jellybeans.vim'
