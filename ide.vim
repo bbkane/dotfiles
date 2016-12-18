@@ -55,7 +55,7 @@ if has("nvim")
 
     " When experimenting, I don't want to deal with a bunch of this...
     if !empty($vim_flake8_lax_mode)
-        let flake8_ignore .= ',E302,E301,E261,W391,F401,E402,E731,E226,F841,E303'
+        let flake8_ignore .= ',E302,E301,E261,W391,F401,E402,E731,E226,F841,E303,E225'
     endif
 
     " Don't forget to 'pip3 install flake8'
