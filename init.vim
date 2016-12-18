@@ -24,7 +24,7 @@ endif
 " but fallback to a default one
 try
     " Linux has termguicolors but it ruins the colors...
-    if has('termguicolors') && has('mac') && 1
+    if has('termguicolors') && has('mac') || has('win32')
         set termguicolors
     endif
     " get the colorscheme from the environment if it's there
@@ -72,7 +72,6 @@ set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
 set nohlsearch
-set guifont=Source\ Code\ Pro:h16 " set font for macvim
 set splitbelow
 set splitright
 
@@ -81,12 +80,23 @@ set previewheight=5
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
-set backupdir=~/tmp,.
-set directory=~/tmp,.
+" http://stackoverflow.com/a/15317146/2958070
+" https://www.reddit.com/r/vim/comments/2jpcbo/mkdir_issue/
+silent! call mkdir($HOME . '/.config/nvim/backup', 'p')
+set backupdir=~/.config/nvim/backup//
+silent! call mkdir($HOME . '/.config/nvim/swap', 'p')
+set directory=~/.config/nvim/swap//
+silent! call mkdir($HOME . '/.config/nvim/undo', 'p')
+set undodir=~/.config/nvim/undo//
 
 if !has("gui_running")
     set confirm "open a save dialog when quitting"
 endif
+
+if exists('&inccommand')
+    set inccommand=split
+endif
+
 
 " map j to gj and k to gk, so line navigation ignores line wrap
 nmap j gj
@@ -102,6 +112,10 @@ let mapleader = ","
 
 " Use bash highlighting instead of sh highlighting
 let g:is_posix = 1
+
+" Make some stuff uncopyable on HTML output
+" :help :TOhtml
+let g:html_prevent_copy = "fn"
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
@@ -135,7 +149,6 @@ if has("nvim")
     autocmd TermOpen * set bufhidden=hide
 endif
 
-au BufRead,BufNewFile *.rs set filetype=rust
 
 " disable error bells
 if !has("nvim")
@@ -143,9 +156,12 @@ if !has("nvim")
     set visualbell t_vb=
 endif
 
-augroup vagrant
-  au!
-  au BufRead,BufNewFile Vagrantfile set filetype=ruby
+augroup custum_filetypes
+    au!
+    au BufRead,BufNewFile *.rs set filetype=rust
+    au BufRead,BufNewFile Vagrantfile set filetype=ruby
+    " custom Lync highlighting
+    au BufRead,BufNewFile *.lync set filetype=lync
 augroup END
 
 
@@ -200,7 +216,6 @@ function! ShowFuncName()
     echohl None
     call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfunction
-
 command! ShowFuncName call ShowFuncName()
 
 function! BensCommands()
@@ -209,6 +224,7 @@ function! BensCommands()
     echo "gD : global var definition"
     echo "<C-i> : go forward"
     echo "<C-o> : go back"
+    echo "gq : Format selected text"
     echo "-- CTAGS --"
     echo "<C-]> : goto def"
     echo "<C-t> : come from"
@@ -219,13 +235,27 @@ command! BensCommands call BensCommands()
 command! -nargs=1 Help vert help <args>
 
 function! Open()
-    if has('mac')
+    if has('win32')
+        execute "silent !start %"
+    elseif has('mac')
         execute "silent !open %"
     else
         execute "silent !xdg-open %"
     endif
 endfunction
 command! Open call Open()
+
+function! OpenDir()
+    let cur_file_dir = expand('%:p:h')
+    if has('win32')
+        execute "silent !start " . cur_file_dir
+    elseif has('mac')
+        execute "silent !open " . cur_file_dir
+    else
+        execute "silent !xdg-open " . cur_file_dir
+    endif
+endfunction
+command! OpenDir call OpenDir()
 
 function! InstallVimPlug()
     if empty(glob("~/.config/nvim/autoload/plug.vim"))
