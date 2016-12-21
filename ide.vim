@@ -14,6 +14,7 @@ else
 endif
 
 if vim_ide_status =~ 'ycm' && ycm_can_compile
+    " Note: When compiling YCM, use the system python! Not Anaconda!
     let g:ycm_python_binary_path = 'python3'
     let ycm_options = { 'dir': '~/.config/nvim/bundle/YouCompleteMe', 'do': './install.py' }
 
