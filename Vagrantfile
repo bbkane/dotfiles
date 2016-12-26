@@ -8,8 +8,9 @@ Vagrant.configure(2) do |config|
         config.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
         config.vm.synced_folder '.', '/vagrant', disabled: true
 
-        # config.vm.network "forwarded_port", guest: 80, host: 8080
-        # config.vm.network "forwarded_port", guest: 3000, host: 3000
+        config.vm.network "forwarded_port", guest: 80, host: 8080
+        config.vm.network "forwarded_port", guest: 3000, host: 3000
+        config.vm.network "forwarded_port", guest: 4000, host: 4000
         node1.vm.hostname = "node1"
         # For logging in through SSH, use username vagrant, password vagrant
 
