@@ -109,6 +109,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/LargeFile'
 let g:LargeFile = 20
 
+Plug 'chrisbra/Recover.vim'
+
 " I think this is messing up the autocomplete
 " for other commands
 " autocomplete inside search
