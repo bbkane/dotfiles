@@ -10,8 +10,11 @@ Plug 'bronson/vim-trailing-whitespace'
 
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
+
 " cmake syntax
-Plug 'slurps-mad-rips/cmake.vim'
+" Plug 'slurps-mad-rips/cmake.vim'
+Plug 'nickhutchinson/vim-cmake-syntax'
+
 " Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
@@ -128,7 +131,9 @@ Plug 'xolox/vim-colorscheme-switcher'
 
 " This adds a *bunch* of colorschemes
 Plug 'flazz/vim-colorschemes'
-Plug 'Soares/base16.nvim'
+if has('nvim')
+    Plug 'Soares/base16.nvim'
+endif
 
 " Tests
 Plug 'nanotech/jellybeans.vim'
