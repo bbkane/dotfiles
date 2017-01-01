@@ -118,6 +118,13 @@ let g:is_posix = 1
 " :help :TOhtml
 let g:html_prevent_copy = "fn"
 
+" this is for the neovim python plugin
+if isdirectory($HOME . '/anaconda3/bin')
+    let g:python3_host_prog = $HOME . '/anaconda3/bin/python3'
+elseif isdirectory($HOME . '/miniconda3/bin')
+    let g:python3_host_prog = $HOME . '/miniconda3/bin/python3'
+endif
+
 " To use the clipboard on linux, install xsel
 if has('clipboard')
     set clipboard^=unnamedplus,unnamed
