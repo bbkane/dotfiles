@@ -29,6 +29,7 @@
 # For more information, please refer to <http://unlicense.org/>
 
 import os
+import subprocess
 import ycm_core
 
 # These are the compilation flags that will be used in case there's no
@@ -37,22 +38,14 @@ import ycm_core
 flags = [
 '-Wall',
 '-Wextra',
-'-Werror',
-'-Wc++98-compat',
-'-Wno-long-long',
-'-Wno-variadic-macros',
-'-fexceptions',
-'-DNDEBUG',
-# You 100% do NOT need -DUSE_CLANG_COMPLETER in your flags; only the YCM
-# source code needs it.
-'-DUSE_CLANG_COMPLETER',
+'-Weverything',
 # THIS IS IMPORTANT! Without a "-std=<something>" flag, clang won't know which
 # language to use when compiling headers. So it will guess. Badly. So C++
 # headers will be compiled as C headers. You don't want that so ALWAYS specify
 # a "-std=<something>".
 # For a C project, you would set this to something like 'c99' instead of
 # 'c++11'.
-'-std=c++11',
+'-std=c++14',
 # ...and the same thing goes for the magic -x option which specifies the
 # language that the files to be compiled are written in. This is mostly
 # relevant for c++ headers.
@@ -60,29 +53,33 @@ flags = [
 '-x',
 'c++',
 '-isystem',
-'../BoostParts',
-'-isystem',
 # This path will only work on OS X, but extra paths that don't exist are not
 # harmful
 '/System/Library/Frameworks/Python.framework/Headers',
 '-isystem',
-'../llvm/include',
-'-isystem',
-'../llvm/tools/clang/include',
 '-I',
 '.',
-'-I',
-'./ClangCompleter',
-'-isystem',
-'./tests/gmock/gtest',
-'-isystem',
-'./tests/gmock/gtest/include',
-'-isystem',
-'./tests/gmock',
-'-isystem',
-'./tests/gmock/include',
 ]
 
+
+def GetCompilationDatabaseFolder():
+    """Get the build directory
+
+    Assume that this is a git project and use git to tell us the top level dir
+    Then assume the build folder is called build and return it if it is
+    """
+    try:
+        with open(os.devnull, 'w') as devnull:
+            root = subprocess.check_output(['git', 'rev-parse', '--show-toplevel'],
+                                           stderr=devnull,
+                                           universal_newlines=True)
+    except subprocess.CalledProcessError:
+        return ''
+    root = root.strip()
+    j = os.path.join
+    if os.path.isfile(j(root, 'CMakeLists.txt')) and os.path.isdir(j(root, 'build')):
+        return j(root, 'build')
+    return ''
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
@@ -94,7 +91,7 @@ flags = [
 #
 # Most projects will NOT need to set this to anything; you can just change the
 # 'flags' list of compilation flags. Notice that YCM itself uses that approach.
-compilation_database_folder = ''
+compilation_database_folder = GetCompilationDatabaseFolder()
 
 if os.path.exists( compilation_database_folder ):
   database = ycm_core.CompilationDatabase( compilation_database_folder )
