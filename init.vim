@@ -180,15 +180,16 @@ augroup templates
     autocmd BufNewFile *.* silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand("<afile>:e")
 augroup END
 
-" This is now on plug in
-" split settings
-" Still doesn't hurt to have it here...
-nnoremap <C-n> <C-w><C-w>
-nnoremap <C-j> <C-w><C-j>
-nnoremap <C-k> <C-w><C-k>
-nnoremap <C-l> <C-w><C-l>
-" all the other mappings work but this one...
-nnoremap <C-h> <C-w><C-h>
+" " This is now on plug in https://github.com/christoomey/vim-tmux-navigator
+" " which makes it also work in tmux
+" " split settings
+" nnoremap <C-n> <ESC><C-w><C-w>
+" nnoremap <C-j> <ESC><C-w><C-j>
+" nnoremap <C-k> <ESC><C-w><C-k>
+" nnoremap <C-l> <ESC><C-w><C-l>
+" " This won't work on OSX withot more work
+" " See :Checkhealth on NeoVim
+" nnoremap <C-h> <ESC><C-w><C-h>
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
