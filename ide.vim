@@ -40,7 +40,8 @@ if vim_ide_status =~ 'ycm' && ycm_can_compile
 
     Plug 'Valloric/YouCompleteMe', ycm_options
     command! GoTo YcmCompleter GoTo
-
+else
+    Plug 'ervandew/supertab'
 endif
 
 
