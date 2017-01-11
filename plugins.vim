@@ -1,4 +1,3 @@
-Plug 'ervandew/supertab'
 
 " Good default settings
 if !has("nvim")
