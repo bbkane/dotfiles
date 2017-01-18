@@ -7,6 +7,15 @@ endif
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
+Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html']}
+" Vim
+let g:indentLine_color_term = 239
+"GVim (also neovim with termguicolors)
+let g:indentLine_color_gui = '#545454' " grey
+" none X terminal
+let g:indentLine_color_tty_light = 7 " (default: 4)
+let g:indentLine_color_dark = 1 " (default: 2)
+
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
 
