@@ -1,4 +1,3 @@
-Plug 'ervandew/supertab'
 
 " Good default settings
 if !has("nvim")
@@ -8,10 +7,22 @@ endif
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
+Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html']}
+" Vim
+let g:indentLine_color_term = 239
+"GVim (also neovim with termguicolors)
+let g:indentLine_color_gui = '#545454' " grey
+" none X terminal
+let g:indentLine_color_tty_light = 7 " (default: 4)
+let g:indentLine_color_dark = 1 " (default: 2)
+
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
+
 " cmake syntax
-Plug 'slurps-mad-rips/cmake.vim'
+" Plug 'slurps-mad-rips/cmake.vim'
+Plug 'nickhutchinson/vim-cmake-syntax'
+
 " Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
@@ -26,6 +37,7 @@ augroup commentsrings
     autocmd FileType cpp setlocal commentstring=//\ %s
     autocmd FileType php setlocal commentstring=//\ %s
     autocmd FileType sql setlocal commentstring=--\ %s
+    autocmd FileType mysql setlocal commentstring=--\ %s
     autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
     autocmd FileType asm setlocal commentstring=;\ %s
     autocmd FileType text setlocal commentstring=#\ %s
@@ -108,6 +120,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-scripts/LargeFile'
 let g:LargeFile = 20
 
+Plug 'chrisbra/Recover.vim'
+
 " I think this is messing up the autocomplete
 " for other commands
 " autocomplete inside search
@@ -125,7 +139,9 @@ Plug 'xolox/vim-colorscheme-switcher'
 
 " This adds a *bunch* of colorschemes
 Plug 'flazz/vim-colorschemes'
-Plug 'Soares/base16.nvim'
+if has('nvim')
+    Plug 'Soares/base16.nvim'
+endif
 
 " Tests
 Plug 'nanotech/jellybeans.vim'

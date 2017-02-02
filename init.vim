@@ -20,13 +20,14 @@ else
     autocmd VimEnter * echom "Install vim-plug with :InstallVimPlug and plugins with :PlugInstall"
 endif
 
+" Linux has termguicolors but it ruins the colors...
+if has('termguicolors') && (has('mac') || has('win32'))
+    set termguicolors
+endif
+
 " Try to use a colorscheme plugin
 " but fallback to a default one
 try
-    " Linux has termguicolors but it ruins the colors...
-    if has('termguicolors') && has('mac') || has('win32')
-        set termguicolors
-    endif
     " get the colorscheme from the environment if it's there
     if !empty($vim_colorscheme)
         colorscheme $vim_colorscheme
@@ -121,6 +122,13 @@ let g:is_posix = 1
 " :help :TOhtml
 let g:html_prevent_copy = "fn"
 
+" this is for the neovim python plugin
+if isdirectory($HOME . '/anaconda3/bin')
+    let g:python3_host_prog = $HOME . '/anaconda3/bin/python3'
+elseif isdirectory($HOME . '/miniconda3/bin')
+    let g:python3_host_prog = $HOME . '/miniconda3/bin/python3'
+endif
+
 " To use the clipboard on linux, install xsel
 if has('clipboard')
     set clipboard^=unnamedplus,unnamed
@@ -176,15 +184,16 @@ augroup templates
     autocmd BufNewFile *.* silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand("<afile>:e")
 augroup END
 
-" This is now on plug in
-" split settings
-" Still doesn't hurt to have it here...
-nnoremap <C-n> <C-w><C-w>
-nnoremap <C-j> <C-w><C-j>
-nnoremap <C-k> <C-w><C-k>
-nnoremap <C-l> <C-w><C-l>
-" all the other mappings work but this one...
-nnoremap <C-h> <C-w><C-h>
+" " This is now on plug in https://github.com/christoomey/vim-tmux-navigator
+" " which makes it also work in tmux
+" " split settings
+" nnoremap <C-n> <ESC><C-w><C-w>
+" nnoremap <C-j> <ESC><C-w><C-j>
+" nnoremap <C-k> <ESC><C-w><C-k>
+" nnoremap <C-l> <ESC><C-w><C-l>
+" " This won't work on OSX withot more work
+" " See :Checkhealth on NeoVim
+" nnoremap <C-h> <ESC><C-w><C-h>
 
 " save, make, run (depends on makeprg)
 map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
@@ -228,6 +237,7 @@ function! BensCommands()
     echo "gD : global var definition"
     echo "<C-i> : go forward"
     echo "<C-o> : go back"
+    echo "gq : Format selected text"
     echo "-- CTAGS --"
     echo "<C-]> : goto def"
     echo "<C-t> : come from"
@@ -315,6 +325,8 @@ function! SpellCheckToggle()
     endif
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
+" format existing text by selecting it and using `gq`
+command! BlogMode :set textwidth=80 | :call SpellCheckToggle()
 
 function! SearchHLToggle()
     if &hlsearch
@@ -341,3 +353,23 @@ function! WriteHTML()
     silent exec "q"
 endfunction
 command! WriteHTML call WriteHTML()
+
+" http://superuser.com/a/277326/643441
+command! MakeFile :call writefile([], expand("<cfile>"), "t")
+
+function! UpByIndent()
+    norm! ^
+    let start_col = col(".")
+    let col = start_col
+    while col >= start_col
+        norm! k^
+        if getline(".") =~# '^\s*$'
+            let col = start_col
+        elseif col(".") <= 1
+            return
+        else
+            let col = col(".")
+        endif
+    endwhile
+endfunction
+command! UpByIndent :call UpByIndent()

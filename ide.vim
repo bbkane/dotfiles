@@ -13,7 +13,8 @@ else
     let ycm_can_compile = 1
 endif
 
-if vim_ide_status =~ 'ycm' && ycm_can_compile
+if vim_ide_status =~ 'ycm' && ycm_can_compile && (has('python') || has('python3'))
+    " Note: When compiling YCM, use the system python! Not Anaconda!
     let g:ycm_python_binary_path = 'python3'
     let ycm_options = { 'dir': '~/.config/nvim/bundle/YouCompleteMe', 'do': './install.py' }
 
@@ -30,13 +31,17 @@ if vim_ide_status =~ 'ycm' && ycm_can_compile
         let g:ycm_confirm_extra_conf = 0
         let ycm_options.do .= ' --clang-completer'
 
-        " OSX: Need to symlink clang++-3.? to clang++ -> sudo ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
+        " OSX: Need to clang++ in path
+        " OSX: Need a python2 in the path. I can't symlink in /usr/bin and
+        " python doesn't like a symlink anywhere else so I'm using a wrapper script in ~/bin
+        " http://unix.stackexchange.com/a/126567/185953
         Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
     endif
 
     Plug 'Valloric/YouCompleteMe', ycm_options
     command! GoTo YcmCompleter GoTo
-
+else
+    Plug 'ervandew/supertab'
 endif
 
 
@@ -57,7 +62,7 @@ if has("nvim")
 
     " When experimenting, I don't want to deal with a bunch of this...
     if !empty($vim_flake8_lax_mode)
-        let flake8_ignore .= ',E302,E301,E261,W391,F401,E402,E731,E226,F841,E303'
+        let flake8_ignore .= ',E302,E301,E261,W391,F401,E402,E731,E226,F841,E303,E225'
     endif
 
     " Don't forget to 'pip3 install flake8'
@@ -74,10 +79,18 @@ if has("nvim")
             \ }
     endif
 
-    if executable('clang')
+    " Let YCM handle cpp if possible
+    if vim_ide_status =~ 'cpp'
+        let g:neomake_cpp_enabled_makers = []
+        " TODO: Disabling this for c files could get me in trouble because YCM is currently only
+        " configured for cpp files... Leaving it in for now because it makes
+        " bfaas easier
+        let g:neomake_c_enabled_makers = []
+    elseif executable('clang')
         let g:neomake_cpp_enabled_makers=['clang']
         let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-Weverything", "-pedantic"]
     endif
+
 
     function! NeoMakeOnWrite()
         " If NeoMake isn't installed, don't do this
