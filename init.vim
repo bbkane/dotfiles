@@ -98,9 +98,6 @@ if exists('&inccommand')
     set inccommand=split
 endif
 
-if has('win32')
-    autocmd VimEnter * cd $HOME
-endif
 
 
 " map j to gj and k to gk, so line navigation ignores line wrap
