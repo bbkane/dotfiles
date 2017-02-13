@@ -99,6 +99,7 @@ if exists('&inccommand')
 endif
 
 
+
 " map j to gj and k to gk, so line navigation ignores line wrap
 nmap j gj
 nmap k gk
@@ -323,6 +324,7 @@ function! SpellCheckToggle()
     endif
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
+" format existing text by selecting it and using `gq`
 command! BlogMode :set textwidth=80 | :call SpellCheckToggle()
 
 function! SearchHLToggle()
@@ -350,3 +352,23 @@ function! WriteHTML()
     silent exec "q"
 endfunction
 command! WriteHTML call WriteHTML()
+
+" http://superuser.com/a/277326/643441
+command! MakeFile :call writefile([], expand("<cfile>"), "t")
+
+function! UpByIndent()
+    norm! ^
+    let start_col = col(".")
+    let col = start_col
+    while col >= start_col
+        norm! k^
+        if getline(".") =~# '^\s*$'
+            let col = start_col
+        elseif col(".") <= 1
+            return
+        else
+            let col = col(".")
+        endif
+    endwhile
+endfunction
+command! UpByIndent :call UpByIndent()

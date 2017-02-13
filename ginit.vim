@@ -8,3 +8,5 @@ Guifont! Lucida Console:h10
 
 " force full-screen
 call GuiWindowMaximized(1)
+
+cd $HOME
