@@ -119,10 +119,12 @@ let g:is_posix = 1
 let g:html_prevent_copy = "fn"
 
 " this is for the neovim python plugin
-if isdirectory($HOME . '/anaconda3/bin')
+" This might be a problem for YCM on linux because anaconda python doesn't
+" have python-devel like the system does and YCM needs
+if has('mac') && isdirectory($HOME . '/anaconda3/bin')
     let g:python3_host_prog = $HOME . '/anaconda3/bin/python3'
-elseif isdirectory($HOME . '/miniconda3/bin')
-    let g:python3_host_prog = $HOME . '/miniconda3/bin/python3'
+elseif has('unix') " linux, not mac
+    let g:python3_host_prog = '/usr/bin/python3'
 endif
 
 " To use the clipboard on linux, install xsel
