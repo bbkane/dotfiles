@@ -1,0 +1,14 @@
+-- get the titles of columns
+.header on
+
+-- see cleaner results
+.mode column
+
+-- see execution time
+.timer on
+
+-- print command along with result (off by default, here for reference)
+.echo off
+
+-- enforce foreign keys
+PRAGMA foreign_keys = ON;
