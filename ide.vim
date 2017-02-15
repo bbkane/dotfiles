@@ -79,6 +79,13 @@ if has("nvim")
             \ }
     endif
 
+    " I think you can only disable all warnings at once.
+    " but the only one I don't want is the proprietary attributes
+    " let g:neomake_html_tidy_maker = {
+    "     \ 'args': ['-e', '-q', '--gnu-emacs', 'true', '--show-warnings', 'false'],
+    "     \ 'errorformat': '%A%f:%l:%c: Warning: %m',
+    "     \ }
+
     " Let YCM handle cpp if possible
     if vim_ide_status =~ 'cpp'
         let g:neomake_cpp_enabled_makers = []

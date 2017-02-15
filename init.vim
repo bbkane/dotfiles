@@ -69,6 +69,8 @@ set expandtab                     " Use spaces instead of tabs
 set shiftwidth=4                  " Number of auto-indent spaces
 set softtabstop=4                 " Number of spaces per Tab
 
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2
+
 set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
