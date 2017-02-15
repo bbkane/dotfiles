@@ -54,8 +54,11 @@ mkcd() {
 }
 
 logit() {
-    today=$(date +%Y-%m-%d.%H.%M)
-    "$@" > >(tee "$1".stdout."$today".log) 2> >(tee "$1".stderr."$today".log >&2)
+    local today=$(date +%Y-%m-%d.%H.%M)
+    # http://stackoverflow.com/a/1706459/2958070
+    local prog="$*"
+    prog=${prog// /_}
+    "$@" > >(tee "$prog".stdout."$today".log) 2> >(tee "$prog".stderr."$today".log >&2)
 }
 
 fullpath() {
