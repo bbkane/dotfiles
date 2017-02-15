@@ -16,6 +16,11 @@ let g:indentLine_color_gui = '#545454' " grey
 let g:indentLine_color_tty_light = 7 " (default: 4)
 let g:indentLine_color_dark = 1 " (default: 2)
 
+" vim-xpath is really only useful for XML files and
+" requires a Python2 with lxml installed
+" The easiest way to get this is with Anaconda.
+" Plug 'actionshrimp/vim-xpath'
+
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
 
@@ -68,6 +73,7 @@ Plug 'godlygeek/tabular'
 " When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
 Plug 'tpope/vim-ragtag'
 Plug 'Glench/Vim-Jinja2-Syntax'
+" Ctrl+_ to close the tag
 Plug 'vim-scripts/closetag.vim'
 if has("python")
     Plug 'https://github.com/Valloric/MatchTagAlways.git'
