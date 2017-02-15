@@ -35,6 +35,14 @@ Vagrant.configure(2) do |config|
         end
         # Ansible chokes without this. I don't know why
         # Needs privileged: false to avoid an error
+
+        # http://stackoverflow.com/questions/33939834/how-to-correct-system-clock-in-vagrant-automatically
+        require 'time'
+        offset = ((Time.zone_offset(Time.now.zone) / 60) / 60)
+        timezone_suffix = offset >= 0 ? "+#{offset.to_s}" : "#{offset.to_s}"
+        timezone = 'Etc/GMT' + timezone_suffix
+        config.vm.provision :shell, :inline => "sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/" + timezone + " /etc/localtime", run: "always"
+
         config.vm.provision "shell", privileged: false, inline: "sudo mkdir -p /vagrant"
         # no synced folder, so we put the playbook on there manually
         config.vm.provision "file", source: "./playbook.yml", destination: "/tmp/playbook.yml"
