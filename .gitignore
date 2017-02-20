@@ -4,3 +4,7 @@ spell/
 swap/
 *.swp
 .netrwhist
+
+# these are custom files for large XML files for work
+largefile_environment.yaml
+largefile_init.vim
