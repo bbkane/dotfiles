@@ -6,13 +6,13 @@ My Neovim Config. Should also work for Vim, but no promises :)
 - Back up old config
 
 ```
-mv ~/.config/nvim ~/.config/nvim.$(date +%Y-%m-%d)
+mv "$HOME/.config/nvim" "$HOME/.config/nvim.$(date +%Y-%m-%d)"
 ```
 
 - Clone the repository
 
 ```
-git clone https://github.com/bbkane/nvim.git ~/.config/nvim
+git clone https://github.com/bbkane/nvim.git "$HOME/config/nvim"
 ```
 
 ### Vim Extra Steps
@@ -77,14 +77,14 @@ Install on your own. To see what I've done, look at [ide.vim](ide.vim).
 ## Windows (Experimental)
 
 - Install Neovim according to the [wiki](https://github.com/neovim/neovim/wiki/Installing-Neovim#windows).
-- Clone this repo into `~/.config/nvim`
-- Make a symlink from `~/.config/nvim` to `~\AppData\Local\nvim`. I used a [PowerShell Script](https://learn-powershell.net/2013/07/16/creating-a-symbolic-link-using-powershell/) and the following command, but `mklink` has got to be easier.
+- Clone this repo into `$env:USERPROFILE/.config/nvim`
+- Make a symlink from `$env:$USERPROFILE/.config/nvim` to `$env:USERPROFILE\AppData\Local\nvim`. I used a [PowerShell Script](https://learn-powershell.net/2013/07/16/creating-a-symbolic-link-using-powershell/) and the following command, but `mklink` has got to be easier.
 
 ```
 New-SymLink -Path "C:\Users\Ben\.config\nvim" -Symname C:\Users\Ben\AppData\Local\nvim -Directory -Verbose
 ```
 
-- Manually save [plug.vim](https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim) to `~/.config/nvim/autoload/plug.vim`. (`:InstallVimPlug` isn't working yet for Windows).
+- Manually save [plug.vim](https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim) to `$env:USERPROFILE/.config/nvim/autoload/plug.vim`. (`:InstallVimPlug` isn't working yet for Windows).
 
 - Install Plugins
 

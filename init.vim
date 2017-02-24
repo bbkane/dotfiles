@@ -143,7 +143,9 @@ cmap w!! w !sudo tee > /dev/null %
 
 if has("nvim")
     " Disable mouse
-    set mouse-=a
+    if !has('win32')
+        set mouse-=a
+    endif
 
     tnoremap <Esc> <C-\><C-n>
     tnoremap fd  <C-\><C-n>
