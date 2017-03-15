@@ -89,8 +89,10 @@ silent! call mkdir($HOME . '/.config/nvim/backup', 'p')
 set backupdir=~/.config/nvim/backup//
 silent! call mkdir($HOME . '/.config/nvim/swap', 'p')
 set directory=~/.config/nvim/swap//
-silent! call mkdir($HOME . '/.config/nvim/undo', 'p')
-set undodir=~/.config/nvim/undo//
+if exists('&undodir') " Vim 7.2 doesn't have this
+    silent! call mkdir($HOME . '/.config/nvim/undo', 'p')
+    set undodir=~/.config/nvim/undo//
+endif
 
 if !has("gui_running")
     set confirm "open a save dialog when quitting"
