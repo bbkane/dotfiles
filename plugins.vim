@@ -116,6 +116,9 @@ command! AutoQuickRun  autocmd BufWritePost * QuickRun
 Plug 'cespare/vim-toml'
 Plug 'StanAngeloff/php.vim'
 
+Plug 'jceb/vim-orgmode'
+Plug 'tpope/vim-speeddating'
+
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 
@@ -149,7 +152,7 @@ if has('nvim')
     Plug 'Soares/base16.nvim'
 endif
 
-" Tests
+" Test colorschemes
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
 Plug 'dracula/vim'
