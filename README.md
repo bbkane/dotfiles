@@ -12,7 +12,8 @@ mv "$HOME/.config/nvim" "$HOME/.config/nvim.$(date +%Y-%m-%d)"
 - Clone the repository
 
 ```
-git clone https://github.com/bbkane/nvim.git "$HOME/config/nvim"
+mkdir -p "$HOME/.config"
+git clone https://github.com/bbkane/nvim.git "$HOME/.config/nvim"
 ```
 
 ### Vim Extra Steps
