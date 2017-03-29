@@ -215,7 +215,7 @@ def parse_args(args=None, namespace=None):
     # top level options
     parser.add_argument('--database', '-db',
                         default='~/.log_wake.db',
-                        help='database to use')
+                        help='database to use. Defaults to ~/.log_wake.db')
 
     # add a mandatory subcommand available after parsing at args.subcommand
     subparsers = parser.add_subparsers(dest='subcommand')
