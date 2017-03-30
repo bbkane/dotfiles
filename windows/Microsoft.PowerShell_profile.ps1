@@ -17,14 +17,15 @@ function Start-PSAdmin {Start-Process PowerShell -Verb RunAs}
 
 function Install-PowerShellGoodies()
 {
-
-    (new-object Net.WebClient).DownloadString("http://psget.net/GetPsGet.ps1") | iex
+    # I think cmder installes GetPsGet automatically
+    # (new-object Net.WebClient).DownloadString("http://psget.net/GetPsGet.ps1") | iex
 
     Install-Module PSReadline
     # Don't forget to install git to make this work
     Install-Module posh-git
 }
 
+# NOTE: I don't think I need this anymore
 function Init-PowerShellGoodies()
 {
     # Install the modules if needed
@@ -56,6 +57,8 @@ function Init-PowerShellGoodies()
         }
     }
 }
+
+
 
 # https://github.com/Microsoft/PTVS/blob/master/PowershellEnvironment.ps1
 function Get-Batchfile ($file) {
@@ -167,19 +170,21 @@ function Update-Songs([string]$dir="c:$env:HOMEPATH\Music\YouTube",
     youtube-dl --download-archive downloaded.txt --no-post-overwrites --max-downloads 10 -ciwx --audio-format mp3 -o "%(title)s.%(ext)s" $songs
 }
 
-function Remove-SkypeAds()
-{
-    Stop-Process -processname Skype -ErrorAction SilentlyContinue
-    # Start-Sleep -s 7
-    # $skype_config = "$env:HOME\AppData\Roaming\Skype\bbk1524\config.xml"
-    $skype_config = "C:\Users\Ben\Desktop\config.xml"
-    (Get-Content $skype_config) -NotMatch '<AdvertPlaceholder>'  | Out-File "$skype_config.2.xml" -Encoding ascii
-    # Set-ItemProperty -Path $skype_config -Name IsReadOnly -Value $true
-    # TODO: figure out how to add to hosts file or restricted sites...
+# Init-PowerShellGoodies
+
+if (Get-Module -ListAvailable -Name PSReadline) {
+    # PSReadline goodness (Ctrl + Space makes zsh-style completion guide)
+    # more at https://rkeithhill.wordpress.com/2013/10/18/psreadline-a-better-line-editing-experience-for-the-powershell-console/
+    Import-Module PSReadline
+
+    # See all KeyHandlers with Get-PSReadlineKeyHandler
+    Set-PSReadlineKeyHandler -Key Ctrl+P -Function PreviousHistory
+    Set-PSReadlineKeyHandler -Key Ctrl+N -Function NextHistory
+    Set-PSReadlineKeyHandler -Key Ctrl+U -Function BackwardDeleteLine
 }
-
-
-Init-PowerShellGoodies
+else {
+    Write-Host 'Get PSReadline with `Install-Module PSReadline`' -ForegroundColor Cyan
+}
 
 # Aliases
 Set-Alias npp "C:\Program Files (x86)\Notepad++\notepad++.exe"
