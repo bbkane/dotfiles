@@ -311,6 +311,10 @@ if executable('cloc')
     command! Cloc !cloc %
 endif
 
+if executable('python')
+    command! JSONFormat %!python -m json.tool
+endif
+
 " install: cpanmn Perl::Tidy
 " use: select the region to tidy and hit '='
 if executable('perltidy')
@@ -378,3 +382,14 @@ function! UpByIndent()
     endwhile
 endfunction
 command! UpByIndent :call UpByIndent()
+
+" http://stackoverflow.com/a/749320/2958070
+" exit with :q or :diffoff
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+command! DiffSaved call s:DiffWithSaved()
