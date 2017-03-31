@@ -46,6 +46,7 @@ augroup commentsrings
     autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
     autocmd FileType asm setlocal commentstring=;\ %s
     autocmd FileType text setlocal commentstring=#\ %s
+    autocmd FileType jq setlocal commentstring=#\ %s
 augroup end
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
@@ -121,6 +122,8 @@ Plug 'tpope/vim-speeddating'
 
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
+
+Plug 'vito-c/jq.vim'
 
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
