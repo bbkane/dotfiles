@@ -93,3 +93,10 @@ New-SymLink -Path "C:\Users\Ben\.config\nvim" -Symname C:\Users\Ben\AppData\Loca
 :PlugInstall
 ```
 
+## QuickInstall
+
+Just the basic `~/.vimrc`- no plugins or anything
+
+```
+curl https://raw.githubusercontent.com/bbkane/nvim/master/init.vim > ~/.vimrc
+```
