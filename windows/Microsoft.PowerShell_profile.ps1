@@ -25,40 +25,6 @@ function Install-PowerShellGoodies()
     Install-Module posh-git
 }
 
-# NOTE: I don't think I need this anymore
-function Init-PowerShellGoodies()
-{
-    # Install the modules if needed
-    $posh_git_profile = "c:$env:HOMEPATH\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1"
-
-    if (Test-Path $posh_git_profile)
-    {
-        # If its installed, run customizations
-
-        . $posh_git_profile
-
-        # PSReadline goodness (Ctrl + Space makes zsh-style completion guide)
-        # more at https://rkeithhill.wordpress.com/2013/10/18/psreadline-a-better-line-editing-experience-for-the-powershell-console/
-        Import-Module PSReadline
-
-        # See all KeyHandlers with Get-PSReadlineKeyHandler
-        Set-PSReadlineKeyHandler -Key Ctrl+P -Function PreviousHistory
-        Set-PSReadlineKeyHandler -Key Ctrl+N -Function NextHistory
-        Set-PSReadlineKeyHandler -Key Ctrl+U -Function BackwardDeleteLine
-    }
-    else
-    {
-        $permission = Read-Host "Install PowerShellGoodies (yes)? "
-        if ($permission.Equals("yes"))
-        {
-            Install-PowerShellGoodies
-            Write-Host '". $PROFILE"" to load changes' -ForegroundColor blue -BackgroundColor black
-            Write-Host 'My favorite tools are stored in $apps. Think about Install-All them' -ForegroundColor Cyan
-        }
-    }
-}
-
-
 
 # https://github.com/Microsoft/PTVS/blob/master/PowershellEnvironment.ps1
 function Get-Batchfile ($file) {
