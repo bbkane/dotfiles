@@ -20,4 +20,9 @@ elif platform.system() == "Linux":
 else:
     raise NotImplementedError()
 
+# On Windows, there might be a symlink pointing to a different file
+# Always remove symlinks
+if os.path.islink(VS_SETTINGS_DST_PATH):
+    os.remove(VS_SETTINGS_DST_PATH)
+
 os.symlink(VS_SETTINGS_SRC_PATH, VS_SETTINGS_DST_PATH)
