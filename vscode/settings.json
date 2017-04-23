@@ -1,0 +1,17 @@
+// Ben's Visual Studio Code settings
+// Place your settings in this file to overwrite the default settings
+{
+  // When enabled, will trim trailing whitespace when saving a file.
+  "files.trimTrailingWhitespace": true,
+
+  // https://marketplace.visualstudio.com/items?itemName=donjayamanne.python
+  // conda install flake8
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": [
+    "--ignore=E501,W503"
+  ],
+
+  // https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
+  "auto-close-tag.SublimeText3Mode": true
+}
