@@ -4,6 +4,8 @@
   // When enabled, will trim trailing whitespace when saving a file.
   "files.trimTrailingWhitespace": true,
 
+  "workbench.iconTheme": "vs-seti",
+
   // https://marketplace.visualstudio.com/items?itemName=donjayamanne.python
   // conda install flake8
   "python.linting.pylintEnabled": false,
@@ -13,5 +15,7 @@
   ],
 
   // https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
-  "auto-close-tag.SublimeText3Mode": true
+  "auto-close-tag.SublimeText3Mode": true,
+  "window.zoomLevel": 0,
+  "editor.fontSize": 14
 }
