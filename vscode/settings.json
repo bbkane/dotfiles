@@ -13,5 +13,6 @@
   ],
 
   // https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
-  "auto-close-tag.SublimeText3Mode": true
+  "auto-close-tag.SublimeText3Mode": true,
+  "window.zoomLevel": 0
 }
