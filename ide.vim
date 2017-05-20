@@ -14,8 +14,6 @@ if vim_ide_status =~ 'ycm'
         " TODO: fix this
         let g:ycm_rust_src_path = '/home/vagrant/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
         " "$HOME/.rustup/toolchains/$(rustup toolchain list | grep '(default)' | sed 's/ (default)//')/lib/rustlib/src/rust/src"
-        Plug 'rust-lang/rust.vim'
-        let g:rustfmt_autosave = 1
         let ycm_options.do .= ' --racer-completer'
     endif
     if vim_ide_status =~ 'cpp'
