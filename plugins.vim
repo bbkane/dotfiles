@@ -60,9 +60,14 @@ Plug 'tpope/vim-rsi'
 
 " auto-matching
 Plug 'jiangmiao/auto-pairs'
-" Ignore single quotes in shell
-au FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 command! AutoPairsToggle call AutoPairsToggle()
+augroup autopairs
+    autocmd!
+    " Ignore single quotes in shell
+    autocmd FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
+    " disable for scheme files
+    autocmd VimEnter *.scm let b:autopairs_enabled = 0
+augroup end
 
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
@@ -124,6 +129,9 @@ Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 
 Plug 'vito-c/jq.vim'
+
+Plug 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
 
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
