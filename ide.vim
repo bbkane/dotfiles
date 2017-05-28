@@ -7,6 +7,9 @@ let vim_ide_status=$vim_ide_status
 if vim_ide_status =~ 'ycm'
     " Note: When compiling YCM on Linux, use the system python! Not Anaconda!
     let g:ycm_python_binary_path = 'python3'
+    " TODO:
+    " I put this in my Ubuntu VM. It might need a if linux block
+    let g:ycm_server_python_interpreter = 'python'
     let ycm_options = { 'dir': '~/.config/nvim/bundle/YouCompleteMe', 'do': './install.py' }
 
     if vim_ide_status =~ 'rust'
