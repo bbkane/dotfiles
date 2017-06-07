@@ -105,3 +105,17 @@ find.
    backup/setup/ folder).
 3. figure out compton (opacity mostly) and customize urxvt
 4. Figure out autokey
+
+
+# Vagrant Instructions
+
+The basic setup here is pretty portable using VirtualBox and Vagrant.
+It's not fully automated, but it's not bad, not bad at all.
+
+## Windows
+
+1. Install VirtualBox version 5.0.40 and Vagrant 1.8.7. Newer versions seem to break my code.
+2. clone this.
+3. `vagrant up`
+4. Add `source "$HOME/~/.config/common.sh"` to the end of ~/.bashrc
+4. open vim (really NeoVim) and use `:PlugInstall`

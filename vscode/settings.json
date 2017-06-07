@@ -30,5 +30,6 @@
   "vim.disableAnnoyingGcMessage": true,
 
   "editor.renderIndentGuides": true,
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "window.zoomLevel": 0
 }
