@@ -5,7 +5,7 @@
 .mode column
 
 -- see execution time
-.timer on
+.timer off
 
 -- print command along with result (off by default, here for reference)
 .echo off
