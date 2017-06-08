@@ -3,6 +3,7 @@
 *.swp
 .DS_Store
 .vagrant
+.vscode/
 change-name.sh
 common/.vim/.netrwhist
 common/.vim/bundle
