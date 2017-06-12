@@ -1,5 +1,10 @@
 #!/bin/bash
 
+run-mit-scheme() {
+    echo | mit-scheme --quiet --load $1
+    echo
+}
+
 see_path() {
     echo "$PATH" | tr ":" "\n"
 }
