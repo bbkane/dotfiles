@@ -16,5 +16,16 @@
 
   // https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
   "auto-close-tag.SublimeText3Mode": true,
-  "window.zoomLevel": 0
+  "window.zoomLevel": -1,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["f","d"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.disableAnnoyingNeovimMessage": true,
+  "vim.disableAnnoyingGcMessage": true,
+  "[javascript]": {
+    "editor.tabSize": 2
+  }
 }
