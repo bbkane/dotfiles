@@ -1,10 +1,27 @@
 // Ben's Visual Studio Code settings
 // Place your settings in this file to overwrite the default settings
 {
-  // When enabled, will trim trailing whitespace when saving a file.
-  "files.trimTrailingWhitespace": true,
+  "[html]": {
+    "editor.tabSize": 2
+  },
+  "[javascript]": {
+    "editor.tabSize": 2
+  },
 
-  "workbench.iconTheme": "vs-seti",
+  "editor.fontSize": 14,
+  "editor.minimap.enabled": false,
+  "editor.renderIndentGuides": true,
+  // Controls how the editor should render whitespace characters, possibilities are 'none', 'boundary', and 'all'. The 'boundary' option does not render single spaces between words.
+  "editor.renderWhitespace": "boundary",
+  // Controls how lines should wrap. Can be:
+  //  - 'off' (disable wrapping),
+  //  - 'on' (viewport wrapping),
+  //  - 'wordWrapColumn' (wrap at `editor.wordWrapColumn`) or
+  //  - 'bounded' (wrap at minimum of viewport and `editor.wordWrapColumn`).
+  "editor.wordWrap": "on",
+
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
 
   // https://marketplace.visualstudio.com/items?itemName=donjayamanne.python
   // conda install flake8
@@ -14,18 +31,14 @@
     "--ignore=E501,W503"
   ],
 
-  // https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag
-  "auto-close-tag.SublimeText3Mode": true,
-  "window.zoomLevel": -1,
+  "vim.disableAnnoyingNeovimMessage": true,
   "vim.insertModeKeyBindings": [
     {
       "before": ["f","d"],
       "after": ["<Esc>"]
     }
   ],
-  "vim.disableAnnoyingNeovimMessage": true,
-  "vim.disableAnnoyingGcMessage": true,
-  "[javascript]": {
-    "editor.tabSize": 2
-  }
+
+  "workbench.iconTheme": "vs-seti",
+  "window.zoomLevel": 0
 }

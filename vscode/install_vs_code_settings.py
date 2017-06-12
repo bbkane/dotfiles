@@ -9,8 +9,6 @@ import platform
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 VS_SETTINGS_SRC_PATH = os.path.join(SCRIPT_DIR, 'settings.json')
 
-print(platform.system())
-
 # https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
 if platform.system() == 'Windows':
     VS_SETTINGS_DST_PATH = os.path.expandvars(r"%APPDATA%\Code\User\settings.json")
@@ -26,4 +24,9 @@ else:
 if os.path.islink(VS_SETTINGS_DST_PATH):
     os.remove(VS_SETTINGS_DST_PATH)
 
-os.symlink(VS_SETTINGS_SRC_PATH, VS_SETTINGS_DST_PATH)
+choice = input('symlink %r -> %r ? (y/n) ' % (VS_SETTINGS_SRC_PATH, VS_SETTINGS_DST_PATH))
+if choice == 'y':
+    os.symlink(VS_SETTINGS_SRC_PATH, VS_SETTINGS_DST_PATH)
+    print('Done')
+else:
+    print('aborted')
