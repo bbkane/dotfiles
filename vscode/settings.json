@@ -12,7 +12,7 @@
   "editor.minimap.enabled": false,
   "editor.renderIndentGuides": true,
   // Controls how the editor should render whitespace characters, possibilities are 'none', 'boundary', and 'all'. The 'boundary' option does not render single spaces between words.
-  "editor.renderWhitespace": "boundary",
+  "editor.renderWhitespace": "none",
   // Controls how lines should wrap. Can be:
   //  - 'off' (disable wrapping),
   //  - 'on' (viewport wrapping),
