@@ -8,9 +8,14 @@ Vagrant.configure(2) do |config|
         config.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
         config.vm.synced_folder '.', '/vagrant', disabled: true
 
+        # HTTP
         config.vm.network "forwarded_port", guest: 80, host: 8080
         config.vm.network "forwarded_port", guest: 3000, host: 3000
+        # Flask
         config.vm.network "forwarded_port", guest: 4000, host: 4000
+        # MySQL
+        config.vm.network "forwarded_port", guest: 3306, host: 3306
+
         node1.vm.hostname = "node1"
         # For logging in through SSH, use username vagrant, password vagrant
 
@@ -35,13 +40,6 @@ Vagrant.configure(2) do |config|
         end
         # Ansible chokes without this. I don't know why
         # Needs privileged: false to avoid an error
-
-        # http://stackoverflow.com/questions/33939834/how-to-correct-system-clock-in-vagrant-automatically
-        require 'time'
-        offset = ((Time.zone_offset(Time.now.zone) / 60) / 60)
-        timezone_suffix = offset >= 0 ? "+#{offset.to_s}" : "#{offset.to_s}"
-        timezone = 'Etc/GMT' + timezone_suffix
-        config.vm.provision :shell, :inline => "sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/" + timezone + " /etc/localtime", run: "always"
 
         config.vm.provision "shell", privileged: false, inline: "sudo mkdir -p /vagrant"
         # no synced folder, so we put the playbook on there manually
