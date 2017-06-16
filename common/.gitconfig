@@ -6,14 +6,15 @@
 [push]
 	default = simple
 [alias]
-        # using a function mostly so I can pass --oneline as an argument when I want to
-        lg = "!git log --graph --all --decorate --date=relative \"$@\""
+	# using a function mostly so I can use `git lg` or `git lg --oneline`
+	lg = "!git log --graph --all --decorate --date=relative \"$@\""
 	ls = ls-files
 [color]
 	ui = true
 [core]
 	excludesfile = ~/.config/gitignore_global
-	editor = nvim
+        # Not everything has nvim
+	editor = vim
 
 # This is primarily for setting user.email differently at work
 # and needs to go at the bottom so it overwrites above settings
