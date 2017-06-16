@@ -31,6 +31,7 @@
     "--ignore=E501,W503"
   ],
 
+  "vim.disableAnnoyingGcMessage": true,
   "vim.disableAnnoyingNeovimMessage": true,
   "vim.insertModeKeyBindings": [
     {
@@ -40,6 +41,5 @@
   ],
 
   "workbench.iconTheme": "vs-seti",
-  "window.zoomLevel": -1,
-  "vim.disableAnnoyingGcMessage": true
+  "window.zoomLevel": -1
 }
