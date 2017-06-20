@@ -69,7 +69,7 @@ set expandtab                     " Use spaces instead of tabs
 set shiftwidth=4                  " Number of auto-indent spaces
 set softtabstop=4                 " Number of spaces per Tab
 
-autocmd FileType html setlocal shiftwidth=2 softtabstop=2
+autocmd FileType html,yaml setlocal shiftwidth=2 softtabstop=2
 
 set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
@@ -126,11 +126,11 @@ let g:html_prevent_copy = "fn"
 " this is for the neovim python plugin
 " This might be a problem for YCM on linux because anaconda python doesn't
 " have python-devel like the system does and YCM needs
-" if has('mac') && isdirectory($HOME . '/anaconda3/bin')
-"     let g:python3_host_prog = $HOME . '/anaconda3/bin/python3'
+if has('mac') && isdirectory($HOME . '/anaconda3/bin')
+    let g:python3_host_prog = $HOME . '/anaconda3/bin/python'
 " elseif has('unix') " linux, not mac
 "     let g:python3_host_prog = '/usr/bin/python3'
-" endif
+endif
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
@@ -179,6 +179,9 @@ augroup custum_filetypes
     au BufRead,BufNewFile Vagrantfile set filetype=ruby
     " custom Lync highlighting
     au BufRead,BufNewFile *.lync set filetype=lync
+    " Only use tabs in gitconfig
+    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
+    au BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
 augroup END
 
 
@@ -393,3 +396,5 @@ function! s:DiffWithSaved()
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 command! DiffSaved call s:DiffWithSaved()
+
+command! FullPath echo expand('%:p')
