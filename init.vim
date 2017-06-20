@@ -69,7 +69,6 @@ set expandtab                     " Use spaces instead of tabs
 set shiftwidth=4                  " Number of auto-indent spaces
 set softtabstop=4                 " Number of spaces per Tab
 
-autocmd FileType html,yaml setlocal shiftwidth=2 softtabstop=2
 
 set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
@@ -182,6 +181,8 @@ augroup custum_filetypes
     " Only use tabs in gitconfig
     " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
     au BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
+    " Use 2 spaces to indent in these
+    autocmd FileType html,yaml,javascript setlocal shiftwidth=2 softtabstop=2
 augroup END
 
 
