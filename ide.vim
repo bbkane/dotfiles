@@ -7,6 +7,9 @@ let vim_ide_status=$vim_ide_status
 if vim_ide_status =~ 'ycm'
     " Note: When compiling YCM on Linux, use the system python! Not Anaconda!
     let g:ycm_python_binary_path = 'python3'
+    " TODO:
+    " I put this in my Ubuntu VM. It might need a if linux block
+    let g:ycm_server_python_interpreter = 'python'
     let ycm_options = { 'dir': '~/.config/nvim/bundle/YouCompleteMe', 'do': './install.py' }
 
     if vim_ide_status =~ 'rust'
@@ -14,8 +17,6 @@ if vim_ide_status =~ 'ycm'
         " TODO: fix this
         let g:ycm_rust_src_path = '/home/vagrant/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
         " "$HOME/.rustup/toolchains/$(rustup toolchain list | grep '(default)' | sed 's/ (default)//')/lib/rustlib/src/rust/src"
-        Plug 'rust-lang/rust.vim'
-        let g:rustfmt_autosave = 1
         let ycm_options.do .= ' --racer-completer'
     endif
     if vim_ide_status =~ 'cpp'
