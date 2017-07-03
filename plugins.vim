@@ -46,7 +46,11 @@ augroup commentsrings
     autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
     autocmd FileType asm setlocal commentstring=;\ %s
     autocmd FileType text setlocal commentstring=#\ %s
+    autocmd FileType cfg setlocal commentstring=#\ %s
 augroup end
+
+" because the autocommand isn't working so well...
+command! SetHTMLCommentString setlocal commentstring=<!--\ %s\ -->
 
 " change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
 " add add parens with ysiw( or ysiw)
