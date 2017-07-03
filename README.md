@@ -12,7 +12,8 @@ mv "$HOME/.config/nvim" "$HOME/.config/nvim.$(date +%Y-%m-%d)"
 - Clone the repository
 
 ```
-git clone https://github.com/bbkane/nvim.git "$HOME/config/nvim"
+mkdir -p "$HOME/.config"
+git clone https://github.com/bbkane/nvim.git "$HOME/.config/nvim"
 ```
 
 ### Vim Extra Steps
@@ -92,3 +93,19 @@ New-SymLink -Path "C:\Users\Ben\.config\nvim" -Symname C:\Users\Ben\AppData\Loca
 :PlugInstall
 ```
 
+## Vim QuickInstall
+
+Just the basic `~/.vimrc`- no plugins or anything
+
+```
+curl https://raw.githubusercontent.com/bbkane/nvim/master/init.vim > ~/.vimrc
+```
+
+[Vim-commentary]() is one plugin I feel like I can't do without. Manually install it with:
+
+```
+mkdir -p ~/.vim/plugin
+curl -o ~/.vim/plugin/commentary.vim https://raw.githubusercontent.com/tpope/vim-commentary/master/plugin/commentary.vim
+```
+
+TODO: this can all be done in one `curl` command

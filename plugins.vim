@@ -38,15 +38,16 @@ Plug 'tpope/vim-commentary'
 " Find filetype with `set filetype?` and escape spaces and use `%s` for the string
 augroup commentsrings
     autocmd!
+    autocmd FileType asm   setlocal commentstring=;\ %s
+    autocmd FileType cfg   setlocal commentstring=#\ %s
     autocmd FileType cmake setlocal commentstring=#\ %s
-    autocmd FileType cpp setlocal commentstring=//\ %s
-    autocmd FileType php setlocal commentstring=//\ %s
-    autocmd FileType sql setlocal commentstring=--\ %s
-    autocmd FileType mysql setlocal commentstring=--\ %s
+    autocmd FileType cpp   setlocal commentstring=//\ %s
     autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
-    autocmd FileType asm setlocal commentstring=;\ %s
-    autocmd FileType text setlocal commentstring=#\ %s
-    autocmd FileType cfg setlocal commentstring=#\ %s
+    autocmd FileType jq    setlocal commentstring=#\ %s
+    autocmd FileType mysql setlocal commentstring=--\ %s
+    autocmd FileType php   setlocal commentstring=//\ %s
+    autocmd FileType sql   setlocal commentstring=--\ %s
+    autocmd FileType text  setlocal commentstring=#\ %s
 augroup end
 
 " because the autocommand isn't working so well...
@@ -63,9 +64,14 @@ Plug 'tpope/vim-rsi'
 
 " auto-matching
 Plug 'jiangmiao/auto-pairs'
-" Ignore single quotes in shell
-au FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
 command! AutoPairsToggle call AutoPairsToggle()
+augroup autopairs
+    autocmd!
+    " Ignore single quotes in shell
+    autocmd FileType sh let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
+    " disable for scheme files
+    autocmd VimEnter *.scm let b:autopairs_enabled = 0
+augroup end
 
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
@@ -125,6 +131,11 @@ Plug 'tpope/vim-speeddating'
 
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
+
+Plug 'vito-c/jq.vim'
+
+Plug 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
 
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
