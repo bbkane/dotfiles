@@ -13,8 +13,6 @@
 	ui = true
 [core]
 	excludesfile = ~/.config/gitignore_global
-        # Not everything has nvim
-	editor = vim
 
 # This is primarily for setting user.email differently at work
 # and needs to go at the bottom so it overwrites above settings
