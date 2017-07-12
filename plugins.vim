@@ -167,6 +167,7 @@ endif
 Plug 'nanotech/jellybeans.vim'
 Plug 'tomasr/molokai'
 Plug 'dracula/vim'
+Plug 'ajmwagar/vim-deus'
 
 " Ones I know I like
 Plug 'jpo/vim-railscasts-theme'
