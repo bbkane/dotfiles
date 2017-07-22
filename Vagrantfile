@@ -1,3 +1,6 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 Vagrant.configure(2) do |config|
     config.vm.define "node1" do |node1|
         node1.vm.box = "bento/ubuntu-16.04"
@@ -7,6 +10,9 @@ Vagrant.configure(2) do |config|
         # not using CentOS now, but that might change :)
         config.vm.synced_folder ".", "/home/vagrant/sync", disabled: true
         config.vm.synced_folder '.', '/vagrant', disabled: true
+
+	# Give it an IP
+	config.vm.network :private_network, ip: "10.0.0.10"
 
         # HTTP
         config.vm.network "forwarded_port", guest: 80, host: 8080

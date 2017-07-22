@@ -38,7 +38,8 @@
     git: repo=https://github.com/bbkane/nvim.git dest=~/.config/nvim
 
   - name: Add Neovim Repo
-    apt_repository: repo='ppa:neovim-ppa/unstable'
+    # apt_repository: repo='ppa:neovim-ppa/unstable'
+    apt_repository: repo='ppa:neovim-ppa/stable'
   - name: Install Neovim
     apt: name={{item}} update_cache=true
     with_items:
