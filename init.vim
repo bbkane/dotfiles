@@ -182,7 +182,7 @@ augroup custum_filetypes
     " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
     au BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
     " Use 2 spaces to indent in these
-    autocmd FileType html,yaml,javascript,json,ruby setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType html,javascript,json,markdown,ruby,yaml setlocal shiftwidth=2 softtabstop=2
 augroup END
 
 
