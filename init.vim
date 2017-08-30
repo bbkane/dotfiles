@@ -330,16 +330,27 @@ endif
 function! SpellCheckToggle()
     if &spell
         setlocal nospell
-        set complete-=kspell
+        setlocal complete-=kspell
     else
         setlocal spell spelllang=en_us
         " turn on auto-completion with C-n, C-p
-        set complete+=kspell
+        setlocal complete+=kspell
     endif
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
 " format existing text by selecting it and using `gq`
-command! BlogMode :set textwidth=80 | :call SpellCheckToggle()
+
+function! BlogMode()
+    setlocal textwidth=80
+    setlocal nonumber
+    set background=light
+    " Get a margin
+    " https://stackoverflow.com/a/7941499/2958070
+    setlocal foldcolumn=4
+    highlight FoldColumn guibg=gray14
+    call SpellCheckToggle()
+endfunction
+command! BlogMode call BlogMode()
 
 function! SearchHLToggle()
     if &hlsearch
