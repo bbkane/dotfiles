@@ -146,6 +146,9 @@ let g:LargeFile = 20
 
 Plug 'chrisbra/Recover.vim'
 
+" :rename <name>
+Plug 'danro/rename.vim'
+
 " I think this is messing up the autocomplete
 " for other commands
 " autocomplete inside search
