@@ -157,6 +157,8 @@ rm_anaconda() {
 # add it by default
 add_anaconda
 
+alias source_activate_pwd='source activate $(basename $(pwd))'
+
 perlbrew_bashrc="$HOME/perl5/perlbrew/etc/bashrc"
 [[ -e "${perlbrew_bashrc}" ]] && source "${perlbrew_bashrc}"
 
