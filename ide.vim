@@ -3,44 +3,28 @@
 " don't forget to 'pip install neovim'
 let vim_ide_status=$vim_ide_status
 
-" Python completion only requires cmake on mac
-if vim_ide_status =~ 'ycm'
-    " Note: When compiling YCM on Linux, use the system python! Not Anaconda!
-    let g:ycm_python_binary_path = 'python3'
-    " TODO:
-    " I put this in my Ubuntu VM. It might need a if linux block
-    let g:ycm_server_python_interpreter = 'python'
-    let ycm_options = { 'dir': '~/.config/nvim/bundle/YouCompleteMe', 'do': './install.py' }
-
-    if vim_ide_status =~ 'rust'
-        " let g:ycm_rust_src_path = '/usr/local/src/rust/src'
-        " TODO: fix this
-        let g:ycm_rust_src_path = '/home/vagrant/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
-        " "$HOME/.rustup/toolchains/$(rustup toolchain list | grep '(default)' | sed 's/ (default)//')/lib/rustlib/src/rust/src"
-        let ycm_options.do .= ' --racer-completer'
-    endif
-    if vim_ide_status =~ 'cpp'
-        " Set global config file. This might need to be changed :)
-        let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
-        " auto-load completion file INSECURE BY DEFAULT
-        let g:ycm_confirm_extra_conf = 0
-        let ycm_options.do .= ' --clang-completer'
-
-        " OSX: Need to clang++ in path
-        " OSX: Need a python2 in the path. I can't symlink in /usr/bin and
-        " python doesn't like a symlink anywhere else so I'm using a wrapper script in ~/bin
-        " http://unix.stackexchange.com/a/126567/185953
-        Plug 'rdnetto/YCM-Generator', {'branch': 'stable'}
-    endif
-
-    Plug 'Valloric/YouCompleteMe', ycm_options
-    command! GoTo YcmCompleter GoTo
-else
-    Plug 'ervandew/supertab'
-endif
-
-
 if has("nvim")
+
+    " This requires Python. Use the system Python for nvim
+    " Hope mac has python3 somewhere
+    " /usr/bin/python3 -m pip install neovim jedi mistune psutil setproctitle flake8
+    " Tested on:
+    " - Ubuntu
+    " So, this works, but I don't get docstrings this way
+    let g:python3_host_prog = '/usr/bin/python3'
+    Plug 'roxma/nvim-completion-manager'
+    " Add preview to see docstrings in the complete window.
+    let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
+
+    " Close the prevew window automatically on InsertLeave
+    " https://github.com/davidhalter/jedi-vim/blob/eba90e615d73020365d43495fca349e5a2d4f995/ftplugin/python/jedi.vim#L44
+    augroup ncm_preview
+        autocmd! InsertLeave <buffer> if pumvisible() == 0|pclose|endif
+    augroup END
+
+    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
     " Use :ll to go to the first error
     Plug 'neomake/neomake'
     let g:neomake_open_list = 0
