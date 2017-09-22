@@ -146,6 +146,8 @@ let g:LargeFile = 20
 
 Plug 'chrisbra/Recover.vim'
 
+Plug 'b4b4r07/vim-hcl'
+
 " I think this is messing up the autocomplete
 " for other commands
 " autocomplete inside search
