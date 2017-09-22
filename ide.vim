@@ -11,7 +11,13 @@ if has("nvim")
     " Tested on:
     " - Ubuntu
     " So, this works, but I don't get docstrings this way
-    let g:python3_host_prog = '/usr/bin/python3'
+    " Mac doesn't have /usr/bin/python3
+    if has("mac")
+        " Now it depends on anaconda...
+        let g:python3_host_prog = expand('~/anaconda3/bin/python3')
+    else
+        let g:python3_host_prog = '/usr/bin/python3'
+    endif
     Plug 'roxma/nvim-completion-manager'
     " Add preview to see docstrings in the complete window.
     let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
