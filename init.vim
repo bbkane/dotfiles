@@ -122,14 +122,14 @@ let g:is_posix = 1
 " :help :TOhtml
 let g:html_prevent_copy = "fn"
 
-" this is for the neovim python plugin
-" This might be a problem for YCM on linux because anaconda python doesn't
-" have python-devel like the system does and YCM needs
-if has('mac') && isdirectory($HOME . '/anaconda3/bin')
-    let g:python3_host_prog = $HOME . '/anaconda3/bin/python'
-" elseif has('unix') " linux, not mac
-"     let g:python3_host_prog = '/usr/bin/python3'
-endif
+" " this is for the neovim python plugin
+" " This might be a problem for YCM on linux because anaconda python doesn't
+" " have python-devel like the system does and YCM needs
+" if has('mac') && isdirectory($HOME . '/anaconda3/bin')
+"     let g:python3_host_prog = $HOME . '/anaconda3/bin/python'
+" " elseif has('unix') " linux, not mac
+" "     let g:python3_host_prog = '/usr/bin/python3'
+" endif
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
@@ -330,16 +330,27 @@ endif
 function! SpellCheckToggle()
     if &spell
         setlocal nospell
-        set complete-=kspell
+        setlocal complete-=kspell
     else
         setlocal spell spelllang=en_us
         " turn on auto-completion with C-n, C-p
-        set complete+=kspell
+        setlocal complete+=kspell
     endif
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
 " format existing text by selecting it and using `gq`
-command! BlogMode :set textwidth=80 | :call SpellCheckToggle()
+
+function! BlogMode()
+    setlocal textwidth=80
+    setlocal nonumber
+    set background=light
+    " Get a margin
+    " https://stackoverflow.com/a/7941499/2958070
+    setlocal foldcolumn=4
+    highlight FoldColumn guibg=gray14
+    call SpellCheckToggle()
+endfunction
+command! BlogMode call BlogMode()
 
 function! SearchHLToggle()
     if &hlsearch

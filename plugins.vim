@@ -148,6 +148,9 @@ Plug 'chrisbra/Recover.vim'
 
 Plug 'b4b4r07/vim-hcl'
 
+" :rename <name>
+Plug 'danro/rename.vim'
+
 " I think this is messing up the autocomplete
 " for other commands
 " autocomplete inside search
