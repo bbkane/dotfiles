@@ -41,6 +41,7 @@
   ],
 
   "workbench.iconTheme": "vs-seti",
-  "window.zoomLevel": 1,
-  "extensions.ignoreRecommendations": false
+  "window.zoomLevel": 0,
+  "extensions.ignoreRecommendations": true,
+  "git.enableSmartCommit": true
 }
