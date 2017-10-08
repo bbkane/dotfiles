@@ -146,12 +146,20 @@ add_anaconda() {
     fi
 }
 
+# add it by default
+add_anaconda
+
 rm_anaconda() {
     export PATH=$(echo $PATH | sed 's|'"${anaconda_bin_dir}:"'||g')
 }
 
-# add it by default
-add_anaconda
+# take advantage of the fact that the conda env is the same
+# as the current dir most of the time
+alias source_activate_pwd='source activate $(basename $(pwd))'
+
+conda_create_pwd() {
+    conda create --name "$(basename $(pwd))" python=3 "$@"
+}
 
 perlbrew_bashrc="$HOME/perl5/perlbrew/etc/bashrc"
 [[ -e "${perlbrew_bashrc}" ]] && source "${perlbrew_bashrc}"
@@ -169,3 +177,5 @@ user_bin_dir="$HOME/bin"
 if [[ -f "$HOME/.config/machine.sh" ]]; then
     source "$HOME/.config/machine.sh"
 fi
+
+strlen() { echo "${#1}"; }
