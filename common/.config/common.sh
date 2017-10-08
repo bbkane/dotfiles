@@ -23,6 +23,11 @@ lazygit() {
     git add . && git commit -m "$1" && git push;
 }
 
+get-github() {
+    cd ~/Git
+    git clone "https://github.com/bbkane/$1.git"
+}
+
 see_biggest() {
     if [[ "$(uname)" == "Darwin" ]]; then
         du -ax ./* | sort | tail -n "${1-50}"
@@ -131,7 +136,6 @@ fi
 # hash fortune && echo "$(tput setaf $(( ($RANDOM % 17)+1 )) )$(fortune)$(tput sgr0)"
 
 
-alias ls='ls -G'
 # if I have nvim, use it instead of vim
 which nvim &> /dev/null && alias vim=nvim
 
@@ -160,6 +164,8 @@ alias source_activate_pwd='source activate $(basename $(pwd))'
 conda_create_pwd() {
     conda create --name "$(basename $(pwd))" python=3 "$@"
 }
+
+alias source_activate_pwd='source activate $(basename $(pwd))'
 
 perlbrew_bashrc="$HOME/perl5/perlbrew/etc/bashrc"
 [[ -e "${perlbrew_bashrc}" ]] && source "${perlbrew_bashrc}"
