@@ -161,6 +161,7 @@ rm_anaconda() {
 # as the current dir most of the time
 alias source_activate_pwd='source activate $(basename $(pwd))'
 
+# Example: conda_create_pwd flask Flask-WTF
 conda_create_pwd() {
     conda create --name "$(basename $(pwd))" python=3 "$@"
 }

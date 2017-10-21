@@ -7,6 +7,7 @@
   "[javascript]": {
     "editor.tabSize": 2
   },
+  "C_Cpp.intelliSenseEngine": "Default",
 
   "editor.fontSize": 14,
   "editor.minimap.enabled": false,
