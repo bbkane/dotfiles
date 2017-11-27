@@ -376,7 +376,9 @@ function! WriteHTML()
     silent exec "w"
     silent exec "q"
 endfunction
-command! WriteHTML call WriteHTML()
+" This command will be called on `:W`, and I misspress Caps Lock and :w too
+" much to trust it
+" command! WriteHTML call WriteHTML()
 
 " http://superuser.com/a/277326/643441
 command! MakeFile :call writefile([], expand("<cfile>"), "t")
