@@ -5,19 +5,29 @@ let vim_ide_status=$vim_ide_status
 
 if has("nvim")
 
-    " This requires Python. Use the system Python for nvim
-    " Hope mac has python3 somewhere
-    " /usr/bin/python3 -m pip install neovim jedi mistune psutil setproctitle flake8
-    " Tested on:
-    " - Ubuntu
-    " So, this works, but I don't get docstrings this way
-    " Mac doesn't have /usr/bin/python3
-    if has("mac")
+    " This needs the following Python modules:
+    " https://github.com/roxma/nvim-completion-manager#installation
+    " - neovim jedi mistune psutil setproctitle flake8
+
+    " See https://bbkane.github.io/2017/05/17/Reproducible-Python-Environments-with-Conda.html
+    " If using anaconda on Mac:
+    " cd ~/.config/nvim
+    " conda env create -f environment-mac.yaml
+    if isdirectory(expand('~/anaconda3/envs/nvim'))
         " Now it depends on anaconda...
-        let g:python3_host_prog = expand('~/anaconda3/bin/python3')
+        " I'm going to try putting it in a conda environment called "nvim"
+        " the environment-mac.yaml is in my ~/.config/nvim dir
+        let g:python3_host_prog = expand('~/anaconda3/envs/nvim/bin/python3')
+        let flake8_exe = expand('~/anaconda3/envs/nvim/bin/flake8')
     else
+        " NOTE: Mac doesn't have /usr/bin/python3
+        " but I install anaconda on every Mac I use
+
+        " /usr/bin/python3 -m pip install --user neovim jedi psutil setproctitle
         let g:python3_host_prog = '/usr/bin/python3'
+        let flake8_exe = 'flake8'  " TODO: test this
     endif
+
     Plug 'roxma/nvim-completion-manager'
     " Add preview to see docstrings in the complete window.
     let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
@@ -52,17 +62,16 @@ if has("nvim")
 
     " Don't forget to 'pip3 install flake8'
     " Not sure if the errorformat stuff is necessary
-    if executable('flake8')
-        let g:neomake_python_enabled_makers = ['flake8']
-        let g:neomake_python_flake8_maker = {
-            \ 'args': [flake8_ignore, '--format=default'],
-            \ 'errorformat':
-                \ '%E%f:%l: could not compile,%-Z%p^,' .
-                \ '%A%f:%l:%c: %t%n %m,' .
-                \ '%A%f:%l: %t%n %m,' .
-                \ '%-G%.%#',
-            \ }
-    endif
+    let g:neomake_python_enabled_makers = ['flake8']
+    let g:neomake_python_flake8_maker = {
+        \ 'exe': flake8_exe,
+        \ 'args': [flake8_ignore, '--format=default'],
+        \ 'errorformat':
+            \ '%E%f:%l: could not compile,%-Z%p^,' .
+            \ '%A%f:%l:%c: %t%n %m,' .
+            \ '%A%f:%l: %t%n %m,' .
+            \ '%-G%.%#',
+        \ }
 
     " I think you can only disable all warnings at once.
     " but the only one I don't want is the proprietary attributes

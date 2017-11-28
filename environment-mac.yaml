@@ -1,0 +1,35 @@
+name: nvim
+channels:
+- defaults
+dependencies:
+- ca-certificates=2017.08.26=ha1e5d58_0
+- certifi=2017.11.5=py36ha569be9_0
+- libcxx=4.0.1=h579ed51_0
+- libcxxabi=4.0.1=hebd6815_0
+- libedit=3.1=hb4e282d_0
+- libffi=3.2.1=h475c297_4
+- ncurses=6.0=hd04f020_2
+- openssl=1.0.2m=h86d3e6a_1
+- pip=9.0.1=py36h1555ced_4
+- python=3.6.3=h5ce8c04_4
+- readline=7.0=hc1231fa_4
+- setuptools=36.5.0=py36h2134326_0
+- sqlite=3.20.1=h7e4c145_2
+- tk=8.6.7=h35a86e2_3
+- wheel=0.30.0=py36h5eb2c71_1
+- xz=5.2.3=h0278029_2
+- zlib=1.2.11=hf3cbc9b_2
+- pip:
+  - flake8==3.5.0
+  - greenlet==0.4.12
+  - jedi==0.11.0
+  - mccabe==0.6.1
+  - mistune==0.8.1
+  - msgpack-python==0.4.8
+  - neovim==0.2.0
+  - parso==0.1.0
+  - psutil==5.4.1
+  - pycodestyle==2.3.1
+  - pyflakes==1.6.0
+  - setproctitle==1.1.10
+prefix: /Users/bbkane/anaconda3/envs/nvim
