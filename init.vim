@@ -182,7 +182,7 @@ augroup custum_filetypes
     " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
     au BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
     " Use 2 spaces to indent in these
-    autocmd FileType html,javascript,json,markdown,ruby,yaml setlocal shiftwidth=2 softtabstop=2
+    autocmd FileType html,javascript,json,ruby,yaml setlocal shiftwidth=2 softtabstop=2
 augroup END
 
 
@@ -343,7 +343,7 @@ command! SpellCheckToggle call SpellCheckToggle()
 function! BlogMode()
     setlocal textwidth=80
     setlocal nonumber
-    set background=light
+    " set background=light
     " Get a margin
     " https://stackoverflow.com/a/7941499/2958070
     setlocal foldcolumn=4
@@ -412,3 +412,15 @@ endfunction
 command! DiffSaved call s:DiffWithSaved()
 
 command! FullPath echo expand('%:p')
+
+function FinalProject()
+    cd ~/Dropbox/Docs/Final-Project
+    edit ./formal_proposal.md
+    vs ./useful_things_to_steal.md
+endfunction
+command! FinalProject call FinalProject()
+
+" TODO: Make this work to replace visual selections
+" python -c "import sys, pprint, ast; obj = ast.literal_eval(sys.stdin.read()); pprint.pprint(obj)"
+
+" TODO: figure out a way to insert the date on command
