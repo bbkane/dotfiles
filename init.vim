@@ -417,3 +417,8 @@ function FinalProject()
     vs ./useful_things_to_steal.md
 endfunction
 command! FinalProject call FinalProject()
+
+" TODO: Make this work to replace visual selections
+" python -c "import sys, pprint, ast; obj = ast.literal_eval(sys.stdin.read()); pprint.pprint(obj)"
+
+" TODO: figure out a way to insert the date on command

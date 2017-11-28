@@ -28,7 +28,11 @@ if has("nvim")
         let flake8_exe = 'flake8'  " TODO: test this
     endif
 
+
+    " TODO: Use roxma's version once I'm done experimenting
+    " Plug 'bbkane/nvim-completion-manager'
     Plug 'roxma/nvim-completion-manager'
+
     " Add preview to see docstrings in the complete window.
     let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
 
