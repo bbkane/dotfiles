@@ -61,19 +61,24 @@ nvim # or `vim`
 
 ## Install IDE components
 
-- [Neomake](https://github.com/neomake/neomake)/[Syntastic](https://github.com/scrooloose/syntastic)
+These are needed for nvim-completion-manager and Neomake.
 
-Python3: Install [flake8](http://flake8.pycqa.org/en/latest/).
+### With Anaconda
 
+Anaconda is the preferred method to install these because they can be easily
+uninstalled by deleting the conda environment. See [my blog
+post](https://bbkane.github.io/2017/05/17/Reproducible-Python-Environments-with-Conda.html).
+
+```bash
+cd ~/.config/nvim
+conda env create -f environment-<platform>.yaml
 ```
-python3 -m pip install flake8
+
+### Without Anaconda (system Python)
+
+```bash
+/usr/bin/python3 -m pip install --user neovim jedi psutil setproctitle
 ```
-
-Others: refer to each project.
-
-- [YouCompleteMe](https://github.com/Valloric/YouCompleteMe/issues)
-
-Install on your own. To see what I've done, look at [ide.vim](ide.vim).
 
 ## Windows (Experimental)
 

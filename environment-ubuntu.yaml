@@ -21,4 +21,3 @@ dependencies:
   - parso==0.1.0
   - psutil==5.4.1
   - setproctitle==1.1.10
-prefix: /home/bbkane/anaconda3/envs/nvim
