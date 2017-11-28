@@ -343,7 +343,7 @@ command! SpellCheckToggle call SpellCheckToggle()
 function! BlogMode()
     setlocal textwidth=80
     setlocal nonumber
-    set background=light
+    " set background=light
     " Get a margin
     " https://stackoverflow.com/a/7941499/2958070
     setlocal foldcolumn=4
@@ -410,3 +410,10 @@ endfunction
 command! DiffSaved call s:DiffWithSaved()
 
 command! FullPath echo expand('%:p')
+
+function FinalProject()
+    cd ~/Dropbox/Docs/Final-Project
+    edit ./formal_proposal.md
+    vs ./useful_things_to_steal.md
+endfunction
+command! FinalProject call FinalProject()
