@@ -186,3 +186,8 @@ if [[ -f "$HOME/.config/machine.sh" ]]; then
 fi
 
 strlen() { echo "${#1}"; }
+
+# NOTE: this should be in an Ubuntu machine.sh, but that's not currently in git...
+# pbcopy() {
+#     xsel -i < $1
+# }
