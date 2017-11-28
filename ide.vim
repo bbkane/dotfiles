@@ -80,7 +80,7 @@ if has("nvim")
         let g:neomake_c_enabled_makers = []
     elseif executable('clang')
         let g:neomake_cpp_enabled_makers=['clang']
-        let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-Weverything", "-pedantic"]
+        let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-Weverything", "-pedantic", "-Wno-c++98-compat", "-Wno-missing-prototypes"]
     endif
 
 
