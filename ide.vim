@@ -42,6 +42,7 @@ if has("nvim")
         autocmd! InsertLeave <buffer> if pumvisible() == 0|pclose|endif
     augroup END
 
+    " Use <TAB> to select the popup menu:
     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 

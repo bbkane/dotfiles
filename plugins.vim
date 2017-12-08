@@ -126,7 +126,7 @@ command! AutoQuickRun  autocmd BufWritePost * QuickRun
 Plug 'cespare/vim-toml'
 Plug 'StanAngeloff/php.vim'
 
-Plug 'jceb/vim-orgmode'
+" Plug 'jceb/vim-orgmode'
 Plug 'tpope/vim-speeddating'
 
 Plug 'elzr/vim-json'
