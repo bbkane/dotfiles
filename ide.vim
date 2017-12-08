@@ -33,6 +33,7 @@ if has("nvim")
     " Plug 'bbkane/nvim-completion-manager'
     Plug 'roxma/nvim-completion-manager'
 
+    " https://github.com/roxma/nvim-completion-manager/issues/132
     " Add preview to see docstrings in the complete window.
     let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
 
