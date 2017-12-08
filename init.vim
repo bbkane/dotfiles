@@ -117,6 +117,7 @@ let mapleader = ","
 
 " Use bash highlighting instead of sh highlighting
 let g:is_posix = 1
+let g:is_bash = 1
 
 " Make some stuff uncopyable on HTML output
 " :help :TOhtml
