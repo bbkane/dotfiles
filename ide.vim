@@ -23,7 +23,7 @@ if has("nvim")
         " NOTE: Mac doesn't have /usr/bin/python3
         " but I install anaconda on every Mac I use
 
-        " /usr/bin/python3 -m pip install --user neovim jedi psutil setproctitle
+        " /usr/bin/python3 -m pip install --user neovim jedi psutil setproctitle flake8
         let g:python3_host_prog = '/usr/bin/python3'
         let flake8_exe = 'flake8'  " TODO: test this
     endif
