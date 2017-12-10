@@ -414,7 +414,7 @@ command! DiffSaved call s:DiffWithSaved()
 
 command! FullPath echo expand('%:p')
 
-function FinalProject()
+function! FinalProject()
     cd ~/Dropbox/Docs/Final-Project
     edit ./formal_proposal.md
     vs ./useful_things_to_steal.md
@@ -425,3 +425,23 @@ command! FinalProject call FinalProject()
 " python -c "import sys, pprint, ast; obj = ast.literal_eval(sys.stdin.read()); pprint.pprint(obj)"
 
 " TODO: figure out a way to insert the date on command
+
+command! SourceCurrent source % | echo "Sourced " . expand('%')
+" autocmd! BufWrite % SourceCurrent
+
+fun! SortLinesByIP()
+python3 << EOF
+
+import vim
+
+buf = vim.current.buffer
+(lnum1, col1) = buf.mark('<')
+(lnum2, col2) = buf.mark('>')
+
+lines = buf[lnum1 - 1: lnum2 - 1]
+# TODO: strip, sort by socket.inet_aton
+lines.sort()
+buf[lnum1 - 1: lnum2 - 1] = lines
+
+EOF
+endfun
