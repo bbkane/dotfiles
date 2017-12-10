@@ -414,12 +414,6 @@ command! DiffSaved call s:DiffWithSaved()
 
 command! FullPath echo expand('%:p')
 
-function! FinalProject()
-    cd ~/Dropbox/Docs/Final-Project
-    edit ./formal_proposal.md
-    vs ./useful_things_to_steal.md
-endfunction
-command! FinalProject call FinalProject()
 
 " TODO: Make this work to replace visual selections
 " python -c "import sys, pprint, ast; obj = ast.literal_eval(sys.stdin.read()); pprint.pprint(obj)"
@@ -427,21 +421,32 @@ command! FinalProject call FinalProject()
 " TODO: figure out a way to insert the date on command
 
 command! SourceCurrent source % | echo "Sourced " . expand('%')
-" autocmd! BufWrite % SourceCurrent
 
-fun! SortLinesByIP()
+" Visually select \n separated IPs, then call this
+" NOTE: I'm not convinced that I can't do something simpler with the
+" `function! Name() range` syntax
+fun! SortSelectedIPs()
 python3 << EOF
 
 import vim
+import socket
 
+# https://stackoverflow.com/a/18168075/2958070
 buf = vim.current.buffer
 (lnum1, col1) = buf.mark('<')
 (lnum2, col2) = buf.mark('>')
 
-lines = buf[lnum1 - 1: lnum2 - 1]
-# TODO: strip, sort by socket.inet_aton
-lines.sort()
-buf[lnum1 - 1: lnum2 - 1] = lines
+# Vim likes to count from 1 and Python from 0
+lines = buf[lnum1 - 1: lnum2]
+len_selected_lines = len(lines)
+# remove whitespace and empty lines
+lines = [line.strip() for line in lines if line.strip()]
+# I need the same amount of lines to put back
+assert len(lines) == len_selected_lines, "No whitespace-only lines allowed"
+lines.sort(key=socket.inet_aton)
+buf[lnum1 - 1: lnum2] = lines
 
 EOF
 endfun
+" https://stackoverflow.com/a/2585673/2958070
+command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
