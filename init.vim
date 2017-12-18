@@ -425,6 +425,7 @@ command! SourceCurrent source % | echo "Sourced " . expand('%')
 " Visually select \n separated IPs, then call this
 " NOTE: I'm not convinced that I can't do something simpler with the
 " `function! Name() range` syntax
+" or aliasing `:pyfile somehow`
 fun! SortSelectedIPs()
 python3 << EOF
 
@@ -440,6 +441,7 @@ buf = vim.current.buffer
 lines = buf[lnum1 - 1: lnum2]
 len_selected_lines = len(lines)
 # remove whitespace and empty lines
+# TODO: use a regex capturing group to grap '<stuff><ip><stuff>' then sort by IP
 lines = [line.strip() for line in lines if line.strip()]
 # I need the same amount of lines to put back
 assert len(lines) == len_selected_lines, "No whitespace-only lines allowed"
