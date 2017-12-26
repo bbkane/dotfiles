@@ -30,7 +30,8 @@ get-github() {
 
 see_biggest() {
     if [[ "$(uname)" == "Darwin" ]]; then
-        du -ax ./* | sort | tail -n "${1-50}"
+        # Macs don't have -h so we sort numerically
+        du -ax ./* | sort -n | tail -n "${1-50}"
     elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
         # Do something under GNU/Linux platform
         du -ahx ./* | sort -h | tail -n "${1-50}"
