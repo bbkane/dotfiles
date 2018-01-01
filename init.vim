@@ -452,3 +452,5 @@ EOF
 endfun
 " https://stackoverflow.com/a/2585673/2958070
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
+
+" TODO: http://vim.wikia.com/wiki/Edit_gpg_encrypted_files
