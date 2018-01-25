@@ -426,7 +426,7 @@ command! SourceCurrent source % | echo "Sourced " . expand('%')
 " NOTE: I'm not convinced that I can't do something simpler with the
 " `function! Name() range` syntax
 " or aliasing `:pyfile somehow`
-fun! SortSelectedIPs()
+fun! SortLinesByIP()
 python3 << EOF
 
 import vim

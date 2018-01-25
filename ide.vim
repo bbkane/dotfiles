@@ -98,6 +98,8 @@ if has("nvim")
         let g:neomake_cpp_clang_args = ["-std=c++14", "-Wextra", "-Wall", "-Weverything", "-pedantic", "-Wno-c++98-compat", "-Wno-missing-prototypes"]
     endif
 
+    " -fgcc outputs gcc style errors and -x follows sources
+    let g:neomake_sh_shellcheck_args = ['-fgcc', '-x']
 
     function! NeoMakeOnWrite()
         " If NeoMake isn't installed, don't do this
