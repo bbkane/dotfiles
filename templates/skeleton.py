@@ -21,11 +21,11 @@ Code at <repo>
 """.format(prog=sys.argv[0])
 
 
-def parse_args():
+def parse_args(*args, **kwargs):
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     # TODO: add some args
-    return parser.parse_args()
+    return parser.parse_args(*args, **kwargs)
 
 
 def main():
