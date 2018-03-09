@@ -257,28 +257,19 @@ command! BensCommands call BensCommands()
 
 command! -nargs=1 Help vert help <args>
 
-function! Open()
+function Open(open_me)
+    let open_me = expand(a:open_me)
     if has('win32')
-        execute "silent !start %"
+        execute "silent !start " . a:open_me
     elseif has('mac')
-        execute "silent !open %"
+        execute "silent !open " . a:open_me
     else
-        execute "silent !xdg-open %"
+        execute "silent !xdg-open " . a:open_me
     endif
 endfunction
-command! Open call Open()
+command! Open call Open('%')
+command! OpenDir call Open('%:p:h')
 
-function! OpenDir()
-    let cur_file_dir = expand('%:p:h')
-    if has('win32')
-        execute "silent !start " . cur_file_dir
-    elseif has('mac')
-        execute "silent !open " . cur_file_dir
-    else
-        execute "silent !xdg-open " . cur_file_dir
-    endif
-endfunction
-command! OpenDir call OpenDir()
 
 function! InstallVimPlug()
     if empty(glob("~/.config/nvim/autoload/plug.vim"))
