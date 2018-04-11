@@ -174,16 +174,18 @@ if !has("nvim")
 endif
 
 augroup custum_filetypes
-    au!
-    au BufRead,BufNewFile *.rs set filetype=rust
-    au BufRead,BufNewFile Vagrantfile set filetype=ruby
+    autocmd!
+    autocmd BufRead,BufNewFile *.rs set filetype=rust
+    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
     " custom Lync highlighting
-    au BufRead,BufNewFile *.lync set filetype=lync
+    autocmd BufRead,BufNewFile *.lync set filetype=lync
     " Only use tabs in gitconfig
     " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
-    au BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
+    autocmd BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
     " Use 2 spaces to indent in these
     autocmd FileType html,javascript,json,ruby,yaml setlocal shiftwidth=2 softtabstop=2
+    " https://superuser.com/a/907889/643441
+    autocmd filetype crontab setlocal nobackup nowritebackup
 augroup END
 
 
