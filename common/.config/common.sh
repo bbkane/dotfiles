@@ -159,6 +159,15 @@ add_anaconda
 
 alias source_activate_pwd='source activate $(basename $(pwd))'
 
+# Example: conda_create_pwd flask Flask-WTF
+conda_create_pwd() {
+    conda create --name "$(basename $(pwd))" python=3 "$@"
+}
+
+conda_remove_pwd() {
+    conda remove --name "$(basename $(pwd))" --all
+}
+
 perlbrew_bashrc="$HOME/perl5/perlbrew/etc/bashrc"
 [[ -e "${perlbrew_bashrc}" ]] && source "${perlbrew_bashrc}"
 
