@@ -7,6 +7,7 @@
   "[javascript]": {
     "editor.tabSize": 2
   },
+  "C_Cpp.intelliSenseEngine": "Default",
 
   "editor.fontSize": 14,
   "editor.minimap.enabled": false,
@@ -41,7 +42,16 @@
   ],
 
   "workbench.iconTheme": "vs-seti",
-  "window.zoomLevel": 0,
+  "window.zoomLevel": 1,
   "extensions.ignoreRecommendations": true,
-  "git.enableSmartCommit": true
+  "git.enableSmartCommit": true,
+  // TODO: somehow make this platform independent...
+  "rust.rustup": {
+    "toolchain": "stable-x86_64-unknown-linux-gnu",
+    "nightlyToolchain": "nightly-x86_64-unknown-linux-gnu"
+  },
+  "rust.mode": "rls",
+  "rust.rls": {
+    "useRustfmt": true
+  }
 }

@@ -30,7 +30,8 @@ get-github() {
 
 see_biggest() {
     if [[ "$(uname)" == "Darwin" ]]; then
-        du -ax ./* | sort | tail -n "${1-50}"
+        # Macs don't have -h so we sort numerically
+        du -ax ./* | sort -n | tail -n "${1-50}"
     elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
         # Do something under GNU/Linux platform
         du -ahx ./* | sort -h | tail -n "${1-50}"
@@ -150,12 +151,21 @@ add_anaconda() {
     fi
 }
 
+# add it by default
+add_anaconda
+
 rm_anaconda() {
     export PATH=$(echo $PATH | sed 's|'"${anaconda_bin_dir}:"'||g')
 }
 
-# add it by default
-add_anaconda
+# take advantage of the fact that the conda env is the same
+# as the current dir most of the time
+alias source_activate_pwd='source activate $(basename $(pwd))'
+
+# Example: conda_create_pwd flask Flask-WTF
+conda_create_pwd() {
+    conda create --name "$(basename $(pwd))" python=3 "$@"
+}
 
 alias source_activate_pwd='source activate $(basename $(pwd))'
 
@@ -184,3 +194,10 @@ user_bin_dir="$HOME/bin"
 if [[ -f "$HOME/.config/machine.sh" ]]; then
     source "$HOME/.config/machine.sh"
 fi
+
+strlen() { echo "${#1}"; }
+
+# NOTE: this should be in an Ubuntu machine.sh, but that's not currently in git...
+# pbcopy() {
+#     xsel -i < $1
+# }
