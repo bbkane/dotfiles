@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=FixDesktopDisplay
+Comment=Rotate my second screen
+Categories=Utility;
+Type=Application
+Exec=xrandr --output 'DP-1-1' --primary --output 'DP-1-2' --right-of 'DP-1-1' --rotate left
+# Don't run this in a terminal window
+Terminal=false
+# Don't put this in the dock
+StartupNotify=false
+# Don't display this in the menu
+NoDisplay=true
