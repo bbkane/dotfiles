@@ -95,12 +95,6 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnameod = ':t'
 
-" :SaveSession and :OpenSession
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
-let g:session_autosave = 'no'
-let g:session_autoload = 'no'
-
 Plug 'mhinz/vim-startify'
 if executable('cowsay') && executable('fortune')
     let g:startify_custom_header =
@@ -151,18 +145,9 @@ Plug 'b4b4r07/vim-hcl'
 " :rename <name>
 Plug 'danro/rename.vim'
 
-" I think this is messing up the autocomplete
-" for other commands
-" autocomplete inside search
-" Plug 'vim-scripts/SearchComplete'
-
 if executable('clang-format')
     Plug 'rhysd/vim-clang-format'
 endif
-
-" :RandomColorScheme
-" F8
-Plug 'xolox/vim-colorscheme-switcher'
 
 " colorschemes
 
@@ -173,13 +158,13 @@ if has('nvim')
 endif
 
 " Test colorschemes
-Plug 'nanotech/jellybeans.vim'
-Plug 'tomasr/molokai'
-Plug 'dracula/vim'
-Plug 'ajmwagar/vim-deus'
+" Plug 'nanotech/jellybeans.vim'
+" Plug 'tomasr/molokai'
+" Plug 'dracula/vim'
+" Plug 'ajmwagar/vim-deus'
 
-" Ones I know I like
-Plug 'jpo/vim-railscasts-theme'
-Plug 'rainux/vim-desert-warm-256'
+" " Ones I know I like
+" Plug 'jpo/vim-railscasts-theme'
+" Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
 

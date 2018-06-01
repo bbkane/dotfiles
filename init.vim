@@ -69,7 +69,6 @@ set expandtab                     " Use spaces instead of tabs
 set shiftwidth=4                  " Number of auto-indent spaces
 set softtabstop=4                 " Number of spaces per Tab
 
-
 set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
@@ -78,7 +77,7 @@ set splitbelow
 set splitright
 
 " I think this will shorten YCM's function doc window
-set previewheight=5
+" set previewheight=5
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
@@ -112,8 +111,7 @@ nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :wri
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
 " This seems to make my space key slow...
-" let mapleader = "\<space>"
-let mapleader = ","
+let mapleader = " "
 
 " Use bash highlighting instead of sh highlighting
 " let g:is_posix = 1
@@ -122,15 +120,6 @@ let g:is_bash = 1
 " Make some stuff uncopyable on HTML output
 " :help :TOhtml
 let g:html_prevent_copy = "fn"
-
-" " this is for the neovim python plugin
-" " This might be a problem for YCM on linux because anaconda python doesn't
-" " have python-devel like the system does and YCM needs
-" if has('mac') && isdirectory($HOME . '/anaconda3/bin')
-"     let g:python3_host_prog = $HOME . '/anaconda3/bin/python'
-" " elseif has('unix') " linux, not mac
-" "     let g:python3_host_prog = '/usr/bin/python3'
-" endif
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
@@ -206,9 +195,6 @@ augroup END
 " " This won't work on OSX withot more work
 " " See :Checkhealth on NeoVim
 " nnoremap <C-h> <ESC><C-w><C-h>
-
-" save, make, run (depends on makeprg)
-map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
 
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
@@ -446,4 +432,9 @@ endfun
 " https://stackoverflow.com/a/2585673/2958070
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
-" TODO: http://vim.wikia.com/wiki/Edit_gpg_encrypted_files
+" Finally, load specific stuff
+if !empty(glob("~/.config/nvim_local.vim"))
+    " Source company specific stuff
+    source ~/.config/nvim_local.vim
+    command! EditNvimLocal :edit ~/.config/nvim_local.vim
+endif
