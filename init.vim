@@ -188,10 +188,10 @@ augroup END
 " " This is now on plug in https://github.com/christoomey/vim-tmux-navigator
 " " which makes it also work in tmux
 " " split settings
-" nnoremap <C-n> <ESC><C-w><C-w>
-" nnoremap <C-j> <ESC><C-w><C-j>
-" nnoremap <C-k> <ESC><C-w><C-k>
-" nnoremap <C-l> <ESC><C-w><C-l>
+nnoremap <C-n> <ESC><C-w><C-w>
+nnoremap <C-j> <ESC><C-w><C-j>
+nnoremap <C-k> <ESC><C-w><C-k>
+nnoremap <C-l> <ESC><C-w><C-l>
 " " This won't work on OSX withot more work
 " " See :Checkhealth on NeoVim
 " nnoremap <C-h> <ESC><C-w><C-h>
@@ -431,6 +431,8 @@ EOF
 endfun
 " https://stackoverflow.com/a/2585673/2958070
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
+
+command! -range=% -nargs=0 MarkdownToJira :<line1>,<line2>s:^- :* : | <line1>,<line2>s:^  - :** : | <line1>,<line2>s:```:{noformat}:
 
 " Finally, load specific stuff
 if !empty(glob("~/.config/nvim_local.vim"))
