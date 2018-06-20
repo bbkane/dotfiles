@@ -432,7 +432,14 @@ endfun
 " https://stackoverflow.com/a/2585673/2958070
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
-command! -range=% -nargs=0 MarkdownToJira :<line1>,<line2>s:^- :* : | <line1>,<line2>s:^  - :** : | <line1>,<line2>s:```:{noformat}:
+" The 'e' on the end of the substitute ignores errors
+" -range=% means without a visual selection the whole buffer is selected
+command! -range=% -nargs=0 -bar MarkdownToJira 
+    \ :<line1>,<line2>s:^- :* :e
+    \ | <line1>,<line2>s:^  - :** :e
+    \ | <line1>,<line2>s:```:{noformat}:e
+    \ | <line1>,<line2>s:^# :h1. :e
+    \ | <line1>,<line2>s:^## :h2. :e
 
 " Finally, load specific stuff
 if !empty(glob("~/.config/nvim_local.vim"))
