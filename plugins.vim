@@ -103,25 +103,14 @@ endif
 
 Plug 'airblade/vim-gitgutter'
 
-" Use BufClose to close stuff
-Plug 'vim-scripts/BufOnly.vim'
-
-Plug 'christoomey/vim-tmux-navigator'
-
 " Python Plugins
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 let python_highlight_all=1
 
-" After running this, QuickRun runs on :w
-" bad for long running code (will freeze vim)
-command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
 Plug 'cespare/vim-toml'
 Plug 'StanAngeloff/php.vim'
-
-" Plug 'jceb/vim-orgmode'
-Plug 'tpope/vim-speeddating'
 
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
