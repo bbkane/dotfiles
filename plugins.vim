@@ -95,12 +95,6 @@ Plug 'vim-airline/vim-airline-themes'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnameod = ':t'
 
-" :SaveSession and :OpenSession
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
-let g:session_autosave = 'no'
-let g:session_autoload = 'no'
-
 Plug 'mhinz/vim-startify'
 if executable('cowsay') && executable('fortune')
     let g:startify_custom_header =
@@ -109,25 +103,14 @@ endif
 
 Plug 'airblade/vim-gitgutter'
 
-" Use BufClose to close stuff
-Plug 'vim-scripts/BufOnly.vim'
-
-Plug 'christoomey/vim-tmux-navigator'
-
 " Python Plugins
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 let python_highlight_all=1
 
-" After running this, QuickRun runs on :w
-" bad for long running code (will freeze vim)
-command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
 Plug 'cespare/vim-toml'
 Plug 'StanAngeloff/php.vim'
-
-" Plug 'jceb/vim-orgmode'
-Plug 'tpope/vim-speeddating'
 
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
@@ -152,18 +135,9 @@ Plug 'leafgarland/typescript-vim'
 " :rename <name>
 Plug 'danro/rename.vim'
 
-" I think this is messing up the autocomplete
-" for other commands
-" autocomplete inside search
-" Plug 'vim-scripts/SearchComplete'
-
 if executable('clang-format')
     Plug 'rhysd/vim-clang-format'
 endif
-
-" :RandomColorScheme
-" F8
-Plug 'xolox/vim-colorscheme-switcher'
 
 " colorschemes
 
@@ -174,13 +148,13 @@ if has('nvim')
 endif
 
 " Test colorschemes
-Plug 'nanotech/jellybeans.vim'
-Plug 'tomasr/molokai'
-Plug 'dracula/vim'
-Plug 'ajmwagar/vim-deus'
+" Plug 'nanotech/jellybeans.vim'
+" Plug 'tomasr/molokai'
+" Plug 'dracula/vim'
+" Plug 'ajmwagar/vim-deus'
 
-" Ones I know I like
-Plug 'jpo/vim-railscasts-theme'
-Plug 'rainux/vim-desert-warm-256'
+" " Ones I know I like
+" Plug 'jpo/vim-railscasts-theme'
+" Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
 
