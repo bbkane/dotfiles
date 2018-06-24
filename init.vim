@@ -69,7 +69,6 @@ set expandtab                     " Use spaces instead of tabs
 set shiftwidth=4                  " Number of auto-indent spaces
 set softtabstop=4                 " Number of spaces per Tab
 
-
 set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
@@ -78,7 +77,7 @@ set splitbelow
 set splitright
 
 " I think this will shorten YCM's function doc window
-set previewheight=5
+" set previewheight=5
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
@@ -112,8 +111,7 @@ nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :wri
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
 " This seems to make my space key slow...
-" let mapleader = "\<space>"
-let mapleader = ","
+let mapleader = " "
 
 " Use bash highlighting instead of sh highlighting
 " let g:is_posix = 1
@@ -122,15 +120,6 @@ let g:is_bash = 1
 " Make some stuff uncopyable on HTML output
 " :help :TOhtml
 let g:html_prevent_copy = "fn"
-
-" " this is for the neovim python plugin
-" " This might be a problem for YCM on linux because anaconda python doesn't
-" " have python-devel like the system does and YCM needs
-" if has('mac') && isdirectory($HOME . '/anaconda3/bin')
-"     let g:python3_host_prog = $HOME . '/anaconda3/bin/python'
-" " elseif has('unix') " linux, not mac
-" "     let g:python3_host_prog = '/usr/bin/python3'
-" endif
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
@@ -174,16 +163,18 @@ if !has("nvim")
 endif
 
 augroup custum_filetypes
-    au!
-    au BufRead,BufNewFile *.rs set filetype=rust
-    au BufRead,BufNewFile Vagrantfile set filetype=ruby
+    autocmd!
+    autocmd BufRead,BufNewFile *.rs set filetype=rust
+    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
     " custom Lync highlighting
-    au BufRead,BufNewFile *.lync set filetype=lync
+    autocmd BufRead,BufNewFile *.lync set filetype=lync
     " Only use tabs in gitconfig
     " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
-    au BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
+    autocmd BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
     " Use 2 spaces to indent in these
     autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
+    " https://superuser.com/a/907889/643441
+    autocmd filetype crontab setlocal nobackup nowritebackup
 augroup END
 
 
@@ -197,16 +188,13 @@ augroup END
 " " This is now on plug in https://github.com/christoomey/vim-tmux-navigator
 " " which makes it also work in tmux
 " " split settings
-" nnoremap <C-n> <ESC><C-w><C-w>
-" nnoremap <C-j> <ESC><C-w><C-j>
-" nnoremap <C-k> <ESC><C-w><C-k>
-" nnoremap <C-l> <ESC><C-w><C-l>
+nnoremap <C-n> <ESC><C-w><C-w>
+nnoremap <C-j> <ESC><C-w><C-j>
+nnoremap <C-k> <ESC><C-w><C-k>
+nnoremap <C-l> <ESC><C-w><C-l>
 " " This won't work on OSX withot more work
 " " See :Checkhealth on NeoVim
 " nnoremap <C-h> <ESC><C-w><C-h>
-
-" save, make, run (depends on makeprg)
-map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
 
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
@@ -257,28 +245,19 @@ command! BensCommands call BensCommands()
 
 command! -nargs=1 Help vert help <args>
 
-function! Open()
+function Open(open_me)
+    let open_me = expand(a:open_me)
     if has('win32')
-        execute "silent !start %"
+        execute "silent !start " . a:open_me
     elseif has('mac')
-        execute "silent !open %"
+        execute "silent !open " . a:open_me
     else
-        execute "silent !xdg-open %"
+        execute "silent !xdg-open " . a:open_me
     endif
 endfunction
-command! Open call Open()
+command! Open call Open('%')
+command! OpenDir call Open('%:p:h')
 
-function! OpenDir()
-    let cur_file_dir = expand('%:p:h')
-    if has('win32')
-        execute "silent !start " . cur_file_dir
-    elseif has('mac')
-        execute "silent !open " . cur_file_dir
-    else
-        execute "silent !xdg-open " . cur_file_dir
-    endif
-endfunction
-command! OpenDir call OpenDir()
 
 function! InstallVimPlug()
     if empty(glob("~/.config/nvim/autoload/plug.vim"))
@@ -453,4 +432,18 @@ endfun
 " https://stackoverflow.com/a/2585673/2958070
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
-" TODO: http://vim.wikia.com/wiki/Edit_gpg_encrypted_files
+" The 'e' on the end of the substitute ignores errors
+" -range=% means without a visual selection the whole buffer is selected
+command! -range=% -nargs=0 -bar MarkdownToJira 
+    \ :<line1>,<line2>s:^- :* :e
+    \ | <line1>,<line2>s:^  - :** :e
+    \ | <line1>,<line2>s:```:{noformat}:e
+    \ | <line1>,<line2>s:^# :h1. :e
+    \ | <line1>,<line2>s:^## :h2. :e
+
+" Finally, load specific stuff
+if !empty(glob("~/.config/nvim_local.vim"))
+    " Source company specific stuff
+    source ~/.config/nvim_local.vim
+    command! EditNvimLocal :edit ~/.config/nvim_local.vim
+endif
