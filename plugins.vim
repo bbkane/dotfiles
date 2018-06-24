@@ -147,6 +147,7 @@ let g:LargeFile = 20
 Plug 'chrisbra/Recover.vim'
 
 Plug 'b4b4r07/vim-hcl'
+Plug 'leafgarland/typescript-vim'
 
 " :rename <name>
 Plug 'danro/rename.vim'
