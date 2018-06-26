@@ -437,9 +437,13 @@ command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 command! -range=% -nargs=0 -bar MarkdownToJira 
     \ :<line1>,<line2>s:^- :* :e
     \ | <line1>,<line2>s:^  - :** :e
-    \ | <line1>,<line2>s:```:{noformat}:e
+    \ | <line1>,<line2>s:^```:{noformat}:e
     \ | <line1>,<line2>s:^# :h1. :e
     \ | <line1>,<line2>s:^## :h2. :e
+    \ | <line1>,<line2>s: `: {{:eg
+    \ | <line1>,<line2>s:^`:{{:eg
+    \ | <line1>,<line2>s:` :}} :eg
+    \ | <line1>,<line2>s:`$:}}:eg
 
 " Finally, load specific stuff
 if !empty(glob("~/.config/nvim_local.vim"))
@@ -447,3 +451,8 @@ if !empty(glob("~/.config/nvim_local.vim"))
     source ~/.config/nvim_local.vim
     command! EditNvimLocal :edit ~/.config/nvim_local.vim
 endif
+
+" https://unix.stackexchange.com/a/58748/185953
+" <line1>,<line2>VisualSelect
+command! -range VisualSelect normal! <line1>GV<line2>G
+
