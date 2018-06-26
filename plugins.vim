@@ -1,3 +1,25 @@
+" Most important plugin
+" easily comment line with `gcc` or selection with `gc`
+Plug 'tpope/vim-commentary'
+" set default commentstring
+" setglobal commentstring=#\ %s
+" Find filetype with `set filetype?` and escape spaces and use `%s` for the string
+augroup commentsrings
+    autocmd!
+    autocmd FileType asm   setlocal commentstring=;\ %s
+    autocmd FileType cfg   setlocal commentstring=#\ %s
+    autocmd FileType cmake setlocal commentstring=#\ %s
+    autocmd FileType cpp   setlocal commentstring=//\ %s
+    autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
+    autocmd FileType jq    setlocal commentstring=#\ %s
+    autocmd FileType mysql setlocal commentstring=--\ %s
+    autocmd FileType php   setlocal commentstring=//\ %s
+    autocmd FileType sql   setlocal commentstring=--\ %s
+    autocmd FileType text  setlocal commentstring=#\ %s
+augroup end
+
+" because the autocommand isn't working so well...
+command! SetHTMLCommentString setlocal commentstring=<!--\ %s\ -->
 
 " Good default settings
 if !has("nvim")
@@ -21,46 +43,15 @@ let g:indentLine_color_dark = 1 " (default: 2)
 " The easiest way to get this is with Anaconda.
 " Plug 'actionshrimp/vim-xpath'
 
+" Get me some sweet command line mappings for vim
+Plug 'tpope/vim-rsi'
+
 " use :A to switch between .cpp and .h
 Plug 'vim-scripts/a.vim'
 
-" cmake syntax
-" Plug 'slurps-mad-rips/cmake.vim'
-Plug 'nickhutchinson/vim-cmake-syntax'
-
-" Add highlighting of functions and containers and types
-Plug 'octol/vim-cpp-enhanced-highlight'
-
-" easily comment line with `gcc` or selection with `gc`
-Plug 'tpope/vim-commentary'
-" set default commentstring
-" setglobal commentstring=#\ %s
-" Find filetype with `set filetype?` and escape spaces and use `%s` for the string
-augroup commentsrings
-    autocmd!
-    autocmd FileType asm   setlocal commentstring=;\ %s
-    autocmd FileType cfg   setlocal commentstring=#\ %s
-    autocmd FileType cmake setlocal commentstring=#\ %s
-    autocmd FileType cpp   setlocal commentstring=//\ %s
-    autocmd FileType jinja setlocal commentstring=<!--\ %s\ -->
-    autocmd FileType jq    setlocal commentstring=#\ %s
-    autocmd FileType mysql setlocal commentstring=--\ %s
-    autocmd FileType php   setlocal commentstring=//\ %s
-    autocmd FileType sql   setlocal commentstring=--\ %s
-    autocmd FileType text  setlocal commentstring=#\ %s
-augroup end
-
-" because the autocommand isn't working so well...
-command! SetHTMLCommentString setlocal commentstring=<!--\ %s\ -->
-
-" change enclosing symbols with `cs`. Ex: `cs'(` to change from quotes to parens
-" add add parens with ysiw( or ysiw)
-Plug 'tpope/vim-surround'
-" make the surround movements work with .
-Plug 'tpope/vim-repeat'
-
-" Get me some sweet command line mappings for vim
-Plug 'tpope/vim-rsi'
+" colors parentheses. Can be toggled with RainbowToggle
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1
 
 " auto-matching
 Plug 'jiangmiao/auto-pairs'
@@ -73,18 +64,14 @@ augroup autopairs
     autocmd VimEnter *.scm let b:autopairs_enabled = 0
 augroup end
 
-" colors parentheses. Can be toggled with RainbowToggle
-Plug 'luochen1990/rainbow'
-let g:rainbow_active = 1
+Plug 'Glench/Vim-Jinja2-Syntax'
 
+" Ctrl+_ to close the tag
+Plug 'vim-scripts/closetag.vim'
+ 
 "Align text by selecting, :Tab /<character to align, usually '='>
 Plug 'godlygeek/tabular'
 
-" When filetype is html, type tagname then <C-x> <space> to complete the tag. <enter> adds a line
-Plug 'tpope/vim-ragtag'
-Plug 'Glench/Vim-Jinja2-Syntax'
-" Ctrl+_ to close the tag
-Plug 'vim-scripts/closetag.vim'
 if has("python")
     Plug 'https://github.com/Valloric/MatchTagAlways.git'
 endif
@@ -103,13 +90,34 @@ endif
 
 Plug 'airblade/vim-gitgutter'
 
+Plug 'vim-scripts/LargeFile'
+let g:LargeFile = 20
+
+" show diff when vim finds a .swp file
+Plug 'chrisbra/Recover.vim'
+
+" :rename <name>
+Plug 'danro/rename.vim'
+
+if executable('clang-format')
+    Plug 'rhysd/vim-clang-format'
+endif
+
+Plug 'hynek/vim-python-pep8-indent'
+
+" Syntax highlighting plugins
+
+Plug 'nickhutchinson/vim-cmake-syntax'
+
+" Add highlighting of functions and containers and types
+Plug 'octol/vim-cpp-enhanced-highlight'
+
 " Python Plugins
 Plug 'hdima/python-syntax'
-Plug 'hynek/vim-python-pep8-indent'
 let python_highlight_all=1
 
-
 Plug 'cespare/vim-toml'
+
 Plug 'StanAngeloff/php.vim'
 
 Plug 'elzr/vim-json'
@@ -122,21 +130,7 @@ let g:rustfmt_autosave = 1
 
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
-Plug 'tpope/vim-fugitive'
-
-Plug 'vim-scripts/LargeFile'
-let g:LargeFile = 20
-
-Plug 'chrisbra/Recover.vim'
-
 Plug 'b4b4r07/vim-hcl'
-
-" :rename <name>
-Plug 'danro/rename.vim'
-
-if executable('clang-format')
-    Plug 'rhysd/vim-clang-format'
-endif
 
 " colorschemes
 
