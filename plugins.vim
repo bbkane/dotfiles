@@ -46,9 +46,6 @@ let g:indentLine_color_dark = 1 " (default: 2)
 " Get me some sweet command line mappings for vim
 Plug 'tpope/vim-rsi'
 
-" use :A to switch between .cpp and .h
-Plug 'vim-scripts/a.vim'
-
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
@@ -66,9 +63,11 @@ augroup end
 
 Plug 'Glench/Vim-Jinja2-Syntax'
 
+" TODO: probably don't need both of these...
 " Ctrl+_ to close the tag
-Plug 'vim-scripts/closetag.vim'
- 
+" Plug 'vim-scripts/closetag.vim'
+Plug 'tpope/vim-ragtag'
+
 "Align text by selecting, :Tab /<character to align, usually '='>
 Plug 'godlygeek/tabular'
 
@@ -131,6 +130,8 @@ let g:rustfmt_autosave = 1
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 Plug 'b4b4r07/vim-hcl'
+
+Plug 'leafgarland/typescript-vim'
 
 " colorschemes
 
