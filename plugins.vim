@@ -130,6 +130,7 @@ let g:rustfmt_autosave = 1
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 Plug 'b4b4r07/vim-hcl'
+Plug 'leafgarland/typescript-vim'
 
 Plug 'leafgarland/typescript-vim'
 
