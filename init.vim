@@ -65,9 +65,6 @@ set showbreak=+++                 " Wrap-broken line prefix
 set textwidth=0                   " Line wrap (number of cols)
 set wrapmargin=0
 
-set expandtab                     " Use spaces instead of tabs
-set shiftwidth=4                  " Number of auto-indent spaces
-set softtabstop=4                 " Number of spaces per Tab
 
 set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
@@ -78,6 +75,68 @@ set splitright
 
 " I think this will shorten YCM's function doc window
 " set previewheight=5
+
+
+" Default indent settings
+
+" https://stackoverflow.com/a/1878984/2958070
+
+set tabstop=4       " The width of a TAB is set to 4.
+                    " Still it is a \t. It is just that
+                    " Vim will interpret it to be having
+                    " a width of 4.
+
+set shiftwidth=4    " Indents will have a width of 4
+
+set softtabstop=4   " Sets the number of columns for a TAB
+
+set expandtab       " Expand TABs to spaces
+
+" Custom indent settings per filetype
+augroup custom_filetype_indents
+    autocmd!
+    " Only use tabs in gitconfig
+    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
+    autocmd BufRead,BufNewFile .gitconfig setlocal autoindent noexpandtab tabstop=8 shiftwidth=8
+    " Use 2 spaces to indent in these
+    autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
+augroup END
+
+" TODO: clean up indent settings ( https://stackoverflow.com/a/1878983/2958070 )
+function! IndentSpacesToggle()
+    if &softtabstop == 2
+        setlocal tabstop=4
+        setlocal shiftwidth=4
+        setlocal softtabstop=4
+        setlocal expandtab
+        echom "#spaces per indent = 4"
+    else
+        setlocal tabstop=2
+        setlocal shiftwidth=2
+        setlocal softtabstop=2
+        setlocal expandtab
+        echom "#spaces per indent = 2"
+    endif
+endfunction
+command! IndentSpacesToggle call IndentSpacesToggle()
+
+" Sometimes I dont want to indent (yaml files in particular)
+command! StopIndenting setl noai nocin nosi inde=
+
+" Set Visual Studio style indents
+command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
+" Done with indenting yay!
+
+augroup custum_filetypes
+    autocmd!
+    autocmd BufRead,BufNewFile *.rs set filetype=rust
+    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
+    " custom Lync highlighting
+    autocmd BufRead,BufNewFile *.lync set filetype=lync
+    " https://superuser.com/a/907889/643441
+    autocmd filetype crontab setlocal nobackup nowritebackup
+augroup END
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
@@ -162,38 +221,6 @@ if !has("nvim")
     set visualbell t_vb=
 endif
 
-augroup custum_filetypes
-    autocmd!
-    autocmd BufRead,BufNewFile *.rs set filetype=rust
-    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
-    " custom Lync highlighting
-    autocmd BufRead,BufNewFile *.lync set filetype=lync
-    " Only use tabs in gitconfig
-    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
-    autocmd BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
-    " Use 2 spaces to indent in these
-    autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
-    " https://superuser.com/a/907889/643441
-    autocmd filetype crontab setlocal nobackup nowritebackup
-augroup END
-
-" TODO: clean up indent settings ( https://stackoverflow.com/a/1878983/2958070 )
-function! IndentSpacesToggle()
-    if &softtabstop == 2
-        setlocal tabstop=4
-        setlocal shiftwidth=4
-        setlocal softtabstop=4
-        setlocal expandtab
-        echom "#spaces per indent = 4"
-    else
-        setlocal tabstop=2
-        setlocal shiftwidth=2
-        setlocal softtabstop=2
-        setlocal expandtab
-        echom "#spaces per indent = 2"
-    endif
-endfunction
-command! IndentSpacesToggle call IndentSpacesToggle()
 
 
 " http://stackoverflow.com/a/18444962/2958070
@@ -215,11 +242,6 @@ nnoremap <C-l> <ESC><C-w><C-l>
 " 2018-07-26 I guess it works now?
 nnoremap <C-h> <ESC><C-w><C-h>
 
-" Sometimes I dont want to indent (yaml files in particular)
-command! StopIndenting setl noai nocin nosi inde=
-
-" Set Visual Studio style indents
-command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
 " reload vimrc
 command! ReloadVimrc source $MYVIMRC
@@ -453,7 +475,7 @@ command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
 " The 'e' on the end of the substitute ignores errors
 " -range=% means without a visual selection the whole buffer is selected
-command! -range=% -nargs=0 -bar MarkdownToJira 
+command! -range=% -nargs=0 -bar MarkdownToJira
     \ :<line1>,<line2>s:^- :* :e
     \ | <line1>,<line2>s:^  - :** :e
     \ | <line1>,<line2>s:^```:{noformat}:e
