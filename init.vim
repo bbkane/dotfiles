@@ -32,13 +32,13 @@ try
     if !empty($vim_colorscheme)
         colorscheme $vim_colorscheme
     else
-        colorscheme gruvbox
+        " colorscheme gruvbox
         " colorscheme desert-warm-256
         " colorscheme elflord
         " colorscheme railscasts
         " colorscheme dracula
         " colorscheme 0x7A69_dark
-        " colorscheme desertedocean
+        colorscheme desertedocean
     endif
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
@@ -177,6 +177,24 @@ augroup custum_filetypes
     autocmd filetype crontab setlocal nobackup nowritebackup
 augroup END
 
+" TODO: clean up indent settings ( https://stackoverflow.com/a/1878983/2958070 )
+function! IndentSpacesToggle()
+    if &softtabstop == 2
+        setlocal tabstop=4
+        setlocal shiftwidth=4
+        setlocal softtabstop=4
+        setlocal expandtab
+        echom "#spaces per indent = 4"
+    else
+        setlocal tabstop=2
+        setlocal shiftwidth=2
+        setlocal softtabstop=2
+        setlocal expandtab
+        echom "#spaces per indent = 2"
+    endif
+endfunction
+command! IndentSpacesToggle call IndentSpacesToggle()
+
 
 " http://stackoverflow.com/a/18444962/2958070
 " TODO: maybe use plugin for this
@@ -194,7 +212,8 @@ nnoremap <C-k> <ESC><C-w><C-k>
 nnoremap <C-l> <ESC><C-w><C-l>
 " " This won't work on OSX withot more work
 " " See :Checkhealth on NeoVim
-" nnoremap <C-h> <ESC><C-w><C-h>
+" 2018-07-26 I guess it works now?
+nnoremap <C-h> <ESC><C-w><C-h>
 
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
@@ -444,6 +463,11 @@ command! -range=% -nargs=0 -bar MarkdownToJira
     \ | <line1>,<line2>s:^`:{{:eg
     \ | <line1>,<line2>s:` :}} :eg
     \ | <line1>,<line2>s:`$:}}:eg
+    \ | <line1>,<line2>s:`\.:}}.:eg
+
+" https://unix.stackexchange.com/a/58748/185953
+" <line1>,<line2>VisualSelect
+command! -range VisualSelect normal! <line1>GV<line2>G
 
 " Finally, load specific stuff
 if !empty(glob("~/.config/nvim_local.vim"))
@@ -451,8 +475,3 @@ if !empty(glob("~/.config/nvim_local.vim"))
     source ~/.config/nvim_local.vim
     command! EditNvimLocal :edit ~/.config/nvim_local.vim
 endif
-
-" https://unix.stackexchange.com/a/58748/185953
-" <line1>,<line2>VisualSelect
-command! -range VisualSelect normal! <line1>GV<line2>G
-

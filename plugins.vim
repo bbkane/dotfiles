@@ -149,7 +149,7 @@ endif
 " Plug 'ajmwagar/vim-deus'
 
 " " Ones I know I like
-" Plug 'jpo/vim-railscasts-theme'
-" Plug 'rainux/vim-desert-warm-256'
+Plug 'jpo/vim-railscasts-theme'
+Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
 
