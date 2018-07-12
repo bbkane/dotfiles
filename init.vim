@@ -491,6 +491,11 @@ command! -range=% -nargs=0 -bar MarkdownToJira
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
 
+" https://stackoverflow.com/a/4224454/2958070
+command! -nargs=0 -range=% NumberLines <line1>,<line2>s/^\s*\zs/\=(line('.') - <line1>+1).'. '
+command! -nargs=0 -range=% UnNumberLines <line1>,<line2>s/\d\+\. //g
+
+
 " Finally, load specific stuff
 if !empty(glob("~/.config/nvim_local.vim"))
     " Source company specific stuff

@@ -40,6 +40,10 @@ if has("nvim")
     Plug 'ncm2/ncm2-bufword'
     Plug 'ncm2/ncm2-path'
 
+    " End copied ncm2 config
+    let g:ncm2#complete_length = 3
+
+
     " End ncm2 config
 
     " Use :ll to go to the first error
