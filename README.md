@@ -1,6 +1,8 @@
 # nvim
 My Neovim Config. Should also work for Vim, but no promises :)
 
+TODO: check out https://vimawesome.com/
+
 ## Install
 
 - Back up old config
@@ -60,6 +62,8 @@ nvim # or `vim`
 ```
 
 ## Install IDE components
+
+TODO: update this (I've removed a decent amount of this)
 
 These are needed for nvim-completion-manager and Neomake.
 
