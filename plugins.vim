@@ -29,6 +29,13 @@ endif
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
+" TODO: finish
+" Plug 'vimwiki/vimwiki'
+" let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+" " I already use tags
+" nmap <Leader>wn <Plug>VimwikiNextLink
+" nmap <Leader>wp <Plug>VimwikiPrevLink
+
 Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html']}
 " Vim
 let g:indentLine_color_term = 239
@@ -61,7 +68,6 @@ augroup autopairs
     autocmd VimEnter *.scm let b:autopairs_enabled = 0
 augroup end
 
-Plug 'Glench/Vim-Jinja2-Syntax'
 
 " TODO: probably don't need both of these...
 " Ctrl+_ to close the tag
@@ -108,10 +114,11 @@ Plug 'hynek/vim-python-pep8-indent'
 
 Plug 'nickhutchinson/vim-cmake-syntax'
 
+Plug 'Glench/Vim-Jinja2-Syntax'
+
 " Add highlighting of functions and containers and types
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-" Python Plugins
 Plug 'hdima/python-syntax'
 let python_highlight_all=1
 
@@ -130,8 +137,6 @@ let g:rustfmt_autosave = 1
 Plug 'Matt-Deacalion/vim-systemd-syntax'
 
 Plug 'b4b4r07/vim-hcl'
-Plug 'leafgarland/typescript-vim'
-
 Plug 'leafgarland/typescript-vim'
 
 " colorschemes
