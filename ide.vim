@@ -5,6 +5,13 @@ let vim_ide_status=$vim_ide_status
 
 if has("nvim")
 
+    " ncm2 requires neovim python module
+    " TODO: Add cases for other os's
+    " TODO: make new conda env file (not global pip install neovim like here)
+    if has('mac')
+        let g:python3_host_prog = $HOME . '/anaconda3/bin/python'
+    endif
+
     " Here I am doing this again...
     " NOTE: nvim-yarp requires the neovim module
     " https://github.com/ncm2/ncm2 - copying straight from this
