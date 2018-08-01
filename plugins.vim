@@ -30,11 +30,11 @@ endif
 Plug 'bronson/vim-trailing-whitespace'
 
 " TODO: finish
-" Plug 'vimwiki/vimwiki'
-" let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
-" " I already use tags
-" nmap <Leader>wn <Plug>VimwikiNextLink
-" nmap <Leader>wp <Plug>VimwikiPrevLink
+Plug 'vimwiki/vimwiki'
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+" I already use <Tab>
+nmap <Leader>wn <Plug>VimwikiNextLink
+nmap <Leader>wp <Plug>VimwikiPrevLink
 
 Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html']}
 " Vim

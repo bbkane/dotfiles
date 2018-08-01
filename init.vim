@@ -32,13 +32,13 @@ try
     if !empty($vim_colorscheme)
         colorscheme $vim_colorscheme
     else
-        " colorscheme gruvbox
+        colorscheme gruvbox
         " colorscheme desert-warm-256
         " colorscheme elflord
         " colorscheme railscasts
         " colorscheme dracula
         " colorscheme 0x7A69_dark
-        colorscheme desertedocean
+        " colorscheme desertedocean
     endif
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
@@ -61,7 +61,7 @@ set noerrorbells
 set wrap                          " Only use a soft wrap, not a hard one
 set linebreak                     " Break lines at word (requires Wrap lines)
 set nolist
-set showbreak=+++                 " Wrap-broken line prefix
+set showbreak=\\\\                 " Wrap-broken line prefix
 set textwidth=0                   " Line wrap (number of cols)
 set wrapmargin=0
 
@@ -77,19 +77,15 @@ set splitright
 " set previewheight=5
 
 
+
+
 " Default indent settings
 
 " https://stackoverflow.com/a/1878984/2958070
-
-set tabstop=4       " The width of a TAB is set to 4.
-                    " Still it is a \t. It is just that
-                    " Vim will interpret it to be having
-                    " a width of 4.
-
+set tabstop=4       " The width of a TAB is set to 4. Still it is a \t. It is just that
+                    " Vim will interpret it to be having a width of 4.
 set shiftwidth=4    " Indents will have a width of 4
-
 set softtabstop=4   " Sets the number of columns for a TAB
-
 set expandtab       " Expand TABs to spaces
 
 " Custom indent settings per filetype
@@ -169,7 +165,6 @@ nmap k gk
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
-" This seems to make my space key slow...
 let mapleader = " "
 
 " Use bash highlighting instead of sh highlighting
@@ -179,6 +174,7 @@ let g:is_bash = 1
 " Make some stuff uncopyable on HTML output
 " :help :TOhtml
 let g:html_prevent_copy = "fn"
+
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
@@ -315,6 +311,22 @@ function! InstallVimPlug()
     endif
 endfunction
 command! InstallVimPlug call InstallVimPlug()
+
+if executable("rg")
+    set grepprg=rg\ --vimgrep
+endif
+
+" https://vi.stackexchange.com/a/2868/9180
+function s:StripComma(string)
+    return substitute(a:string, ',$', '', '')
+endfunction
+
+
+" https://stackoverflow.com/a/34166237/2958070
+" TODO: integrate the script at https://stackoverflow.com/a/34167773/2958070
+if executable("jq")
+    command! JSONPathToValue exec "!jq '[paths as $path | select(getpath($path) == " . s:StripComma(expand('<cWORD>')) . ") | $path]' " . expand('%')
+endif
 
 " pip
 if executable('autoflake')
@@ -474,31 +486,35 @@ endfun
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
 " The 'e' on the end of the substitute ignores errors
+" NOTE: what does the 'g' do again?
 " -range=% means without a visual selection the whole buffer is selected
 command! -range=% -nargs=0 -bar MarkdownToJira
     \ :<line1>,<line2>s:^- :* :e
     \ | <line1>,<line2>s:^  - :** :e
+    \ | <line1>,<line2>s:^    - :*** :e
     \ | <line1>,<line2>s:^```:{noformat}:e
     \ | <line1>,<line2>s:^# :h1. :e
     \ | <line1>,<line2>s:^## :h2. :e
+    \ | <line1>,<line2>s:^### :h3. :e
     \ | <line1>,<line2>s: `: {{:eg
     \ | <line1>,<line2>s:^`:{{:eg
     \ | <line1>,<line2>s:` :}} :eg
     \ | <line1>,<line2>s:`$:}}:eg
     \ | <line1>,<line2>s:`\.:}}.:eg
+    \ | <line1>,<line2>s:^\d\+\. :# :e
 
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
 
+" Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
 command! -nargs=0 -range=% NumberLines <line1>,<line2>s/^\s*\zs/\=(line('.') - <line1>+1).'. '
 command! -nargs=0 -range=% UnNumberLines <line1>,<line2>s/\d\+\. //g
 
 
-" Finally, load specific stuff
+" Finally, load secretive stuff not under version control
 if !empty(glob("~/.config/nvim_local.vim"))
-    " Source company specific stuff
     source ~/.config/nvim_local.vim
     command! EditNvimLocal :edit ~/.config/nvim_local.vim
 endif
