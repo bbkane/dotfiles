@@ -321,11 +321,25 @@ function s:StripComma(string)
     return substitute(a:string, ',$', '', '')
 endfunction
 
+" https://superuser.com/a/267070/643441
+function! JSONPathToValueNewBuffer()
+    let filepath = expand('%')
+    let string = s:StripComma(expand('<cWORD>'))
+    let TempFile = tempname()
+    let SaveModified = &modified
+    exe 'w ' . TempFile
+    let &modified = SaveModified
+    exe 'split ' . TempFile
+    " exe "%! jq '[paths as $path | select(getpath($path) == " . string . ") | $path]' " . filepath
+    exe "%! jq 'paths as $path | select(getpath($path) == " . string . ") | $path' " . filepath
+endfunction
+
 
 " https://stackoverflow.com/a/34166237/2958070
 " TODO: integrate the script at https://stackoverflow.com/a/34167773/2958070
 if executable("jq")
     command! JSONPathToValue exec "!jq '[paths as $path | select(getpath($path) == " . s:StripComma(expand('<cWORD>')) . ") | $path]' " . expand('%')
+    command! JSONPathToValueNewBuffer call JSONPathToValueNewBuffer()
 endif
 
 " pip
@@ -518,3 +532,6 @@ if !empty(glob("~/.config/nvim_local.vim"))
     source ~/.config/nvim_local.vim
     command! EditNvimLocal :edit ~/.config/nvim_local.vim
 endif
+
+" https://askubuntu.com/a/686806/483521
+command! InsertDate :execute 'norm i' . system('date')
