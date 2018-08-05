@@ -29,6 +29,13 @@ endif
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
+" By default, gx ignores querystrings in my links...
+Plug 'tyru/open-browser.vim'
+" https://github.com/tyru/open-browser.vim/blob/master/doc/openbrowser.txt
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+
 " TODO: finish
 Plug 'vimwiki/vimwiki'
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
