@@ -1,8 +1,3 @@
-" source vim_ide_status from the environment
-" Ex: export vim_ide_status="ycm rust cpp"
-" don't forget to 'pip install neovim'
-let vim_ide_status=$vim_ide_status
-
 if has("nvim")
 
     " ncm2 requires neovim python module
@@ -103,4 +98,3 @@ let g:quickrun_config['python'] = {
 " After running this, QuickRun runs on :w
 " bad for long running code (will freeze vim)
 command! AutoQuickRun  autocmd BufWritePost * QuickRun
-

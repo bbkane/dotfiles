@@ -35,6 +35,3 @@ Plug 'ncm2/ncm2-path'
 
 " End copied ncm2 config
 let g:ncm2#complete_length = 3
-
-
-" End ncm2 config
