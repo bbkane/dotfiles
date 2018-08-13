@@ -76,8 +76,7 @@ set splitright
 " I think this will shorten YCM's function doc window
 " set previewheight=5
 
-
-
+" TODO: explore set iskeyword+=\- for autocompletion including dashes
 
 " Default indent settings
 
@@ -316,9 +315,14 @@ if executable("rg")
     set grepprg=rg\ --vimgrep
 endif
 
+" TODO: genericize this
 " https://vi.stackexchange.com/a/2868/9180
 function s:StripComma(string)
     return substitute(a:string, ',$', '', '')
+endfunction
+
+function s:StripNewline(string)
+    return substitute(a:string, '\n\+$', '', '')
 endfunction
 
 " https://superuser.com/a/267070/643441
@@ -534,4 +538,5 @@ if !empty(glob("~/.config/nvim_local.vim"))
 endif
 
 " https://askubuntu.com/a/686806/483521
-command! InsertDate :execute 'norm i' . system('date')
+command! InsertDate :execute 'norm i' .
+    \ s:StripNewline(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"))
