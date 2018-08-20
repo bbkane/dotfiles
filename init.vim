@@ -468,8 +468,6 @@ command! FullPath echo expand('%:p')
 " TODO: Make this work to replace visual selections
 " python -c "import sys, pprint, ast; obj = ast.literal_eval(sys.stdin.read()); pprint.pprint(obj)"
 
-" TODO: figure out a way to insert the date on command
-
 command! SourceCurrent source % | echo "Sourced " . expand('%')
 
 " Visually select \n separated IPs, then call this
@@ -506,6 +504,7 @@ command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 " The 'e' on the end of the substitute ignores errors
 " NOTE: what does the 'g' do again?
 " -range=% means without a visual selection the whole buffer is selected
+"  TODO: handle # in code blocks, links
 command! -range=% -nargs=0 -bar MarkdownToJira
     \ :<line1>,<line2>s:^- :* :e
     \ | <line1>,<line2>s:^  - :** :e
@@ -530,6 +529,9 @@ command! -range VisualSelect normal! <line1>GV<line2>G
 command! -nargs=0 -range=% NumberLines <line1>,<line2>s/^\s*\zs/\=(line('.') - <line1>+1).'. '
 command! -nargs=0 -range=% UnNumberLines <line1>,<line2>s/\d\+\. //g
 
+" https://askubuntu.com/a/686806/483521
+command! InsertDate :execute 'norm i' .
+    \ s:StripNewline(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"))
 
 " Finally, load secretive stuff not under version control
 if !empty(glob("~/.config/nvim_local.vim"))
@@ -537,6 +539,3 @@ if !empty(glob("~/.config/nvim_local.vim"))
     command! EditNvimLocal :edit ~/.config/nvim_local.vim
 endif
 
-" https://askubuntu.com/a/686806/483521
-command! InsertDate :execute 'norm i' .
-    \ s:StripNewline(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"))
