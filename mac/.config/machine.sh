@@ -22,3 +22,10 @@ export s5='192.168.1.66'
 export s8='192.168.1.153'
 
 export EDITOR=/usr/local/bin/nvim
+
+export CGO_ENABLED=1
+export GOPATH="$HOME/Code/Go"
+
+export PATH="$PATH:$GOPATH/bin"
+
+alias GOME='cd ~/Code/Go/src/github.com/bbkane/'
