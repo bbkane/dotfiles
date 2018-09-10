@@ -7,6 +7,12 @@
   "[javascript]": {
     "editor.tabSize": 2
   },
+  "[go]": {
+    "editor.tabSize": 4
+  },
+  "files.associations": {
+    "**/*.yml": "ansible"
+  },
   "C_Cpp.intelliSenseEngine": "Default",
 
   "editor.fontSize": 14,
@@ -53,5 +59,6 @@
   "rust.mode": "rls",
   "rust.rls": {
     "useRustfmt": true
-  }
+  },
+  "breadcrumbs.enabled": true
 }

@@ -10,9 +10,10 @@ see_path() {
 }
 
 # make compiling easier
-go() {
-    echo ""; clang++ -std=c++11 -Wall -Werror "$1" -o "$1.out" && ./"$1.out";
-}
+# conflicts with golang
+# go() {
+#     echo ""; clang++ -std=c++11 -Wall -Werror "$1" -o "$1.out" && ./"$1.out";
+# }
 
 setedit() {
     # shellcheck disable=SC2139
