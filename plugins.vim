@@ -44,6 +44,19 @@ nmap <Leader>wn <Plug>VimwikiNextLink
 nmap <Leader>wp <Plug>VimwikiPrevLink
 
 Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html']}
+
+" <count>ai	An Indentation level and line above.
+" <count>ii	Inner Indentation level (no line above).
+" <count>aI	An Indentation level and lines above/below.
+" <count>iI	Inner Indentation level (no lines above/below).<Paste>
+Plug 'michaeljsmith/vim-indent-object'
+
+" Rg <string>
+" NOTE: it might be nice to adjust the quickfix window size here
+let g:rg_command = 'rg --vimgrep --smart-case'
+let g:rg_highlight = 1
+Plug 'jremmen/vim-ripgrep'
+
 " Vim
 let g:indentLine_color_term = 239
 "GVim (also neovim with termguicolors)
