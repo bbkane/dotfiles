@@ -73,6 +73,12 @@ let g:indentLine_color_dark = 1 " (default: 2)
 " Get me some sweet command line mappings for vim
 Plug 'tpope/vim-rsi'
 
+" :FZF [dir], then start typing file name
+" use enter key, CTRL-T, CTRL-X or CTRL-V to open selected files in the
+" current window, in new tabs, in horizontal splits, or in vertical splits
+" respectively.
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
