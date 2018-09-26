@@ -502,7 +502,6 @@ endfun
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
 " The 'e' on the end of the substitute ignores errors
-" NOTE: what does the 'g' do again?
 " -range=% means without a visual selection the whole buffer is selected
 "  TODO: handle # in code blocks, links
 command! -range=% -nargs=0 -bar MarkdownToJira
@@ -514,7 +513,7 @@ command! -range=% -nargs=0 -bar MarkdownToJira
     \ | <line1>,<line2>s:^## :h2. :e
     \ | <line1>,<line2>s:^### :h3. :e
     \ | <line1>,<line2>s: `: {{:eg
-    \ | <line1>,<line2>s:^`:{{:eg
+    \ | <line1>,<line2>s:^`:{{:e
     \ | <line1>,<line2>s:` :}} :eg
     \ | <line1>,<line2>s:`$:}}:eg
     \ | <line1>,<line2>s:`\.:}}.:eg
