@@ -503,7 +503,8 @@ command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
 " The 'e' on the end of the substitute ignores errors
 " -range=% means without a visual selection the whole buffer is selected
-"  TODO: handle # in code blocks, links
+"  Special thanks to a @jfim for the link substitution line
+"  TODO: handle ^# substitution in code blocks
 command! -range=% -nargs=0 -bar MarkdownToJira
     \ :<line1>,<line2>s:^- :* :e
     \ | <line1>,<line2>s:^  - :** :e
@@ -518,6 +519,7 @@ command! -range=% -nargs=0 -bar MarkdownToJira
     \ | <line1>,<line2>s:`$:}}:eg
     \ | <line1>,<line2>s:`\.:}}.:eg
     \ | <line1>,<line2>s:^\d\+\. :# :e
+    \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
 
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
