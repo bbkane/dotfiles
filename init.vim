@@ -404,11 +404,11 @@ command! UpByIndent :call UpByIndent()
 " http://stackoverflow.com/a/749320/2958070
 " exit with :q or :diffoff
 function! s:DiffWithSaved()
-  let filetype=&ft
-  diffthis
-  vnew | r # | normal! 1Gdd
-  diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+    let filetype=&ft
+    diffthis
+    vnew | r # | normal! 1Gdd
+    diffthis
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 command! DiffSaved call s:DiffWithSaved()
 
@@ -454,3 +454,13 @@ endfun
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
 " TODO: http://vim.wikia.com/wiki/Edit_gpg_encrypted_files
+
+function! SetExecutableBit()
+    let fname = expand("%:p")
+    checktime
+    execute "au FileChangedShell " . fname . " :echo"
+    silent !chmod a+x %
+    checktime
+    execute "au! FileChangedShell " . fname
+endfunction
+command! SetExecutableBit call SetExecutableBit()
