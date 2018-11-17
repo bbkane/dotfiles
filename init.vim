@@ -521,6 +521,12 @@ command! -range=% -nargs=0 -bar MarkdownToJira
     \ | <line1>,<line2>s:^\d\+\. :# :e
     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
 
+" TODO: add filtype on top?
+" NOTE: add bottom one first to not mess up what's <line2>
+command! -range=% -nargs=0 -bar AddCodeFence
+    \ :<line2>s:$:\r```:
+    \ | <line1>s:^:```\r:
+
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
