@@ -61,13 +61,9 @@ set noerrorbells
 set wrap                          " Only use a soft wrap, not a hard one
 set linebreak                     " Break lines at word (requires Wrap lines)
 set nolist
-set showbreak=+++                 " Wrap-broken line prefix
+set showbreak=\\\\                 " Wrap-broken line prefix
 set textwidth=0                   " Line wrap (number of cols)
 set wrapmargin=0
-
-set expandtab                     " Use spaces instead of tabs
-set shiftwidth=4                  " Number of auto-indent spaces
-set softtabstop=4                 " Number of spaces per Tab
 
 
 set number                        " Show line numbers
@@ -78,7 +74,64 @@ set splitbelow
 set splitright
 
 " I think this will shorten YCM's function doc window
-set previewheight=5
+" set previewheight=5
+
+" TODO: explore set iskeyword+=\- for autocompletion including dashes
+
+" Default indent settings
+
+" https://stackoverflow.com/a/1878984/2958070
+set tabstop=4       " The width of a TAB is set to 4. Still it is a \t. It is just that
+                    " Vim will interpret it to be having a width of 4.
+set shiftwidth=4    " Indents will have a width of 4
+set softtabstop=4   " Sets the number of columns for a TAB
+set expandtab       " Expand TABs to spaces
+
+" Custom indent settings per filetype
+augroup custom_filetype_indents
+    autocmd!
+    " Only use tabs in gitconfig
+    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
+    autocmd BufRead,BufNewFile .gitconfig setlocal autoindent noexpandtab tabstop=8 shiftwidth=8
+    " Use 2 spaces to indent in these
+    autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
+augroup END
+
+" TODO: clean up indent settings ( https://stackoverflow.com/a/1878983/2958070 )
+function! IndentSpacesToggle()
+    if &softtabstop == 2
+        setlocal tabstop=4
+        setlocal shiftwidth=4
+        setlocal softtabstop=4
+        setlocal expandtab
+        echom "#spaces per indent = 4"
+    else
+        setlocal tabstop=2
+        setlocal shiftwidth=2
+        setlocal softtabstop=2
+        setlocal expandtab
+        echom "#spaces per indent = 2"
+    endif
+endfunction
+command! IndentSpacesToggle call IndentSpacesToggle()
+
+" Sometimes I dont want to indent (yaml files in particular)
+command! StopIndenting setl noai nocin nosi inde=
+
+" Set Visual Studio style indents
+command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
+" Done with indenting yay!
+
+augroup custum_filetypes
+    autocmd!
+    autocmd BufRead,BufNewFile *.rs set filetype=rust
+    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
+    " custom Lync highlighting
+    autocmd BufRead,BufNewFile *.lync set filetype=lync
+    " https://superuser.com/a/907889/643441
+    autocmd filetype crontab setlocal nobackup nowritebackup
+augroup END
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
@@ -111,9 +164,7 @@ nmap k gk
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
-" This seems to make my space key slow...
-" let mapleader = "\<space>"
-let mapleader = ","
+let mapleader = " "
 
 " Use bash highlighting instead of sh highlighting
 " let g:is_posix = 1
@@ -123,14 +174,6 @@ let g:is_bash = 1
 " :help :TOhtml
 let g:html_prevent_copy = "fn"
 
-" " this is for the neovim python plugin
-" " This might be a problem for YCM on linux because anaconda python doesn't
-" " have python-devel like the system does and YCM needs
-" if has('mac') && isdirectory($HOME . '/anaconda3/bin')
-"     let g:python3_host_prog = $HOME . '/anaconda3/bin/python'
-" " elseif has('unix') " linux, not mac
-" "     let g:python3_host_prog = '/usr/bin/python3'
-" endif
 
 " To use the clipboard on linux, install xsel
 if has('clipboard')
@@ -173,18 +216,6 @@ if !has("nvim")
     set visualbell t_vb=
 endif
 
-augroup custum_filetypes
-    au!
-    au BufRead,BufNewFile *.rs set filetype=rust
-    au BufRead,BufNewFile Vagrantfile set filetype=ruby
-    " custom Lync highlighting
-    au BufRead,BufNewFile *.lync set filetype=lync
-    " Only use tabs in gitconfig
-    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
-    au BufRead,BufNewFile .gitconfig set autoindent noexpandtab tabstop=4 shiftwidth=4
-    " Use 2 spaces to indent in these
-    autocmd FileType html,javascript,json,ruby,yaml setlocal shiftwidth=2 softtabstop=2
-augroup END
 
 
 " http://stackoverflow.com/a/18444962/2958070
@@ -197,22 +228,15 @@ augroup END
 " " This is now on plug in https://github.com/christoomey/vim-tmux-navigator
 " " which makes it also work in tmux
 " " split settings
-" nnoremap <C-n> <ESC><C-w><C-w>
-" nnoremap <C-j> <ESC><C-w><C-j>
-" nnoremap <C-k> <ESC><C-w><C-k>
-" nnoremap <C-l> <ESC><C-w><C-l>
+nnoremap <C-n> <ESC><C-w><C-w>
+nnoremap <C-j> <ESC><C-w><C-j>
+nnoremap <C-k> <ESC><C-w><C-k>
+nnoremap <C-l> <ESC><C-w><C-l>
 " " This won't work on OSX withot more work
 " " See :Checkhealth on NeoVim
-" nnoremap <C-h> <ESC><C-w><C-h>
+" 2018-07-26 I guess it works now?
+nnoremap <C-h> <ESC><C-w><C-h>
 
-" save, make, run (depends on makeprg)
-map <F5> :w<CR> :make<CR> :!./%:r.out<CR>
-
-" Sometimes I dont want to indent (yaml files in particular)
-command! StopIndenting setl noai nocin nosi inde=
-
-" Set Visual Studio style indents
-command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
 " reload vimrc
 command! ReloadVimrc source $MYVIMRC
@@ -257,28 +281,19 @@ command! BensCommands call BensCommands()
 
 command! -nargs=1 Help vert help <args>
 
-function! Open()
+function Open(open_me)
+    let open_me = expand(a:open_me)
     if has('win32')
-        execute "silent !start %"
+        execute "silent !start " . a:open_me
     elseif has('mac')
-        execute "silent !open %"
+        execute "silent !open " . a:open_me
     else
-        execute "silent !xdg-open %"
+        execute "silent !xdg-open " . a:open_me
     endif
 endfunction
-command! Open call Open()
+command! Open call Open('%')
+command! OpenDir call Open('%:p:h')
 
-function! OpenDir()
-    let cur_file_dir = expand('%:p:h')
-    if has('win32')
-        execute "silent !start " . cur_file_dir
-    elseif has('mac')
-        execute "silent !open " . cur_file_dir
-    else
-        execute "silent !xdg-open " . cur_file_dir
-    endif
-endfunction
-command! OpenDir call OpenDir()
 
 function! InstallVimPlug()
     if empty(glob("~/.config/nvim/autoload/plug.vim"))
@@ -295,6 +310,41 @@ function! InstallVimPlug()
     endif
 endfunction
 command! InstallVimPlug call InstallVimPlug()
+
+if executable("rg")
+    set grepprg=rg\ --vimgrep
+endif
+
+" TODO: genericize this
+" https://vi.stackexchange.com/a/2868/9180
+function s:StripComma(string)
+    return substitute(a:string, ',$', '', '')
+endfunction
+
+function s:StripNewline(string)
+    return substitute(a:string, '\n\+$', '', '')
+endfunction
+
+" https://superuser.com/a/267070/643441
+function! JSONPathToValueNewBuffer()
+    let filepath = expand('%')
+    let string = s:StripComma(expand('<cWORD>'))
+    let TempFile = tempname()
+    let SaveModified = &modified
+    exe 'w ' . TempFile
+    let &modified = SaveModified
+    exe 'split ' . TempFile
+    " exe "%! jq '[paths as $path | select(getpath($path) == " . string . ") | $path]' " . filepath
+    exe "%! jq 'paths as $path | select(getpath($path) == " . string . ") | $path' " . filepath
+endfunction
+
+
+" https://stackoverflow.com/a/34166237/2958070
+" TODO: integrate the script at https://stackoverflow.com/a/34167773/2958070
+if executable("jq")
+    command! JSONPathToValue exec "!jq '[paths as $path | select(getpath($path) == " . s:StripComma(expand('<cWORD>')) . ") | $path]' " . expand('%')
+    command! JSONPathToValueNewBuffer call JSONPathToValueNewBuffer()
+endif
 
 " pip
 if executable('autoflake')
@@ -418,15 +468,13 @@ command! FullPath echo expand('%:p')
 " TODO: Make this work to replace visual selections
 " python -c "import sys, pprint, ast; obj = ast.literal_eval(sys.stdin.read()); pprint.pprint(obj)"
 
-" TODO: figure out a way to insert the date on command
-
 command! SourceCurrent source % | echo "Sourced " . expand('%')
 
 " Visually select \n separated IPs, then call this
 " NOTE: I'm not convinced that I can't do something simpler with the
 " `function! Name() range` syntax
 " or aliasing `:pyfile somehow`
-fun! SortSelectedIPs()
+fun! SortLinesByIP()
 python3 << EOF
 
 import vim
@@ -464,3 +512,48 @@ function! SetExecutableBit()
     execute "au! FileChangedShell " . fname
 endfunction
 command! SetExecutableBit call SetExecutableBit()
+
+" The 'e' on the end of the substitute ignores errors
+" -range=% means without a visual selection the whole buffer is selected
+"  Special thanks to a @jfim for the link substitution line
+"  TODO: handle ^# substitution in code blocks
+command! -range=% -nargs=0 -bar MarkdownToJira
+    \ :<line1>,<line2>s:^- :* :e
+    \ | <line1>,<line2>s:^  - :** :e
+    \ | <line1>,<line2>s:^    - :*** :e
+    \ | <line1>,<line2>s:^```:{noformat}:e
+    \ | <line1>,<line2>s:^# :h1. :e
+    \ | <line1>,<line2>s:^## :h2. :e
+    \ | <line1>,<line2>s:^### :h3. :e
+    \ | <line1>,<line2>s: `: {{:eg
+    \ | <line1>,<line2>s:^`:{{:e
+    \ | <line1>,<line2>s:` :}} :eg
+    \ | <line1>,<line2>s:`$:}}:eg
+    \ | <line1>,<line2>s:`\.:}}.:eg
+    \ | <line1>,<line2>s:^\d\+\. :# :e
+    \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
+
+" TODO: add filtype on top?
+" NOTE: add bottom one first to not mess up what's <line2>
+command! -range=% -nargs=0 -bar AddCodeFence
+    \ :<line2>s:$:\r```:
+    \ | <line1>s:^:```\r:
+
+" https://unix.stackexchange.com/a/58748/185953
+" <line1>,<line2>VisualSelect
+command! -range VisualSelect normal! <line1>GV<line2>G
+
+" Mostly for ordered lists in Markdown
+" https://stackoverflow.com/a/4224454/2958070
+command! -nargs=0 -range=% NumberLines <line1>,<line2>s/^\s*\zs/\=(line('.') - <line1>+1).'. '
+command! -nargs=0 -range=% UnNumberLines <line1>,<line2>s/\d\+\. //g
+
+" https://askubuntu.com/a/686806/483521
+command! InsertDate :execute 'norm i' .
+    \ s:StripNewline(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"))
+
+" Finally, load secretive stuff not under version control
+if !empty(glob("~/.config/nvim_local.vim"))
+    source ~/.config/nvim_local.vim
+    command! EditNvimLocal :edit ~/.config/nvim_local.vim
+endif

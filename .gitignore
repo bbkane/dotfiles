@@ -4,6 +4,7 @@ spell/
 swap/
 *.swp
 .netrwhist
+tmp/
 
 # these are custom files for large XML files for work
 largefile_environment.yaml
