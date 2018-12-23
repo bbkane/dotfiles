@@ -454,11 +454,11 @@ command! UpByIndent :call UpByIndent()
 " http://stackoverflow.com/a/749320/2958070
 " exit with :q or :diffoff
 function! s:DiffWithSaved()
-  let filetype=&ft
-  diffthis
-  vnew | r # | normal! 1Gdd
-  diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+    let filetype=&ft
+    diffthis
+    vnew | r # | normal! 1Gdd
+    diffthis
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 command! DiffSaved call s:DiffWithSaved()
 
@@ -501,6 +501,18 @@ endfun
 " https://stackoverflow.com/a/2585673/2958070
 command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
 
+" TODO: http://vim.wikia.com/wiki/Edit_gpg_encrypted_files
+
+function! SetExecutableBit()
+    let fname = expand("%:p")
+    checktime
+    execute "au FileChangedShell " . fname . " :echo"
+    silent !chmod a+x %
+    checktime
+    execute "au! FileChangedShell " . fname
+endfunction
+command! SetExecutableBit call SetExecutableBit()
+
 " The 'e' on the end of the substitute ignores errors
 " -range=% means without a visual selection the whole buffer is selected
 "  Special thanks to a @jfim for the link substitution line
@@ -521,6 +533,12 @@ command! -range=% -nargs=0 -bar MarkdownToJira
     \ | <line1>,<line2>s:^\d\+\. :# :e
     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
 
+" TODO: add filtype on top?
+" NOTE: add bottom one first to not mess up what's <line2>
+command! -range=% -nargs=0 -bar AddCodeFence
+    \ :<line2>s:$:\r```:
+    \ | <line1>s:^:```\r:
+
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
@@ -539,4 +557,3 @@ if !empty(glob("~/.config/nvim_local.vim"))
     source ~/.config/nvim_local.vim
     command! EditNvimLocal :edit ~/.config/nvim_local.vim
 endif
-
