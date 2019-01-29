@@ -180,7 +180,9 @@ if has('clipboard')
     set clipboard^=unnamedplus,unnamed
 endif
 
-inoremap fd <ESC>
+" inoremap fd <ESC>
+" Need another one cause I'm using fd more now..
+inoremap jk <ESC>
 
 " save without sudo vim
 cmap w!! w !sudo tee > /dev/null %
