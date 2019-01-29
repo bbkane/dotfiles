@@ -26,6 +26,11 @@ if !has("nvim")
     Plug 'tpope/vim-sensible'
 endif
 
+" https://github.com/tpope/vim-surround
+" After selecting something in visual mode:
+"   S' -> adds ' around selected object
+Plug 'tpope/vim-surround'
+
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
