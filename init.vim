@@ -539,6 +539,13 @@ command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
     \ | <line1>s:^:```\r:
 
+
+" Turn lines into SQLite3 select statements
+" This is a hilarious hack to let me develop SQLite3 scripts
+command! -nargs=0 -bar SelectifySQLComment
+    \ :<line1>,<line2>s:^:SELECT ":e
+    \ | <line1>,<line2>s:$:";:e
+
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
