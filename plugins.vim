@@ -43,7 +43,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki
 nmap <Leader>wn <Plug>VimwikiNextLink
 nmap <Leader>wp <Plug>VimwikiPrevLink
 
-Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html']}
+Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html', 'yaml']}
 
 " <count>ai	An Indentation level and line above.
 " <count>ii	Inner Indentation level (no line above).
