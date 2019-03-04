@@ -190,9 +190,9 @@ cmap w!! w !sudo tee > /dev/null %
 
 if has("nvim")
     " Disable mouse
-    if !has('win32')
-        set mouse-=a
-    endif
+    " if !has('win32')
+    "     set mouse-=a
+    " endif
 
     tnoremap <Esc> <C-\><C-n>
     tnoremap fd  <C-\><C-n>
@@ -518,10 +518,10 @@ command! SetExecutableBit call SetExecutableBit()
 " The 'e' on the end of the substitute ignores errors
 " -range=% means without a visual selection the whole buffer is selected
 "  Special thanks to a @jfim for the link substitution line
+"  Note that top level lists can be represented by ^-, not ^*
 "  TODO: handle ^# substitution in code blocks
 command! -range=% -nargs=0 -bar MarkdownToJira
-    \ :<line1>,<line2>s:^- :* :e
-    \ | <line1>,<line2>s:^  - :** :e
+    \ :<line1>,<line2>s:^  - :** :e
     \ | <line1>,<line2>s:^    - :*** :e
     \ | <line1>,<line2>s:^```:{noformat}:e
     \ | <line1>,<line2>s:^# :h1. :e
@@ -540,6 +540,11 @@ command! -range=% -nargs=0 -bar MarkdownToJira
 command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
     \ | <line1>s:^:```\r:
+
+" Add noformat to top and bottom of range.
+command! -range=% -nargs=0 -bar AddJiraCodeFence
+    \ :<line2>s:$:\r{noformat}:
+    \ | <line1>s:^:{noformat\:nopanel=true}\r:
 
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
