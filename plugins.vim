@@ -26,6 +26,11 @@ if !has("nvim")
     Plug 'tpope/vim-sensible'
 endif
 
+" https://github.com/tpope/vim-surround
+" After selecting something in visual mode:
+"   S' -> adds ' around selected object
+Plug 'tpope/vim-surround'
+
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
@@ -43,7 +48,7 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki
 nmap <Leader>wn <Plug>VimwikiNextLink
 nmap <Leader>wp <Plug>VimwikiPrevLink
 
-Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html']}
+Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html', 'yaml']}
 
 " <count>ai	An Indentation level and line above.
 " <count>ii	Inner Indentation level (no line above).
