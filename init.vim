@@ -154,17 +154,19 @@ if exists('&inccommand')
     set inccommand=split
 endif
 
-
+let mapleader = " "
 
 " map j to gj and k to gk, so line navigation ignores line wrap
-nmap j gj
-nmap k gk
+nnoremap j gj
+nnoremap k gk
+
+nnoremap <leader>V ggVG
+
 
 " Tab through buffers (writes to them...)
 nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
-let mapleader = " "
 
 " Use bash highlighting instead of sh highlighting
 " let g:is_posix = 1
