@@ -541,6 +541,15 @@ command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
     \ | <line1>s:^:```\r:
 
+" TODO: the last part doesn't delete the line...NOTE
+" Maybe also add the "turn command to code part"
+command! -range=% -nargs=0 -bar SqliteTableToMarkdownTable
+    \ :<line1>,<line2>s:^+-:|-:e
+    \ |<line1>,<line2>s:-+-:-|-:e
+    \ |<line1>,<line2>s:-+$:-|:e
+    \ |<line2>g/.*/d
+    \ |<line1>g/.*/d
+
 " Add noformat to top and bottom of range.
 command! -range=% -nargs=0 -bar AddJiraCodeFence
     \ :<line2>s:$:\r{noformat}:
