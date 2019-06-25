@@ -10,7 +10,7 @@ see_path() {
 }
 
 # make compiling easier
-go() {
+go_clang() {
     echo ""; clang++ -std=c++11 -Wall -Werror "$1" -o "$1.out" && ./"$1.out";
 }
 
@@ -188,7 +188,14 @@ fi
 
 strlen() { echo "${#1}"; }
 
-# NOTE: this should be in an Ubuntu machine.sh, but that's not currently in git...
-# pbcopy() {
-#     xsel -i < $1
-# }
+bak() {
+    date_string="$(date +'%Y-%m-%d.%H.%M.%S')"
+    if [[ -d "$1" ]]; then
+        local -r no_slash="${1%/}"
+        cp -r "${no_slash}" "${no_slash}.${date_string}.bak"
+    elif [[ -f "$1" ]]; then
+        cp "$1" "${1}.${date_string}.bak"
+    else
+        echo "Only files and directories supported"
+    fi
+}
