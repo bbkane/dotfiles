@@ -3,9 +3,9 @@ switch_command
 # this is actually a binary
 makeheaders
 
-# work scripts
-service_now_get_table
-sn_do
-
 # not sure what this is...
 pythondiff2
+
+# Install non-versioned binary folders here
+apps/
+

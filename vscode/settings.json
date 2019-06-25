@@ -7,6 +7,9 @@
   "[javascript]": {
     "editor.tabSize": 2
   },
+  "[elm]": {
+    "editor.tabSize": 2
+  },
   "C_Cpp.intelliSenseEngine": "Default",
 
   "editor.fontSize": 14,
@@ -42,7 +45,7 @@
   ],
 
   "workbench.iconTheme": "vs-seti",
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0,
   "extensions.ignoreRecommendations": true,
   "git.enableSmartCommit": true,
   // TODO: somehow make this platform independent...
@@ -53,5 +56,8 @@
   "rust.mode": "rls",
   "rust.rls": {
     "useRustfmt": true
-  }
+  },
+  "window.titleBarStyle": "custom",
+  "go.useLanguageServer": true,
+  "go.autocompleteUnimportedPackages": true
 }
