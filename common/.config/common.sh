@@ -10,10 +10,6 @@ see_path() {
 }
 
 # make compiling easier
-go() {
-    echo ""; clang++ -std=c++11 -Wall -Werror "$1" -o "$1.out" && ./"$1.out";
-}
-
 setedit() {
     # shellcheck disable=SC2139
     alias edit="vim $1";
@@ -23,9 +19,15 @@ lazygit() {
     git add . && git commit -m "$1" && git push;
 }
 
+get-github() {
+    cd ~/Git
+    git clone "https://github.com/bbkane/$1.git"
+}
+
 see_biggest() {
     if [[ "$(uname)" == "Darwin" ]]; then
-        du -ax ./* | sort | tail -n "${1-50}"
+        # Macs don't have -h so we sort numerically
+        du -ax ./* | sort -n | tail -n "${1-50}"
     elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
         # Do something under GNU/Linux platform
         du -ahx ./* | sort -h | tail -n "${1-50}"
@@ -131,7 +133,6 @@ fi
 # hash fortune && echo "$(tput setaf $(( ($RANDOM % 17)+1 )) )$(fortune)$(tput sgr0)"
 
 
-alias ls='ls -G'
 # if I have nvim, use it instead of vim
 which nvim &> /dev/null && alias vim=nvim
 
@@ -146,12 +147,32 @@ add_anaconda() {
     fi
 }
 
+# add it by default
+add_anaconda
+
 rm_anaconda() {
     export PATH=$(echo $PATH | sed 's|'"${anaconda_bin_dir}:"'||g')
 }
 
-# add it by default
-add_anaconda
+# take advantage of the fact that the conda env is the same
+# as the current dir most of the time
+alias source_activate_pwd='source activate $(basename $(pwd))'
+
+# Example: conda_create_pwd flask Flask-WTF
+conda_create_pwd() {
+    conda create --name "$(basename $(pwd))" python=3 "$@"
+}
+
+alias source_activate_pwd='source activate $(basename $(pwd))'
+
+# Example: conda_create_pwd flask Flask-WTF
+conda_create_pwd() {
+    conda create --name "$(basename $(pwd))" python=3 "$@"
+}
+
+conda_remove_pwd() {
+    conda remove --name "$(basename $(pwd))" --all
+}
 
 perlbrew_bashrc="$HOME/perl5/perlbrew/etc/bashrc"
 [[ -e "${perlbrew_bashrc}" ]] && source "${perlbrew_bashrc}"
@@ -169,3 +190,17 @@ user_bin_dir="$HOME/bin"
 if [[ -f "$HOME/.config/machine.sh" ]]; then
     source "$HOME/.config/machine.sh"
 fi
+
+strlen() { echo "${#1}"; }
+
+bak() {
+    date_string="$(date +'%Y-%m-%d.%H.%M.%S')"
+    if [[ -d "$1" ]]; then
+        local -r no_slash="${1%/}"
+        cp -r "${no_slash}" "${no_slash}.${date_string}.bak"
+    elif [[ -f "$1" ]]; then
+        cp "$1" "${1}.${date_string}.bak"
+    else
+        echo "Only files and directories supported"
+    fi
+}
