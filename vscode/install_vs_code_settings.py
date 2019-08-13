@@ -15,6 +15,7 @@ if platform.system() == 'Windows':
 elif platform.system() == "Darwin":
     VS_SETTINGS_DST_PATH = os.path.expandvars(r"$HOME/Library/Application Support/Code/User/settings.json")
 elif platform.system() == "Linux":
+    VS_SETTINGS_DST_PATH = os.path.expandvars(r"$HOME/.config/Code/User/settings.json")
     raise NotImplementedError()
 else:
     raise NotImplementedError()
