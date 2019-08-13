@@ -9,6 +9,8 @@
 	# using a function mostly so I can use `git lg` or `git lg --oneline`
 	lg = "!git log --graph --all --decorate --date=relative \"$@\""
 	ls = ls-files
+	erase-remote-branch = push -d origin
+	numlineschanged = diff --stat
 [color]
 	ui = true
 [core]
