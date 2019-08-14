@@ -8,38 +8,22 @@ if executable('git') && !empty(glob("~/.config/nvim/autoload/plug.vim"))
         command! EditPlugins :edit ~/.config/nvim/plugins.vim
     endif
 
-    if !empty(glob("~/.config/nvim/ide.vim"))
-        " Source IDE Plugins
-        source ~/.config/nvim/ide.vim
-        command! EditIDE :edit ~/.config/nvim/ide.vim
-    endif
-
     " End plugins
     call plug#end()
 else
     autocmd VimEnter * echom "Install vim-plug with :InstallVimPlug and plugins with :PlugInstall"
 endif
 
-" Linux has termguicolors but it ruins the colors...
-if has('termguicolors') && (has('mac') || has('win32'))
-    set termguicolors
-endif
-
 " Try to use a colorscheme plugin
 " but fallback to a default one
 try
-    " get the colorscheme from the environment if it's there
-    if !empty($vim_colorscheme)
-        colorscheme $vim_colorscheme
-    else
-        colorscheme gruvbox
-        " colorscheme desert-warm-256
-        " colorscheme elflord
-        " colorscheme railscasts
-        " colorscheme dracula
-        " colorscheme 0x7A69_dark
-        " colorscheme desertedocean
-    endif
+    colorscheme gruvbox
+    " colorscheme desert-warm-256
+    " colorscheme elflord
+    " colorscheme railscasts
+    " colorscheme dracula
+    " colorscheme 0x7A69_dark
+    " colorscheme desertedocean
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
     colorscheme elflord
@@ -65,7 +49,6 @@ set showbreak=\\\\                 " Wrap-broken line prefix
 set textwidth=0                   " Line wrap (number of cols)
 set wrapmargin=0
 
-
 set number                        " Show line numbers
 set showmatch                     " Highlight matching brace
 set undolevels=1000               " Number of undo levels
@@ -76,8 +59,6 @@ set splitright
 " I think this will shorten YCM's function doc window
 " set previewheight=5
 
-" TODO: explore set iskeyword+=\- for autocompletion including dashes
-
 " Default indent settings
 
 " https://stackoverflow.com/a/1878984/2958070
@@ -86,16 +67,6 @@ set tabstop=4       " The width of a TAB is set to 4. Still it is a \t. It is ju
 set shiftwidth=4    " Indents will have a width of 4
 set softtabstop=4   " Sets the number of columns for a TAB
 set expandtab       " Expand TABs to spaces
-
-" Custom indent settings per filetype
-augroup custom_filetype_indents
-    autocmd!
-    " Only use tabs in gitconfig
-    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
-    autocmd BufRead,BufNewFile .gitconfig setlocal autoindent noexpandtab tabstop=8 shiftwidth=8
-    " Use 2 spaces to indent in these
-    autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
-augroup END
 
 " TODO: clean up indent settings ( https://stackoverflow.com/a/1878983/2958070 )
 function! IndentSpacesToggle()
@@ -113,7 +84,17 @@ function! IndentSpacesToggle()
         echom "#spaces per indent = 2"
     endif
 endfunction
+
 command! IndentSpacesToggle call IndentSpacesToggle()
+" Custom indent settings per filetype
+augroup custom_filetype_indents
+    autocmd!
+    " Only use tabs in gitconfig
+    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
+    autocmd BufRead,BufNewFile .gitconfig setlocal autoindent noexpandtab tabstop=8 shiftwidth=8
+    " Use 2 spaces to indent in these
+    autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
+augroup END
 
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
@@ -121,14 +102,9 @@ command! StopIndenting setl noai nocin nosi inde=
 " Set Visual Studio style indents
 command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
-" Done with indenting yay!
-
 augroup custum_filetypes
     autocmd!
-    autocmd BufRead,BufNewFile *.rs set filetype=rust
     autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
-    " custom Lync highlighting
-    autocmd BufRead,BufNewFile *.lync set filetype=lync
     " https://superuser.com/a/907889/643441
     autocmd filetype crontab setlocal nobackup nowritebackup
 augroup END
@@ -191,11 +167,6 @@ cmap w!! w !sudo tee > /dev/null %
 
 
 if has("nvim")
-    " Disable mouse
-    " if !has('win32')
-    "     set mouse-=a
-    " endif
-
     tnoremap <Esc> <C-\><C-n>
     tnoremap fd  <C-\><C-n>
     " split settings
@@ -220,10 +191,8 @@ if !has("nvim")
     set visualbell t_vb=
 endif
 
-
-
 " http://stackoverflow.com/a/18444962/2958070
-" TODO: maybe use plugin for this
+" custom file templates
 augroup templates
     au!
     autocmd BufNewFile *.* silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand("<afile>:e")
@@ -246,19 +215,6 @@ nnoremap <C-h> <ESC><C-w><C-h>
 command! ReloadVimrc source $MYVIMRC
 command! EditVimrc :edit $MYVIMRC
 
-" Search for a project specific vimrc upward
-" THIS IS INSECURE. BE CAREFUL.
-" :help fnamemodify to learn to search only search one upwards.
-" Need to do that
-function! SourceFileUpwards(filename)
-    let proj = findfile(a:filename, ".;")
-    if proj != ""
-        exec "source " . proj
-    " else
-    "     echo "No " . a:filename . " found"
-    endif
-endfunction
-
 function! ShowFuncName()
     let lnum = line(".")
     let col = col(".")
@@ -268,20 +224,6 @@ function! ShowFuncName()
     call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfunction
 command! ShowFuncName call ShowFuncName()
-
-function! BensCommands()
-    echo "<C-g> : Name of buffer"
-    echo "gd : local var definition"
-    echo "gD : global var definition"
-    echo "<C-i> : go forward"
-    echo "<C-o> : go back"
-    echo "gq : Format selected text"
-    echo "-- CTAGS --"
-    echo "<C-]> : goto def"
-    echo "<C-t> : come from"
-    echo "-- END CTAGS --"
-endfunction
-command! BensCommands call BensCommands()
 
 command! -nargs=1 Help vert help <args>
 
@@ -319,52 +261,6 @@ if executable("rg")
     set grepprg=rg\ --vimgrep
 endif
 
-" TODO: genericize this
-" https://vi.stackexchange.com/a/2868/9180
-function s:StripComma(string)
-    return substitute(a:string, ',$', '', '')
-endfunction
-
-function s:StripNewline(string)
-    return substitute(a:string, '\n\+$', '', '')
-endfunction
-
-" https://superuser.com/a/267070/643441
-function! JSONPathToValueNewBuffer()
-    let filepath = expand('%')
-    let string = s:StripComma(expand('<cWORD>'))
-    let TempFile = tempname()
-    let SaveModified = &modified
-    exe 'w ' . TempFile
-    let &modified = SaveModified
-    exe 'split ' . TempFile
-    " exe "%! jq '[paths as $path | select(getpath($path) == " . string . ") | $path]' " . filepath
-    exe "%! jq 'paths as $path | select(getpath($path) == " . string . ") | $path' " . filepath
-endfunction
-
-
-" https://stackoverflow.com/a/34166237/2958070
-" TODO: integrate the script at https://stackoverflow.com/a/34167773/2958070
-if executable("jq")
-    command! JSONPathToValue exec "!jq '[paths as $path | select(getpath($path) == " . s:StripComma(expand('<cWORD>')) . ") | $path]' " . expand('%')
-    command! JSONPathToValueNewBuffer call JSONPathToValueNewBuffer()
-endif
-
-" pip
-if executable('autoflake')
-    command! AutoFlake silent exec "!autoflake --in-place " . bufname("%")
-endif
-
-" pip
-if executable('autopep8')
-    command! AutoPep8 silent exec "!autopep8 --in-place --max-line-length 150 " . bufname("%")
-endif
-
-" https://github.com/FriendsOfPHP/PHP-CS-Fixer
-if executable('php-cs-fixer.phar')
-    command! AutoPHPCSFixer silent exec "!php-cs-fixer.phar fix " . bufname("%")
-endif
-
 if executable('cloc')
     command! VimConfigStats exec '!cloc --by-file-by-lang --exclude-dir=syntax,bundle,autoload,templates ~/.config/nvim'
     command! Cloc !cloc %
@@ -372,12 +268,6 @@ endif
 
 if executable('python')
     command! JSONFormat %!python -m json.tool
-endif
-
-" install: cpanmn Perl::Tidy
-" use: select the region to tidy and hit '='
-if executable('perltidy')
-    autocmd FileType perl setlocal equalprg=perltidy\ -st
 endif
 
 " use zg to add word to word-list
@@ -395,26 +285,7 @@ endfunction
 command! SpellCheckToggle call SpellCheckToggle()
 " format existing text by selecting it and using `gq`
 
-function! BlogMode()
-    setlocal textwidth=80
-    setlocal nonumber
-    " set background=light
-    " Get a margin
-    " https://stackoverflow.com/a/7941499/2958070
-    setlocal foldcolumn=4
-    highlight FoldColumn guibg=gray14
-    call SpellCheckToggle()
-endfunction
-command! BlogMode call BlogMode()
-
-function! SearchHLToggle()
-    if &hlsearch
-        set nohlsearch
-    else
-        set hlsearch
-    endif
-endfunction
-command! SearchHLToggle call SearchHLToggle()
+command! SearchHLToggle :setlocal invhlsearch
 
 function! NumberToggle()
     if &number
@@ -431,9 +302,6 @@ function! WriteHTML()
     silent exec "w"
     silent exec "q"
 endfunction
-" This command will be called on `:W`, and I misspress Caps Lock and :w too
-" much to trust it
-" command! WriteHTML call WriteHTML()
 
 " http://superuser.com/a/277326/643441
 command! MakeFile :call writefile([], expand("<cfile>"), "t")
@@ -467,45 +335,6 @@ endfunction
 command! DiffSaved call s:DiffWithSaved()
 
 command! FullPath echo expand('%:p')
-
-
-" TODO: Make this work to replace visual selections
-" python -c "import sys, pprint, ast; obj = ast.literal_eval(sys.stdin.read()); pprint.pprint(obj)"
-
-command! SourceCurrent source % | echo "Sourced " . expand('%')
-
-" Visually select \n separated IPs, then call this
-" NOTE: I'm not convinced that I can't do something simpler with the
-" `function! Name() range` syntax
-" or aliasing `:pyfile somehow`
-fun! SortLinesByIP()
-python3 << EOF
-
-import vim
-import socket
-
-# https://stackoverflow.com/a/18168075/2958070
-buf = vim.current.buffer
-(lnum1, col1) = buf.mark('<')
-(lnum2, col2) = buf.mark('>')
-
-# Vim likes to count from 1 and Python from 0
-lines = buf[lnum1 - 1: lnum2]
-len_selected_lines = len(lines)
-# remove whitespace and empty lines
-# TODO: use a regex capturing group to grap '<stuff><ip><stuff>' then sort by IP
-lines = [line.strip() for line in lines if line.strip()]
-# I need the same amount of lines to put back
-assert len(lines) == len_selected_lines, "No whitespace-only lines allowed"
-lines.sort(key=socket.inet_aton)
-buf[lnum1 - 1: lnum2] = lines
-
-EOF
-endfun
-" https://stackoverflow.com/a/2585673/2958070
-command! -range=% -nargs=0 SortLinesByIP :<line1>,<line2> call SortLinesByIP()
-
-" TODO: http://vim.wikia.com/wiki/Edit_gpg_encrypted_files
 
 function! SetExecutableBit()
     let fname = expand("%:p")
@@ -542,26 +371,6 @@ command! -range=% -nargs=0 -bar MarkdownToJira
 command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
     \ | <line1>s:^:```\r:
-
-" TODO: the last part doesn't delete the line...NOTE
-" Maybe also add the "turn command to code part"
-command! -range=% -nargs=0 -bar SqliteTableToMarkdownTable
-    \ :<line1>,<line2>s:^+-:|-:e
-    \ |<line1>,<line2>s:-+-:-|-:e
-    \ |<line1>,<line2>s:-+$:-|:e
-    \ |<line2>g/.*/d
-    \ |<line1>g/.*/d
-
-" Add noformat to top and bottom of range.
-command! -range=% -nargs=0 -bar AddJiraCodeFence
-    \ :<line2>s:$:\r{noformat}:
-    \ | <line1>s:^:{noformat\:nopanel=true}\r:
-
-" Turn lines into SQLite3 select statements
-" This is a hilarious hack to let me develop SQLite3 scripts
-command! -nargs=0 -bar SelectifySQLComment
-    \ :<line1>,<line2>s:^:SELECT ":e
-    \ | <line1>,<line2>s:$:";:e
 
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
