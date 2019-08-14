@@ -1,3 +1,5 @@
+" Moar plugins at https://vimawesome.com/
+
 " Most important plugin
 " easily comment line with `gcc` or selection with `gc`
 Plug 'tpope/vim-commentary'
