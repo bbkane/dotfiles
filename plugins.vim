@@ -41,27 +41,6 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
-" TODO: finish
-Plug 'vimwiki/vimwiki'
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
-" I already use <Tab>
-nmap <Leader>wn <Plug>VimwikiNextLink
-nmap <Leader>wp <Plug>VimwikiPrevLink
-
-Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html', 'yaml']}
-
-" <count>ai	An Indentation level and line above.
-" <count>ii	Inner Indentation level (no line above).
-" <count>aI	An Indentation level and lines above/below.
-" <count>iI	Inner Indentation level (no lines above/below).<Paste>
-Plug 'michaeljsmith/vim-indent-object'
-
-" Rg <string>
-" NOTE: it might be nice to adjust the quickfix window size here
-let g:rg_command = 'rg --vimgrep --smart-case'
-let g:rg_highlight = 1
-Plug 'jremmen/vim-ripgrep'
-
 " Vim
 let g:indentLine_color_term = 239
 "GVim (also neovim with termguicolors)
@@ -70,10 +49,7 @@ let g:indentLine_color_gui = '#545454' " grey
 let g:indentLine_color_tty_light = 7 " (default: 4)
 let g:indentLine_color_dark = 1 " (default: 2)
 
-" vim-xpath is really only useful for XML files and
-" requires a Python2 with lxml installed
-" The easiest way to get this is with Anaconda.
-" Plug 'actionshrimp/vim-xpath'
+Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html', 'yaml']}
 
 " Get me some sweet command line mappings for vim
 Plug 'tpope/vim-rsi'
@@ -108,10 +84,6 @@ Plug 'tpope/vim-ragtag'
 "Align text by selecting, :Tab /<character to align, usually '='>
 Plug 'godlygeek/tabular'
 
-if has("python")
-    Plug 'https://github.com/Valloric/MatchTagAlways.git'
-endif
-
 " Pimps my statusbar
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -126,36 +98,22 @@ endif
 
 Plug 'airblade/vim-gitgutter'
 
-Plug 'vim-scripts/LargeFile'
-let g:LargeFile = 20
-
 " show diff when vim finds a .swp file
 Plug 'chrisbra/Recover.vim'
 
 " :rename <name>
 Plug 'danro/rename.vim'
 
-if executable('clang-format')
-    Plug 'rhysd/vim-clang-format'
-endif
-
 Plug 'hynek/vim-python-pep8-indent'
 
 " Syntax highlighting plugins
 
-Plug 'nickhutchinson/vim-cmake-syntax'
-
-Plug 'Glench/Vim-Jinja2-Syntax'
-
-" Add highlighting of functions and containers and types
-Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'Glench/Vim-Jinja2-Syntax'
 
 Plug 'hdima/python-syntax'
 let python_highlight_all=1
 
 Plug 'cespare/vim-toml'
-
-Plug 'StanAngeloff/php.vim'
 
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
@@ -165,10 +123,29 @@ Plug 'vito-c/jq.vim'
 Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
 
-Plug 'Matt-Deacalion/vim-systemd-syntax'
-
 Plug 'b4b4r07/vim-hcl'
+
 Plug 'leafgarland/typescript-vim'
+
+" TODO: replace Neomake, especially for shellcheck and python
+
+" -fgcc outputs gcc style errors and -x follows sources
+" let g:neomake_sh_shellcheck_args = ['-fgcc', '-x']
+
+" Command: QuickRun
+Plug 'thinca/vim-quickrun'
+let g:quickrun_config = {}
+let g:quickrun_config.python = {'command' : 'python3'}
+
+" Not sure I need this or not but quickrun is having problems with finding
+" a conda env python
+let g:quickrun_config['python'] = {
+\   'command': 'python'
+\ }
+
+" After running this, QuickRun runs on :w
+" bad for long running code (will freeze vim)
+command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
 " colorschemes
 
