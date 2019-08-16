@@ -127,8 +127,6 @@ let g:rustfmt_autosave = 1
 
 Plug 'b4b4r07/vim-hcl'
 
-Plug 'leafgarland/typescript-vim'
-
 " TODO: replace Neomake, especially for shellcheck and python
 
 " -fgcc outputs gcc style errors and -x follows sources
