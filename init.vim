@@ -268,6 +268,12 @@ if executable('python')
     command! JSONFormat %!python -m json.tool
 endif
 
+" Format current Python file
+if executable('black')
+    " https://github.com/psf/black/issues/431
+    command! BlackFormat %!black -q - < %
+endif
+
 " use zg to add word to word-list
 " ]s and [s jump to misspelled words
 function! SpellCheckToggle()
@@ -379,13 +385,9 @@ command! -range VisualSelect normal! <line1>GV<line2>G
 command! -nargs=0 -range=% NumberLines <line1>,<line2>s/^\s*\zs/\=(line('.') - <line1>+1).'. '
 command! -nargs=0 -range=% UnNumberLines <line1>,<line2>s/\d\+\. //g
 
-function s:StripNewline(string)
-    return substitute(a:string, '\n\+$', '', '')
-endfunction
-
 " https://askubuntu.com/a/686806/483521
 command! InsertDate :execute 'norm i' .
-    \ s:StripNewline(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"))
+    \ substitute(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"), '\n\+$', '', '')
 
 " Finally, load secretive stuff not under version control
 if !empty(glob("~/.config/nvim_local.vim"))
