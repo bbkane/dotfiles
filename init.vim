@@ -379,6 +379,10 @@ command! -range VisualSelect normal! <line1>GV<line2>G
 command! -nargs=0 -range=% NumberLines <line1>,<line2>s/^\s*\zs/\=(line('.') - <line1>+1).'. '
 command! -nargs=0 -range=% UnNumberLines <line1>,<line2>s/\d\+\. //g
 
+function s:StripNewline(string)
+    return substitute(a:string, '\n\+$', '', '')
+endfunction
+
 " https://askubuntu.com/a/686806/483521
 command! InsertDate :execute 'norm i' .
     \ s:StripNewline(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"))
