@@ -17,8 +17,8 @@ endif
 " Try to use a colorscheme plugin
 " but fallback to a default one
 try
-    " colorscheme gruvbox
-    colorscheme desert-warm-256
+    colorscheme gruvbox
+    " colorscheme desert-warm-256
     " colorscheme elflord
     " colorscheme railscasts
     " colorscheme dracula
@@ -272,6 +272,10 @@ endif
 if executable('black')
     " https://github.com/psf/black/issues/431
     command! BlackFormat %!black -q - < %
+endif
+
+if executable('gofmt')
+    command! GoFormat %!gofmt %
 endif
 
 " use zg to add word to word-list
