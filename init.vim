@@ -85,11 +85,16 @@ endfunction
 
 command! IndentSpacesToggle call IndentSpacesToggle()
 " Custom indent settings per filetype
-augroup custom_filetype_indents
+augroup custom_filetype
     autocmd!
+    autocmd BufNewFile,BufRead *.go setlocal noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
     " Only use tabs in gitconfig
     " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
     autocmd BufRead,BufNewFile .gitconfig setlocal autoindent noexpandtab tabstop=8 shiftwidth=8
+    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
+
+    " https://superuser.com/a/907889/643441
+    autocmd filetype crontab setlocal nobackup nowritebackup
     " Use 2 spaces to indent in these
     autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
 augroup END
@@ -98,14 +103,7 @@ augroup END
 command! StopIndenting setl noai nocin nosi inde=
 
 " Set Visual Studio style indents
-command! VSIndentStyle set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-
-augroup custum_filetypes
-    autocmd!
-    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
-    " https://superuser.com/a/907889/643441
-    autocmd filetype crontab setlocal nobackup nowritebackup
-augroup END
+command! VSIndentStyle set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
 
 "save temporary files to /tmp/
 "if tmp doesn't exist, make it
