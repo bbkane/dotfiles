@@ -10,7 +10,15 @@ Why store config per app rather than per platform?
 - I want to target which configs are deployed
 - Most of my work is on Mac, not the various Linux distros I used to play with
 
+To add a config:
+
+- make a directory with the name of an app
+- mirror app config's file structure from `~` into `./<app>/`, replacing leading `.` with `dot-`. For example, if your app's config is stored at `~/.myapp/config`, then make `./dot-myapp/config`
+- run `./stow.sh <app>` then the app and make sure it picks up the config
+- Add info about app in '# Apps' section below
+
 # Apps
+
 
 ## bash
 
