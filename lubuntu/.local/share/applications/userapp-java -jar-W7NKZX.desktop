@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Java
-Exec=java -jar %f
-Categories=Other;
-NoDisplay=true
-MimeType=application/x-java-archive
-Terminal=false
