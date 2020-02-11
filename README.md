@@ -14,7 +14,19 @@ Why store config per app rather than per platform?
 
 ## bash
 
-TODO
+This only has my bash prompt. I've moved most of the important things into zsh. I might make a `bash_zsh` folder if I find myself needing both again.
+
+```
+./stow.sh bash
+```
+
+```
+cat >> "$HOME/.bashrc" << EOF
+
+# See https://github.com/bbkane/dotfiles
+source ~/.bashrc_common.zsh
+EOF
+```
 
 ## bin_common
 
