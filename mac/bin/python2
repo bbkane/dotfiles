@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# This is for YCM-Generator which needs a python2 in the path
-# This is taking the place of a symlink
-# because Python2 doesn't like symlinks in different directories
-# http://unix.stackexchange.com/a/126567/185953
-exec /usr/bin/python "$@"

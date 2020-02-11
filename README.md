@@ -1,121 +1,95 @@
-## Ben's great backup!!
+# Dotfiles
 
-### **This is out of date. These instructions may not work anymore. You have been warned.**
+##  What I want
 
-The configs for all of my dotfiles (and a few other config files) are
-here. Use with *gnu stow*. I'm using gnu stow in a folder named
-**backup**. **backup** has directories like *mac*, *lubuntu*, and
-*common*. Clone backup into my home folder, then enter it, and use the
-command `stow <folder name>` to make symlinks to everything in the
-*parent of the current directory*- in this case `$HOME`. To specify a
-target, for the symlinks, use `stow <folder name> -t <destination>` for
-symlinks.
+I need to redo my backup directory to store dotfiles
 
+Store by application:
+- zsh (currently .zshrc_common, not in vcs)
+- git (common/.gitconfig)
+- sqlite (common/sqliterc)
+- bin ( common/bin/scatterplot.py, reply_to_recruiters.py, move log_wake to random-scripts )
+-  timux (common/.tmux.conf)
 
-Follow the below instructions
+Use gnu stow (with -t arg?)
 
-So, if I reset everything on my tower, the steps would be:
+Prune https://github.com/bbkane/backup
 
-Get the prereqs- oh-my-zsh
+# what I want from backup
 
-Get Vim:
+## zsh
 
-1. Build Vim from bootstrap.sh
-2. clone Vundle from github (google it)
-3. run `vim +PluginInstall +qall`
-4. Install YouCompleteMe
-    1. Run `which python` and make sure the system python comes first
-    2. `sudo apt-get install build-essential cmake python-dev`
-    3. `cd ~/.vim/bundle/YouCompleteMe`
-    4. `./install.sh --clang-completer`
+don't version control .zshrc - instead use that for local settings
+Instead version control `~/.zshrc_common` and source that from .zshrc
 
+## bin
 
+Don't version control ~/bin - instead use that for local executables
+instead add ~/bin_common and add it to $PATH
+
+## helper
+
+https://writingco.de/blog/how-i-manage-my-dotfiles-using-gnu-stow/
 ```
-# GNU stow makes this work well
-sudo apt-get install stow
-
-# this is untested, but should clone submodules
-git clone --recursive <web address>
-
-# cd into the right folder for stow to work properly
-cd backup
-
-# get all my cross-platform customizations out of the way
-stow common
-
-# get my tower stuff done
-stow lubuntu
-
-# symlink monitor.sh into /usr/local/bin
-# remember not to depend on relative paths, like `./dir`
-ln -s $HOME/backup/other/monitor.sh /usr/local/bin/monitor.sh
-
-```
-To update submodules after I git pull, try
-```
-git submodule update --init --recursive
+# run the stow command for the passed in directory ($2) in location $1
+stowit() {
+    usr=$1
+    app=$2
+    # -v verbose
+    # -R recursive
+    # -t target
+    stow -v -R -t ${usr} ${app}
+}
 ```
 
-For Haskell stuff add ~/.cabal/bin to PATH. This might be different on
-Mac
+```
+       -d DIR
+       --dir=DIR
+           Set the stow directory to "DIR" instead of the current
+           directory.  This also has the effect of making the default
+           target directory be the parent of "DIR".
 
-To create .desktop entries for lxde, use Menu Editor (menulibre). Click
-the '+' at the top right.
+       -t DIR
+       --target=DIR
+           Set the target directory to "DIR" instead of the parent of the
+           stow directory.
+       --dotfiles
+           Enable special handling for "dotfiles" (files or folders whose
+           name begins with a period) in the package directory. If this
+           option is enabled, Stow will add a preprocessing step for each
+           file or folder whose name begins with "dot-", and replace the
+           "dot-" prefix in the name by a period (.). This is useful when
+           Stow is used to manage collections of dotfiles, to avoid having
+           a package directory full of hidden files.
 
-Another approach that might be better is to use lxshortcut. Add to
-desktop, and copy them to ~/.local/share/applications/ for kupfer to
-find.
+           For example, suppose we have a package containing two files,
+           stow/dot-bashrc and stow/dot-emacs.d/init.el. With this option,
+           Stow will create symlinks from .bashrc to stow/dot-bashrc and
+           from .emacs.d/init.el to stow/dot-emacs.d/init.el. Any other
+           files, whose name does not begin with "dot-", will be processed
+           as usual.
+       -v
+       --verbose[=N]
+           Send verbose output to standard error describing what Stow is
+           doing. Verbosity levels are from 0 to 5; 0 is the default.
+           Using "-v" or "--verbose" increases the verbosity by one; using
+        -n
+       --no
+           Do not perform any operations that modify the filesystem;
+           merely show what would happen.          `--verbose=N' sets it to N.
+```
 
-## Some useful applications
-### Called in common
-- oh-my-zsh
+This worked: `$ stow -n --dotfiles -vvv -t $HOME sqlite3`
 
-### Called in lubuntu/.xbindkeysrc
-- google-chrome
-- kupfer #app launcher and file opener
+It doesn't show the changing directories but it works
 
-### Called in lubuntu/.zshrc
-- anaconda #changed path for it's python goodies
+TODO: mv zsh stuff to this, update README, make stow script
 
-### Called in lubuntu/.i3/config
-- feh # for the wallpapers
-- compton #for clearer terminals etc. Must configure...
-- xkbmap #Don't need CapsLock yo
-- xbindkeys #Launch crap with a flick of the fingers
-- dmenu_run #I'm not using this as much but what the hey. App launcher
+## Stuff I might want on mac later
 
-### Other useful Ubuntu programs
-- Ranger #vim-like file manager
-- pandoc #convert between markdown and pdf, etc...
-- goobox # play cds
-- urxvt # a really configurable terminal: if I could only configure it
-- okular # pdf viewer
-- xvkbd # virtual keyboard that will send key-presses to a window.
-  Replace with Autokey?
-- autokey # automation, with the python
-
-### Called in mac
-- anaconda
-
-## TODO
-
-1. Figure out a good way to save files to my path (most notably
-   monitor.sh to /usr/local/bin for my tower).
-2. make bootstrap scripts that will do all this for me (maybe in a
-   backup/setup/ folder).
-3. figure out compton (opacity mostly) and customize urxvt
-4. Figure out autokey
-
-
-# Vagrant Instructions
-
-The basic setup here is pretty portable using VirtualBox and Vagrant.
-It's not fully automated, but it's not bad, not bad at all.
-
-## Windows
-
-1. Install VirtualBox version 5.0.40 and Vagrant 1.8.7. Newer versions seem to break my code.
-2. clone this.
-3. `vagrant up`
-4. Add `source "$HOME/~/.config/common.sh"` to the end of ~/.bashrc
-4. open vim (really NeoVim) and use `:PlugInstall`
+```
+# brew tap caskroom/fonts
+# brew cask install font-source-code-pro
+# openemu is a one shop stop emulator frontend for SNES, GBA, etc
+#brew cask install openemu
+```

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Name=Eclipse
-Comment=Java IDE
-Exec=/home/ben/eclipse/eclipse
-Icon=/home/ben/eclipse/icon.xpm
-Terminal=false
-Type=Application
-Categories=Programming;Application;
