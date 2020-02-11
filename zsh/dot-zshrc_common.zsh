@@ -98,8 +98,13 @@ unfunction color
 # -- Aliases --
 
 alias ls='ls -GF'
+
 # if I have nvim, use it instead of vim
 which nvim &> /dev/null && alias vim=nvim && alias vimdiff='nvim -d'
+
+# work around npx's hilariously insecure behavior:
+# https://github.com/npm/npx/issues/9
+alias npx="npx --no-install $@"
 
 # -- Exports --
 
@@ -131,6 +136,10 @@ fullpath() {
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
+
+# https://superuser.com/a/523973/643441
+bindkey -e
+
 
 # man zshoptions
 
