@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import argparse
@@ -7,12 +7,9 @@ import sys
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
-<description>
+Reply to recruiters
 Examples:
     {sys.argv[0]}
-Help:
-Please see Benjamin Kane for help.
-Code at <repo>
 """
 
 REPLY = """
