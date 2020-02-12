@@ -20,3 +20,8 @@
 # and needs to go at the bottom so it overwrites above settings
 [include]
 	path = ~/.gitconfig.local
+
+# Override potential ~/.gitconfig.local for personal git directory
+# within work machine
+[includeIf "gitdir/i:~/Git-personal/"]
+	path = ~/.gitconfig.personal
