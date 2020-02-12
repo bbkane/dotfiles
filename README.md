@@ -108,6 +108,7 @@ cat >> "$HOME/.zshrc" << EOF
 
 # See https://github.com/bbkane/dotfiles
 source ~/.zshrc_common.zsh
+source ~/.zshrc_prompt.zsh
 EOF
 ```
 
