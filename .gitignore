@@ -2,16 +2,4 @@
 *.pyc
 *.swp
 .DS_Store
-.vagrant
-.vscode/
-change-name.sh
-common/.vim/.netrwhist
-common/.vim/bundle
-common/.vim/init.vim
-common/.vim/sessions/
-common/.vim/tmp
-common/bin/cmake-3.4.0-Linux-x86_64/
-lubuntu/.local/share/applications/chrome*
-lubuntu/.local/share/applications/mimeapps.list
-neovim/.config/nvim/bundle
-tmp.html
+tmp*
