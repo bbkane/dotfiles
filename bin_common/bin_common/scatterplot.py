@@ -9,7 +9,7 @@ import sys
 __author__ = "Benjamin Kane"
 __version__ = "1.0.0"
 __doc__ = """
-<description>
+Create interactive HTML scatter/line plots!
 Examples:
     {prog} points -x 1 2 3 -y 2 5 1
     printf "1 2\\n3 4\\n" | {prog} -o graph.html file
