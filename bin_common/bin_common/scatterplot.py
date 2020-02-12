@@ -3,19 +3,21 @@
 
 import argparse
 import datetime
+import pathlib
 import sys
 
 __author__ = "Benjamin Kane"
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 __doc__ = """
 <description>
 Examples:
-    `{prog}`
-Help:
+    {prog} points -x 1 2 3 -y 2 5 1
+    printf "1 2\\n3 4\\n" | {prog} -o graph.html file
+
 Please see Benjamin Kane for help.
-Code at <repo>
+Repo: https://github.com/bbkane/dotfiles
 """.format(
-    prog=sys.argv[0]
+    prog=pathlib.Path(sys.argv[0]).name
 )
 
 
@@ -78,10 +80,10 @@ def parse_args(*args, **kwargs):
         "points", help="Graph points via cmdline options"
     )
     points_cmd.add_argument(
-        "-x", "--x_values", nargs="+", required=True, help="x values"
+        "-x", "--x_values", metavar='N', nargs="+", required=True, help="x values"
     )
     points_cmd.add_argument(
-        "-y", "--y_values", nargs="+", required=True, help="y values"
+        "-y", "--y_values", metavar='N', nargs="+", required=True, help="y values"
     )
 
     # file
