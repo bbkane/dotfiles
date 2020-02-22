@@ -67,49 +67,44 @@ precmd() {
 # Put these calculations in an anonymous function so locals don't leak to
 # environment when this script is sourced
 function {
-    # return_code_color=
-    # virtualenv_prompt_info_var_color=
-    # git_prompt_info_var_color=
-    # timestamp_color=
-    # short_hostname_color=
-    # current_directory_color=
-    # prompt_character_color=
 
-    local current_color
+    # Need zsh > 5.7 for hex colors to work
+    # https://stackoverflow.com/q/58615054/2958070
+    local return_code_color='#da0b0b'
+    local virtualenv_prompt_info_var_color='#ff8c00'  # darkorange
+    local git_prompt_info_var_color='#ffd700'  # gold
+    local timestamp_color='#73da0b'
+    local short_hostname_color='#40e0d0'  # turquoise
+    local current_directory_color='#1e90ff'  # dodgerblue
+    local prompt_character_color='#9932cc'  # darkorchid
 
-    # current_color=196  # red
-    current_color='#da0b0b'
+    local return_code_color=196  # red
+    local virtualenv_prompt_info_var_color=47  # green
+    local git_prompt_info_var_color=86  # cyan
+    local timestamp_color=214  # burnt orange
+    local short_hostname_color=147  # purple
+    local current_directory_color=45  # light blue
+    local prompt_character_color=226  # yellow
+
     # if $? == 0 then nothing else 'red '
-    local -r return_code="%(?..$(color $current_color '%?') )"
+    local -r return_code="%(?..$(color $return_code_color '%?') )"
 
-    # current_color=47  # green
-    current_color='#ff8c00'  # darkorange
     # an uninterpolated string (single quotes on purpose)
     # this var will undergo prompt_subst and be overwritten by precmd
-    local -r virtualenv_prompt_info_var="$(color $current_color '$virtualenv_prompt_info_var')"
+    local -r virtualenv_prompt_info_var="$(color $virtualenv_prompt_info_var_color '$virtualenv_prompt_info_var')"
 
-    # current_color=86  # cyan
-    current_color='#ffd700'  # gold
     # an uninterpolated string (single quotes on purpose)
     # this var will undergo prompt_subst and be overwritten by precmd
-    local -r git_prompt_info_var="$(color $current_color '$git_prompt_info_var')"
+    local -r git_prompt_info_var="$(color $git_prompt_info_var_color '$git_prompt_info_var')"
 
-    # current_color=214  # burnt orange
-    current_color='#73da0b'
-    local -r timestamp="$(color $current_color '%D{%H:%M:%S.%. %Z}')"
+    local -r timestamp="$(color $timestamp_color '%D{%H:%M:%S.%. %Z}')"
 
-    # current_color=147  # purple
-    current_color='#40e0d0'  # turquoise
-    local -r short_hostname="$(color $current_color '%m')"
+    local -r short_hostname="$(color $short_hostname_color '%m')"
 
-    # current_color=45  # light blue
-    current_color='#1e90ff'  # dodgerblue
-    local -r current_directory="$(color $current_color '%~')"
+    local -r current_directory="$(color $current_directory_color '%~')"
 
-    # current_color=226  # yellow
-    current_color='#9932cc'  # darkorchid
     # if UID == 0 then '#' else '$'
-    local -r prompt_character="$(color $current_color '%(!.#.$)')"
+    local -r prompt_character="$(color $prompt_character_color '%(!.#.$)')"
 
     # NOTE: return code includes it's own spacing (so it doesn't go here)
     export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -118,4 +113,3 @@ $prompt_character "
 }
 
 unfunction color
-
