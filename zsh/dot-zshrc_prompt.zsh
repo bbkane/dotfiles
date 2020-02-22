@@ -10,6 +10,8 @@
 # https://unix.stackexchange.com/a/40646/185953
 setopt prompt_subst
 
+# I'm getting these via https://github.com/sharkdp/pastel
+# and https://gist.github.com/MicahElliott/719710#gistcomment-3180418 (  )
 color() {
     local -r color_code="$1"
     local -r text="$2"
@@ -32,7 +34,8 @@ git_prompt_info() {
     # cribbed from https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
     # This doesn't pick up just init-ed repos
     # git_prompt_info_var="$(git describe --contains --all HEAD 2>/dev/null)"
-    # I think this only works for newer versions of git
+    # https://stackoverflow.com/a/56501750/2958070
+    # git >= 2.21, doesn't work in detatched head mode
     git_prompt_info_var="$(git branch --show-current 2>/dev/null)"
 
     local changes=''
@@ -54,7 +57,8 @@ git_prompt_info() {
 }
 
 
-# NOTE that doing this will probably stomp over oh-my-zsh
+# TODO: that doing this will probably stomp over oh-my-zsh
+# There should be a way to use an array for these
 precmd() {
     git_prompt_info
     virtualenv_prompt_info
@@ -63,34 +67,53 @@ precmd() {
 # Put these calculations in an anonymous function so locals don't leak to
 # environment when this script is sourced
 function {
-    local -r red=196
+    # return_code_color=
+    # virtualenv_prompt_info_var_color=
+    # git_prompt_info_var_color=
+    # timestamp_color=
+    # short_hostname_color=
+    # current_directory_color=
+    # prompt_character_color=
+
+    local current_color
+
+    # current_color=196  # red
+    current_color='#da0b0b'
     # if $? == 0 then nothing else 'red '
-    local -r return_code="%(?..$(color $red '%?') )"
+    local -r return_code="%(?..$(color $current_color '%?') )"
 
-    local -r orange=214
-    local -r timestamp="$(color $orange '%D{%H:%M:%S.%. %Z}')"
-
-    local -r purple=147
-    local -r short_hostname="$(color $purple '%m')"
-
-    local -r light_blue=45
-    local -r current_directory="$(color $light_blue '%~')"
-
-    local -r yellow=226
-    # if UID == 0 then '#' else '$'
-    local -r prompt_character="$(color $yellow '%(!.#.$)')"
-
-    # an uninterpolated stirng (single quotes on purpose)
+    # current_color=47  # green
+    current_color='#ff8c00'  # darkorange
+    # an uninterpolated string (single quotes on purpose)
     # this var will undergo prompt_subst and be overwritten by precmd
-    local -r green=47
-    local -r virtualenv_prompt_info_var="$(color $green '$virtualenv_prompt_info_var')"
+    local -r virtualenv_prompt_info_var="$(color $current_color '$virtualenv_prompt_info_var')"
 
-    local -r cyan=86
-    local -r git_prompt_info_var="$(color $cyan '$git_prompt_info_var')"
+    # current_color=86  # cyan
+    current_color='#ffd700'  # gold
+    # an uninterpolated string (single quotes on purpose)
+    # this var will undergo prompt_subst and be overwritten by precmd
+    local -r git_prompt_info_var="$(color $current_color '$git_prompt_info_var')"
+
+    # current_color=214  # burnt orange
+    current_color='#73da0b'
+    local -r timestamp="$(color $current_color '%D{%H:%M:%S.%. %Z}')"
+
+    # current_color=147  # purple
+    current_color='#40e0d0'  # turquoise
+    local -r short_hostname="$(color $current_color '%m')"
+
+    # current_color=45  # light blue
+    current_color='#1e90ff'  # dodgerblue
+    local -r current_directory="$(color $current_color '%~')"
+
+    # current_color=226  # yellow
+    current_color='#9932cc'  # darkorchid
+    # if UID == 0 then '#' else '$'
+    local -r prompt_character="$(color $current_color '%(!.#.$)')"
 
     # NOTE: return code includes it's own spacing (so it doesn't go here)
     export VIRTUAL_ENV_DISABLE_PROMPT=1
-    export PROMPT="$return_code$git_prompt_info_var$virtualenv_prompt_info_var$timestamp $short_hostname:$current_directory
+    export PROMPT="$return_code$virtualenv_prompt_info_var$git_prompt_info_var$timestamp $short_hostname:$current_directory
 $prompt_character "
 }
 
