@@ -10,14 +10,6 @@
 # https://unix.stackexchange.com/a/40646/185953
 setopt prompt_subst
 
-# I'm getting these via https://github.com/sharkdp/pastel
-# and https://gist.github.com/MicahElliott/719710#gistcomment-3180418 (  )
-color() {
-    local -r color_code="$1"
-    local -r text="$2"
-    echo "%F{$color_code}$text%f"
-}
-
 # Virtualenv: current working virtualenv
 virtualenv_prompt_info() {
     # https://github.com/ohmyzsh/ohmyzsh/blob/96f4a938383e558e8f800ccc052a80c6f743555d/plugins/virtualenv/virtualenv.plugin.zsh
@@ -64,19 +56,36 @@ precmd() {
     virtualenv_prompt_info
 }
 
+# I'm getting these via https://github.com/sharkdp/pastel
+# and https://gist.github.com/MicahElliott/719710#gistcomment-3180418 (  )
+color() {
+    local -r color_code="$1"
+    local -r text="$2"
+    echo "%F{$color_code}$text%f"
+}
+
+# TODO: why isn't this working?
+# I'm getting these via https://github.com/sharkdp/pastel
+# and https://gist.github.com/MicahElliott/719710#gistcomment-3180418 (  )
+color2() {
+    local -r fg_color_code="$1"
+    local -r bg_color_code="$2"
+    local -r text="$2"
+    echo "%F{$fg_color_code}%K{$bg_color_code}${text}%k%f"
+}
+
 # Put these calculations in an anonymous function so locals don't leak to
 # environment when this script is sourced
 function {
-
     # Need zsh > 5.7 for hex colors to work
     # https://stackoverflow.com/q/58615054/2958070
-    local return_code_color='#da0b0b'
-    local virtualenv_prompt_info_var_color='#ff8c00'  # darkorange
-    local git_prompt_info_var_color='#ffd700'  # gold
-    local timestamp_color='#73da0b'
-    local short_hostname_color='#40e0d0'  # turquoise
-    local current_directory_color='#1e90ff'  # dodgerblue
-    local prompt_character_color='#9932cc'  # darkorchid
+    # local return_code_color='#da0b0b'
+    # local virtualenv_prompt_info_var_color='#ff8c00'  # darkorange
+    # local git_prompt_info_var_color='#ffd700'  # gold
+    # local timestamp_color='#73da0b'
+    # local short_hostname_color='#40e0d0'  # turquoise
+    # local current_directory_color='#1e90ff'  # dodgerblue
+    # local prompt_character_color='#9932cc'  # darkorchid
 
     local return_code_color=196  # red
     local virtualenv_prompt_info_var_color=47  # green
