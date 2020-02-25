@@ -9,12 +9,14 @@ My Neovim Config. Also works for Vim.
 mv "$HOME/.config/nvim" "$HOME/.config/nvim.$(date +%Y-%m-%d)"
 ```
 
-- Clone the repository
+- Stow the repository
 
 ```
 mkdir -p "$HOME/.config"
-git clone https://github.com/bbkane/nvim.git "$HOME/.config/nvim"
+./stow.sh nvim
 ```
+
+NOTE: I can't rename `.config` to `dot-config` because of https://github.com/aspiers/stow/issues/33 Hopefully that'll be fixed at some point
 
 ## Vim Install
 
