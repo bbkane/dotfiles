@@ -50,7 +50,7 @@ cd "${script_dir}"
 #     merely show what would happen.          `--verbose=N' sets it to N.
 
 set -x
-stow --no --dotfiles -vvv --target "$HOME" "$@"
+stow --no --dotfiles --ignore 'README.md' -vvv --target "$HOME" "$@"
 { set +x; } 2>/dev/null
 
 echo
@@ -59,7 +59,7 @@ read -p "Press 'Y' to continue with stow: " answer
 case ${answer:0:1} in
     Y )
         set -x
-        stow --dotfiles -vvv --target "$HOME" "$@"
+        stow --dotfiles --ignore 'README.md' -vvv --target "$HOME" "$@"
         { set +x; } 2>/dev/null
     ;;
     * )
