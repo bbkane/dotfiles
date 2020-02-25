@@ -48,7 +48,6 @@ https://stackoverflow.com/a/27921346/2958070
 # TODO
 
 - Maybe get a better git prompt and tmux conf from https://github.com/mathiasbynens/dotfiles
-- move nvim stuff here
 - zsh compinstall
 - zsh fasd
-- zsh typeahead
+- zsh typeahead - in ~/.zshrc for now
