@@ -98,11 +98,6 @@ zstyle ':completion:*' menu select
 # enable completion
 autoload -Uz compinit && compinit
 
-# https://github.com/junegunn/fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# TODO: https://github.com/clvv/fasd
-
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh
 function colored() {
 	command env \
