@@ -1,4 +1,17 @@
-# play with colors at https://zsh-prompt-generator.site/
+# These colors can be overriden by an array of length 7 called zsh_prompt_colors
+# The following function can generate this if you have pastel :)
+
+# generate_zsh_prompt_colors(){
+#     local -r start="$1"
+#     local -r stop="$2"
+#     local -r export_stmt=$(pastel gradient -n 7 "$start" "$stop" \
+#         | pastel format hex \
+#         | sed "s/\(.*\)/ '\1'/" \
+#         | tr -d '\n' \
+#         | xargs -0 printf "export zsh_prompt_colors=( %s )")
+#     eval "$export_stmt"
+# }
+
 # consider doing something special if connected via SSH: https://github.com/KorvinSilver/blokkzh/blob/master/blokkzh.zsh-theme#L49
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information
 # prompt %vars: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Prompt-Expansion
@@ -77,23 +90,24 @@ color2() {
 # Put these calculations in an anonymous function so locals don't leak to
 # environment when this script is sourced
 function {
-    # Need zsh > 5.7 for hex colors to work
-    # https://stackoverflow.com/q/58615054/2958070
-    # local return_code_color='#da0b0b'
-    # local virtualenv_prompt_info_var_color='#ff8c00'  # darkorange
-    # local git_prompt_info_var_color='#ffd700'  # gold
-    # local timestamp_color='#73da0b'
-    # local short_hostname_color='#40e0d0'  # turquoise
-    # local current_directory_color='#1e90ff'  # dodgerblue
-    # local prompt_character_color='#9932cc'  # darkorchid
-
-    local return_code_color=196  # red
-    local virtualenv_prompt_info_var_color=47  # green
-    local git_prompt_info_var_color=86  # cyan
-    local timestamp_color=214  # burnt orange
-    local short_hostname_color=147  # purple
-    local current_directory_color=45  # light blue
-    local prompt_character_color=226  # yellow
+    # https://stackoverflow.com/a/42655522/2958070
+    if [[ -v zsh_prompt_colors ]]; then
+        local return_code_color="$zsh_prompt_colors[1]"
+        local virtualenv_prompt_info_var_color="$zsh_prompt_colors[2]"
+        local git_prompt_info_var_color="$zsh_prompt_colors[3]"
+        local timestamp_color="$zsh_prompt_colors[4]"
+        local short_hostname_color="$zsh_prompt_colors[5]"
+        local current_directory_color="$zsh_prompt_colors[6]"
+        local prompt_character_color="$zsh_prompt_colors[7]"
+    else
+        local return_code_color=196  # red
+        local virtualenv_prompt_info_var_color=47  # green
+        local git_prompt_info_var_color=86  # cyan
+        local timestamp_color=214  # burnt orange
+        local short_hostname_color=147  # purple
+        local current_directory_color=45  # light blue
+        local prompt_character_color=226  # yellow
+    fi
 
     # if $? == 0 then nothing else 'red '
     local -r return_code="%(?..$(color $return_code_color '%?') )"
