@@ -1,17 +1,3 @@
-# These colors can be overriden by an array of length 7 called zsh_prompt_colors
-# The following function can generate this if you have pastel :)
-
-# generate_zsh_prompt_colors(){
-#     local -r start="$1"
-#     local -r stop="$2"
-#     local -r export_stmt=$(pastel gradient -n 7 "$start" "$stop" \
-#         | pastel format hex \
-#         | sed "s/\(.*\)/ '\1'/" \
-#         | tr -d '\n' \
-#         | xargs -0 printf "export zsh_prompt_colors=( %s )")
-#     eval "$export_stmt"
-# }
-
 # consider doing something special if connected via SSH: https://github.com/KorvinSilver/blokkzh/blob/master/blokkzh.zsh-theme#L49
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Version-Control-Information
 # prompt %vars: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Prompt-Expansion
@@ -71,35 +57,31 @@ precmd() {
 
 # I'm getting these via https://github.com/sharkdp/pastel
 # and https://gist.github.com/MicahElliott/719710#gistcomment-3180418 (  )
-color() {
+zp_color() {
     local -r color_code="$1"
     local -r text="$2"
     echo "%F{$color_code}$text%f"
 }
 
-# TODO: why isn't this working?
-# I'm getting these via https://github.com/sharkdp/pastel
-# and https://gist.github.com/MicahElliott/719710#gistcomment-3180418 (  )
-color2() {
-    local -r fg_color_code="$1"
-    local -r bg_color_code="$2"
-    local -r text="$2"
-    echo "%F{$fg_color_code}%K{$bg_color_code}${text}%k%f"
+zp_gen_colors_pastel(){
+    local -r start="$1"
+    local -r stop="$2"
+    pastel gradient -n 7 "$start" "$stop" | pastel format hex
 }
 
-# Put these calculations in an anonymous function so locals don't leak to
-# environment when this script is sourced
-function {
-    # https://stackoverflow.com/a/42655522/2958070
-    if [[ -v zsh_prompt_colors ]]; then
-        local return_code_color="$zsh_prompt_colors[1]"
-        local virtualenv_prompt_info_var_color="$zsh_prompt_colors[2]"
-        local git_prompt_info_var_color="$zsh_prompt_colors[3]"
-        local timestamp_color="$zsh_prompt_colors[4]"
-        local short_hostname_color="$zsh_prompt_colors[5]"
-        local current_directory_color="$zsh_prompt_colors[6]"
-        local prompt_character_color="$zsh_prompt_colors[7]"
-    else
+# this doesn't tend to produce very good looking prompts :(
+zp_gen_colors_printf_random(){
+    for i in {1..7}; do
+        printf "#%06x\n" $RANDOM
+    done
+}
+
+zp_prompt() {
+    # must be a newline delimited string of colors with 7 elements
+    local -r zsh_prompt_colors_str="$1"
+
+    # if the string is empty, fall back
+    if [[ -z "$zsh_prompt_colors_str" ]]; then
         local return_code_color=196  # red
         local virtualenv_prompt_info_var_color=47  # green
         local git_prompt_info_var_color=86  # cyan
@@ -107,27 +89,39 @@ function {
         local short_hostname_color=147  # purple
         local current_directory_color=45  # light blue
         local prompt_character_color=226  # yellow
+    else
+        # we got a string; turn it into an array
+        # https://unix.stackexchange.com/a/29748/185953
+        local -r zsh_prompt_colors=("${(@f)zsh_prompt_colors_str}")
+
+        local return_code_color="$zsh_prompt_colors[1]"
+        local virtualenv_prompt_info_var_color="$zsh_prompt_colors[2]"
+        local git_prompt_info_var_color="$zsh_prompt_colors[3]"
+        local timestamp_color="$zsh_prompt_colors[4]"
+        local short_hostname_color="$zsh_prompt_colors[5]"
+        local current_directory_color="$zsh_prompt_colors[6]"
+        local prompt_character_color="$zsh_prompt_colors[7]"
     fi
 
     # if $? == 0 then nothing else 'red '
-    local -r return_code="%(?..$(color $return_code_color '%?') )"
+    local -r return_code="%(?..$(zp_color $return_code_color '%?') )"
 
     # an uninterpolated string (single quotes on purpose)
     # this var will undergo prompt_subst and be overwritten by precmd
-    local -r virtualenv_prompt_info_var="$(color $virtualenv_prompt_info_var_color '$virtualenv_prompt_info_var')"
+    local -r virtualenv_prompt_info_var="$(zp_color $virtualenv_prompt_info_var_color '$virtualenv_prompt_info_var')"
 
     # an uninterpolated string (single quotes on purpose)
     # this var will undergo prompt_subst and be overwritten by precmd
-    local -r git_prompt_info_var="$(color $git_prompt_info_var_color '$git_prompt_info_var')"
+    local -r git_prompt_info_var="$(zp_color $git_prompt_info_var_color '$git_prompt_info_var')"
 
-    local -r timestamp="$(color $timestamp_color '%D{%H:%M:%S.%. %Z}')"
+    local -r timestamp="$(zp_color $timestamp_color '%D{%H:%M:%S.%. %Z}')"
 
-    local -r short_hostname="$(color $short_hostname_color '%m')"
+    local -r short_hostname="$(zp_color $short_hostname_color '%m')"
 
-    local -r current_directory="$(color $current_directory_color '%~')"
+    local -r current_directory="$(zp_color $current_directory_color '%~')"
 
     # if UID == 0 then '#' else '$'
-    local -r prompt_character="$(color $prompt_character_color '%(!.#.$)')"
+    local -r prompt_character="$(zp_color $prompt_character_color '%(!.#.$)')"
 
     # NOTE: return code includes it's own spacing (so it doesn't go here)
     export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -135,4 +129,5 @@ function {
 $prompt_character "
 }
 
-unfunction color
+# meant to be used like:
+# zp_prompt "$(zp_gen_colors_pastel pink gold)"
