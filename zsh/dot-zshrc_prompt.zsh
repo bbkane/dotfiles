@@ -78,30 +78,24 @@ zp_gen_colors_printf_random(){
 
 zp_prompt() {
     # must be a newline delimited string of colors with 7 elements
-    local -r zsh_prompt_colors_str="$1"
+    local zsh_prompt_colors_str="$1"
 
-    # if the string is empty, fall back
+    # if the string is empty, fall back to 8bit colors
     if [[ -z "$zsh_prompt_colors_str" ]]; then
-        local return_code_color=196  # red
-        local virtualenv_prompt_info_var_color=47  # green
-        local git_prompt_info_var_color=86  # cyan
-        local timestamp_color=214  # burnt orange
-        local short_hostname_color=147  # purple
-        local current_directory_color=45  # light blue
-        local prompt_character_color=226  # yellow
-    else
-        # we got a string; turn it into an array
-        # https://unix.stackexchange.com/a/29748/185953
-        local -r zsh_prompt_colors=("${(@f)zsh_prompt_colors_str}")
-
-        local return_code_color="$zsh_prompt_colors[1]"
-        local virtualenv_prompt_info_var_color="$zsh_prompt_colors[2]"
-        local git_prompt_info_var_color="$zsh_prompt_colors[3]"
-        local timestamp_color="$zsh_prompt_colors[4]"
-        local short_hostname_color="$zsh_prompt_colors[5]"
-        local current_directory_color="$zsh_prompt_colors[6]"
-        local prompt_character_color="$zsh_prompt_colors[7]"
+        zsh_prompt_colors_str=$'196\n47\n86\n214\n147\n45\n226\n'
     fi
+
+    # we got a string; turn it into an array
+    # https://unix.stackexchange.com/a/29748/185953
+    local -r zsh_prompt_colors=("${(@f)zsh_prompt_colors_str}")
+
+    local return_code_color="$zsh_prompt_colors[1]"
+    local virtualenv_prompt_info_var_color="$zsh_prompt_colors[2]"
+    local git_prompt_info_var_color="$zsh_prompt_colors[3]"
+    local timestamp_color="$zsh_prompt_colors[4]"
+    local short_hostname_color="$zsh_prompt_colors[5]"
+    local current_directory_color="$zsh_prompt_colors[6]"
+    local prompt_character_color="$zsh_prompt_colors[7]"
 
     # if $? == 0 then nothing else 'red '
     local -r return_code="%(?..$(zp_color $return_code_color '%?') )"
@@ -130,4 +124,9 @@ $prompt_character "
 }
 
 # meant to be used like:
+# zp_prompt  # default colors
 # zp_prompt "$(zp_gen_colors_pastel pink gold)"
+# zp_prompt "$(pastel gradient -n 7 dodgerblue lightgreen | pastel format hex)"
+# zp_prompt "$(pastel random -n 7 | pastel format hex)"
+# zp_prompt "$(zp_gen_colors_printf_random)"
+# zp_prompt $'#743eb1\n#743eb1\n#743eb1\n#743eb1\n#743eb1\n#743eb1\n#743eb1\n'
