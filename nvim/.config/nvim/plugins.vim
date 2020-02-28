@@ -60,6 +60,10 @@ Plug 'tpope/vim-rsi'
 " use enter key, CTRL-T, CTRL-X or CTRL-V to open selected files in the
 " current window, in new tabs, in horizontal splits, or in vertical splits
 " respectively.
+" I'm installing with brew, so I don't need the install script
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" from brew info fzf
+set rtp+=/usr/local/opt/fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " colors parentheses. Can be toggled with RainbowToggle
