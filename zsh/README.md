@@ -21,7 +21,10 @@ EOF
 
 Should also `brew install fzf`, then run the install script printed at the end - it modifies `~/.zshrc`
 
-I think `fzf` does everything `fasd` does, maybe consider retrying `fasd` at some point
+## TODO
 
-TODO: make cheatsheet of stuff this provides.
-TODO: optionally replace pastel with printf
+- make blog post of zsh/fasd/fzf/zsh-autosuggestions
+- prompt: consider indicating username when logged into a remote host
+- url auto-complete, tetris: https://matt.blissett.me.uk/linux/zsh/zshrc
+- autocomplete: https://unix.stackexchange.com/a/214699/185953
+- mess with vim mode? http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
