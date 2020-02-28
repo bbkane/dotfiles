@@ -16,6 +16,7 @@ cat >> "$HOME/.zshrc" << 'EOF'
 
 # See https://github.com/bbkane/dotfiles
 source ~/.zshrc_common.zsh
+
 EOF
 ```
 
@@ -30,6 +31,7 @@ cat >> "$HOME/.zshrc" << 'EOF'
 # See https://github.com/bbkane/dotfiles
 source ~/.zshrc_prompt.zsh
 zp_prompt "$(pastel gradient -n 7 dodgerblue lightgreen | pastel format hex)"
+
 EOF
 ```
 
@@ -45,6 +47,7 @@ cat >> "$HOME/.zshrc" << 'EOF'
 # See `brew info zsh-autosuggestions`
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept  # also use Ctrl+Space to accept
+
 EOF
 ```
 
@@ -71,6 +74,7 @@ cat >> "$HOME/.zshrc" << 'EOF'
 # to cd into a directory or `v <fuzzyname>` to nvim it. Push <TAB> to complete from list
 eval "$(fasd --init auto)"
 alias v='f -e nvim' # quick opening files with nvim
+
 EOF
 ```
 
@@ -81,3 +85,5 @@ EOF
 - url auto-complete, tetris: https://matt.blissett.me.uk/linux/zsh/zshrc
 - autocomplete: https://unix.stackexchange.com/a/214699/185953
 - mess with vim mode? http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
+- https://github.com/zdharma/fast-syntax-highlighting ?
+- https://github.com/romkatv/powerlevel10k
