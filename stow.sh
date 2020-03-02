@@ -6,8 +6,8 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # https://stackoverflow.com/a/246128/295807
-readonly script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "${script_dir}"
+# readonly script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# cd "${script_dir}"
 
 # useful options gleaned from `man stow`
 
