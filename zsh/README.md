@@ -6,10 +6,12 @@ Instead version control `~/.zshrc_common.zsh` and source that from `~.zshrc`
 ## Symlink
 
 ```
-./stow.sh zsh
+../stow.sh .
 ```
 
 ## Install common stuff
+
+Common functions and settings.
 
 ```
 cat >> "$HOME/.zshrc" << 'EOF'
@@ -21,6 +23,10 @@ EOF
 ```
 
 ## Install prompt
+
+Change prompt colors on the fly!
+
+![](./README_img/zp_prompt.png)
 
 ```
 brew install pastel  # Optional: for extra colors
@@ -36,6 +42,10 @@ EOF
 ```
 
 ## Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+
+Add auto-complete based on history. Accept suggestions with `<Ctrl><Space>` or right arrow key.
+
+![](./README_img/zsh-autosuggestions.png)
 
 ```
 brew install zsh-autosuggestions
@@ -53,6 +63,15 @@ EOF
 
 ## Install [fzf](https://github.com/junegunn/fzf)
 
+- Search through shell history interactively (`<Ctrl>r`)
+- Search through file names (`<Ctrl>t`). Example: `cat <Ctrl>t`
+- Search through file names (`**<Tab>`). Example `cat ./project/**<Tab>`
+- Adds autocomplete with `<Tab>` to `kill`
+- SSH with completion from `/etc/hosts` and `~/.ssh/config` with `ssh **<Tab>`
+- `unset`, `export`, and `unalias` with completion with `unset **<Tab>`
+
+![History search](./README_img/fzf.png)
+
 ```
 brew install fzf
 ```
@@ -62,6 +81,11 @@ Run the install script it prints on install (`/usr/local/opt/fzf/install` for me
 This modifies `~/.zshrc`
 
 ## Install [fasd](https://github.com/clvv/fasd)
+
+`fasd` lets you:
+- Open recently/frequently used files with `v <fuzzy-term><Tab>`
+- `cd` to recent/frequent directories with `z <fuzzy-term><Tab>`
+- Trigger completion with `<Ctrl>x<Ctrl>a` - example `vim <Ctrl>x<Ctrl>a`
 
 ```
 brew install fasd
@@ -74,6 +98,24 @@ cat >> "$HOME/.zshrc" << 'EOF'
 # to cd into a directory or `v <fuzzyname>` to nvim it. Push <TAB> to complete from list
 eval "$(fasd --init auto)"
 alias v='f -e nvim' # quick opening files with nvim
+bindkey '^X^A' fasd-complete
+
+EOF
+```
+
+## Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
+
+Add syntax highglighting while typing
+
+![](./README_img/fast-syntax-highlighting.png)
+
+```
+git clone https://github.com/zdharma/fast-syntax-highlighting ~/Git/fast-syntax-highlighting
+```
+
+```
+cat >> "$HOME/.zshrc" << 'EOF'
+source ~/Git/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
 EOF
 ```
@@ -85,5 +127,4 @@ EOF
 - url auto-complete, tetris: https://matt.blissett.me.uk/linux/zsh/zshrc
 - autocomplete: https://unix.stackexchange.com/a/214699/185953
 - mess with vim mode? http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
-- https://github.com/zdharma/fast-syntax-highlighting ?
 - https://github.com/romkatv/powerlevel10k
