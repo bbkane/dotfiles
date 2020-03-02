@@ -6,8 +6,8 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # https://stackoverflow.com/a/246128/295807
-readonly script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "${script_dir}"
+# readonly script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# cd "${script_dir}"
 
 # useful options gleaned from `man stow`
 
@@ -50,7 +50,7 @@ cd "${script_dir}"
 #     merely show what would happen.          `--verbose=N' sets it to N.
 
 set -x
-stow --no --dotfiles --ignore 'README.md' -vvv --target "$HOME" "$@"
+stow --no --dotfiles --ignore 'README.*' -vvv --target "$HOME" "$@"
 { set +x; } 2>/dev/null
 
 echo
@@ -59,7 +59,7 @@ read -p "Press 'Y' to continue with stow: " answer
 case ${answer:0:1} in
     Y )
         set -x
-        stow --dotfiles --ignore 'README.md' -vvv --target "$HOME" "$@"
+        stow --dotfiles --ignore 'README.*' -vvv --target "$HOME" "$@"
         { set +x; } 2>/dev/null
     ;;
     * )
