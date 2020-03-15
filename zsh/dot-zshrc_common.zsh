@@ -43,6 +43,10 @@ bindkey "^X^E" edit-command-line
 # https://superuser.com/a/523973/643441
 bindkey -e
 
+# \e\e in front, otherwise bell sounds
+# Option + Arrow keys
+bindkey "\e\e[D" backward-word
+bindkey "\e\e[C" forward-word
 
 # man zshoptions
 
