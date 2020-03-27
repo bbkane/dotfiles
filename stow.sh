@@ -49,8 +49,10 @@ IFS=$'\n\t'
 #     Do not perform any operations that modify the filesystem;
 #     merely show what would happen.          `--verbose=N' sets it to N.
 
+# NOTE: --dotfiles is stow 2.3.x, not 2.2.x. My linux box only has 2.2.x and this isn't important enough for me to try to build from source
+
 set -x
-stow --no --dotfiles --ignore 'README.*' -vvv --target "$HOME" "$@"
+stow --no --ignore 'README.*' -vvv --target "$HOME" "$@"
 { set +x; } 2>/dev/null
 
 echo
@@ -59,7 +61,7 @@ read -p "Press 'Y' to continue with stow: " answer
 case ${answer:0:1} in
     Y )
         set -x
-        stow --dotfiles --ignore 'README.*' -vvv --target "$HOME" "$@"
+        stow --ignore 'README.*' -vvv --target "$HOME" "$@"
         { set +x; } 2>/dev/null
     ;;
     * )
