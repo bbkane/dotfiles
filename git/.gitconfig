@@ -25,5 +25,3 @@
 # within work machine
 [includeIf "gitdir/i:~/Git-personal/"]
 	path = ~/.gitconfig.personal
-[credential]
-	helper = osxkeychain

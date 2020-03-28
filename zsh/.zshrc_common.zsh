@@ -1,6 +1,15 @@
 # -- Aliases --
 
-alias ls='ls -GF'
+# https://unix.stackexchange.com/a/531184/185953
+case "$OSTYPE" in
+    darwin*)
+        alias ls='ls -GF'
+    ;;
+    linux*)
+        alias ls='ls -F --color=auto'
+    ;;
+esac
+
 
 # if I have nvim, use it instead of vim
 which nvim &> /dev/null && alias vim=nvim && alias vimdiff='nvim -d'
@@ -28,6 +37,7 @@ bak() {
 }
 
 
+# `readlink -f` doesn't work on Mac
 fullpath() {
     local dirname=$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1")
     echo "$dirname"
