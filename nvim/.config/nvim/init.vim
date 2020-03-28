@@ -17,8 +17,11 @@ endif
 " Try to use a colorscheme plugin
 " but fallback to a default one
 try
-    colorscheme gruvbox
-    " colorscheme desert-warm-256
+    if has('mac')
+        colorscheme gruvbox
+    else
+        colorscheme desert-warm-256
+    endif
     " colorscheme elflord
     " colorscheme railscasts
     " colorscheme dracula
