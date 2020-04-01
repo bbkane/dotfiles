@@ -1,3 +1,6 @@
+# @bbkane's zsh dotfiles!
+# Repo: https://github.com/bbkane/dotfiles
+
 # -- Aliases --
 
 # https://unix.stackexchange.com/a/531184/185953
