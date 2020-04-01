@@ -3,22 +3,23 @@
 don't version control `~.zshrc` - use that for local settings.
 Instead version control `~/.zshrc_common.zsh` and source that from `~.zshrc`
 
-## Install via Symlink
+## Install all via Symlink
+
+This is only useful if you're cloning this repo. Most people should skip this step and use the `curl` commands.
 
 ```
 ../stow.sh .
 ```
 
-## Install via Curl
-
-```
-curl -Lo ~/.zshrc_common.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_common.zsh
-curl -Lo ./.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_prompt.zsh
-```
-
 ## Install common stuff
 
 Common functions and settings.
+
+### Install via Curl
+
+```
+curl -Lo ~/.zshrc_common.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_common.zsh
+```
 
 ```
 cat >> "$HOME/.zshrc" << 'EOF'
@@ -34,6 +35,12 @@ EOF
 Change prompt colors on the fly!
 
 ![](./README_img/zp_prompt.png)
+
+### Install via Curl
+
+```
+curl -Lo ./.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_prompt.zsh
+```
 
 ```
 brew install pastel  # Optional: for extra colors
@@ -85,7 +92,7 @@ brew install fzf
 
 Run the install script it prints on install (`/usr/local/opt/fzf/install` for me).
 
-This modifies `~/.zshrc`
+This modifies `~/.zshrc` for you
 
 ## Install [fasd](https://github.com/clvv/fasd)
 
@@ -115,6 +122,8 @@ EOF
 Add syntax highglighting while typing
 
 ![](./README_img/fast-syntax-highlighting.png)
+
+I clone into `~/Git`. Change this name if you want to clone somewhere else!
 
 ```
 git clone https://github.com/zdharma/fast-syntax-highlighting ~/Git/fast-syntax-highlighting
