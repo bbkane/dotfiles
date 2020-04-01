@@ -1,4 +1,6 @@
 # @bbkane's zsh prompt! Lots of borrowed (and hopefully cited) ideas!
+# Repo: https://github.com/bbkane/dotfiles
+
 # Features:
 # - customizable colors
 # - python virtualenv support
