@@ -15,7 +15,12 @@ esac
 
 
 # if I have nvim, use it instead of vim
-which nvim &> /dev/null && alias vim=nvim && alias vimdiff='nvim -d'
+# https://stackoverflow.com/a/7522866/2958070
+if type nvim > /dev/null; then
+    export EDITOR=nvim
+    alias vim=nvim
+    alias vimdiff='nvim -d'
+fi
 
 # work around npx's hilariously insecure behavior:
 # https://github.com/npm/npx/issues/9
@@ -23,7 +28,10 @@ alias npx="npx --no-install $@"
 
 # -- Exports --
 
-export EDITOR=vim
+# if EDITOR is not set (zsh > 5.3)
+if [[ ! -v EDITOR ]]; then
+    export EDITOR=vim
+fi
 
 # -- Functions --
 
