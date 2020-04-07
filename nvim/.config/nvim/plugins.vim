@@ -28,6 +28,11 @@ if !has("nvim")
     Plug 'tpope/vim-sensible'
 endif
 
+Plug 'lifepillar/vim-mucomplete'
+set completeopt+=menuone
+set completeopt+=noinsert
+set shortmess+=c   " Shut off completion messages
+
 " https://github.com/tpope/vim-surround
 " After selecting something in visual mode:
 "   S' -> adds ' around selected object
