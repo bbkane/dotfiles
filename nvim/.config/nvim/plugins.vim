@@ -28,11 +28,6 @@ if !has("nvim")
     Plug 'tpope/vim-sensible'
 endif
 
-Plug 'lifepillar/vim-mucomplete'
-set completeopt+=menuone
-set completeopt+=noinsert
-set shortmess+=c   " Shut off completion messages
-
 " https://github.com/tpope/vim-surround
 " After selecting something in visual mode:
 "   S' -> adds ' around selected object
@@ -158,20 +153,33 @@ command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
 " colorschemes
 
-" This adds a *bunch* of colorschemes
-Plug 'flazz/vim-colorschemes'
-if has('nvim')
-    Plug 'Soares/base16.nvim'
-endif
-
 " Test colorschemes
 " Plug 'nanotech/jellybeans.vim'
 " Plug 'tomasr/molokai'
 " Plug 'dracula/vim'
 " Plug 'ajmwagar/vim-deus'
 
-" " Ones I know I like
+" I don't think I like this one... it doesn't look like the screenshot...
+" let g_airline_theme='purify'
+" Plug 'kyoz/purify', { 'rtp': 'vim' }
+
+" Not as good as I thought it would be
+" Plug 'arcticicestudio/nord-vim'
+" Also not as good as I thought it would be
+" Plug 'rakr/vim-one'
+
+" Colorschemes I know I like
+
 Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
+
+Plug 'mhartington/oceanic-next'
+let g_airline_theme='oceanicnext'
+
+" This adds a *bunch* of colorschemes
+Plug 'flazz/vim-colorschemes'
+if has('nvim')
+    Plug 'Soares/base16.nvim'
+endif
 

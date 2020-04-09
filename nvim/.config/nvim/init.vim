@@ -14,17 +14,21 @@ else
     autocmd VimEnter * echom "Install vim-plug with :InstallVimPlug and plugins with :PlugInstall"
 endif
 
+syntax on
+" for vim 7
+set t_Co=256
+if has('termguicolors')
+    set termguicolors
+endif
 " Try to use a colorscheme plugin
 " but fallback to a default one
 try
     if has('mac')
-        colorscheme gruvbox
+        " colorscheme gruvbox
+        colorscheme OceanicNext
     else
         colorscheme desert-warm-256
     endif
-    " colorscheme elflord
-    " colorscheme railscasts
-    " colorscheme dracula
 catch /^Vim\%((\a\+)\)\=:E185/
     " no plugins available
     colorscheme elflord
@@ -33,7 +37,6 @@ set background=dark
 
 " use stuff from vim.wikia.com example vimrc
 filetype indent plugin on
-syntax on
 set wildmenu                      " Use tab to complete stuff in vim menu
 set showcmd                       " show partial commands in the last line of screen
 set ignorecase                    " case insensitive search except for capital letters
