@@ -394,7 +394,7 @@ command! -range=% -nargs=0 -bar AddCodeFence
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
 
-command! -range FormatCmd <line1>!format_shell.py
+command! -range FormatShellCmd <line1>!format_shell_cmd.py
 
 " Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
