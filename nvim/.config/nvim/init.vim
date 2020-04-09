@@ -322,7 +322,7 @@ function! WriteHTML()
 endfunction
 
 " http://superuser.com/a/277326/643441
-command! MakeFile :call writefile([], expand("<cfile>"), "t")
+command! TouchFile :call writefile([], expand("<cfile>"), "t")
 
 function! UpByIndent()
     norm! ^
@@ -393,6 +393,8 @@ command! -range=% -nargs=0 -bar AddCodeFence
 " https://unix.stackexchange.com/a/58748/185953
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
+
+command! -range FormatCmd <line1>!format_shell.py
 
 " Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
