@@ -11,6 +11,10 @@
 	ls = ls-files
 	erase-remote-branch = push -d origin
 	numlineschanged = diff --stat
+	# if nvim isn't installed, use:
+	#   git difftool --no-prompt --extcmd 'vim -d "+colorscheme morning"'
+	# already have gruvbox plugin as a really good diffing colorscheme
+	vimdiff = difftool --no-prompt --extcmd 'nvim -d'
 [color]
 	ui = true
 [core]
