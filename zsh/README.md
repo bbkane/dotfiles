@@ -1,17 +1,9 @@
-## zsh
+# Ben's Zsh Customizations and Plugins!!!
 
-don't version control `~.zshrc` - use that for local settings.
-Instead version control `~/.zshrc_common.zsh` and source that from `~.zshrc`
+- I recommend using `~/.zshrc` for computer-specific settings and simply sourcing these files from it.
+- Alternate way to install common and prompt zsh scripts (in this folder): clone the repo and `../stow.sh`. This keeps these files under version control. Most people should use the `curl` install methods instead.
 
-## Install all via Symlink
-
-This is only useful if you're cloning this repo. Most people should skip this step and use the `curl` commands.
-
-```
-../stow.sh .
-```
-
-## Install common stuff
+## Install [Common Settings](./.zshrc_common.zsh)
 
 Common functions and settings.
 
@@ -30,7 +22,7 @@ source ~/.zshrc_common.zsh
 EOF
 ```
 
-## Install prompt
+## Install [`zp_prompt`](./.zshrc_prompt.zsh)
 
 Change prompt colors on the fly!
 
@@ -43,14 +35,14 @@ curl -Lo ./.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/m
 ```
 
 ```
-brew install pastel  # Optional: for extra colors
+brew install pastel  # Optional but highly recommended
 ```
 
 ```
 cat >> "$HOME/.zshrc" << 'EOF'
 # See https://github.com/bbkane/dotfiles
 source ~/.zshrc_prompt.zsh
-zp_prompt "$(pastel gradient -n 7 dodgerblue lightgreen | pastel format hex)"
+zp_prompt_pastel dodgerblue lightgreen
 
 EOF
 ```
