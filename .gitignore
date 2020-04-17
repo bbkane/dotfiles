@@ -2,4 +2,6 @@
 *.pyc
 *.swp
 .DS_Store
+nvim/.config/nvim/autoload/plug.vim
+nvim/.config/nvim/autoload/plug.vim.old
 tmp*
