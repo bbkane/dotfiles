@@ -64,7 +64,7 @@ Plug 'tpope/vim-rsi'
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " from brew info fzf
 set rtp+=/usr/local/opt/fzf
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf'
 
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
@@ -131,10 +131,19 @@ let g:rustfmt_autosave = 1
 
 Plug 'b4b4r07/vim-hcl'
 
-" TODO: replace Neomake, especially for shellcheck and python
+" for shellcheck!!!
+" See linters with :ALEInfo
+Plug 'dense-analysis/ale'
+let g:airline#extensions#ale#enabled = 1
+" only lint on open/save
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_sh_shellcheck_options = '-fgcc -x'
 
-" -fgcc outputs gcc style errors and -x follows sources
-" let g:neomake_sh_shellcheck_args = ['-fgcc', '-x']
+" TODO: build airline statusbar out of this (actually show the warning in the
+" statusbar, not just the line number
+" echom string(ale#statusline#Count(bufnr('')))
+" echom string(ale#statusline#FirstProblem(bufnr(''), 'warning'))
 
 " Command: QuickRun
 Plug 'thinca/vim-quickrun'
@@ -174,6 +183,11 @@ Plug 'jpo/vim-railscasts-theme'
 Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
 
+" This is ok...
+Plug 'ajmwagar/vim-deus'
+let g:deus_termcolors=256
+
+
 Plug 'mhartington/oceanic-next'
 let g_airline_theme='oceanicnext'
 
@@ -182,4 +196,6 @@ Plug 'flazz/vim-colorschemes'
 if has('nvim')
     Plug 'Soares/base16.nvim'
 endif
+
+Plug 'mitsuhiko/fruity-vim-colorscheme'
 
