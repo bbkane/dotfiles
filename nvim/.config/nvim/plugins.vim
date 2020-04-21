@@ -131,6 +131,13 @@ let g:rustfmt_autosave = 1
 
 Plug 'b4b4r07/vim-hcl'
 
+" GoTest , GoTestFunc , GoDef , GoDocBrowser , GoRename
+" GoMetaLinter , GoLint , GoVet , GoErrCheck
+" GoCallees , GoReferrers
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" TODO: consider https://github.com/majutsushi/tagbar with this
+" TODO: go through https://github.com/fatih/vim-go/wiki/Tutorial#quick-setup
+
 " for shellcheck!!!
 " See linters with :ALEInfo
 Plug 'dense-analysis/ale'
@@ -160,6 +167,8 @@ let g:quickrun_config['python'] = {
 " bad for long running code (will freeze vim)
 command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
+Plug 'sheerun/vim-polyglot'
+
 " colorschemes
 
 " Test colorschemes
@@ -184,12 +193,12 @@ Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
 
 " This is ok...
-Plug 'ajmwagar/vim-deus'
 let g:deus_termcolors=256
+Plug 'ajmwagar/vim-deus'
 
 
-Plug 'mhartington/oceanic-next'
 let g_airline_theme='oceanicnext'
+Plug 'mhartington/oceanic-next'
 
 " This adds a *bunch* of colorschemes
 Plug 'flazz/vim-colorschemes'
@@ -199,3 +208,12 @@ endif
 
 Plug 'mitsuhiko/fruity-vim-colorscheme'
 
+let g:sonokai_style = 'maia'
+let g:airline_theme = 'sonokai'
+Plug 'sainnhe/sonokai'
+
+let g:gruvbox_material_background = 'soft'
+" let g:gruvbox_material_background = 'medium'
+Plug 'sainnhe/gruvbox-material'
+
+Plug 'haishanh/night-owl.vim'
