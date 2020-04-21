@@ -54,6 +54,37 @@ fullpath() {
     echo "$dirname"
 }
 
+git_commit_and_pull() {
+    # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
+    if read -q "choice?Press Y/y to continue with commit and pull: "; then
+        set -x
+        git add . && git commit -m 'haha git goes brrr' && git pull
+        { set +x; } 2>/dev/null
+    else
+        echo
+        echo "Exiting..."
+    fi
+}
+
+# # useful for syncing note repo
+# git_commit_and_pull() {
+#     # https://stackoverflow.com/a/15174634/2958070
+#     read "answer?Press 'Y' to continue with commit and pull: "
+#     case ${answer:0:1} in
+#         Y )
+#             set -x
+#             git add . && git commit -m 'haha git goes brrr' && git pull
+#             { set +x; } 2>/dev/null
+#         ;;
+#         * )
+#             echo "Exiting..."
+#         ;;
+#     esac
+# }
+
+# jq last file in ./logs - useful for JSON logs
+jq_last_log() { jq "$1" $(find logs -print0 | xargs -0 ls -t -1 | head -n1) }
+
 # -- Other stuff --
 
 # https://unix.stackexchange.com/a/34251/185953
