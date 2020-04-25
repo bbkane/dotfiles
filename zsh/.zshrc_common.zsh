@@ -54,12 +54,12 @@ fullpath() {
     echo "$dirname"
 }
 
-git_commit_and_pull() {
+git_commit_pull_push() {
     # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
     if read -q "choice?Press Y/y to continue with commit and pull: "; then
         echo
         set -x
-        git add . && git commit -m 'haha git goes brrr' && git pull
+        git add . && git commit -m 'haha git go brrr' && git pull && git push
         { set +x; } 2>/dev/null
     else
         echo
