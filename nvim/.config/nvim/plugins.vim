@@ -105,6 +105,9 @@ endif
 Plug 'airblade/vim-gitgutter'
 
 " show diff when vim finds a .swp file
+" How to use:
+" - On first run, select Compare and :w to save the version you want, :q
+" - On second run, select open anyway?
 Plug 'chrisbra/Recover.vim'
 
 " :rename <name>
