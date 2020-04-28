@@ -28,7 +28,7 @@ def get(cert_or_host: str, underlying_host: Optional[str]) -> str:
     if underlying_host:
         return f"echo | openssl s_client -connect {underlying_host}:443 -servername {cert_or_host} 2> /dev/null"
     # just the host
-    return f"echo | openssl s_client -connect {cert_or_host}:443 2> /dev/null"
+    return f"echo | openssl s_client -connect {cert_or_host}:443  -servername {cert_or_host} 2> /dev/null"
 
 
 query = {
