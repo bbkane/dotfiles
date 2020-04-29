@@ -21,14 +21,15 @@ Code at https://github.com/bbkane/dotfiles
 """
 
 
-def get(cert_or_host: str, underlying_host: Optional[str]) -> str:
+def get(cert_or_host: str, servername: Optional[str]) -> str:
     "generate the part of the openssl command to get the cert"
     if os.path.exists(cert_or_host):
         return f"cat {cert_or_host}"
-    if underlying_host:
-        return f"echo | openssl s_client -connect {underlying_host}:443 -servername {cert_or_host} 2> /dev/null"
-    # just the host
-    return f"echo | openssl s_client -connect {cert_or_host}:443  -servername {cert_or_host} 2> /dev/null"
+    if servername == "NONE":  # don't use SNI
+        return f"echo | openssl s_client -connect {cert_or_host}:443 2> /dev/null"
+    if servername is None:
+        servername = cert_or_host
+    return f"echo | openssl s_client -connect {cert_or_host}:443 -servername {servername} 2> /dev/null"
 
 
 query = {
@@ -47,16 +48,16 @@ def parse_args(*args, **kwargs):
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    parser.add_argument("cert_or_host", help="filepath or host (www.example.com)")
+    parser.add_argument("cert_or_host", help="filepath or host (www.example.com) to connect to. Appends :443 automatically. Also used for SNI (also see --servername)")
     parser.add_argument(
         "query",
         choices=query.keys(),
         help="filter to apply to cert. 'all' doesn't do any filtering",
     )
     parser.add_argument(
-        "--underlying_host",
-        "-u",
-        help="host to connect to. Useful when testing certs on multiple hosts. Appends :443 automatically",
+        "--servername",
+        "-s",
+        help="servername to use. Defaults to cert_or_host. Pass NONE to not use SNI",
     )
     parser.add_argument(
         "--print",
@@ -69,7 +70,7 @@ def parse_args(*args, **kwargs):
 
 def main():
     args = parse_args()
-    cmd = get(args.cert_or_host, args.underlying_host) + query[args.query]
+    cmd = get(args.cert_or_host, args.servername) + query[args.query]
     if args.print:
         print(cmd)
     else:
