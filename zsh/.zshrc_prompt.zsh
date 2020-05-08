@@ -88,8 +88,9 @@ $prompt_character "
 }
 
 # make an easy way to set the prompt via pastel
+# zp_prompt_pastel red white blue
 zp_prompt_pastel() {
-    zp_prompt "$(pastel gradient -n 7 "$1" "$2" | pastel format hex)"
+    zp_prompt "$(pastel gradient -n 7 "$@" | pastel format hex)"
 }
 
 # -- Precmd Stuff --
