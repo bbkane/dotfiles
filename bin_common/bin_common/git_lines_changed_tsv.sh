@@ -5,8 +5,12 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# https://git-scm.com/docs/git-log#Documentation/git-log.txt-emHem
+# %H - commit hash
+# %x09 - tab character
+# %aI - author date
 git log \
-    --format=format:"%aI" \
+    --format=format:"%H%x09%aI" \
     --reverse \
     --shortstat \
 | awk '
@@ -20,7 +24,7 @@ git log \
 
         deletions = match($2, /[[:digit:]]+ deletion/)
         if (deletions != 0)
-            deletions = substr($2, RSTART, RLENGTH - 9)
+            deletions = -substr($2, RSTART, RLENGTH - 9)
         else
             deletions = 0
 
