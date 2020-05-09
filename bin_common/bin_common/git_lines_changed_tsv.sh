@@ -9,6 +9,8 @@ IFS=$'\n\t'
 # %H - commit hash
 # %x09 - tab character
 # %aI - author date
+#
+# RS = "" means it'll use a blank line as the field separator
 git log \
     --format=format:"%H%x09%aI" \
     --reverse \
@@ -32,4 +34,4 @@ git log \
     }
 '
 
-# TODO: chart this...
+# TODO: chart this... https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/renderoperator?pivots=azuredataexplorer
