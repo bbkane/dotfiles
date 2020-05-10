@@ -12,7 +12,7 @@ IFS=$'\n\t'
 #
 # RS = "" means it'll use a blank line as the field separator
 git log \
-    --format=format:"%H%x09%aI" \
+    --format=format:"%aI" \
     --reverse \
     --shortstat \
 | awk '
