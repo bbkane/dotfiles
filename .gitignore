@@ -5,3 +5,4 @@
 nvim/.config/nvim/autoload/plug.vim
 nvim/.config/nvim/autoload/plug.vim.old
 tmp*
+chart.*.html

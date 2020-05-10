@@ -229,7 +229,7 @@ command! ShowFuncName call ShowFuncName()
 
 command! -nargs=1 Help vert help <args>
 
-function Open(open_me)
+function! Open(open_me)
     let open_me = expand(a:open_me)
     if has('win32')
         execute "silent !start " . a:open_me
@@ -287,6 +287,10 @@ endif
 if executable('terraform')
     command! TerraFormat %!terraform fmt -no-color - < %
 endif
+
+" https://stackoverflow.com/a/46348040/2958070
+" Execute current file
+command! Run :!"%:p"
 
 " use zg to add word to word-list
 " ]s and [s jump to misspelled words
