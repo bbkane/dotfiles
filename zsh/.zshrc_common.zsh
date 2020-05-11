@@ -106,9 +106,10 @@ setopt HIST_REDUCE_BLANKS
 # when using !!, don't auto-hit enter
 setopt HIST_VERIFY
 
-# Let zsh try to correct me
+# Enable autocorrect for command, but not for arguments
+# https://superuser.com/a/610025/643441
+unsetopt CORRECT_ALL
 setopt CORRECT
-setopt CORRECT_ALL
 
 # https://matt.blissett.me.uk/linux/zsh/zshrc
 # Prompts for confirmation after 'rm *' etc
