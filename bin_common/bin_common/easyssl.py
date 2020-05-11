@@ -26,6 +26,8 @@ def get(cert_or_host: str, servername: Optional[str]) -> str:
     if os.path.exists(cert_or_host):
         return f"cat {cert_or_host}"
     if servername == "NONE":  # don't use SNI
+        # https://stackoverflow.com/a/50770880/2958070
+        # NOTE: might break if openssl updates, see ^
         return f"echo | openssl s_client -connect {cert_or_host}:443 2> /dev/null"
     if servername is None:
         servername = cert_or_host
