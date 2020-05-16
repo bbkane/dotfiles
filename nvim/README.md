@@ -36,29 +36,23 @@ ln -s ~/.config/nvim/ ~/.vim
 
 ## Install Plugins (from editor)
 
-- Install [vim-plug](https://github.com/junegunn/vim-plug).
-
-```
-:InstallVimPlug
-```
-
+- Install [vim-plug](https://github.com/junegunn/vim-plug): `:InstallVimPlug`
 - Restart editor
+- Install Plugins: `:PlugInstall`
 
-- Install Plugins
+## Install linters for Ale
+
+Alternative installation options for Python deps: nvim venv , pipx. nvim venv doesn't expose tools to anything else. pipx (ironically) doesn't have a clean installation method (`python3 -m pip install --user pipx` installs other dependencies (could use homebrew to install it, but...)). Homebrew only works on mac and doesn't have formulas for everything (and some it does have are out of date)
 
 ```
-:PlugInstall
+brew install black flake8 mypy shellcheck
 ```
 
-## Install IDE components
+Links:
 
-I'd like to have the following functionality:
-
-- ncm2 replacement without the bugs ( auto-complete from buffer, filesystem )
-- run flake8 and black on Python code
-- run shellcheck on bash code
-
-But I need to figure out an easy way to install Python first... (probably using conda with an Install function to create an env)
+- https://github.com/dense-analysis/ale/blob/master/doc/ale-python.txt#L160
+- https://code.visualstudio.com/docs/python/linting#_specific-linters
+- https://docs.brew.sh/Python-for-Formula-Authors
 
 ## Vim QuickInstall
 

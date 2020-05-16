@@ -124,7 +124,7 @@ def csv_to_columns(inputfile, delimiter):
     # read first line to get num fields
     csvreader = csv.reader(inputfile, delimiter=delimiter)
     first_line = next(csvreader)  # TODO: what if this is empty? Do I care?
-    fields = [ f'field_{i}' for i in range(len(first_line)) ]
+    fields = [f"field_{i}" for i in range(len(first_line))]
 
     # add the first line
     # NOTE: we can rely on insertion order, so iterating over keys later will
@@ -141,6 +141,7 @@ def csv_to_columns(inputfile, delimiter):
 
     return ret
 
+
 def gen_timechart_json(columns):
     # first column is datetime for xs (leave as string for now)
     # TODO: the second version is optionally a grouping string
@@ -151,11 +152,7 @@ def gen_timechart_json(columns):
     xs = columns[column_names[0]]
     for name in column_names[1:]:
         trace = PlotlyTrace(
-            mode='lines+markers',
-            name=name,
-            type='scatter',
-            x=xs,
-            y=columns[name],
+            mode="lines+markers", name=name, type="scatter", x=xs, y=columns[name],
         )
         traces.append(dataclasses.asdict(trace))
 

@@ -107,6 +107,9 @@ augroup custom_filetype
     autocmd filetype html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
 
     " formatprgs
+    " Many times I want to format just a few comment lines - so I don't want
+    " to overwrite formatprg for that. See :FormatFile for formatting the
+    " whole file with external tools instead
     autocmd filetype json
         \ if executable('jq') |
             \ set formatprg=jq\ . |
@@ -114,24 +117,30 @@ augroup custom_filetype
             \ set formatprg=python\ -m\ json.tool |
         \ endif
 
-    autocmd filetype python
-        \ if executable('black') |
-            \ set formatprg=black\ -q\ -\ <\ % |
-        \ endif
-
-    autocmd filetype go
-        \ if executable('gofmt') |
-            \ set formatprg=gofmt\ % |
-        \ endif
-
-    autocmd filetype terraform
-        \ if executable('terraform') |
-            \ set formatprg=terraform\ fmt\ -no-color\ -\ <\ % |
-        \ endif
 augroup END
 
-" Visually select whole file, then call formatprg
-command! FormatFile normal! ggVGgq
+function! FormatFile()
+    if &filetype == 'go'
+        if executable('gofmt')
+            :%!gofmt
+        endif
+    elseif &filetype =='json'
+        if executable('jq')
+            :%!jq .
+        elseif executable('python')
+            :%!python -m json.tool
+        endif
+    elseif &filetype == 'python'
+        if executable('black')
+            :%!black -q -
+        endif
+    elseif &filetype == 'terraform'
+        if executable('terraform')
+            :%!terraform fmt -no-color -
+        endif
+    endif
+endfunction
+command! FormatFile call FormatFile()
 
 command! -range FormatShellCmd <line1>!format_shell_cmd.py
 
