@@ -90,20 +90,59 @@ function! IndentSpacesToggle()
 endfunction
 
 command! IndentSpacesToggle call IndentSpacesToggle()
+
 " Custom indent settings per filetype
 augroup custom_filetype
     autocmd!
-    autocmd BufNewFile,BufRead *.go setlocal noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
-    " Only use tabs in gitconfig
-    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
-    autocmd BufRead,BufNewFile .gitconfig setlocal autoindent noexpandtab tabstop=8 shiftwidth=8
+
     autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
 
+    autocmd filetype go setlocal noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
     " https://superuser.com/a/907889/643441
     autocmd filetype crontab setlocal nobackup nowritebackup
+    " Only use tabs in gitconfig
+    " https://stackoverflow.com/questions/3682582/how-to-use-only-tab-not-space-in-vim
+    autocmd filetype gitconfig setlocal autoindent noexpandtab tabstop=8 shiftwidth=8
     " Use 2 spaces to indent in these
-    autocmd FileType html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
+    autocmd filetype html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
+
+    " formatprgs
+    " Many times I want to format just a few comment lines - so I don't want
+    " to overwrite formatprg for that. See :FormatFile for formatting the
+    " whole file with external tools instead
+    autocmd filetype json
+        \ if executable('jq') |
+            \ set formatprg=jq\ . |
+        \ elseif executable('python') |
+            \ set formatprg=python\ -m\ json.tool |
+        \ endif
+
 augroup END
+
+function! FormatFile()
+    if &filetype == 'go'
+        if executable('gofmt')
+            :%!gofmt
+        endif
+    elseif &filetype =='json'
+        if executable('jq')
+            :%!jq .
+        elseif executable('python')
+            :%!python -m json.tool
+        endif
+    elseif &filetype == 'python'
+        if executable('black')
+            :%!black -q -
+        endif
+    elseif &filetype == 'terraform'
+        if executable('terraform')
+            :%!terraform fmt -no-color -
+        endif
+    endif
+endfunction
+command! FormatFile call FormatFile()
+
+command! -range FormatShellCmd <line1>!format_shell_cmd.py
 
 " Sometimes I dont want to indent (yaml files in particular)
 command! StopIndenting setl noai nocin nosi inde=
@@ -268,26 +307,6 @@ if executable('cloc')
     command! Cloc !cloc %
 endif
 
-" TODO: checkout :h formatexpr and :h formatprg
-
-if executable('python')
-    command! JSONFormat %!python -m json.tool
-endif
-
-" Format current Python file
-if executable('black')
-    " https://github.com/psf/black/issues/431
-    command! BlackFormat %!black -q - < %
-endif
-
-if executable('gofmt')
-    command! GoFormat %!gofmt %
-endif
-
-if executable('terraform')
-    command! TerraFormat %!terraform fmt -no-color - < %
-endif
-
 " https://stackoverflow.com/a/46348040/2958070
 " Execute current file
 command! Run :!"%:p"
@@ -305,7 +324,6 @@ function! SpellCheckToggle()
     endif
 endfunction
 command! SpellCheckToggle call SpellCheckToggle()
-" format existing text by selecting it and using `gq`
 
 command! SearchHLToggle :setlocal invhlsearch
 
@@ -398,7 +416,6 @@ command! -range=% -nargs=0 -bar AddCodeFence
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
 
-command! -range FormatShellCmd <line1>!format_shell_cmd.py
 
 " Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
