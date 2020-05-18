@@ -14,7 +14,7 @@ Examples:
 
 REPLY = """
 Hello {name},
-I just recently started my current job at LinkedIn. I'm very happy here, and I'm going to stay a while. However, it sounds like you guys are doing exciting things. {sentence}I wish you the best of luck!
+I'm very happy here at LinkedIn, and I'm going to stay a while. However, it sounds like you guys are doing exciting things. {sentence}I've saved your contact info if anything changes on my end. Best of luck finding good people!
 Thanks,
 Ben
 """
