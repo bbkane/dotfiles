@@ -50,7 +50,6 @@ let g:indentLine_color_gui = '#545454' " grey
 " none X terminal
 let g:indentLine_color_tty_light = 7 " (default: 4)
 let g:indentLine_color_dark = 1 " (default: 2)
-
 Plug 'Yggdroot/indentLine', { 'for': ['jinja', 'xml', 'html', 'yaml']}
 
 " Get me some sweet command line mappings for vim
@@ -113,7 +112,8 @@ Plug 'chrisbra/Recover.vim'
 " :rename <name>
 Plug 'danro/rename.vim'
 
-Plug 'hynek/vim-python-pep8-indent'
+" TODO: I think black does this automatically
+" Plug 'hynek/vim-python-pep8-indent'
 
 " Syntax highlighting plugins
 
@@ -145,32 +145,41 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " See linters with :ALEInfo
 Plug 'dense-analysis/ale'
 let g:airline#extensions#ale#enabled = 1
+
+" :ll - go to first error
+" :lprev/next - go to prev/next error
+" :lopen - open error window
 " only lint on open/save
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
+
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+
 let g:ale_sh_shellcheck_options = '-fgcc -x'
+let g:ale_python_flake8_options = '--max-line-length 120'
 
 " TODO: build airline statusbar out of this (actually show the warning in the
 " statusbar, not just the line number
 " echom string(ale#statusline#Count(bufnr('')))
 " echom string(ale#statusline#FirstProblem(bufnr(''), 'warning'))
 
+" NOTE: my :Run command is a lightweight way of doing this
+" but it doesn't run code in a buffer
 " Command: QuickRun
 Plug 'thinca/vim-quickrun'
 let g:quickrun_config = {}
 let g:quickrun_config.python = {'command' : 'python3'}
 
-" Not sure I need this or not but quickrun is having problems with finding
-" a conda env python
-let g:quickrun_config['python'] = {
-\   'command': 'python'
-\ }
-
 " After running this, QuickRun runs on :w
 " bad for long running code (will freeze vim)
 command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
+" Add's a lot of syntax stuff
 Plug 'sheerun/vim-polyglot'
+
+" Autocomplete from buffer, filesystem on Tab
+Plug 'ajh17/VimCompletesMe'
 
 " colorschemes
 
