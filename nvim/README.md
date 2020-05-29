@@ -68,3 +68,8 @@ curl https://raw.githubusercontent.com/bbkane/nvim/master/init.vim > ~/.vimrc
 curl --create-dirs -fLo ~/.vim/plugin/commentary.vim https://raw.githubusercontent.com/tpope/vim-commentary/master/plugin/commentary.vim
 ```
 
+## Notes
+
+TODO: move this to blog?
+
+In normal mode: `q:`, `q/`, `q?` open up command and search history in a nice little popup window

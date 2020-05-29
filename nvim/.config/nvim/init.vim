@@ -309,6 +309,7 @@ endif
 
 " https://stackoverflow.com/a/46348040/2958070
 " Execute current file
+" TODO: this should ChmodX too
 command! Run :!"%:p"
 
 " use zg to add word to word-list
@@ -376,7 +377,7 @@ command! DiffSaved call s:DiffWithSaved()
 
 command! FullPath echo expand('%:p')
 
-function! SetExecutableBit()
+function! ChmodX()
     let fname = expand("%:p")
     checktime
     execute "au FileChangedShell " . fname . " :echo"
@@ -384,7 +385,7 @@ function! SetExecutableBit()
     checktime
     execute "au! FileChangedShell " . fname
 endfunction
-command! SetExecutableBit call SetExecutableBit()
+command! ChmodX call ChmodX()
 
 " The 'e' on the end of the substitute ignores errors
 " -range=% means without a visual selection the whole buffer is selected
