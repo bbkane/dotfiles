@@ -27,9 +27,9 @@ Only operate on table-like data piped in or from a file.
 
 Examples:
     {prog}
-    printf "1 2 3\\n3 4 5\\n" | {prog} -o - -f ' ' --fieldnames time,x,y timechart
-    printf "time x y\\n1 2 3\\n3 4 5\\n" | {prog} -o - -f ' ' --firstline timechart
-    printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o - -f ' ' --fieldnames date,author,lines timechart
+    printf "1 2 3\\n3 4 5\\n" | {prog} -f ' ' timechart
+    printf "time x y\\n1 2 3\\n3 4 5\\n" | {prog} -o DATEME -f ' ' --firstline timechart
+    printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o tmp.html -f ' ' --fieldnames date,author,lines timechart
 
 Please see Benjamin Kane for help.
 Repo: https://github.com/bbkane/dotfiles
@@ -91,13 +91,10 @@ def parse_args(*args, **kwargs):
         "--firstline", action="store_true", help="get fieldnames from first line of csv"
     )
 
-    right_now = datetime.datetime.now().strftime("%Y-%m-%d.%H.%M.%S")
-    default_name = ".".join(["chart", right_now, "html"])
     parser.add_argument(
         "--output",
         "-o",
-        default=default_name,
-        help=f"defaults to: {default_name!r}. Pass '-' to write to a tmpfile and open in the browser",
+        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. Otherwise, the arg will be written"
     )
 
     # -- args
@@ -209,14 +206,21 @@ def main():
         # plotly_json = [dataclasses.asdict(plotly_json)]
         plotly_json = json.dumps(gen_timechart_json(columns))
         html_args = dict(output=args.output, plotly_json=plotly_json)
-    if args.output == "-":
+
+    if not args.output:
         with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".html") as fp:
             print(html.format(**html_args), file=fp)
             url = pathlib.Path(fp.name).as_uri()
         webbrowser.open_new_tab(url)
+    elif args.output == 'DATEME':
+        right_now = datetime.datetime.now().strftime("%Y-%m-%d.%H.%M.%S")
+        default_name = ".".join(["chart", right_now, "html"])
+        with open(default_name, "w") as fp:
+            print(html.format(**html_args), file=fp)
     else:
         with open(args.output, "w") as fp:
             print(html.format(**html_args), file=fp)
+
 
 
 if __name__ == "__main__":
