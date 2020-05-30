@@ -157,7 +157,9 @@ let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 
 let g:ale_sh_shellcheck_options = '-fgcc -x'
-let g:ale_python_flake8_options = '--max-line-length 120'
+" Ignore some of these
+" - E501: line too long
+let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E501'
 
 " TODO: build airline statusbar out of this (actually show the warning in the
 " statusbar, not just the line number

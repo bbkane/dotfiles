@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from textwrap import dedent
 import argparse
 import collections
 import csv
@@ -10,7 +9,9 @@ import datetime
 import json
 import pathlib
 import sys
-import typing as t
+import tempfile
+import typing as ty
+import webbrowser
 
 __author__ = "Benjamin Kane"
 __version__ = "1.0.0"
@@ -18,15 +19,17 @@ __doc__ = """
 Create interactive HTML charts with plotly and a Kusto-like command line interface!
 
 No dependencies other than Python3 and a browser to open the generated HTML
-Similar syntax to and uses help from https://github.com/microsoft/Kusto-Query-Language/blob/master/doc/renderoperator.md (Apache License)
+Similar syntax to and uses help from
+https://github.com/microsoft/Kusto-Query-Language/blob/master/doc/renderoperator.md
+(Apache License)
 Generate charts with https://plotly.com/javascript/
 Only operate on table-like data piped in or from a file.
 
 Examples:
     {prog}
-    printf "1 2\\n3 4\\n" | {prog} -o graph.html -f ' ' --columns x,y linechart
-    printf "x y\\n1 2\\n3 4\\n" | {prog} -o graph.html -f ' ' --headers linechart
-    printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -f ' ' --columns date,author,lines timechart
+    printf "1 2 3\\n3 4 5\\n" | {prog} -o - -f ' ' --fieldnames time,x,y timechart
+    printf "time x y\\n1 2 3\\n3 4 5\\n" | {prog} -o - -f ' ' --firstline timechart
+    printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o - -f ' ' --fieldnames date,author,lines timechart
 
 Please see Benjamin Kane for help.
 Repo: https://github.com/bbkane/dotfiles
@@ -65,8 +68,8 @@ class PlotlyTrace:
     mode: str
     name: str
     type: str
-    x: t.Iterable[t.Any]
-    y: t.Iterable[t.Any]
+    x: ty.Iterable[ty.Any]
+    y: ty.Iterable[ty.Any]
 
 
 def parse_args(*args, **kwargs):
@@ -76,17 +79,17 @@ def parse_args(*args, **kwargs):
 
     # -- flags
     parser.add_argument(
-        "--field_sep",
+        "--fieldsep",
         "-f",
         default="\t",
         help="Field separator for input table. SPACE by default",
     )
-    parser.add_argument(
-        "--columns",
-        "-c",
-        help="Column names separated by commas. Will be generated if not passed",
+
+    fieldnames_group = parser.add_mutually_exclusive_group()
+    fieldnames_group.add_argument("--fieldnames", help="column delimited fieldnames")
+    fieldnames_group.add_argument(
+        "--firstline", action="store_true", help="get fieldnames from first line of csv"
     )
-    # TODO: add --header  thad reads first line as mutually exclusive option
 
     right_now = datetime.datetime.now().strftime("%Y-%m-%d.%H.%M.%S")
     default_name = ".".join(["chart", right_now, "html"])
@@ -94,7 +97,7 @@ def parse_args(*args, **kwargs):
         "--output",
         "-o",
         default=default_name,
-        help="defaults to: " + repr(default_name),
+        help=f"defaults to: {default_name!r}. Pass '-' to write to a tmpfile and open in the browser",
     )
 
     # -- args
@@ -118,23 +121,47 @@ def parse_args(*args, **kwargs):
     return parser.parse_args(*args, **kwargs)
 
 
-def csv_to_columns(inputfile, delimiter):
-    # TODO: there are 3 ways to get field names - generated (here), args.columns, reading the first line and interpreting them as field names (I think DictReader can do this automatically)
-
-    # read first line to get num fields
+def csv_to_columns_with_fieldnames(
+    inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]
+):
+    """Create columns when you already know the fieldnames"""
     csvreader = csv.reader(inputfile, delimiter=delimiter)
     first_line = next(csvreader)  # TODO: what if this is empty? Do I care?
-    fields = [f"field_{i}" for i in range(len(first_line))]
+    assert len(first_line) == len(fieldnames)
+    return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
 
+
+def csv_to_columns_gen_fieldnames(inputfile: ty.TextIO, delimiter: str):
+    """Create columns and just auto-generate the fieldnames"""
+    csvreader = csv.reader(inputfile, delimiter=delimiter)
+    first_line = next(csvreader)  # TODO: what if this is empty? Do I care?
+    fieldnames = [f"field_{i}" for i in range(len(first_line))]
+    return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
+
+
+def csv_to_columns_first_line_as_fieldnames(inputfile: ty.TextIO, delimiter: str):
+    """Create columns and read fieldnames from first line"""
+    csvreader = csv.reader(inputfile, delimiter=delimiter)
+    fieldnames = next(csvreader)  # TODO: what if this is empty? Do I care?
+    first_line = next(csvreader)
+    return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
+
+
+def _csv_to_columns(
+    inputfile: ty.TextIO,
+    delimiter: str,
+    fieldnames: ty.List[str],
+    first_line: ty.List[str],
+):
     # add the first line
     # NOTE: we can rely on insertion order, so iterating over keys later will
     # work as expected
     ret = collections.defaultdict(list)
-    for k, v in zip(fields, first_line):
+    for k, v in zip(fieldnames, first_line):
         ret[k].append(v)
 
     # add the rest of the lines
-    dictreader = csv.DictReader(inputfile, fieldnames=fields, delimiter=delimiter)
+    dictreader = csv.DictReader(inputfile, fieldnames=fieldnames, delimiter=delimiter)
     for d_row in dictreader:
         for k, v in d_row.items():
             ret[k].append(v)
@@ -142,7 +169,7 @@ def csv_to_columns(inputfile, delimiter):
     return ret
 
 
-def gen_timechart_json(columns):
+def gen_timechart_json(columns: ty.Dict[str, ty.List]):
     # first column is datetime for xs (leave as string for now)
     # TODO: the second version is optionally a grouping string
     # rest of the columns should be numeric for ys
@@ -165,15 +192,31 @@ def main():
     # This breaks if it's in a function :(
 
     with args.input_table:
-        columns = csv_to_columns(args.input_table, args.field_sep)
+        if args.fieldnames:
+            fieldnames = [f.strip() for f in args.fieldnames.split(",")]
+            columns = csv_to_columns_with_fieldnames(
+                args.input_table, args.fieldsep, fieldnames
+            )
+        elif args.firstline:
+            columns = csv_to_columns_first_line_as_fieldnames(
+                args.input_table, args.fieldsep
+            )
+        else:
+            columns = csv_to_columns_gen_fieldnames(args.input_table, args.fieldsep)
 
     if args.subcommand_name == "timechart":
         # plotly_json = PlotlyTrace(mode="lines", type="scatter", x=[1, 2], y=[1, 2])
         # plotly_json = [dataclasses.asdict(plotly_json)]
         plotly_json = json.dumps(gen_timechart_json(columns))
         html_args = dict(output=args.output, plotly_json=plotly_json)
-    with open(args.output, "w") as fp:
-        print(html.format(**html_args), file=fp)
+    if args.output == "-":
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".html") as fp:
+            print(html.format(**html_args), file=fp)
+            url = pathlib.Path(fp.name).as_uri()
+        webbrowser.open_new_tab(url)
+    else:
+        with open(args.output, "w") as fp:
+            print(html.format(**html_args), file=fp)
 
 
 if __name__ == "__main__":
