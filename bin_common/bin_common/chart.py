@@ -228,18 +228,20 @@ def main():
         # plotly_json = PlotlyTrace(mode="lines", type="scatter", x=[1, 2], y=[1, 2])
         # plotly_json = [dataclasses.asdict(plotly_json)]
         plotly_json = json.dumps(gen_timechart_json(columns))
+
+        # TODO: why doesn't this work?
         # plotly_layout = json.dumps(
         #     dataclasses.asdict(
         #         PlotlyLayout(title=args.output, yaxis=PlotlyAxis(range=[-10, 10]))
         #     )
         # )
-        plotly_layout = json.dumps(
-            {
-                "title": "Lines changed",
-                "xaxis": {"type": "date"},
-                "yaxis": {"autorange": False, "range": [-300, 300], "type": "linear"},
-            }
-        )
+
+        # When this does work?
+        # plotly_layout = json.dumps(
+        #     {"title": "Lines changed", "yaxis": {"range": [-300, 300],},}
+        # )
+
+        plotly_layout = '{}'
         html_args = dict(
             output=args.output, plotly_json=plotly_json, plotly_layout=plotly_layout
         )
