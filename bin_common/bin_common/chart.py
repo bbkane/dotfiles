@@ -51,7 +51,12 @@ html = """
   <body>
     <div id="myplot"></div>
     <script>
-    Plotly.plot("myplot", JSON.parse('{plotly_json}'));
+    Plotly.plot(
+        "myplot",
+        JSON.parse('{plotly_json}'),
+        JSON.parse('{plotly_layout}'),
+        {{editable: false}}
+    );
     </script>
   </body>
 </html>
@@ -61,6 +66,19 @@ html = """
 # https://docs.python.org/3/library/dataclasses.html#module-dataclasses
 # https://www.youtube.com/watch?v=T-TwcmT6Rcw
 # https://stackoverflow.com/questions/49908399/replace-attributes-in-data-class-objects
+
+
+@dataclasses.dataclass
+class PlotlyAxis:
+    title: ty.Optional[str] = None
+    range: ty.Optional[ty.List[int]] = None
+
+
+@dataclasses.dataclass
+class PlotlyLayout:
+    title: str
+    xaxis: ty.Optional[PlotlyAxis] = None
+    yaxis: ty.Optional[PlotlyAxis] = None
 
 
 @dataclasses.dataclass
@@ -94,7 +112,7 @@ def parse_args(*args, **kwargs):
     parser.add_argument(
         "--output",
         "-o",
-        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. Otherwise, the arg will be written"
+        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. Otherwise, the arg will be written. Also used for chart title",
     )
 
     # -- args
@@ -176,7 +194,12 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List]):
     xs = columns[column_names[0]]
     for name in column_names[1:]:
         trace = PlotlyTrace(
-            mode="lines+markers", name=name, type="scatter", x=xs, y=columns[name],
+            # mode="lines+markers", name=name, type="scatter", x=xs, y=columns[name],
+            mode="",
+            name=name,
+            type="bar",
+            x=xs,
+            y=columns[name],
         )
         traces.append(dataclasses.asdict(trace))
 
@@ -205,14 +228,28 @@ def main():
         # plotly_json = PlotlyTrace(mode="lines", type="scatter", x=[1, 2], y=[1, 2])
         # plotly_json = [dataclasses.asdict(plotly_json)]
         plotly_json = json.dumps(gen_timechart_json(columns))
-        html_args = dict(output=args.output, plotly_json=plotly_json)
+        # plotly_layout = json.dumps(
+        #     dataclasses.asdict(
+        #         PlotlyLayout(title=args.output, yaxis=PlotlyAxis(range=[-10, 10]))
+        #     )
+        # )
+        plotly_layout = json.dumps(
+            {
+                "title": "Lines changed",
+                "xaxis": {"type": "date"},
+                "yaxis": {"autorange": False, "range": [-300, 300], "type": "linear"},
+            }
+        )
+        html_args = dict(
+            output=args.output, plotly_json=plotly_json, plotly_layout=plotly_layout
+        )
 
     if not args.output:
         with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".html") as fp:
             print(html.format(**html_args), file=fp)
             url = pathlib.Path(fp.name).as_uri()
         webbrowser.open_new_tab(url)
-    elif args.output == 'DATEME':
+    elif args.output == "DATEME":
         right_now = datetime.datetime.now().strftime("%Y-%m-%d.%H.%M.%S")
         default_name = ".".join(["chart", right_now, "html"])
         with open(default_name, "w") as fp:
@@ -220,7 +257,6 @@ def main():
     else:
         with open(args.output, "w") as fp:
             print(html.format(**html_args), file=fp)
-
 
 
 if __name__ == "__main__":
