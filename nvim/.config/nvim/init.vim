@@ -268,6 +268,11 @@ command! ShowFuncName call ShowFuncName()
 
 command! -nargs=1 Help vert help <args>
 
+" Open :help in new tab
+" https://stackoverflow.com/a/3132202/2958070
+cnoreabbrev <expr> h getcmdtype() == ":" && getcmdline() == 'h' ? 'tab help' : 'h'
+cnoreabbrev <expr> help getcmdtype() == ":" && getcmdline() == 'help' ? 'tab help' : 'help'
+
 function! Open(open_me)
     let open_me = expand(a:open_me)
     if has('win32')
@@ -310,6 +315,8 @@ endif
 " https://stackoverflow.com/a/46348040/2958070
 " Execute current file
 " TODO: this should ChmodX too
+" TODO: this should execute ./run.sh or ../run.sh if they exist
+" function! Run()
 command! Run :!"%:p"
 
 " use zg to add word to word-list
