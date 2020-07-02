@@ -120,6 +120,9 @@ setopt RM_STAR_WAIT
 setopt auto_list # automatically list choices on ambiguous completion
 setopt auto_menu # automatically use menu completion
 
+# https://stackoverflow.com/a/11873793/2958070
+setopt INTERACTIVECOMMENTS
+
 # URL completion. Use URLs from history.
 # zstyle -e ':completion:*:*:urls' urls 'reply=( ${${(f)"$(egrep --only-matching \(ftp\|https\?\)://\[A-Za-z0-9\].\* $HISTFILE)"}%%[# ]*} )'
 
