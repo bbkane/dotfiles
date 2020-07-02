@@ -20,6 +20,14 @@
 [core]
 	excludesfile = ~/.config/gitignore_global
 
+# The following are for https://github.com/dandavison/delta
+[core]
+    # pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
+    pager = delta --plus-color="#012800" --minus-color="#340001" --theme='zenburn'
+    # pager = delta --theme='zenburn' --dark
+[interactive]
+    diffFilter = delta --color-only
+
 # This is primarily for setting user.email differently at work
 # and needs to go at the bottom so it overwrites above settings
 [include]
@@ -29,3 +37,4 @@
 # within work machine
 [includeIf "gitdir/i:~/Git-personal/"]
 	path = ~/.gitconfig.personal
+

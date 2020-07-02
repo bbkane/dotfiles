@@ -232,3 +232,8 @@ let g:gruvbox_material_background = 'soft'
 Plug 'sainnhe/gruvbox-material'
 
 Plug 'haishanh/night-owl.vim'
+
+" let ayucolor="dark"   " for dark version of theme
+" let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+Plug 'ayu-theme/ayu-vim' " or other package manager
