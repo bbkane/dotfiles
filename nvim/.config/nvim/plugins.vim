@@ -183,6 +183,8 @@ Plug 'sheerun/vim-polyglot'
 
 " Autocomplete from buffer, filesystem on Tab
 Plug 'ajh17/VimCompletesMe'
+" So working in Python files doesn't try to invoke autocomplete
+let g:vcm_omni_pattern = 'NEVER_MATCH'
 
 " colorschemes
 
