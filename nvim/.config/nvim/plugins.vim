@@ -184,7 +184,9 @@ Plug 'sheerun/vim-polyglot'
 " Autocomplete from buffer, filesystem on Tab
 Plug 'ajh17/VimCompletesMe'
 " So working in Python files doesn't try to invoke autocomplete
-let g:vcm_omni_pattern = 'NEVER_MATCH'
+" let g:vcm_omni_pattern = 'NEVER_MATCH'
+
+Plug 'neovim/nvim-lsp'
 
 " colorschemes
 
@@ -239,3 +241,4 @@ Plug 'haishanh/night-owl.vim'
 " let ayucolor="light"  " for light version of theme
 let ayucolor="mirage" " for mirage version of theme
 Plug 'ayu-theme/ayu-vim' " or other package manager
+

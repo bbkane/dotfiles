@@ -73,3 +73,17 @@ curl --create-dirs -fLo ~/.vim/plugin/commentary.vim https://raw.githubuserconte
 TODO: move this to blog?
 
 In normal mode: `q:`, `q/`, `q?` open up command and search history in a nice little popup window
+
+## Language Server
+
+### Experimental!!
+
+From: https://github.com/neovim/nvim-lsp#pyls_ms
+
+did the curl script. It put it in ~/.dotnet. Added that to the PATH
+
+```
+:LspInstall pyls_ms
+```
+
+https://github.com/neovim/nvim-lsp/issues/35#issuecomment-555614914
