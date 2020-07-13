@@ -2,11 +2,14 @@
 
 ## Design Goals
 
-- Don't change how the shell works too much! I `ssh` into other machines installed with `bash`, and it's essential that I don't need to context switch too hard when I do. This config tries to accomplish this by using `zsh` (fairly `bash` compatible) and focuses on making common shell operations easier and faster, not replacing them wholesale
+- Don't change how the shell works too much! I `ssh` into other machines installed with `bash`, and it's essential that I don't need to context switch too hard when I do. This config tries to accomplish this by:
+  - using `zsh` (fairly `bash` compatible)
+  - focusing on making common shell operations easier and faster, not replacing them wholesale. Think "turn the shell prompt into an IDE" - code should be faster to write, but it should look the same as if you didn't have the IDE
 - Make my customizations easy to install, easy to play with, and easy to uninstall. This should be easy to "try out". This config tries to accomplish this by:
   - not replacing `~/.zshrc` but instead providing `source <file>` lines to add to it - this lets users keep their own configuration and toggling mine on and off by commenting a line or two
   - putting different functionality in different files to source. Want only one of `zp_prompt` but not `zshrc_common`? `source` one but not the other
-  - adding `curl` commands and screenshots (I actually use `stow` to provide these files so I can easily keep them in Git
+  - adding `curl` install commands (I actually use `stow` to provide these files so I can easily keep them in Git)
+  - noting keyboard shortcuts the tools add I really like in this README and adding screenshots
 
 ## Install via GNU Stow
 
