@@ -1,7 +1,18 @@
 # Ben's Zsh Customizations and Plugins!!!
 
-- I recommend using `~/.zshrc` for computer-specific settings and simply sourcing these files from it.
-- Alternate way to install common and prompt zsh scripts (in this folder): clone the repo and `../stow.sh`. This keeps these files under version control. Most people should use the `curl` install methods instead.
+## Design Goals
+
+- Don't change how the shell works too much! I `ssh` into other machines installed with `bash`, and it's essential that I don't need to context switch too hard when I do. This config tries to accomplish this by using `zsh` (fairly `bash` compatible) and focuses on making common shell operations easier and faster, not replacing them wholesale
+- Make my customizations easy to install, easy to play with, and easy to uninstall. This should be easy to "try out". This config tries to accomplish this by:
+  - not replacing `~/.zshrc` but instead providing `source <file>` lines to add to it - this lets users keep their own configuration and toggling mine on and off by commenting a line or two
+  - putting different functionality in different files to source. Want only one of `zp_prompt` but not `zshrc_common`? `source` one but not the other
+  - adding `curl` commands and screenshots (I actually use `stow` to provide these files so I can easily keep them in Git
+
+## Install via GNU Stow
+
+NOTE: this is not necessary if you use the `curl` commands provided and most people should use those. I use the `stow` method below to keep all my `zsh` config under version control, and you probably don't care about that
+
+Clone the repo and `../stow.sh`. Most people should use the `curl` install methods instead.
 
 ## Install [Common Settings](./.zshrc_common.zsh)
 
