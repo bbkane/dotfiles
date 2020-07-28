@@ -45,7 +45,7 @@ Change prompt colors on the fly!
 ### Install via Curl
 
 ```
-curl -Lo ./.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_prompt.zsh
+curl -Lo ~/.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_prompt.zsh
 ```
 
 ```
