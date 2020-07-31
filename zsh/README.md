@@ -36,6 +36,8 @@ source ~/.zshrc_common.zsh
 EOF
 ```
 
+Open a new `zsh` shell.
+
 ## Install [`zp_prompt`](./.zshrc_prompt.zsh)
 
 Change prompt colors on the fly!
@@ -61,6 +63,8 @@ zp_prompt_pastel dodgerblue lightgreen
 EOF
 ```
 
+Open a new `zsh` shell.
+
 ## Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 
 Add auto-complete based on history. Accept suggestions with `<Ctrl><Space>` or right arrow key.
@@ -80,6 +84,8 @@ bindkey '^ ' autosuggest-accept  # also use Ctrl+Space to accept
 
 EOF
 ```
+
+Open a new `zsh` shell.
 
 ## Install [fzf](https://github.com/junegunn/fzf)
 
@@ -123,6 +129,8 @@ bindkey '^X^A' fasd-complete
 EOF
 ```
 
+Open a new `zsh` shell.
+
 ## Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
 
 Add syntax highglighting while typing
@@ -141,6 +149,8 @@ source ~/Git/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
 EOF
 ```
+
+Open a new `zsh` shell.
 
 ## TODO
 
