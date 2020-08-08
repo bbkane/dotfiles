@@ -3,12 +3,16 @@
 
 # -- Aliases --
 
-# https://unix.stackexchange.com/a/531184/185953
 case "$OSTYPE" in
+    # https://geoff.greer.fm/lscolors/
     darwin*)
+        # -F : display symbols after things
+        # -G : colorize output
+        export LSCOLORS='gxfxcxdxbxeggdabagacad'
         alias ls='ls -GF'
     ;;
     linux*)
+        export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=36;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
         alias ls='ls -F --color=auto'
     ;;
 esac
@@ -32,6 +36,12 @@ alias npx="npx --no-install $@"
 if [[ ! -v EDITOR ]]; then
     export EDITOR=vim
 fi
+
+# groups | tr_space_to_newline
+alias tr_space_to_newline="tr ' ' '\n'"
+
+# interpret control codes with `less`
+export LESS="-R"
 
 # -- Functions --
 
