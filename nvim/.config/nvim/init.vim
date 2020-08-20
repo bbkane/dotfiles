@@ -25,7 +25,8 @@ endif
 try
     if has('mac')
         " colorscheme gruvbox
-        colorscheme OceanicNext
+        " colorscheme OceanicNext
+        colorscheme miramare
     else
         colorscheme desert-warm-256
     endif
