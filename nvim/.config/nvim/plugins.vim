@@ -243,7 +243,8 @@ Plug 'ayu-theme/ayu-vim' " or other package manager
 let g:airline_theme = 'miramare'
 let g:miramare_disable_italic_comment = 1
 let g:miramare_palette = {
-    \ 'light_grey': ['#c0c0c0',   '245',  'LightGrey']
+    \ 'grey': ['#928374', '245','LightGrey'],
+    \ 'light_grey': ['#c0c0c0', '245', 'LightGrey']
     \ }
 " Plug 'franbach/miramare'
 " Plug '~/Git/miramare'
