@@ -1,4 +1,5 @@
 # nvim
+
 My Neovim Config. Also works for Vim.
 
 ## NeoVim Install
@@ -53,6 +54,27 @@ Links:
 - https://github.com/dense-analysis/ale/blob/master/doc/ale-python.txt#L160
 - https://code.visualstudio.com/docs/python/linting#_specific-linters
 - https://docs.brew.sh/Python-for-Formula-Authors
+
+## Install [Coc](https://github.com/neoclide/coc.nvim) + [pyright](https://github.com/fannheyward/coc-pyright)
+
+Install node: `volta install node`
+
+### Install Language Servers
+
+```
+:CocList extensions  # see installed extensions
+:CocInstall coc-json coc-pyright
+:CocConfig  # edit json
+```
+
+### Notes
+
+TODO: https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#use-vims-plugin-manager-for-coc-extension
+NOTE: `let g:coc_node_path = '/path/to/node'`
+
+```
+:CocCommand pyright.organizeimports
+```
 
 ## Vim QuickInstall
 

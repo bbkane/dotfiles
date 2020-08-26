@@ -107,6 +107,8 @@ augroup custom_filetype
     " Use 2 spaces to indent in these
     autocmd filetype html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
 
+    autocmd FileType json syntax match Comment +\/\/.\+$+  " syntax highlight json comments
+
     " formatprgs
     " Many times I want to format just a few comment lines - so I don't want
     " to overwrite formatprg for that. See :FormatFile for formatting the
@@ -120,6 +122,7 @@ augroup custom_filetype
 
 augroup END
 
+" NOTE: Coc can probably replace this
 function! FormatFile()
     if &filetype == 'go'
         if executable('gofmt')
@@ -247,9 +250,6 @@ nnoremap <C-n> <ESC><C-w><C-w>
 nnoremap <C-j> <ESC><C-w><C-j>
 nnoremap <C-k> <ESC><C-w><C-k>
 nnoremap <C-l> <ESC><C-w><C-l>
-" " This won't work on OSX withot more work
-" " See :Checkhealth on NeoVim
-" 2018-07-26 I guess it works now?
 nnoremap <C-h> <ESC><C-w><C-h>
 
 
@@ -420,11 +420,6 @@ command! -range=% -nargs=0 -bar MarkdownToJira
 command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
     \ | <line1>s:^:```\r:
-
-" https://unix.stackexchange.com/a/58748/185953
-" <line1>,<line2>VisualSelect
-command! -range VisualSelect normal! <line1>GV<line2>G
-
 
 " Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
