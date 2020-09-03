@@ -1,5 +1,5 @@
 {
   "python.analysis.autoImportCompletions": true,
   "python.pythonPath": "python",
-  "python.venvPath": ""
+  "python.venvPath": "venv"
 }
