@@ -63,7 +63,7 @@ Install node: `volta install node`
 
 ```
 :CocList extensions  # see installed extensions
-:CocInstall coc-json coc-pyright
+:CocInstall coc-json coc-pyright coc-go
 :CocConfig  # edit json
 ```
 

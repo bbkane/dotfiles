@@ -152,6 +152,10 @@ EOF
 
 Open a new `zsh` shell.
 
+## Notes
+
+see [./notes.md](./notes.md)
+
 ## TODO
 
 - make blog post of zsh/fasd/fzf/zsh-autosuggestions
@@ -160,3 +164,4 @@ Open a new `zsh` shell.
 - autocomplete: https://unix.stackexchange.com/a/214699/185953
 - mess with vim mode? http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
 - https://github.com/romkatv/powerlevel10k
+- Try https://github.com/denisidoro/navi ? Things I'd like a cheatsheet for: curl, az
