@@ -131,10 +131,11 @@ let g:rustfmt_autosave = 1
 
 Plug 'b4b4r07/vim-hcl'
 
+" " Using coc-go instead
 " GoTest , GoTestFunc , GoDef , GoDocBrowser , GoRename
 " GoMetaLinter , GoLint , GoVet , GoErrCheck
 " GoCallees , GoReferrers
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " TODO: consider https://github.com/majutsushi/tagbar with this
 " TODO: go through https://github.com/fatih/vim-go/wiki/Tutorial#quick-setup
 
