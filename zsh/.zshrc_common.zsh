@@ -3,6 +3,9 @@
 
 # -- Aliases --
 
+# Need two sets of quotes
+alias chrome='"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"'
+
 case "$OSTYPE" in
     # https://geoff.greer.fm/lscolors/
     darwin*)
@@ -79,6 +82,9 @@ git_commit_pull_push() {
 
 # jq last file in ./logs - useful for JSON logs
 jq_last_log() { jq "$1" $(find logs -print0 | xargs -0 ls -t -1 | head -n1) }
+
+# recursively search markdown files
+rgmd() { rg --type md "$@" }
 
 # -- Other stuff --
 
