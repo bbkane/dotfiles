@@ -64,6 +64,8 @@ Plug 'tpope/vim-rsi'
 " from brew info fzf
 set rtp+=/usr/local/opt/fzf
 Plug 'junegunn/fzf'
+" :Files
+Plug 'junegunn/fzf.vim'
 
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'

@@ -37,4 +37,5 @@
 # within work machine
 [includeIf "gitdir/i:~/Git-personal/"]
 	path = ~/.gitconfig.personal
-
+[pull]
+	ff = only

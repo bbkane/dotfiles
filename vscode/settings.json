@@ -2,6 +2,7 @@
     // @bbkane's VS Code settings!
     // Repo: https://github.com/bbkane/dotfiles
     //
+    "gitlens.hovers.currentLine.over": "line",
     // -- Plugin: Go Settings
     "go.autocompleteUnimportedPackages": true,
     "go.useLanguageServer": true,
