@@ -162,6 +162,12 @@ let g:ale_sh_shellcheck_options = '-fgcc -x'
 " - E501: line too long
 let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E231,E501'
 
+let g:ale_fixers = {
+      \    'python': ['black'],
+      \}
+nmap <F10> :ALEFix<CR>
+let g:ale_fix_on_save = 1
+
 " TODO: build airline statusbar out of this (actually show the warning in the
 " statusbar, not just the line number
 " echom string(ale#statusline#Count(bufnr('')))
