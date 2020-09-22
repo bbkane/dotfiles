@@ -57,7 +57,7 @@
     "editor.wordWrap": "on",
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 2,
     // taniarascia.new-moon-vscode
     "workbench.colorTheme": "New Moon",
 }
