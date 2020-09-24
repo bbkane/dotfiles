@@ -1,67 +1,63 @@
-// Ben's Visual Studio Code settings
-// Place your settings in this file to overwrite the default settings
 {
-  "[html]": {
-    "editor.tabSize": 2
-  },
-  "[javascript]": {
-    "editor.tabSize": 2
-  },
-  "[elm]": {
-    "editor.tabSize": 2
-  },
-  "files.associations": {
-    "**/*.yml": "ansible"
-  },
-  "C_Cpp.intelliSenseEngine": "Default",
-
-  "editor.fontSize": 14,
-  "editor.minimap.enabled": false,
-  "editor.renderIndentGuides": true,
-  // Controls how the editor should render whitespace characters, possibilities are 'none', 'boundary', and 'all'. The 'boundary' option does not render single spaces between words.
-  "editor.renderWhitespace": "none",
-  // Controls how lines should wrap. Can be:
-  //  - 'off' (disable wrapping),
-  //  - 'on' (viewport wrapping),
-  //  - 'wordWrapColumn' (wrap at `editor.wordWrapColumn`) or
-  //  - 'bounded' (wrap at minimum of viewport and `editor.wordWrapColumn`).
-  "editor.wordWrap": "on",
-
-  "files.eol": "\n",
-  "files.trimTrailingWhitespace": true,
-
-  // https://marketplace.visualstudio.com/items?itemName=donjayamanne.python
-  // conda install flake8
-  "python.linting.pylintEnabled": false,
-  "python.linting.flake8Enabled": true,
-  "python.linting.flake8Args": [
-    "--ignore=E501,W503"
-  ],
-
-  "vim.disableAnnoyingGcMessage": true,
-  "vim.disableAnnoyingNeovimMessage": true,
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["f","d"],
-      "after": ["<Esc>"]
-    }
-  ],
-
-  "workbench.iconTheme": "vs-seti",
-  "window.zoomLevel": 0,
-  "extensions.ignoreRecommendations": true,
-  "git.enableSmartCommit": true,
-  // TODO: somehow make this platform independent...
-  "rust.rustup": {
-    "toolchain": "stable-x86_64-unknown-linux-gnu",
-    "nightlyToolchain": "nightly-x86_64-unknown-linux-gnu"
-  },
-  "rust.mode": "rls",
-  "rust.rls": {
-    "useRustfmt": true
-  },
-  "window.titleBarStyle": "custom",
-  "go.useLanguageServer": true,
-  "go.autocompleteUnimportedPackages": true,
-  "breadcrumbs.enabled": true
+    // @bbkane's VS Code settings!
+    // Repo: https://github.com/bbkane/dotfiles
+    //
+    // -- eamodio.gitlens
+    //
+    "gitlens.hovers.currentLine.over": "line",
+    //
+    // -- golang.go
+    //
+    "go.autocompleteUnimportedPackages": true,
+    "go.useLanguageServer": false, // route-server
+    //
+    // -- oderwat.indent-rainbow
+    //
+    // For which languages indent-rainbow should be activated (if empty it means all).
+    "indentRainbow.includedLanguages": [
+        "html",
+        "json",
+        "xml",
+        "yaml"
+    ],
+    //
+    // -- ms-python.vscode-pylance
+    // brew install python3 black flake8 mypy
+    //
+    // formatting
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "100"
+    ],
+    "python.formatting.blackPath": "/usr/local/bin/black",
+    "python.formatting.provider": "black",
+    // ls
+    "python.languageServer": "Pylance",
+    // linting
+    "python.linting.enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=100",
+        "ignore=W503"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "/usr/local/bin/flake8",
+    // TODO: why doesn't mypy work?
+    "python.linting.mypyEnabled": true,
+    "python.linting.mypyPath": "/usr/local/bin/mypy",
+    "python.linting.pylintEnabled": false,
+    // NOTE: overwrite this for venvs
+    // "python.pythonPath": "${workspaceFolder}/venv/bin/python"
+    "python.pythonPath": "/usr/local/bin/python3",
+    //
+    // -- General Editor settings
+    //
+    "editor.fontSize": 14,
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "editor.wordWrap": "on",
+    "files.eol": "\n",
+    "files.trimTrailingWhitespace": true,
+    "window.zoomLevel": 2,
+    // taniarascia.new-moon-vscode
+    "workbench.colorTheme": "New Moon",
 }

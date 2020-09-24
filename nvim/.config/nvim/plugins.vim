@@ -64,6 +64,8 @@ Plug 'tpope/vim-rsi'
 " from brew info fzf
 set rtp+=/usr/local/opt/fzf
 Plug 'junegunn/fzf'
+" :Files
+Plug 'junegunn/fzf.vim'
 
 " colors parentheses. Can be toggled with RainbowToggle
 Plug 'luochen1990/rainbow'
@@ -112,9 +114,6 @@ Plug 'chrisbra/Recover.vim'
 " :rename <name>
 Plug 'danro/rename.vim'
 
-" TODO: I think black does this automatically
-" Plug 'hynek/vim-python-pep8-indent'
-
 " Syntax highlighting plugins
 
 " Plug 'Glench/Vim-Jinja2-Syntax'
@@ -134,10 +133,11 @@ let g:rustfmt_autosave = 1
 
 Plug 'b4b4r07/vim-hcl'
 
+" " Using coc-go instead
 " GoTest , GoTestFunc , GoDef , GoDocBrowser , GoRename
 " GoMetaLinter , GoLint , GoVet , GoErrCheck
 " GoCallees , GoReferrers
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " TODO: consider https://github.com/majutsushi/tagbar with this
 " TODO: go through https://github.com/fatih/vim-go/wiki/Tutorial#quick-setup
 
@@ -160,7 +160,14 @@ let g:ale_sh_shellcheck_options = '-fgcc -x'
 " Ignore some of these
 " - E231: missing whitespace after ','
 " - E501: line too long
-let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E231,E501'
+" - W503: line break before binary operator
+let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E231,E501,W503'
+
+let g:ale_fixers = {
+      \    'python': ['black'],
+      \}
+nmap <F10> :ALEFix<CR>
+let g:ale_fix_on_save = 1
 
 " TODO: build airline statusbar out of this (actually show the warning in the
 " statusbar, not just the line number
@@ -181,54 +188,14 @@ command! AutoQuickRun  autocmd BufWritePost * QuickRun
 " Add's a lot of syntax stuff
 Plug 'sheerun/vim-polyglot'
 
+" NOTE: Coc replaces this. Keeping commented out for now
 " Autocomplete from buffer, filesystem on Tab
-Plug 'ajh17/VimCompletesMe'
+" Plug 'ajh17/VimCompletesMe'
+" " So working in Python files doesn't try to invoke autocomplete
+" let g:vcm_omni_pattern = 'NEVER_MATCH'
 
-" colorschemes
+" See ../../README.md for install info
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+source ~/.config/nvim/coc_readme_config.vim
 
-" Test colorschemes
-" Plug 'nanotech/jellybeans.vim'
-" Plug 'tomasr/molokai'
-" Plug 'dracula/vim'
-" Plug 'ajmwagar/vim-deus'
-
-" I don't think I like this one... it doesn't look like the screenshot...
-" let g_airline_theme='purify'
-" Plug 'kyoz/purify', { 'rtp': 'vim' }
-
-" Not as good as I thought it would be
-" Plug 'arcticicestudio/nord-vim'
-" Also not as good as I thought it would be
-" Plug 'rakr/vim-one'
-
-" Colorschemes I know I like
-
-Plug 'jpo/vim-railscasts-theme'
-Plug 'rainux/vim-desert-warm-256'
-Plug 'morhetz/gruvbox'
-
-" This is ok...
-let g:deus_termcolors=256
-Plug 'ajmwagar/vim-deus'
-
-
-let g_airline_theme='oceanicnext'
-Plug 'mhartington/oceanic-next'
-
-" This adds a *bunch* of colorschemes
-Plug 'flazz/vim-colorschemes'
-if has('nvim')
-    Plug 'Soares/base16.nvim'
-endif
-
-Plug 'mitsuhiko/fruity-vim-colorscheme'
-
-let g:sonokai_style = 'maia'
-let g:airline_theme = 'sonokai'
-Plug 'sainnhe/sonokai'
-
-let g:gruvbox_material_background = 'soft'
-" let g:gruvbox_material_background = 'medium'
-Plug 'sainnhe/gruvbox-material'
-
-Plug 'haishanh/night-owl.vim'
+source ~/.config/nvim/colorscheme_plugins.vim

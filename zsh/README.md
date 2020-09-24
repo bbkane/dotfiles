@@ -1,7 +1,21 @@
 # Ben's Zsh Customizations and Plugins!!!
 
-- I recommend using `~/.zshrc` for computer-specific settings and simply sourcing these files from it.
-- Alternate way to install common and prompt zsh scripts (in this folder): clone the repo and `../stow.sh`. This keeps these files under version control. Most people should use the `curl` install methods instead.
+## Design Goals
+
+- Don't change how the shell works too much! I `ssh` into other machines installed with `bash`, and it's essential that I don't need to context switch too hard when I do. This config tries to accomplish this by:
+  - using `zsh` (fairly `bash` compatible)
+  - focusing on making common shell operations easier and faster, not replacing them wholesale. Think "turn the shell prompt into an IDE" - code should be faster to write, but it should look the same as if you didn't have the IDE
+- Make my customizations easy to install, easy to play with, and easy to uninstall. This should be easy to "try out". This config tries to accomplish this by:
+  - not replacing `~/.zshrc` but instead providing `source <file>` lines to add to it - this lets users keep their own configuration and toggling mine on and off by commenting a line or two
+  - putting different functionality in different files to source. Want only one of `zp_prompt` and `zshrc_common`? `source` one but not the other
+  - adding `curl` install commands (I actually use `stow` to provide these files so I can easily keep them in Git)
+  - noting keyboard shortcuts the tools add I really like in this README and adding screenshots
+
+## Install via GNU Stow
+
+NOTE: this is not necessary if you use the `curl` commands provided and most people should use those. I use the `stow` method below to keep all my `zsh` config under version control, and you probably don't care about that
+
+Clone the repo and `../stow.sh`. Most people should use the `curl` install methods instead.
 
 ## Install [Common Settings](./.zshrc_common.zsh)
 
@@ -22,6 +36,8 @@ source ~/.zshrc_common.zsh
 EOF
 ```
 
+Open a new `zsh` shell.
+
 ## Install [`zp_prompt`](./.zshrc_prompt.zsh)
 
 Change prompt colors on the fly!
@@ -31,7 +47,7 @@ Change prompt colors on the fly!
 ### Install via Curl
 
 ```
-curl -Lo ./.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_prompt.zsh
+curl -Lo ~/.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_prompt.zsh
 ```
 
 ```
@@ -46,6 +62,8 @@ zp_prompt_pastel dodgerblue lightgreen
 
 EOF
 ```
+
+Open a new `zsh` shell.
 
 ## Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 
@@ -66,6 +84,8 @@ bindkey '^ ' autosuggest-accept  # also use Ctrl+Space to accept
 
 EOF
 ```
+
+Open a new `zsh` shell.
 
 ## Install [fzf](https://github.com/junegunn/fzf)
 
@@ -109,6 +129,8 @@ bindkey '^X^A' fasd-complete
 EOF
 ```
 
+Open a new `zsh` shell.
+
 ## Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
 
 Add syntax highglighting while typing
@@ -128,6 +150,12 @@ source ~/Git/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 EOF
 ```
 
+Open a new `zsh` shell.
+
+## Notes
+
+see [./notes.md](./notes.md)
+
 ## TODO
 
 - make blog post of zsh/fasd/fzf/zsh-autosuggestions
@@ -136,3 +164,4 @@ EOF
 - autocomplete: https://unix.stackexchange.com/a/214699/185953
 - mess with vim mode? http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
 - https://github.com/romkatv/powerlevel10k
+- Try https://github.com/denisidoro/navi ? Things I'd like a cheatsheet for: curl, az
