@@ -3,12 +3,19 @@
 
 # -- Aliases --
 
-# https://unix.stackexchange.com/a/531184/185953
+# Need two sets of quotes
+alias chrome='"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"'
+
 case "$OSTYPE" in
+    # https://geoff.greer.fm/lscolors/
     darwin*)
+        # -F : display symbols after things
+        # -G : colorize output
+        export LSCOLORS='gxfxcxdxbxeggdabagacad'
         alias ls='ls -GF'
     ;;
     linux*)
+        export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=36;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
         alias ls='ls -F --color=auto'
     ;;
 esac
@@ -32,6 +39,12 @@ alias npx="npx --no-install $@"
 if [[ ! -v EDITOR ]]; then
     export EDITOR=vim
 fi
+
+# groups | tr_space_to_newline
+alias tr_space_to_newline="tr ' ' '\n'"
+
+# interpret control codes with `less`
+export LESS="-R"
 
 # -- Functions --
 
@@ -69,6 +82,9 @@ git_commit_pull_push() {
 
 # jq last file in ./logs - useful for JSON logs
 jq_last_log() { jq "$1" $(find logs -print0 | xargs -0 ls -t -1 | head -n1) }
+
+# recursively search markdown files
+rgmd() { rg --type md --ignore-case "$@" }
 
 # -- Other stuff --
 
@@ -119,6 +135,9 @@ setopt RM_STAR_WAIT
 # https://dev.to/manan30/what-is-the-best-zshrc-config-you-have-seen-14id
 setopt auto_list # automatically list choices on ambiguous completion
 setopt auto_menu # automatically use menu completion
+
+# https://stackoverflow.com/a/11873793/2958070
+setopt INTERACTIVECOMMENTS
 
 # URL completion. Use URLs from history.
 # zstyle -e ':completion:*:*:urls' urls 'reply=( ${${(f)"$(egrep --only-matching \(ftp\|https\?\)://\[A-Za-z0-9\].\* $HISTFILE)"}%%[# ]*} )'

@@ -25,7 +25,8 @@ endif
 try
     if has('mac')
         " colorscheme gruvbox
-        colorscheme OceanicNext
+        " colorscheme OceanicNext
+        colorscheme miramare
     else
         colorscheme desert-warm-256
     endif
@@ -106,6 +107,8 @@ augroup custom_filetype
     " Use 2 spaces to indent in these
     autocmd filetype html,javascript,json,ruby,typescript,yaml setlocal shiftwidth=2 softtabstop=2
 
+    autocmd FileType json syntax match Comment +\/\/.\+$+  " syntax highlight json comments
+
     " formatprgs
     " Many times I want to format just a few comment lines - so I don't want
     " to overwrite formatprg for that. See :FormatFile for formatting the
@@ -119,6 +122,7 @@ augroup custom_filetype
 
 augroup END
 
+" NOTE: Coc can probably replace this
 function! FormatFile()
     if &filetype == 'go'
         if executable('gofmt')
@@ -246,9 +250,6 @@ nnoremap <C-n> <ESC><C-w><C-w>
 nnoremap <C-j> <ESC><C-w><C-j>
 nnoremap <C-k> <ESC><C-w><C-k>
 nnoremap <C-l> <ESC><C-w><C-l>
-" " This won't work on OSX withot more work
-" " See :Checkhealth on NeoVim
-" 2018-07-26 I guess it works now?
 nnoremap <C-h> <ESC><C-w><C-h>
 
 
@@ -267,6 +268,11 @@ endfunction
 command! ShowFuncName call ShowFuncName()
 
 command! -nargs=1 Help vert help <args>
+
+" Open :help in new tab
+" https://stackoverflow.com/a/3132202/2958070
+cnoreabbrev <expr> h getcmdtype() == ":" && getcmdline() == 'h' ? 'tab help' : 'h'
+cnoreabbrev <expr> help getcmdtype() == ":" && getcmdline() == 'help' ? 'tab help' : 'help'
 
 function! Open(open_me)
     let open_me = expand(a:open_me)
@@ -310,6 +316,8 @@ endif
 " https://stackoverflow.com/a/46348040/2958070
 " Execute current file
 " TODO: this should ChmodX too
+" TODO: this should execute ./run.sh or ../run.sh if they exist
+" function! Run()
 command! Run :!"%:p"
 
 " use zg to add word to word-list
@@ -413,13 +421,8 @@ command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
     \ | <line1>s:^:```\r:
 
-" https://unix.stackexchange.com/a/58748/185953
-" <line1>,<line2>VisualSelect
-command! -range VisualSelect normal! <line1>GV<line2>G
-
 " https://stackoverflow.com/a/26209681/2958070
 command! -bar HighlightNonAscii highlight nonascii guibg=Red ctermbg=1 term=standout | syntax match nonascii "[^\u0000-\u007F]"
-
 
 " Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
