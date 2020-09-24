@@ -417,6 +417,9 @@ command! -range=% -nargs=0 -bar AddCodeFence
 " <line1>,<line2>VisualSelect
 command! -range VisualSelect normal! <line1>GV<line2>G
 
+" https://stackoverflow.com/a/26209681/2958070
+command! -bar HighlightNonAscii highlight nonascii guibg=Red ctermbg=1 term=standout | syntax match nonascii "[^\u0000-\u007F]"
+
 
 " Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
