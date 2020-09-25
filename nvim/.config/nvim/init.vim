@@ -421,6 +421,9 @@ command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
     \ | <line1>s:^:```\r:
 
+" https://stackoverflow.com/a/26209681/2958070
+command! -bar HighlightNonAscii highlight nonascii guibg=Red ctermbg=1 term=standout | syntax match nonascii "[^\u0000-\u007F]"
+
 " Mostly for ordered lists in Markdown
 " https://stackoverflow.com/a/4224454/2958070
 command! -nargs=0 -range=% NumberLines <line1>,<line2>s/^\s*\zs/\=(line('.') - <line1>+1).'. '
