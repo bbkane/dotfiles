@@ -2,6 +2,7 @@
 	name = Benjamin Kane
 	email = bbk1524@gmail.com
 [credential "https://github.com"]
+	helper = store
 	username = bbkane
 [push]
 	default = simple
@@ -20,13 +21,12 @@
 [core]
 	excludesfile = ~/.config/gitignore_global
 
-# The following are for https://github.com/dandavison/delta
-[core]
-    # pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
-    pager = delta --plus-color="#012800" --minus-color="#340001" --theme='zenburn'
-    # pager = delta --theme='zenburn' --dark
+	# The following are for https://github.com/dandavison/delta
+	# pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
+	pager = delta --plus-color="#012800" --minus-color="#340001" --theme='zenburn'
+	# pager = delta --theme='zenburn' --dark
 [interactive]
-    diffFilter = delta --color-only
+	diffFilter = delta --color-only
 
 # This is primarily for setting user.email differently at work
 # and needs to go at the bottom so it overwrites above settings

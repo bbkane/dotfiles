@@ -84,7 +84,7 @@ git_commit_pull_push() {
 jq_last_log() { jq "$1" $(find logs -print0 | xargs -0 ls -t -1 | head -n1) }
 
 # recursively search markdown files
-rgmd() { rg --type md "$@" }
+rgmd() { rg --type md --ignore-case "$@" }
 
 # -- Other stuff --
 
