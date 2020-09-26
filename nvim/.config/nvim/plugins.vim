@@ -150,6 +150,9 @@ let g:airline#extensions#ale#enabled = 1
 " :lprev/next - go to prev/next error
 " :lopen - open error window
 " only lint on open/save
+let g:ale_linters = {
+            \ 'go': [ 'go vet' ],
+            \}
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 
@@ -163,8 +166,9 @@ let g:ale_sh_shellcheck_options = '-fgcc -x'
 let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E231,E501'
 
 let g:ale_fixers = {
-      \    'python': ['black'],
-      \}
+            \ 'go': ['gofmt'],
+            \ 'python': ['black'],
+            \}
 nmap <F10> :ALEFix<CR>
 let g:ale_fix_on_save = 1
 
