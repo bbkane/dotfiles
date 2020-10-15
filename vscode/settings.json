@@ -75,4 +75,5 @@
         }
     ],
     "workbench.editor.enablePreviewFromQuickOpen": false,
+    "go.formatTool": "goimports",
 }
