@@ -51,9 +51,18 @@ but the binary still works baby :)
 Using ~/.bashrc
 
 ```
+# put homebuilt zsh on path
 export PATH=$HOME/local/bin:$PATH
-export SHELL=`which zsh`
-[ -f "$SHELL" ] && exec "$SHELL" -l
+  
+# only exec zsh on interactive shells so non-interactive shells don't hang (waiting for zsh to exit) (this will kill `ssh bkane-ld1 cmd` or rsync or scp)
+# - https://stackoverflow.com/a/13864829/2958070
+# - https://www.gnu.org/software/bash/manual/html_node/Is-this-Shell-Interactive_003f.html
+if [ -z ${PS1+x} ]; then
+    true  # TODO: there has to be a better if condition than this
+else
+    export SHELL=`which zsh`
+    [ -f "$SHELL" ] && exec "$SHELL" -l
+fi
 ```
 
 ## zsh config
