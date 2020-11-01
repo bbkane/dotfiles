@@ -11,5 +11,6 @@
 - tree - file tree
 - rclone - rsync for cloud (OneDrive)
 - tfswitch - manage terraform
+- volta - manage NodeJS versions
 
 https://github.com/Homebrew/homebrew-cask-fonts and `brew cask install font-ia-writer-mono`
