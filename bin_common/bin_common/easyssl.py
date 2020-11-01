@@ -50,7 +50,10 @@ def parse_args(*args, **kwargs):
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    parser.add_argument("cert_or_host", help="filepath or host (www.example.com) to connect to. Appends :443 automatically. Also used for SNI (also see --servername)")
+    parser.add_argument(
+        "cert_or_host",
+        help="filepath or host (www.example.com) to connect to. Appends :443 automatically. Also used for SNI (also see --servername)",
+    )
     parser.add_argument(
         "query",
         choices=query.keys(),
@@ -65,7 +68,7 @@ def parse_args(*args, **kwargs):
         "--print",
         "-p",
         action="store_true",
-        help="print generated openssl command instead of running it",
+        help="print generated openssl command in addition to running it",
     )
     return parser.parse_args(*args, **kwargs)
 
@@ -74,9 +77,8 @@ def main():
     args = parse_args()
     cmd = get(args.cert_or_host, args.servername) + query[args.query]
     if args.print:
-        print(cmd)
-    else:
-        os.system(cmd)
+        print("$", cmd, end="\n\n")
+    os.system(cmd)
 
     # do real work
 
