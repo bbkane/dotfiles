@@ -46,6 +46,13 @@ alias tr_space_to_newline="tr ' ' '\n'"
 # interpret control codes with `less`
 export LESS="-R"
 
+# rclone settings
+
+# TODO: test these :)
+export RCLONE_VERBOSE='true'
+export RCLONE_LOG_LEVEL='INFO'
+export RCLONE_LOG_FILE="$HOME/tmp_rclone.log"
+
 # -- Functions --
 
 bak() {
