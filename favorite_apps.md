@@ -12,5 +12,6 @@
 - rclone - rsync for cloud (OneDrive)
 - tfswitch - manage terraform
 - volta - manage NodeJS versions
+- MeetingBar (GUI) - put meetings in Mac status bar and let you join them by clicking it :)
 
 https://github.com/Homebrew/homebrew-cask-fonts and `brew cask install font-ia-writer-mono`
