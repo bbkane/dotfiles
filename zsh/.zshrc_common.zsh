@@ -49,9 +49,10 @@ export LESS="-R"
 # rclone settings
 
 # TODO: test these :)
-export RCLONE_VERBOSE='true'
-export RCLONE_LOG_LEVEL='INFO'
 export RCLONE_LOG_FILE="$HOME/tmp_rclone.log"
+export RCLONE_LOG_LEVEL='INFO'
+export RCLONE_PROGRESS='true'
+export RCLONE_VERBOSE='true'
 
 # -- Functions --
 
