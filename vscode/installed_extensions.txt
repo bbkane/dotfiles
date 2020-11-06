@@ -1,0 +1,15 @@
+bierner.docs-view
+elmTooling.elm-ls-vscode
+golang.go
+hashicorp.terraform
+jebbs.plantuml
+kisstkondoros.vscode-gutter-preview
+mhutchie.git-graph
+ms-dotnettools.vscode-dotnet-runtime
+ms-python.python
+ms-python.vscode-pylance
+msazurermtools.azurerm-vscode-tools
+mushan.vscode-paste-image
+oderwat.indent-rainbow
+redhat.vscode-yaml
+taniarascia.new-moon-vscode
