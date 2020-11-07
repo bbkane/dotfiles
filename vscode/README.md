@@ -34,7 +34,8 @@ This is not needed if you used the `curl` method
 
 ```
 cd vscode/
-python3 install_vs_code_settings.py
+python3 ./symlink_settings.py
+./install_extensions.sh
 ```
 
 ## Install Microsoft Pylance plugin
