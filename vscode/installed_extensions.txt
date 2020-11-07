@@ -1,3 +1,5 @@
+Arjun.swagger-viewer
+RandomFractalsInc.vscode-data-preview
 bierner.docs-view
 elmTooling.elm-ls-vscode
 golang.go
