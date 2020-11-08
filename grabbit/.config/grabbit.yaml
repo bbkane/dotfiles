@@ -1,7 +1,7 @@
 version: 2.0.0
 # make lumberjacklogger nil to not log to file
 lumberjacklogger:
-  filename: ~/.config/grabbit.log
+  filename: ~/.config/grabbit.jsonl
   maxsize: 5  # megabytes
   maxbackups: 0
   maxage: 30  # days
