@@ -46,6 +46,8 @@ alias tr_space_to_newline="tr ' ' '\n'"
 # interpret control codes with `less`
 export LESS="-R"
 
+export MYPY_CACHE_DIR="$HOME/.mypy_cache"
+
 # rclone settings
 
 # TODO: test these :)
