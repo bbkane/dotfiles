@@ -161,10 +161,11 @@ let g:ale_sign_warning = '⚠'
 
 let g:ale_sh_shellcheck_options = '-fgcc -x'
 " Ignore some of these
+" - E203: whitespace before ':'
 " - E231: missing whitespace after ','
 " - E501: line too long
 " - W503: line break before binary operator
-let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E231,E501,W503'
+let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E203,E231,E501,W503'
 
 let g:ale_fixers = {
             \ 'go': ['gofmt'],
