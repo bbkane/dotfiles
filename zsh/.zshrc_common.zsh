@@ -188,3 +188,6 @@ function colored() {
 function man() {
 	colored man "$@"
 }
+
+# Open commands in MacOS Preview app
+pman() { man -t "$@" | open -f -a Preview; }
