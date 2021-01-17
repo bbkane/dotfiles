@@ -14,24 +14,34 @@ Examples:
 
 REPLY = """
 Hello {name},
-I'm very happy here at LinkedIn, and I'm going to stay a while. However, it sounds like you guys are doing exciting things. {sentence}I've saved your contact info if anything changes on my end. Best of luck finding good people!
+I'm very happy here at LinkedIn, and I'm going to stay a while. {exciting} {sentence} I've saved your contact info if anything changes on my end. Best of luck finding good people!
 Thanks,
 Ben
 """
 
+EXCITING = "However, it sounds like you guys are doing exciting things."
+
+
 def parse_args(*args, **kwargs):
     parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
     parser.add_argument(
-        'name'
+        "-n",
+        "--name",
+        default="",
     )
     parser.add_argument(
-        '-s',
-        '--sentence',
-        default='',
+        "-s",
+        "--sentence",
+        default="",
+    )
+
+    parser.add_argument(
+        "-b",
+        "--boring",
+        action="store_true",
     )
 
     return parser.parse_args(*args, **kwargs)
@@ -39,10 +49,20 @@ def parse_args(*args, **kwargs):
 
 def main():
     args = parse_args()
-    if args.sentence and not args.sentence.endswith(' '):
-        args.sentence = args.sentence + ' '
-    print(REPLY.format(name=args.name, sentence=args.sentence))
+
+    if args.name == "":
+        args.name = input("name: ")
+
+    if not args.boring:
+        exciting = EXCITING
+    else:
+        exciting = ""
+
+    if args.sentence and not args.sentence.endswith(" "):
+        args.sentence = args.sentence + " "
+    print(REPLY.format(exciting=exciting, name=args.name, sentence=args.sentence))
     # do real work
+
 
 if __name__ == "__main__":
     main()
