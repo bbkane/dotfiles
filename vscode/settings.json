@@ -79,5 +79,6 @@
     "sqltools.format": {
         "language": "sql",
         "linesBetweenQueries": "preserve",
-    }
+    },
+    "workbench.sideBar.location": "right"
 }
