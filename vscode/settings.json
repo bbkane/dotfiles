@@ -9,7 +9,7 @@
     // -- golang.go
     //
     "go.autocompleteUnimportedPackages": true,
-    "go.useLanguageServer": false, // route-server
+    "go.useLanguageServer": true,
     //
     // -- oderwat.indent-rainbow
     //
@@ -76,4 +76,9 @@
     ],
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "go.formatTool": "goimports",
+    "sqltools.format": {
+        "language": "sql",
+        "linesBetweenQueries": "preserve",
+    },
+    "workbench.sideBar.location": "right"
 }
