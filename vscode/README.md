@@ -38,10 +38,8 @@ python3 ./symlink_settings.py
 ./install_extensions.sh
 ```
 
-## Install Microsoft Pylance plugin
+## Install Python tools
 
 - Install linters: `brew install python3 black flake8 mypy`
-- From Terminal: `code --install-extension ms-python.python`
 - Restart Visual Studio Code
-- Install Python Tools the plugin uses (flake8, black)
 

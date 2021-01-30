@@ -49,12 +49,15 @@ export LESS="-R"
 export MYPY_CACHE_DIR="$HOME/.mypy_cache"
 
 # rclone settings
-
-# TODO: test these :)
-export RCLONE_LOG_FILE="$HOME/tmp_rclone.log"
-export RCLONE_LOG_LEVEL='INFO'
-export RCLONE_PROGRESS='true'
-export RCLONE_VERBOSE='true'
+# NOTE: these aren't tested :)
+# I'm leaving dry-run on because I want that explicitly
+# overridden. I think this will make the command silent, so I really hope I can figure out what's going on :)
+# Also see https://www.bbkane.com/2017/07/18/RSync-From-Android.html
+# export RCLONE_DRY_RUN=1
+# export RCLONE_LOG_FILE="$HOME/tmp_rclone.log"
+# export RCLONE_LOG_LEVEL='DEBUG'
+# export RCLONE_PROGRESS=1
+# export RCLONE_USE_JSON_LOG=1
 
 # -- Functions --
 

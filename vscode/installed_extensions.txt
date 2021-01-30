@@ -1,5 +1,4 @@
 Arjun.swagger-viewer
-RandomFractalsInc.vscode-data-preview
 bierner.docs-view
 elmTooling.elm-ls-vscode
 golang.go
@@ -10,7 +9,10 @@ mhutchie.git-graph
 ms-dotnettools.vscode-dotnet-runtime
 ms-python.python
 ms-python.vscode-pylance
+ms-toolsai.jupyter
 msazurermtools.azurerm-vscode-tools
+mtxr.sqltools
+mtxr.sqltools-driver-mysql
 mushan.vscode-paste-image
 oderwat.indent-rainbow
 redhat.vscode-yaml

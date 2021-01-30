@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import subprocess
 import sys
 
 __author__ = "Benjamin Kane"
@@ -44,6 +45,8 @@ def parse_args(*args, **kwargs):
         action="store_true",
     )
 
+    parser.add_argument("--skip-copy", action="store_true")
+
     return parser.parse_args(*args, **kwargs)
 
 
@@ -60,8 +63,12 @@ def main():
 
     if args.sentence and not args.sentence.endswith(" "):
         args.sentence = args.sentence + " "
-    print(REPLY.format(exciting=exciting, name=args.name, sentence=args.sentence))
-    # do real work
+
+    message = REPLY.format(exciting=exciting, name=args.name, sentence=args.sentence)
+    print(message)
+
+    if not args.skip_copy:
+        subprocess.run(args=["pbcopy"], input=message, encoding="utf-8", text=True)
 
 
 if __name__ == "__main__":
