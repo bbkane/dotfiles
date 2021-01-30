@@ -33,6 +33,9 @@ endif
 "   S' -> adds ' around selected object
 Plug 'tpope/vim-surround'
 
+" :Delete , :Rename
+Plug 'tpope/vim-eunuch'
+
 " Highlights and fixes trailing whitespace
 Plug 'bronson/vim-trailing-whitespace'
 
@@ -111,8 +114,9 @@ Plug 'airblade/vim-gitgutter'
 " - On second run, select open anyway?
 Plug 'chrisbra/Recover.vim'
 
+" I think eunuch.vim replaces this
 " :rename <name>
-Plug 'danro/rename.vim'
+" Plug 'danro/rename.vim'
 
 " Syntax highlighting plugins
 
