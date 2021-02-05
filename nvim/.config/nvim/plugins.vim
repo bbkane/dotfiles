@@ -130,6 +130,10 @@ Plug 'cespare/vim-toml'
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 
+" https://github.com/cuelang/cue/issues/722
+let g:cue_fmt_on_save = 0
+Plug 'jjo/vim-cue'
+
 Plug 'vito-c/jq.vim'
 
 Plug 'rust-lang/rust.vim'
@@ -194,7 +198,9 @@ let g:quickrun_config.python = {'command' : 'python3'}
 " bad for long running code (will freeze vim)
 command! AutoQuickRun  autocmd BufWritePost * QuickRun
 
-" Add's a lot of syntax stuff
+" Adds a lot of syntax stuff
+" Interferes with vim-cue for .cue files
+let g:polyglot_disabled = ['cue']
 Plug 'sheerun/vim-polyglot'
 
 " NOTE: Coc replaces this. Keeping commented out for now
