@@ -37,7 +37,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-eunuch'
 
 " Highlights and fixes trailing whitespace
-Plug 'bronson/vim-trailing-whitespace'
+" Turns out ale does this... I've got ale fixing on every save, so I'll leave
+" this here commented out in case I need a standalone command
+" Plug 'bronson/vim-trailing-whitespace'
 
 " By default, gx ignores querystrings in my links...
 Plug 'tyru/open-browser.vim'
@@ -174,12 +176,15 @@ let g:ale_sh_shellcheck_options = '-fgcc -x'
 " - E501: line too long
 " - W503: line break before binary operator
 let g:ale_python_flake8_options = '--max-line-length 120 --ignore=E203,E231,E501,W503'
+let g:ale_python_black_options = '--line-length 120'
 
 let g:ale_fixers = {
+            \ '*': ['remove_trailing_lines'],
             \ 'go': ['gofmt'],
             \ 'python': ['black'],
             \}
 nmap <F10> :ALEFix<CR>
+" This autoformats!!
 let g:ale_fix_on_save = 1
 
 " TODO: build airline statusbar out of this (actually show the warning in the
