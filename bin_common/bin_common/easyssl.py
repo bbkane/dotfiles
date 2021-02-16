@@ -14,7 +14,7 @@ Thank you @shadyabhi for the openssl help!
 
 Examples:
     {sys.argv[0]} ./cert.txt dates
-    {sys.argv[0]} example.com -u 127.0.0.1 md5
+    {sys.argv[0]} --servername example.com 127.0.0.1 md5
 Help:
     Please see Benjamin Kane for help.
 Code at https://github.com/bbkane/dotfiles
@@ -46,9 +46,7 @@ query = {
 
 
 def parse_args(*args, **kwargs):
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument(
         "cert_or_host",
