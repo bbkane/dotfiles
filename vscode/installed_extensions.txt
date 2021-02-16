@@ -16,4 +16,6 @@ mtxr.sqltools-driver-mysql
 mushan.vscode-paste-image
 oderwat.indent-rainbow
 redhat.vscode-yaml
+tamasfe.even-better-toml
 taniarascia.new-moon-vscode
+usernamehw.errorlens
