@@ -13,23 +13,27 @@ subreddits:
   - name: architectureporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 6
+    limit: 5
   - name: bookporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 2
+    limit: 1
   - name: churchporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 6
+    limit: 4
   - name: cityporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 6
+    limit: 4
+  - name: conceptart
+    destination: ~/Pictures/grabbit
+    timeframe: "week"
+    limit: 2
   - name: earthporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 10
+    limit: 8
   - name: futureporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
@@ -37,15 +41,15 @@ subreddits:
   - name: imaginarycastles
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 6
+    limit: 5
   - name: imaginaryinteriors
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 6
+    limit: 4
   - name: villageporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 5
+    limit: 4
   - name: roomporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
@@ -53,4 +57,4 @@ subreddits:
   - name: wallpapers
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 4
+    limit: 3
