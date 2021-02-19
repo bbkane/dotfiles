@@ -1,11 +1,3 @@
-[user]
-	name = Benjamin Kane
-	email = bbk1524@gmail.com
-[credential "https://github.com"]
-	helper = store
-	username = bbkane
-[push]
-	default = simple
 [alias]
 	# using a function mostly so I can use `git lg` or `git lg --oneline`
 	lg = "!git log --graph --all --decorate --date=relative \"$@\""
@@ -25,8 +17,18 @@
 	# pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
 	pager = delta --plus-color="#012800" --minus-color="#340001" --theme='zenburn'
 	# pager = delta --theme='zenburn' --dark
+[credential "https://github.com"]
+	helper = store
+	username = bbkane
+[init]
+	defaultBranch = master
 [interactive]
 	diffFilter = delta --color-only
+[push]
+	default = simple
+[user]
+	name = Benjamin Kane
+	email = bbk1524@gmail.com
 
 # This is primarily for setting user.email differently at work
 # and needs to go at the bottom so it overwrites above settings
