@@ -102,6 +102,10 @@ rgmd() { rg --type md --ignore-case "$@" }
 # -- Other stuff --
 
 # https://unix.stackexchange.com/a/34251/185953
+# NOTE: this checks $VISUAL, then $EDITOR to find an editor
+# I'm setting $VISUAL to /usr/bin/vim so it loads faster than NeoVim with all
+# its plugins I don't use in this context
+export VISUAL=/usr/bin/vim
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
