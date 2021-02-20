@@ -24,6 +24,8 @@
 	defaultBranch = master
 [interactive]
 	diffFilter = delta --color-only
+[pull]
+	rebase = false
 [push]
 	default = simple
 [user]
