@@ -115,12 +115,11 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/Git-personal/fzf
 https://github.com/clvv/fasd#install
 
 ```
-cd ~/Downloads
-scp bbkane-mac01:/Users/bkane/Downloads/clvv-fasd-1.0.1-0-g4822024.tar.gz .
-tar xvf clvv-fasd-1.0.1-0-g4822024.tar.gz
-cd ~/bin
-mv ~/Downloads/clvv-fasd-4822024 .
-ln -s ~/bin/clvv-fasd-4822024/fasd ~/bin/fasd
+cd Downloads
+curl -L -O https://github.com/clvv/fasd/tarball/1.0.1
+tar xvf 1.0.1
+cd clvv-fasd-4822024
+PREFIX=$HOME/local make install
 ```
 
 ## fast-syntax-highlighting
