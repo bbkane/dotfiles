@@ -77,13 +77,13 @@ Need to install pastel
 
 https://github.com/sharkdp/pastel/releases/download/v0.7.1/pastel-v0.7.1-x86_64-unknown-linux-musl.tar.gz
 
+Newer way (-L follows redirects):
+
 ```
 cd Downloads
-scp bbkane-mac01:/Users/bkane/Downloads/pastel-v0.7.1-x86_64-unknown-linux-musl.tar.gz .
-tar xvf pastel-v0.7.1-x86_64-unknown-linux-musl.tar.gz
-cd bin
-mv ~/Downloads/pastel-v0.7.1-x86_64-unknown-linux-musl .
-ln -s ~/bin/pastel-v0.7.1-x86_64-unknown-linux-musl/pastel ~/bin/pastel
+curl  -L -O https://github.com/sharkdp/pastel/releases/download/v0.8.0/pastel-v0.8.0-x86_64-unknown-linux-musl.tar.gz
+tar xvf pastel-v0.8.0-x86_64-unknown-linux-musl.tar.gz
+cp ~/Downloads/pastel-v0.8.0-x86_64-unknown-linux-musl/pastel ~/bin/
 ```
 
 ## autosuggestions
