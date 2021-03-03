@@ -2,7 +2,7 @@ I wanted this setup on Linux and here is how I got it. These are notes, not a tu
 
 # zsh
 
-zsh is really old. This method lets me build a new one so I can use the same config between linux and macos
+zsh is really old (zsh 5.0.2). This method lets me build a new one so I can use the same config between linux and macos
 
 Ooh I like https://jdhao.github.io/2018/10/13/centos_zsh_install_use/
 
