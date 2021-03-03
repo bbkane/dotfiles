@@ -22,6 +22,8 @@ that went off without a hitch
 
 Cloning https://github.com/zsh-users/zsh/blob/master/INSTALL
 
+TODO: instead of using the dev version like I just did, probably use the zsh-5.8 release tag
+
 ```
 ./Util/preconfig
 ./configure --prefix="$HOME/local" \
