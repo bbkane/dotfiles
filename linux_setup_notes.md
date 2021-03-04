@@ -181,3 +181,15 @@ cd ~/bin
 mv ~/Downloads/ripgrep-12.0.0-x86_64-unknown-linux-musl .
 ln -s ~/bin/ripgrep-12.0.0-x86_64-unknown-linux-musl/rg ~/bin/rg
 ```
+
+# git-delta
+
+https://github.com/dandavison/delta#installation
+
+```
+cd ~/Downloads
+curl -L -O https://github.com/dandavison/delta/releases/download/0.6.0/delta-0.6.0-x86_64-unknown-linux-musl.tar.gz
+tar xvf delta-0.6.0-x86_64-unknown-linux-musl.tar.gz
+cp delta-0.6.0-x86_64-unknown-linux-musl/delta ~/bin/
+```
+

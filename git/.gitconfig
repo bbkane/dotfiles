@@ -14,8 +14,9 @@
 	excludesfile = ~/.config/gitignore_global
 
 	# The following are for https://github.com/dandavison/delta
+    # I'm not getting a good green color when ssh'd into Azure VM... disabling for now...
 	# pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
-	pager = delta --plus-color="#012800" --minus-color="#340001" --theme='zenburn'
+    # pager = delta --plus-color="#012800" --minus-color="#340001" --theme='zenburn'
 	# pager = delta --theme='zenburn' --dark
 [credential "https://github.com"]
 	helper = store
