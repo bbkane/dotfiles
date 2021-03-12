@@ -26,7 +26,7 @@ git status
 
 print_green "Current tags:"
 
-git tag
+git --no-pager tag
 
 print_green "Create new tag and push!"
 

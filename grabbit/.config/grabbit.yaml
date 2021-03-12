@@ -57,4 +57,4 @@ subreddits:
   - name: wallpapers
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 3
+    limit: 2
