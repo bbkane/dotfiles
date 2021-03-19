@@ -5,6 +5,7 @@ golang.go
 hashicorp.terraform
 jebbs.plantuml
 kisstkondoros.vscode-gutter-preview
+matklad.rust-analyzer
 mhutchie.git-graph
 ms-dotnettools.vscode-dotnet-runtime
 ms-python.python

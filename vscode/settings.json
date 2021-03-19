@@ -65,7 +65,6 @@
     "editor.wordWrap": "on",
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
-    "window.zoomLevel": 1,
     // taniarascia.new-moon-vscode
     "workbench.colorTheme": "Kimbie Dark",
     "workbench.editorAssociations": [
@@ -80,5 +79,6 @@
         "language": "sql",
         "linesBetweenQueries": "preserve",
     },
-    "workbench.sideBar.location": "right"
+    "workbench.sideBar.location": "right",
+    "window.zoomLevel": 1
 }
