@@ -26,7 +26,19 @@ git status
 
 print_green "Current tags:"
 
-git --no-pager tag
+# Some notes on this:
+# - I want the last 10 tags ordered by version
+# - can't use `git tag` because it doesn't have a --count option
+# - If I use --count directly on git for-each-ref, I get the first 10 tags and there's no --reverse option
+# - So reverse sort by version, ensure color=always, and pipe to perl for a cross platform reverse
+# format strings at https://git-scm.com/docs/git-for-each-ref#_field_names
+git for-each-ref refs/tags \
+    --count=10 \
+    --sort=-version:refname \
+    --color=always \
+    --format='%(align:width=10,position=right)%(color:blue)%(refname:short)%(end) %(color:cyan)%(*authordate:short) %(color:yellow)%(subject)' \
+| perl \
+    -e 'print reverse <>' 
 
 print_green "Create new tag and push!"
 
