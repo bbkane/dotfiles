@@ -5,7 +5,7 @@
 # this is set to True, then the end of the statements must have a semi-colon.
 # If this is set to False then sql statements can't be split into multiple
 # lines. End of line (return) is considered as the end of the statement.
-multi_line = False
+multi_line = True
 
 # Destructive warning mode will alert you before executing a sql statement
 # that may cause harm to the database such as "drop table", "drop database"
@@ -28,21 +28,27 @@ log_level = INFO
 
 # Default pager.
 # By default '$PAGER' environment variable is used
-# pager = less -SRXF
+# less options from https://litecli.com/output/
+# -X leaves file contents on the screen when less exits.
+# -F makes less quit if the entire output can be displayed on one screen.
+# -R displays ANSI color escape sequences in “raw” form.
+# -S disables line wrapping. Side-scroll to see long lines.
+# NOTE: for some reason this isn't working, but $PAGER does
+pager = less -SRXF
 
 # Table format. Possible values:
 # ascii, double, github, psql, plain, simple, grid, fancy_grid, pipe, orgtbl,
 # rst, mediawiki, html, latex, latex_booktabs, textile, moinmoin, jira,
 # vertical, tsv, csv.
 # Recommended: ascii
-table_format = ascii
+table_format = plain
 
 # Syntax coloring style. Possible values (many support the "-dark" suffix):
 # manni, igor, xcode, vim, autumn, vs, rrt, native, perldoc, borland, tango, emacs,
 # friendly, monokai, paraiso, colorful, murphy, bw, pastie, paraiso, trac, default,
 # fruity.
 # Screenshots at http://mycli.net/syntax
-syntax_style = default
+syntax_style = rtt
 
 # Keybindings: Possible values: emacs, vi.
 # Emacs mode: Ctrl-A is home, Ctrl-E is end. All emacs keybindings are available in the REPL.
@@ -75,7 +81,7 @@ login_path_as_host = False
 auto_vertical_output = False
 
 # keyword casing preference. Possible values "lower", "upper", "auto"
-keyword_casing = auto
+keyword_casing = upper
 
 # disabled pager on startup
 enable_pager = True
@@ -105,8 +111,8 @@ bottom-toolbar.transaction.failed = 'bg:#222222 #ff005f bold'
 
 # style classes for colored table output
 output.header = "#00ff5f bold"
-output.odd-row = ""
-output.even-row = ""
+output.odd-row = "#eedc83"
+output.even-row = "#add8e6"
 
 
 # Favorite queries.
