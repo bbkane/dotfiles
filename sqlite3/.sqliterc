@@ -2,7 +2,10 @@
 .header on
 
 -- see cleaner results
-.mode column
+-- .mode markdown -- markdown tables
+-- .mode column -- older version of sqlite
+.mode box -- prettiest version :)
+
 
 -- see execution time
 .timer off
@@ -10,5 +13,5 @@
 -- print command along with result (off by default, here for reference)
 .echo off
 
--- enforce foreign keys
-PRAGMA foreign_keys = ON;
+-- exit on first error
+.bail on
