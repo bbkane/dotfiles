@@ -198,3 +198,11 @@ function man() {
 
 # Open commands in MacOS Preview app
 pman() { man -t "$@" | open -f -a Preview; }
+
+# less options from https://litecli.com/output/
+# -X leaves file contents on the screen when less exits.
+# -F makes less quit if the entire output can be displayed on one screen.
+# -R displays ANSI color escape sequences in “raw” form.
+# -S disables line wrapping. Side-scroll to see long lines.
+# NOTE: for some reason this isn't working, but $PAGER does
+export PAGER="less -SRXF"
