@@ -21,6 +21,13 @@
 [credential "https://github.com"]
 	helper = store
 	username = bbkane
+# Not sure why git lfs got installed but whatever... 
+# https://mydeveloperplanet.com/2018/10/31/git-lfs-why-and-how-to-use/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [init]
 	defaultBranch = master
 [interactive]
