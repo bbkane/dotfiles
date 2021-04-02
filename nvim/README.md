@@ -46,8 +46,10 @@ ln -s ~/.config/nvim/ ~/.vim
 Alternative installation options for Python deps: nvim venv , pipx. nvim venv doesn't expose tools to anything else. pipx (ironically) doesn't have a clean installation method (`python3 -m pip install --user pipx` installs other dependencies (could use homebrew to install it, but...)). Homebrew only works on mac and doesn't have formulas for everything (and some it does have are out of date)
 
 ```
-brew install black flake8 mypy shellcheck
+brew install black flake8 mypy shellcheck shfmt
 ```
+
+TODO: I think `mypy` is replaced by Pyright - I also think but have not tested that `gofmt` is installed by `brew install go`
 
 Links:
 
