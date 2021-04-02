@@ -180,6 +180,7 @@ let g:ale_python_black_options = '--line-length 120'
 
 let g:ale_fixers = {
             \ '*': ['remove_trailing_lines'],
+            \ 'sh': ['shfmt'],
             \ 'go': ['gofmt'],
             \ 'python': ['black'],
             \}
