@@ -91,9 +91,7 @@ class PlotlyTrace:
 
 
 def parse_args(*args, **kwargs):
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     # -- flags
     parser.add_argument(
@@ -105,9 +103,7 @@ def parse_args(*args, **kwargs):
 
     fieldnames_group = parser.add_mutually_exclusive_group()
     fieldnames_group.add_argument("--fieldnames", help="column delimited fieldnames")
-    fieldnames_group.add_argument(
-        "--firstline", action="store_true", help="get fieldnames from first line of csv"
-    )
+    fieldnames_group.add_argument("--firstline", action="store_true", help="get fieldnames from first line of csv")
 
     parser.add_argument(
         "--output",
@@ -136,9 +132,7 @@ def parse_args(*args, **kwargs):
     return parser.parse_args(*args, **kwargs)
 
 
-def csv_to_columns_with_fieldnames(
-    inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]
-):
+def csv_to_columns_with_fieldnames(inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]):
     """Create columns when you already know the fieldnames"""
     csvreader = csv.reader(inputfile, delimiter=delimiter)
     first_line = next(csvreader)  # TODO: what if this is empty? Do I care?
@@ -184,7 +178,7 @@ def _csv_to_columns(
     return ret
 
 
-def gen_timechart_json(columns: ty.Dict[str, ty.List]):
+def gen_timechart_json(columns: ty.Dict[str, ty.List]) -> ty.List[ty.Dict]:
     # first column is datetime for xs (leave as string for now)
     # TODO: the second version is optionally a grouping string
     # rest of the columns should be numeric for ys
@@ -194,10 +188,9 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List]):
     xs = columns[column_names[0]]
     for name in column_names[1:]:
         trace = PlotlyTrace(
-            # mode="lines+markers", name=name, type="scatter", x=xs, y=columns[name],
-            mode="",
+            mode="lines+markers",
             name=name,
-            type="bar",
+            type="scatter",
             x=xs,
             y=columns[name],
         )
@@ -209,18 +202,12 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List]):
 def main():
     args = parse_args()
 
-    # This breaks if it's in a function :(
-
     with args.input_table:
         if args.fieldnames:
             fieldnames = [f.strip() for f in args.fieldnames.split(",")]
-            columns = csv_to_columns_with_fieldnames(
-                args.input_table, args.fieldsep, fieldnames
-            )
+            columns = csv_to_columns_with_fieldnames(args.input_table, args.fieldsep, fieldnames)
         elif args.firstline:
-            columns = csv_to_columns_first_line_as_fieldnames(
-                args.input_table, args.fieldsep
-            )
+            columns = csv_to_columns_first_line_as_fieldnames(args.input_table, args.fieldsep)
         else:
             columns = csv_to_columns_gen_fieldnames(args.input_table, args.fieldsep)
 
@@ -238,13 +225,11 @@ def main():
 
         # When this does work?
         # plotly_layout = json.dumps(
-        #     {"title": "Lines changed", "yaxis": {"range": [-300, 300],},}
+        #     {"title": "Lines changed", "xaxis_title": "x", "yaxis_title": "y", "legend_title": "legend"}
         # )
 
-        plotly_layout = '{}'
-        html_args = dict(
-            output=args.output, plotly_json=plotly_json, plotly_layout=plotly_layout
-        )
+        # plotly_layout = "{}"
+        html_args = dict(output=args.output, plotly_json=plotly_json, plotly_layout=plotly_layout)
 
     if not args.output:
         with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".html") as fp:
