@@ -4,7 +4,6 @@
 import argparse
 import collections
 import csv
-import dataclasses
 import datetime
 import json
 import pathlib
@@ -63,31 +62,22 @@ html = """
 """
 
 
-# https://docs.python.org/3/library/dataclasses.html#module-dataclasses
-# https://www.youtube.com/watch?v=T-TwcmT6Rcw
-# https://stackoverflow.com/questions/49908399/replace-attributes-in-data-class-objects
-
-
-@dataclasses.dataclass
-class PlotlyAxis:
-    title: ty.Optional[str] = None
-    range: ty.Optional[ty.List[int]] = None
-
-
-@dataclasses.dataclass
-class PlotlyLayout:
-    title: str
-    xaxis: ty.Optional[PlotlyAxis] = None
-    yaxis: ty.Optional[PlotlyAxis] = None
-
-
-@dataclasses.dataclass
-class PlotlyTrace:
+class PlotlyTrace(ty.TypedDict):
     mode: str
     name: str
     type: str
     x: ty.Iterable[ty.Any]
     y: ty.Iterable[ty.Any]
+
+
+class PlotlyAxis(ty.TypedDict, total=False):
+    title: ty.Optional[str]
+
+
+class PlotlyLayout(ty.TypedDict, total=False):
+    title: ty.Optional[str]
+    xaxis: ty.Optional[PlotlyAxis]
+    yaxis: ty.Optional[PlotlyAxis]
 
 
 def parse_args(*args, **kwargs):
@@ -98,17 +88,43 @@ def parse_args(*args, **kwargs):
         "--fieldsep",
         "-f",
         default="\t",
-        help="Field separator for input table. SPACE by default",
+        help="Field separator for input table. TAB by default",
     )
-
-    fieldnames_group = parser.add_mutually_exclusive_group()
-    fieldnames_group.add_argument("--fieldnames", help="column delimited fieldnames")
-    fieldnames_group.add_argument("--firstline", action="store_true", help="get fieldnames from first line of csv")
 
     parser.add_argument(
         "--output",
         "-o",
-        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. Otherwise, the arg will be written. Also used for chart title",
+        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. Otherwise, the arg will be written. Also used for chart title if --title not passed",
+    )
+
+    parser.add_argument(
+        "--title",
+        "-t",
+        help="Chart title",
+    )
+
+    parser.add_argument(
+        "--xaxis_title",
+        "-x",
+        help="X-Axis Title",
+    )
+
+    parser.add_argument(
+        "--yaxis_title",
+        "-y",
+        help="Y-Axis Title",
+    )
+
+    # csv flags
+    fieldnames_group = parser.add_mutually_exclusive_group()
+    fieldnames_group.add_argument(
+        "--fieldnames",
+        help="comma delimited fieldnames",
+    )
+    fieldnames_group.add_argument(
+        "--firstline",
+        action="store_true",
+        help="get fieldnames from first line of csv",
     )
 
     # -- args
@@ -126,7 +142,7 @@ def parse_args(*args, **kwargs):
     subcommands = parser.add_subparsers(dest="subcommand_name", required=True)
     subcommands.add_parser(
         "timechart",
-        help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes.',
+        help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes. NOTE: grouping is not yet implemented',
     )
 
     return parser.parse_args(*args, **kwargs)
@@ -161,10 +177,10 @@ def _csv_to_columns(
     delimiter: str,
     fieldnames: ty.List[str],
     first_line: ty.List[str],
-):
+) -> ty.DefaultDict[str, ty.List[str]]:
     # add the first line
-    # NOTE: we can rely on insertion order, so iterating over keys later will
-    # work as expected
+    # NOTE: we can rely on insertion order, so iterating over keys later
+    # will work as expected
     ret = collections.defaultdict(list)
     for k, v in zip(fieldnames, first_line):
         ret[k].append(v)
@@ -178,7 +194,7 @@ def _csv_to_columns(
     return ret
 
 
-def gen_timechart_json(columns: ty.Dict[str, ty.List]) -> ty.List[ty.Dict]:
+def gen_timechart_json(columns: ty.Dict[str, ty.List]) -> ty.List[PlotlyTrace]:
     # first column is datetime for xs (leave as string for now)
     # TODO: the second version is optionally a grouping string
     # rest of the columns should be numeric for ys
@@ -194,7 +210,7 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List]) -> ty.List[ty.Dict]:
             x=xs,
             y=columns[name],
         )
-        traces.append(dataclasses.asdict(trace))
+        traces.append(trace)
 
     return traces
 
@@ -208,27 +224,32 @@ def main():
             columns = csv_to_columns_with_fieldnames(args.input_table, args.fieldsep, fieldnames)
         elif args.firstline:
             columns = csv_to_columns_first_line_as_fieldnames(args.input_table, args.fieldsep)
-        else:
+        else:  # default: generate some fieldnames...
             columns = csv_to_columns_gen_fieldnames(args.input_table, args.fieldsep)
 
     if args.subcommand_name == "timechart":
-        # plotly_json = PlotlyTrace(mode="lines", type="scatter", x=[1, 2], y=[1, 2])
-        # plotly_json = [dataclasses.asdict(plotly_json)]
+
+        # plotly_json = json.dumps(
+        #     [
+        #         PlotlyTrace(mode="lines", name="name", type="scatter", x=[1, 2], y=[1, 2]),
+        #     ]
+        # )
+
+        # plotly_layout = json.dumps(
+        #     PlotlyLayout(title="My Title", xaxis=PlotlyAxis(title="My X"), yaxis=PlotlyAxis(title="My Y"))
+        # )
+
         plotly_json = json.dumps(gen_timechart_json(columns))
 
-        # TODO: why doesn't this work?
-        # plotly_layout = json.dumps(
-        #     dataclasses.asdict(
-        #         PlotlyLayout(title=args.output, yaxis=PlotlyAxis(range=[-10, 10]))
-        #     )
-        # )
+        plotly_layout = PlotlyLayout()
+        if args.title:
+            plotly_layout["title"] = args.title
+        if args.xaxis_title:
+            plotly_layout["xaxis"] = PlotlyAxis(title=args.xaxis_title)
+        if args.yaxis_title:
+            plotly_layout["yaxis"] = PlotlyAxis(title=args.yaxis_title)
+        plotly_layout = json.dumps(plotly_layout)
 
-        # When this does work?
-        # plotly_layout = json.dumps(
-        #     {"title": "Lines changed", "xaxis_title": "x", "yaxis_title": "y", "legend_title": "legend"}
-        # )
-
-        # plotly_layout = "{}"
         html_args = dict(output=args.output, plotly_json=plotly_json, plotly_layout=plotly_layout)
 
     if not args.output:
