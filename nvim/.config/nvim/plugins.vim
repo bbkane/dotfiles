@@ -198,6 +198,7 @@ let g:ale_fix_on_save = 1
 " but it doesn't run code in a buffer
 " Command: QuickRun
 Plug 'thinca/vim-quickrun'
+let g:quickrun_no_default_key_mappings = 1
 let g:quickrun_config = {}
 let g:quickrun_config.python = {'command' : 'python3'}
 

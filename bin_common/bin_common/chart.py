@@ -52,7 +52,7 @@ html = """
     <script>
     Plotly.plot(
         "myplot",
-        JSON.parse('{plotly_json}'),
+        JSON.parse('{plotly_data}'),
         JSON.parse('{plotly_layout}'),
         {{editable: false}}
     );
@@ -94,7 +94,7 @@ def parse_args(*args, **kwargs):
     parser.add_argument(
         "--output",
         "-o",
-        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. Otherwise, the arg will be written. Also used for chart title if --title not passed",
+        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. If passed with arg <name>.plotly.json, JSON will be saved to the file. Otherwise, the arg will be written. Also used for chart title if --title not passed",
     )
 
     parser.add_argument(
@@ -227,44 +227,49 @@ def main():
         else:  # default: generate some fieldnames...
             columns = csv_to_columns_gen_fieldnames(args.input_table, args.fieldsep)
 
+    plotly_layout = PlotlyLayout()
+    if args.title:
+        plotly_layout["title"] = args.title
+    if args.xaxis_title:
+        plotly_layout["xaxis"] = PlotlyAxis(title=args.xaxis_title)
+    if args.yaxis_title:
+        plotly_layout["yaxis"] = PlotlyAxis(title=args.yaxis_title)
+
+    plotly_data = dict()
     if args.subcommand_name == "timechart":
+        plotly_data = gen_timechart_json(columns)
 
-        # plotly_json = json.dumps(
-        #     [
-        #         PlotlyTrace(mode="lines", name="name", type="scatter", x=[1, 2], y=[1, 2]),
-        #     ]
-        # )
-
-        # plotly_layout = json.dumps(
-        #     PlotlyLayout(title="My Title", xaxis=PlotlyAxis(title="My X"), yaxis=PlotlyAxis(title="My Y"))
-        # )
-
-        plotly_json = json.dumps(gen_timechart_json(columns))
-
-        plotly_layout = PlotlyLayout()
-        if args.title:
-            plotly_layout["title"] = args.title
-        if args.xaxis_title:
-            plotly_layout["xaxis"] = PlotlyAxis(title=args.xaxis_title)
-        if args.yaxis_title:
-            plotly_layout["yaxis"] = PlotlyAxis(title=args.yaxis_title)
-        plotly_layout = json.dumps(plotly_layout)
-
-        html_args = dict(output=args.output, plotly_json=plotly_json, plotly_layout=plotly_layout)
+    formatted_html = html.format(
+        output=args.output,
+        plotly_data=json.dumps(plotly_data),
+        plotly_layout=json.dumps(plotly_layout),
+    )
 
     if not args.output:
-        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".html") as fp:
-            print(html.format(**html_args), file=fp)
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            delete=False,
+            suffix=".html",
+        ) as fp:
+            print(formatted_html, file=fp)
             url = pathlib.Path(fp.name).as_uri()
         webbrowser.open_new_tab(url)
     elif args.output == "DATEME":
         right_now = datetime.datetime.now().strftime("%Y-%m-%d.%H.%M.%S")
         default_name = ".".join(["chart", right_now, "html"])
         with open(default_name, "w") as fp:
-            print(html.format(**html_args), file=fp)
+            print(formatted_html, file=fp)
+    elif args.output.endswith(".plotly.json"):
+        with open(args.output, "w") as fp:
+            json.dump(
+                {"data": plotly_data, "layout": plotly_layout},
+                fp,
+                indent=2,
+                sort_keys=True,
+            )
     else:
         with open(args.output, "w") as fp:
-            print(html.format(**html_args), file=fp)
+            print(formatted_html, file=fp)
 
 
 if __name__ == "__main__":
