@@ -1,5 +1,6 @@
 Arjun.swagger-viewer
 bierner.docs-view
+dunstontc.viml
 elmTooling.elm-ls-vscode
 golang.go
 hashicorp.terraform
