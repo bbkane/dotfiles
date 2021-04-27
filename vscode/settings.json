@@ -71,6 +71,10 @@
         {
             "viewType": "ms-python.python.notebook.ipynb",
             "filenamePattern": "*.ipynb"
+        },
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
         }
     ],
     "workbench.editor.enablePreviewFromQuickOpen": false,
