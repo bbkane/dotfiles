@@ -67,16 +67,9 @@
     "files.trimTrailingWhitespace": true,
     // taniarascia.new-moon-vscode
     "workbench.colorTheme": "Kimbie Dark",
-    "workbench.editorAssociations": [
-        {
-            "viewType": "ms-python.python.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        },
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "go.formatTool": "goimports",
     "sqltools.format": {
