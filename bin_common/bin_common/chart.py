@@ -94,7 +94,7 @@ def parse_args(*args, **kwargs):
     parser.add_argument(
         "--output",
         "-o",
-        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. If passed with arg <name>.plotly.json, JSON will be saved to the file. Otherwise, the arg will be written. Also used for chart title if --title not passed",
+        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. If passed with arg <name>.json, JSON will be saved to the file. Otherwise, the arg will be written. Also used for chart title if --title not passed",
     )
 
     parser.add_argument(
@@ -259,7 +259,7 @@ def main():
         default_name = ".".join(["chart", right_now, "html"])
         with open(default_name, "w") as fp:
             print(formatted_html, file=fp)
-    elif args.output.endswith(".plotly.json"):
+    elif args.output.endswith(".json"):
         with open(args.output, "w") as fp:
             json.dump(
                 {"data": plotly_data, "layout": plotly_layout},
