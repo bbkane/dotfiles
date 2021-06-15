@@ -1,4 +1,9 @@
 {
+  "gopls": {
+    "analyses": {
+      "simplifycompositelit": false
+    }
+  },  
   "python.analysis.autoImportCompletions": true,
   "python.pythonPath": "python",
   "python.venvPath": "venv"

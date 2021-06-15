@@ -87,7 +87,7 @@
     "go.formatTool": "goimports",
     "sqltools.format": {
         "language": "sql",
-        "linesBetweenQueries": "preserve",
+        "linesBetweenQueries": "preserve"
     },
     "workbench.sideBar.location": "right",
     "window.zoomLevel": 1
