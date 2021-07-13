@@ -90,6 +90,6 @@
         "linesBetweenQueries": "preserve"
     },
     "workbench.sideBar.location": "right",
-    "window.zoomLevel": 1,
-    "terminal.integrated.shell.osx": "/bin/zsh"
+    "terminal.integrated.shell.osx": "/bin/zsh",
+    "redhat.telemetry.enabled": true
 }
