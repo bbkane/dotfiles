@@ -40,7 +40,8 @@ Plug 'tpope/vim-eunuch'
 " Highlights and fixes trailing whitespace
 " Turns out ale does this... I've got ale fixing on every save, so I'll leave
 " this here commented out in case I need a standalone command
-" Plug 'bronson/vim-trailing-whitespace'
+" Turns out some characters in markdown files aren't auto-fixed by ale
+Plug 'bronson/vim-trailing-whitespace'
 
 " By default, gx ignores querystrings in my links...
 Plug 'tyru/open-browser.vim'
