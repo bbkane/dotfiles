@@ -206,3 +206,6 @@ pman() { man -t "$@" | open -f -a Preview; }
 # -S disables line wrapping. Side-scroll to see long lines.
 # NOTE: for some reason this isn't working, but $PAGER does
 export PAGER="less -SRXF"
+
+# https://unix.stackexchange.com/a/632196/185953
+tree-git-seen() { rg --files "$@" | tree --fromfile }
