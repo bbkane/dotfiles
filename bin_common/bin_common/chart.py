@@ -80,8 +80,51 @@ class PlotlyLayout(ty.TypedDict, total=False):
     yaxis: ty.Optional[PlotlyAxis]
 
 
+def html_div(div_id: str, plotly_data: ty.List[PlotlyTrace], plotly_layout: PlotlyLayout) -> str:
+    div = """
+    <div id="{div_id}"></div>
+    <script>
+    Plotly.plot(
+        "{div_id}",
+        JSON.parse('{plotly_data}'),
+        JSON.parse('{plotly_layout}'),
+        {{editable: false}}
+    );
+    </script>
+    """
+    div = div.format(
+        div_id=div_id,
+        plotly_data=plotly_data,
+        plotly_layout=plotly_layout,
+    )
+    return div
+
+
+def html_header(title: str) -> str:
+    header = """
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>{title}</title>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+      </head>
+      <body>
+    """
+    header = header.format(title=title)
+    return header
+
+
+html_footer = """
+  </body>
+</html>
+"""
+
+
 def parse_args(*args, **kwargs):
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
 
     # -- flags
     parser.add_argument(
@@ -94,7 +137,12 @@ def parse_args(*args, **kwargs):
     parser.add_argument(
         "--output",
         "-o",
-        help="If not passed, chart will open in browswer. If passed with arg DATEME, chart.<timestamp>.html will be written. If passed with arg <name>.json, JSON will be saved to the file. Otherwise, the arg will be written. Also used for chart title if --title not passed",
+        help="Lot of options here.\n"
+        "<name> : <name> written to a file.\n"
+        "<name>.div : Instead of an html file, the plotly div will be printed to stdout. Useful for making a multi-chart report.\n"
+        "<name>.json : Plotly JSON will be saved to a <name>.json.\n"
+        "DATEME : chart.<timestamp>.html written.\n"
+        "not passed : a tempfile chart will open in a browser.\n",
     )
 
     parser.add_argument(
@@ -216,6 +264,8 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List]) -> ty.List[PlotlyTrace]:
 
 
 def main():
+
+    # parse args
     args = parse_args()
 
     with args.input_table:
