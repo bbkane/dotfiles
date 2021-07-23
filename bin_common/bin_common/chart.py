@@ -29,6 +29,7 @@ Examples:
     printf "1 2 3\\n3 4 5\\n" | {prog} -f ' ' timechart
     printf "time x y\\n1 2 3\\n3 4 5\\n" | {prog} -o DATEME -f ' ' --firstline timechart
     printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o tmp.html -f ' ' --fieldnames date,author,lines timechart
+    printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4" | {prog} -o tmp.html -f ' ' --fieldnames year,project,added,deleted timechart
 
 Please see Benjamin Kane for help.
 Repo: https://github.com/bbkane/dotfiles
@@ -154,24 +155,64 @@ def _csv_to_columns(
     return ret
 
 
-def gen_timechart_json(columns: ty.Dict[str, ty.List]) -> ty.List[PlotlyTrace]:
+def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTrace]:
     # first column is datetime for xs (leave as string for now)
     # TODO: the second version is optionally a grouping string
     # rest of the columns should be numeric for ys
 
-    traces = []
+    if len(columns) == 0:
+        return []
+
+    traces: ty.List[PlotlyTrace] = []
     column_names = tuple(columns.keys())
     xs = columns[column_names[0]]
-    for name in column_names[1:]:
+
+    # special case if the first entry of the second column is numeric
+    # we expect the data to look something like this:
+    # {
+    #     "x": [ "2010", "2011", "2012", "2013" ],
+    #     "added": ["1", "2", "3", "2"],
+    #     "deleted": ["-2", "-4", "0", "-3"],
+    # }
+    if columns[column_names[1]][0].isnumeric():
+        for name in column_names[1:]:
+            trace = PlotlyTrace(
+                mode="lines+markers",
+                name=name,
+                type="scatter",
+                x=xs,
+                y=columns[name],
+            )
+            traces.append(trace)
+
+        return traces
+
+    # assume that its strings and we need to start grouping stuff
+    # we expect the data to look something like this:
+    # {
+    #     "x": [ "2010", "2011", "2012", "2013" ],
+    #     "project": ["warg", "dotfiles", "warg", "warg"],
+    #     "added": ["1", "2", "3", "2"],
+    #     "deleted": ["-2", "-4", "0", "-3"],
+    # }
+    # we need to group all traces by <category>-columnname.
+    # so in this example, "warg-added" would be a trace
+    grouped_traces_xs = collections.defaultdict(list)
+    grouped_traces_ys = collections.defaultdict(list)
+    for index, category_name in enumerate(columns[column_names[1]]):
+        for ycolumn_name in column_names[2:]:
+            trace_name = f"{category_name}-{ycolumn_name}"
+            grouped_traces_xs[trace_name].append(xs[index])
+            grouped_traces_ys[trace_name].append(columns[ycolumn_name][index])
+    for trace_name in grouped_traces_xs.keys():
         trace = PlotlyTrace(
             mode="lines+markers",
-            name=name,
+            name=trace_name,
             type="scatter",
-            x=xs,
-            y=columns[name],
+            x=grouped_traces_xs[trace_name],
+            y=grouped_traces_ys[trace_name],
         )
         traces.append(trace)
-
     return traces
 
 
@@ -245,7 +286,7 @@ def parse_args(*args, **kwargs):
     subcommands = parser.add_subparsers(dest="subcommand_name", required=True)
     subcommands.add_parser(
         "timechart",
-        help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes. NOTE: grouping is not yet implemented',
+        help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes.',
     )
 
     return parser.parse_args(*args, **kwargs)
