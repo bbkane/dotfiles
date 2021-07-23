@@ -96,6 +96,8 @@ command! IndentSpacesToggle call IndentSpacesToggle()
 augroup custom_filetype
     autocmd!
 
+    " vscode
+    autocmd BufRead,BufNewFile settings.json set filetype=jsonc
     autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
 
     autocmd filetype go setlocal noexpandtab shiftwidth=4 softtabstop=4 tabstop=4

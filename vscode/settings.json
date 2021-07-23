@@ -59,6 +59,19 @@
         },
         "editor.suggest.insertMode": "replace"
     },
+    "[markdown]": {
+        // https://stackoverflow.com/a/41324717/2958070
+        // https://code.visualstudio.com/docs/editor/intellisense
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": false,
+        "editor.quickSuggestions": true,
+        // Controls how suggestions are pre-selected when showing the suggest list
+        "editor.suggestSelection": "recentlyUsed",
+        "editor.suggest.insertMode": "replace",
+        // Controls whether sorting favours words that appear close to the cursor
+        "editor.suggest.localityBonus": true,
+        "editor.wordBasedSuggestons": true
+    },
     "editor.fontSize": 14,
     "editor.formatOnSave": true,
     "editor.minimap.enabled": false,
@@ -68,7 +81,7 @@
     // taniarascia.new-moon-vscode
     "workbench.colorTheme": "Kimbie Dark",
     "workbench.editorAssociations": {
-        "*.ipynb": "jupyter.notebook.ipynb"
+        "*.ipynb": "jupyter-notebook"
     },
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "go.formatTool": "goimports",
@@ -78,6 +91,10 @@
     },
     "workbench.sideBar.location": "right",
     "go.toolsManagement.autoUpdate": true,
+    "terminal.integrated.shell.osx": "/bin/zsh",
     "redhat.telemetry.enabled": true,
-    "window.zoomLevel": 1
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    }
 }

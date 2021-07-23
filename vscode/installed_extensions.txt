@@ -1,9 +1,12 @@
 Arjun.swagger-viewer
 bierner.docs-view
+bierner.markdown-mermaid
+bpruitt-goddard.mermaid-markdown-syntax-highlighting
 dunstontc.viml
 elmTooling.elm-ls-vscode
 golang.go
 hashicorp.terraform
+hediet.vscode-drawio
 jebbs.plantuml
 kisstkondoros.vscode-gutter-preview
 matklad.rust-analyzer
@@ -19,6 +22,7 @@ mtxr.sqltools-driver-mysql
 mushan.vscode-paste-image
 oderwat.indent-rainbow
 redhat.vscode-yaml
+shd101wyy.markdown-preview-enhanced
 tamasfe.even-better-toml
 taniarascia.new-moon-vscode
 usernamehw.errorlens
