@@ -60,10 +60,14 @@ printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4
 
 class DataTableColumn(ty.TypedDict):
     data: str
+    title: str
 
 
 class DataTable(ty.TypedDict):
-    """see https://datatables.net/reference/option/data"""
+    """see https://datatables.net/reference/option/data
+    NOTE: I don't need the list of objects: https://datatables.net/examples/data_sources/js_array.html
+    But it already works like this, so whatever
+    """
 
     data: ty.Iterable[ty.Dict[str, ty.Any]]
     columns: ty.Iterable[DataTableColumn]
@@ -98,7 +102,7 @@ def datatables_html_div(div_id: str, table_data: DataTable) -> str:
     table_id = f"{div_id}_table"
     div = """
     <div id="{div_id}">
-      <table id="{table_id}" class="display">
+      <table id="{table_id}" class="compact stripe hover">
       </table>
     </div>
     <script>
@@ -262,7 +266,10 @@ def build_table(
 
     assert len(rows) > 0, "No empty data!!"
     keys = rows[0].keys()
-    table = DataTable(data=rows, columns=[DataTableColumn(data=k) for k in keys])
+    table = DataTable(data=rows, columns=[DataTableColumn(data=k, title=k) for k in keys])
+    # TODO: type this out properly
+    # https://datatables.net/reference/option/columns.className
+    table["columnDefs"] = [{"className": "dt-center", "targets": "_all"}]
     div_id = "divID"
     if output is not None and output.endswith(".div"):
         # div_id = output.removesuffix(".div")
