@@ -25,15 +25,27 @@ https://github.com/microsoft/Kusto-Query-Language/blob/master/doc/renderoperator
 Generate charts with https://plotly.com/javascript/
 Only operate on table-like data piped in or from a file.
 
-Examples:
-    {prog}
-    printf "1 2 3\\n3 4 5\\n" | {prog} -f ' ' timechart
-    printf "time x y\\n1 2 3\\n3 4 5\\n" | {prog} -o DATEME -f ' ' --firstline timechart
-    printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o tmp.html -f ' ' --fieldnames date,author,lines timechart
-    printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4" | {prog} -o tmp.html -f ' ' --fieldnames year,project,added,deleted timechart
-
 Please see Benjamin Kane for help.
 Repo: https://github.com/bbkane/dotfiles
+"""
+
+epilog = """
+# Examples:
+
+# help
+{prog}
+
+# open a timechart in a browser
+printf "1 2 3\\n3 4 5\\n" | {prog} -f ' ' timechart
+
+# create a chart.<date>.html timechart
+printf "time x y\\n1 2 3\\n3 4 5\\n" | {prog} -o DATEME -f ' ' --firstline timechart
+
+# named timechart
+printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o tmp.html -f ' ' --fieldnames date,author,lines timechart
+
+# named timechart with categories to group the lines
+printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4" | {prog} -o tmp.html -f ' ' --fieldnames year,project,added,deleted timechart
 """.format(
     prog=pathlib.Path(sys.argv[0]).name
 )
@@ -41,6 +53,20 @@ Repo: https://github.com/bbkane/dotfiles
 # TODO:
 # https://plotly.com/javascript/bar-charts/
 # https://datatables.net/
+
+# -- Datatables datastructures --
+
+
+class DataTableColumn(ty.TypedDict):
+    data: str
+
+
+class DataTable(ty.TypedDict):
+    """see https://datatables.net/reference/option/data"""
+
+    data: ty.Iterable[ty.Dict[str, ty.Any]]
+    columns: ty.Iterable[DataTableColumn]
+
 
 # -- Plotly datastructures --
 
@@ -66,7 +92,27 @@ class PlotlyLayout(ty.TypedDict, total=False):
 # -- HTML formatting ---
 
 
-def html_div(div_id: str, plotly_data: ty.List[PlotlyTrace], plotly_layout: PlotlyLayout) -> str:
+def datatables_html_div(div_id: str, table_data: DataTable) -> str:
+    table_data_str = json.dumps(table_data)
+    table_id = f"{div_id}_table"
+    div = """
+    <div id="{div_id}">
+      <table id="{table_id}">
+      </table>
+    </div>
+    <script>
+    $("#{table_id}").dataTable(JSON.parse('{table_data_str}'))
+    </script>
+    """
+    div = div.format(
+        div_id=div_id,
+        table_data_str=table_data_str,
+        table_id=table_id,
+    )
+    return div
+
+
+def plotly_html_div(div_id: str, plotly_data: ty.List[PlotlyTrace], plotly_layout: PlotlyLayout) -> str:
     plotly_data_str = json.dumps(plotly_data)
     plotly_layout_str = json.dumps(plotly_layout)
     div = """
@@ -98,6 +144,9 @@ def html_header(title: str) -> str:
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>{title}</title>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
       </head>
       <body>
     """
@@ -111,7 +160,14 @@ html_footer = """
 """
 
 
-# -- functions to build the plotly datastructures
+# -- CSV functions --
+
+
+def csv_to_rows_with_fieldnames(
+    inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]
+) -> ty.List[ty.Dict[str, ty.Any]]:
+    dictreader = csv.DictReader(inputfile, delimiter=delimiter, fieldnames=fieldnames)
+    return [row for row in dictreader]
 
 
 def csv_to_columns_with_fieldnames(inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]):
@@ -122,12 +178,27 @@ def csv_to_columns_with_fieldnames(inputfile: ty.TextIO, delimiter: str, fieldna
     return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
 
 
+def csv_to_rows_gen_fieldnames(inputfile: ty.TextIO, delimiter: str) -> ty.List[ty.Dict[str, ty.Any]]:
+    csvreader = csv.reader(inputfile, delimiter=delimiter)
+    first_line = next(csvreader)
+    fieldnames = [f"field_{i}" for i in range(len(first_line))]
+    rows = [dict(zip(fieldnames, first_line))]
+    dictreader = csv.DictReader(inputfile, fieldnames=fieldnames, delimiter=delimiter)
+    rows.extend(row for row in dictreader)
+    return rows
+
+
 def csv_to_columns_gen_fieldnames(inputfile: ty.TextIO, delimiter: str):
     """Create columns and just auto-generate the fieldnames"""
     csvreader = csv.reader(inputfile, delimiter=delimiter)
     first_line = next(csvreader)  # TODO: what if this is empty? Do I care?
     fieldnames = [f"field_{i}" for i in range(len(first_line))]
     return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
+
+
+def csv_to_rows_first_line_as_fieldnames(inputfile: ty.TextIO, delimiter: str):
+    dictreader = csv.DictReader(inputfile, delimiter=delimiter)
+    return [row for row in dictreader]
 
 
 def csv_to_columns_first_line_as_fieldnames(inputfile: ty.TextIO, delimiter: str):
@@ -158,6 +229,42 @@ def _csv_to_columns(
             ret[k].append(v)
 
     return ret
+
+
+# -- functions to build the JSONIFIED datastructures
+
+
+def build_table(
+    *,
+    fieldnames: ty.Optional[str],
+    fieldsep: str,
+    firstline: bool,
+    input_table: io.TextIOWrapper,
+    output: ty.Optional[str],
+    title: ty.Optional[str],
+):
+    with input_table:
+        if fieldnames:
+            fieldnames_list = [f.strip() for f in fieldnames.split(",")]
+            rows = csv_to_rows_with_fieldnames(input_table, fieldsep, fieldnames_list)
+        elif firstline:
+            rows = csv_to_rows_first_line_as_fieldnames(input_table, fieldsep)
+        else:  # default: generate some fieldnames...
+            rows = csv_to_rows_gen_fieldnames(input_table, fieldsep)
+
+    assert len(rows) > 0, "No empty data!!"
+    keys = rows[0].keys()
+    table = DataTable(data=rows, columns=[DataTableColumn(data=k) for k in keys])
+    div_id = "divID"
+    if output is not None and output.endswith(".div"):
+        # div_id = output.removesuffix(".div")
+        div_id = output[:-4]  # remove ".div"
+    write_output(
+        output,
+        title,
+        datatables_html_div(div_id, table),
+        table,
+    )
 
 
 def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTrace]:
@@ -225,7 +332,11 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTra
 
 
 def parse_args(*args, **kwargs):
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawTextHelpFormatter,
+        epilog=epilog,
+    )
 
     # -- flags
     parser.add_argument(
@@ -293,11 +404,20 @@ def parse_args(*args, **kwargs):
         "timechart",
         help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes.',
     )
+    subcommands.add_parser(
+        "table",
+        help="Table. No column requirements",
+    )
 
     return parser.parse_args(*args, **kwargs)
 
 
-def write_output(output_flag: ty.Optional[str], title: ty.Optional[str], div: str, json_data: ty.Dict):
+def write_output(
+    output_flag: ty.Optional[str],
+    title: ty.Optional[str],
+    div: str,
+    json_data: ty.Union[ty.Dict, DataTable],
+) -> None:
     # some of these may be None
     title = title or output_flag or "title"
 
@@ -374,7 +494,7 @@ def build_timechart(
     write_output(
         output,
         title,
-        html_div(div_id, plotly_data=plotly_data, plotly_layout=plotly_layout),
+        plotly_html_div(div_id, plotly_data=plotly_data, plotly_layout=plotly_layout),
         {"data": plotly_data, "layout": plotly_layout},
     )
 
@@ -394,6 +514,15 @@ def main():
             title=args.title,
             xaxis_title=args.xaxis_title,
             yaxis_title=args.yaxis_title,
+        )
+    elif args.subcommand_name == "table":
+        build_table(
+            fieldnames=args.fieldnames,
+            fieldsep=args.fieldsep,
+            firstline=args.firstline,
+            input_table=args.input_table,
+            output=args.output,
+            title=args.title,
         )
 
 
