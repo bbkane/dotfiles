@@ -45,7 +45,8 @@ printf "time x y\\n1 2 3\\n3 4 5\\n" | {prog} -o DATEME -f ' ' --firstline timec
 printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o tmp.html -f ' ' --fieldnames date,author,lines timechart
 
 # named timechart with categories to group the lines
-printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4" | {prog} -o tmp.html -f ' ' --fieldnames year,project,added,deleted timechart
+printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4" \\
+| {prog} -o tmp.html -f ' ' --fieldnames year,project,added,deleted timechart
 """.format(
     prog=pathlib.Path(sys.argv[0]).name
 )
@@ -97,11 +98,13 @@ def datatables_html_div(div_id: str, table_data: DataTable) -> str:
     table_id = f"{div_id}_table"
     div = """
     <div id="{div_id}">
-      <table id="{table_id}">
+      <table id="{table_id}" class="display">
       </table>
     </div>
     <script>
-    $("#{table_id}").dataTable(JSON.parse('{table_data_str}'))
+    $(document).ready( function () {{
+      $('#{table_id}').DataTable(JSON.parse('{table_data_str}'));
+    }} );
     </script>
     """
     div = div.format(
@@ -139,14 +142,19 @@ def html_header(title: str) -> str:
     <!DOCTYPE html>
     <html>
       <head>
+
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,initial-scale=1">
+
         <title>{title}</title>
+
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
       </head>
       <body>
     """
