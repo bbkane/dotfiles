@@ -5,6 +5,7 @@ import argparse
 import collections
 import csv
 import datetime
+import io
 import json
 import pathlib
 import sys
@@ -36,6 +37,10 @@ Repo: https://github.com/bbkane/dotfiles
 """.format(
     prog=pathlib.Path(sys.argv[0]).name
 )
+
+# TODO:
+# https://plotly.com/javascript/bar-charts/
+# https://datatables.net/
 
 # -- Plotly datastructures --
 
@@ -235,8 +240,8 @@ def parse_args(*args, **kwargs):
         "-o",
         help="Lot of options here.\n"
         "<name> : <name> written to a file.\n"
-        "<name>.div : Instead of an html file, the plotly div will be printed to stdout. Useful for making a multi-chart report.\n"
-        "<name>.json : Plotly JSON will be saved to a <name>.json.\n"
+        "<name>.div : Instead of an html file, the div will be printed to stdout. Useful for making a multi-chart report.\n"
+        "<name>.json : JSON will be saved to a <name>.json.\n"
         "DATEME : chart.<timestamp>.html written.\n"
         "not passed : a tempfile chart will open in a browser.\n",
     )
@@ -292,69 +297,104 @@ def parse_args(*args, **kwargs):
     return parser.parse_args(*args, **kwargs)
 
 
-def main():
+def write_output(output_flag: ty.Optional[str], title: ty.Optional[str], div: str, json_data: ty.Dict):
+    # some of these may be None
+    title = title or output_flag or "title"
 
-    # parse args
-    args = parse_args()
-
-    # get core data
-
-    with args.input_table:
-        if args.fieldnames:
-            fieldnames = [f.strip() for f in args.fieldnames.split(",")]
-            columns = csv_to_columns_with_fieldnames(args.input_table, args.fieldsep, fieldnames)
-        elif args.firstline:
-            columns = csv_to_columns_first_line_as_fieldnames(args.input_table, args.fieldsep)
-        else:  # default: generate some fieldnames...
-            columns = csv_to_columns_gen_fieldnames(args.input_table, args.fieldsep)
-
-    plotly_data: ty.List[PlotlyTrace] = []
-    if args.subcommand_name == "timechart":
-        plotly_data = gen_timechart_json(columns)
-
-    plotly_layout = PlotlyLayout()
-    if args.title:
-        plotly_layout["title"] = args.title
-    if args.xaxis_title:
-        plotly_layout["xaxis"] = PlotlyAxis(title=args.xaxis_title)
-    if args.yaxis_title:
-        plotly_layout["yaxis"] = PlotlyAxis(title=args.yaxis_title)
-
-    if not args.output:
+    if not output_flag:
         with tempfile.NamedTemporaryFile(
             mode="w",
             delete=False,
             suffix=".html",
         ) as fp:
-            print(html_header("TODO"), file=fp)
-            print(html_div("divID", plotly_data, plotly_layout), file=fp)
+            print(html_header(title), file=fp)
+            print(div, file=fp)
             print(html_footer, file=fp)
             url = pathlib.Path(fp.name).as_uri()
         webbrowser.open_new_tab(url)
-    elif args.output == "DATEME":
+    elif output_flag == "DATEME":
         right_now = datetime.datetime.now().strftime("%Y-%m-%d.%H.%M.%S")
         default_name = ".".join(["chart", right_now, "html"])
         with open(default_name, "w") as fp:
             print(html_header("TODO"), file=fp)
-            print(html_div("divID", plotly_data, plotly_layout), file=fp)
+            print(div, file=fp)
             print(html_footer, file=fp)
-    elif args.output.endswith(".div"):
-        div_id = args.output.removesuffix(".div")
-        div = html_div(div_id, plotly_data=plotly_data, plotly_layout=plotly_layout)
+    elif output_flag.endswith(".div"):
         print(div)
-    elif args.output.endswith(".json"):
-        with open(args.output, "w") as fp:
+    elif output_flag.endswith(".json"):
+        with open(output_flag, "w") as fp:
             json.dump(
-                {"data": plotly_data, "layout": plotly_layout},
+                # {"data": plotly_data, "layout": plotly_layout},
+                json_data,
                 fp,
                 indent=2,
                 sort_keys=True,
             )
     else:
-        with open(args.output, "w") as fp:
-            print(html_header("TODO"), file=fp)
-            print(html_div("divID", plotly_data, plotly_layout), file=fp)
+        with open(output_flag, "w") as fp:
+            print(html_header(title), file=fp)
+            print(div, file=fp)
             print(html_footer, file=fp)
+
+
+def build_timechart(
+    *,
+    fieldnames: ty.Optional[str],
+    fieldsep: str,
+    firstline: bool,
+    input_table: io.TextIOWrapper,
+    output: ty.Optional[str],
+    title: ty.Optional[str],
+    xaxis_title: ty.Optional[str],
+    yaxis_title: ty.Optional[str],
+):
+    with input_table:
+        if fieldnames:
+            fieldnames_list = [f.strip() for f in fieldnames.split(",")]
+            columns = csv_to_columns_with_fieldnames(input_table, fieldsep, fieldnames_list)
+        elif firstline:
+            columns = csv_to_columns_first_line_as_fieldnames(input_table, fieldsep)
+        else:  # default: generate some fieldnames...
+            columns = csv_to_columns_gen_fieldnames(input_table, fieldsep)
+
+    plotly_data = gen_timechart_json(columns)
+
+    plotly_layout = PlotlyLayout()
+    if title:
+        plotly_layout["title"] = title
+    if xaxis_title:
+        plotly_layout["xaxis"] = PlotlyAxis(title=xaxis_title)
+    if yaxis_title:
+        plotly_layout["yaxis"] = PlotlyAxis(title=yaxis_title)
+
+    div_id = "divID"
+    if output is not None and output.endswith(".div"):
+        # div_id = output.removesuffix(".div")
+        div_id = output[:-4]  # remove ".div"
+    write_output(
+        output,
+        title,
+        html_div(div_id, plotly_data=plotly_data, plotly_layout=plotly_layout),
+        {"data": plotly_data, "layout": plotly_layout},
+    )
+
+
+def main():
+
+    # parse args
+    args = parse_args()
+
+    if args.subcommand_name == "timechart":
+        build_timechart(
+            fieldnames=args.fieldnames,
+            fieldsep=args.fieldsep,
+            firstline=args.firstline,
+            input_table=args.input_table,
+            output=args.output,
+            title=args.title,
+            xaxis_title=args.xaxis_title,
+            yaxis_title=args.yaxis_title,
+        )
 
 
 if __name__ == "__main__":
