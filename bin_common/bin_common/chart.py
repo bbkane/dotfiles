@@ -99,6 +99,8 @@ class PlotlyLayout(ty.TypedDict, total=False):
 
 def datatables_html_div(div_id: str, table_data: DataTable) -> str:
     table_data_str = json.dumps(table_data)
+    # remove inline single quotes so JSON.parse doesn't get confused. TODO: can I just escape it? Also need to add to plotly div
+    table_data_str = table_data_str.replace("'", "")
     table_id = f"{div_id}_table"
     div = """
     <div id="{div_id}">
