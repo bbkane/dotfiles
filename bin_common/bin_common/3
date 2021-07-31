@@ -372,11 +372,6 @@ def parse_args(*args, **kwargs):
     )
 
     parser.add_argument(
-        "--html_title",
-        help="Title of the HTML. Defaults to 'TODO'",
-    )
-
-    parser.add_argument(
         "--output",
         "-o",
         help="Lot of options here.\n"
@@ -418,10 +413,17 @@ def parse_args(*args, **kwargs):
         help="Print the top of the generated HTML file to stdout. Useful for multi-chart reports",
     )
 
-    subcommands.add_parser(
+    html_top_parser = subcommands.add_parser(
         "html_top",
         help="Print the top of the generated HTML file to stdout. Useful for multi-chart reports",
     )
+    html_top_parser.add_argument(
+        "--title",
+        "-t",
+        default="TODO",
+        help="Title of the HTML. Defaults to TODO"
+    )
+
     subcommands.add_parser(
         "table",
         help="Table. NOTE: columns should not have a `.` in the title. See https://datatables.net/forums/discussion/69257/data-with-a-in-the-name-makes-table-creation-fail#latest",
@@ -434,7 +436,6 @@ def parse_args(*args, **kwargs):
     timechart_parser.add_argument(
         "--title",  # TODO: rename chart_title
         "-t",
-        # default=None,
         help="Chart title",
     )
 
@@ -545,10 +546,17 @@ def main():
     # parse args
     args = parse_args()
 
-    if args.subcommand_name == "html_bottom":
-        print(html_footer)
-    elif args.subcommand_name == "html_top":
-        print(html_header(args.html_title))
+    if args.subcommand_name == "timechart":
+        build_timechart(
+            fieldnames=args.fieldnames,
+            fieldsep=args.fieldsep,
+            firstline=args.firstline,
+            input_table=args.input_table,
+            output=args.output,
+            title=args.title,
+            xaxis_title=args.xaxis_title,
+            yaxis_title=args.yaxis_title,
+        )
     elif args.subcommand_name == "table":
         build_table(
             fieldnames=args.fieldnames,
@@ -556,19 +564,7 @@ def main():
             firstline=args.firstline,
             input_table=args.input_table,
             output=args.output,
-            title=args.html_title,
-        )
-
-    elif args.subcommand_name == "timechart":
-        build_timechart(
-            fieldnames=args.fieldnames,
-            fieldsep=args.fieldsep,
-            firstline=args.firstline,
-            input_table=args.input_table,
-            output=args.output,
-            title=args.html_title,  # TODO: use chart_title
-            xaxis_title=args.xaxis_title,
-            yaxis_title=args.yaxis_title,
+            title=args.title,
         )
 
 
