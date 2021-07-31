@@ -53,7 +53,6 @@ printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4
 
 # TODO:
 # https://plotly.com/javascript/bar-charts/
-# https://datatables.net/
 
 # -- Datatables datastructures --
 
@@ -61,6 +60,11 @@ printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4
 class DataTableColumn(ty.TypedDict):
     data: str
     title: str
+
+
+class DataTableColumnDef(ty.TypedDict):
+    className: str
+    targets: str
 
 
 class DataTable(ty.TypedDict):
@@ -71,6 +75,8 @@ class DataTable(ty.TypedDict):
 
     data: ty.Iterable[ty.Dict[str, ty.Any]]
     columns: ty.Iterable[DataTableColumn]
+    columnDefs: ty.Iterable[DataTableColumnDef]
+    pageLength: int
 
 
 # -- Plotly datastructures --
@@ -268,10 +274,12 @@ def build_table(
 
     assert len(rows) > 0, "No empty data!!"
     keys = rows[0].keys()
-    table = DataTable(data=rows, columns=[DataTableColumn(data=k, title=k) for k in keys])
-    # TODO: type this out properly
-    # https://datatables.net/reference/option/columns.className
-    table["columnDefs"] = [{"className": "dt-center", "targets": "_all"}]
+    table = DataTable(
+        data=rows,
+        columns=[DataTableColumn(data=k, title=k) for k in keys],
+        columnDefs=[DataTableColumnDef(className="dt-center", targets="_all")],
+        pageLength=50,
+    )
     div_id = "divID"
     if output is not None and output.endswith(".div"):
         # div_id = output.removesuffix(".div")
@@ -423,7 +431,7 @@ def parse_args(*args, **kwargs):
     )
     subcommands.add_parser(
         "table",
-        help="Table. No column requirements",
+        help="Table. NOTE: columns should not have a `.` in the title. See https://datatables.net/forums/discussion/69257/data-with-a-in-the-name-makes-table-creation-fail#latest",
     )
 
     return parser.parse_args(*args, **kwargs)
