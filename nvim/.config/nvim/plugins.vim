@@ -16,6 +16,7 @@ augroup commentsrings
     autocmd FileType jq    setlocal commentstring=#\ %s
     autocmd FileType json  setlocal commentstring=//\ %s
     autocmd FileType mysql setlocal commentstring=--\ %s
+    autocmd FileType nu    setlocal commentstring=#\ %s
     autocmd FileType php   setlocal commentstring=//\ %s
     autocmd FileType sql   setlocal commentstring=--\ %s
     autocmd FileType text  setlocal commentstring=#\ %s
