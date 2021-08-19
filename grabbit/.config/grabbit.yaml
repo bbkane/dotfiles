@@ -33,15 +33,15 @@ subreddits:
   - name: earthporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 8
+    limit: 7
   - name: futureporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 4
+    limit: 3
   - name: imaginarycastles
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 5
+    limit: 4
   - name: imaginaryinteriors
     destination: ~/Pictures/grabbit
     timeframe: "week"
