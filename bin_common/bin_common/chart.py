@@ -53,7 +53,6 @@ printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4
 
 # TODO:
 # https://plotly.com/javascript/bar-charts/
-# https://datatables.net/
 
 # -- Datatables datastructures --
 
@@ -61,6 +60,11 @@ printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4
 class DataTableColumn(ty.TypedDict):
     data: str
     title: str
+
+
+class DataTableColumnDef(ty.TypedDict):
+    className: str
+    targets: str
 
 
 class DataTable(ty.TypedDict):
@@ -71,6 +75,8 @@ class DataTable(ty.TypedDict):
 
     data: ty.Iterable[ty.Dict[str, ty.Any]]
     columns: ty.Iterable[DataTableColumn]
+    columnDefs: ty.Iterable[DataTableColumnDef]
+    pageLength: int
 
 
 # -- Plotly datastructures --
@@ -99,8 +105,13 @@ class PlotlyLayout(ty.TypedDict, total=False):
 
 def datatables_html_div(div_id: str, table_data: DataTable) -> str:
     table_data_str = json.dumps(table_data)
-    # remove inline single quotes so JSON.parse doesn't get confused. TODO: can I just escape it? Also need to add to plotly div
+
+    # remove inline single quotes so JSON.parse doesn't get confused. TODO: can
+    # I just escape it? Also need to add to plotly div
     table_data_str = table_data_str.replace("'", "")
+
+    # remove inline r'\' for JSON.parse
+    table_data_str = table_data_str.replace("\\", "")
     table_id = f"{div_id}_table"
     div = """
     <div id="{div_id}">
@@ -268,10 +279,12 @@ def build_table(
 
     assert len(rows) > 0, "No empty data!!"
     keys = rows[0].keys()
-    table = DataTable(data=rows, columns=[DataTableColumn(data=k, title=k) for k in keys])
-    # TODO: type this out properly
-    # https://datatables.net/reference/option/columns.className
-    table["columnDefs"] = [{"className": "dt-center", "targets": "_all"}]
+    table = DataTable(
+        data=rows,
+        columns=[DataTableColumn(data=k, title=k) for k in keys],
+        columnDefs=[DataTableColumnDef(className="dt-center", targets="_all")],
+        pageLength=50,
+    )
     div_id = "divID"
     if output is not None and output.endswith(".div"):
         # div_id = output.removesuffix(".div")
@@ -364,6 +377,11 @@ def parse_args(*args, **kwargs):
     )
 
     parser.add_argument(
+        "--html_title",
+        help="Title of the HTML. Defaults to 'TODO'",
+    )
+
+    parser.add_argument(
         "--output",
         "-o",
         help="Lot of options here.\n"
@@ -372,24 +390,6 @@ def parse_args(*args, **kwargs):
         "<name>.json : JSON will be saved to a <name>.json.\n"
         "DATEME : chart.<timestamp>.html written.\n"
         "not passed : a tempfile chart will open in a browser.\n",
-    )
-
-    parser.add_argument(
-        "--title",
-        "-t",
-        help="Chart title",
-    )
-
-    parser.add_argument(
-        "--xaxis_title",
-        "-x",
-        help="X-Axis Title",
-    )
-
-    parser.add_argument(
-        "--yaxis_title",
-        "-y",
-        help="Y-Axis Title",
     )
 
     # csv flags
@@ -417,13 +417,42 @@ def parse_args(*args, **kwargs):
 
     # -- subcommands - the actual chart types and any special args
     subcommands = parser.add_subparsers(dest="subcommand_name", required=True)
+
     subcommands.add_parser(
-        "timechart",
-        help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes.',
+        "html_bottom",
+        help="Print the top of the generated HTML file to stdout. Useful for multi-chart reports",
+    )
+
+    subcommands.add_parser(
+        "html_top",
+        help="Print the top of the generated HTML file to stdout. Useful for multi-chart reports",
     )
     subcommands.add_parser(
         "table",
-        help="Table. No column requirements",
+        help="Table. NOTE: columns should not have a `.` in the title. See https://datatables.net/forums/discussion/69257/data-with-a-in-the-name-makes-table-creation-fail#latest",
+    )
+
+    timechart_parser = subcommands.add_parser(
+        "timechart",
+        help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes.',
+    )
+    timechart_parser.add_argument(
+        "--title",  # TODO: rename chart_title
+        "-t",
+        # default=None,
+        help="Chart title",
+    )
+
+    timechart_parser.add_argument(
+        "--xaxis_title",
+        "-x",
+        help="X-Axis Title",
+    )
+
+    timechart_parser.add_argument(
+        "--yaxis_title",
+        "-y",
+        help="Y-Axis Title",
     )
 
     return parser.parse_args(*args, **kwargs)
@@ -521,17 +550,10 @@ def main():
     # parse args
     args = parse_args()
 
-    if args.subcommand_name == "timechart":
-        build_timechart(
-            fieldnames=args.fieldnames,
-            fieldsep=args.fieldsep,
-            firstline=args.firstline,
-            input_table=args.input_table,
-            output=args.output,
-            title=args.title,
-            xaxis_title=args.xaxis_title,
-            yaxis_title=args.yaxis_title,
-        )
+    if args.subcommand_name == "html_bottom":
+        print(html_footer)
+    elif args.subcommand_name == "html_top":
+        print(html_header(args.html_title))
     elif args.subcommand_name == "table":
         build_table(
             fieldnames=args.fieldnames,
@@ -539,7 +561,19 @@ def main():
             firstline=args.firstline,
             input_table=args.input_table,
             output=args.output,
-            title=args.title,
+            title=args.html_title,
+        )
+
+    elif args.subcommand_name == "timechart":
+        build_timechart(
+            fieldnames=args.fieldnames,
+            fieldsep=args.fieldsep,
+            firstline=args.firstline,
+            input_table=args.input_table,
+            output=args.output,
+            title=args.html_title,  # TODO: use chart_title
+            xaxis_title=args.xaxis_title,
+            yaxis_title=args.yaxis_title,
         )
 
 
