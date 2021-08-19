@@ -199,6 +199,9 @@ function man() {
 # Open commands in MacOS Preview app
 pman() { man -t "$@" | open -f -a Preview; }
 
+# https://support.typora.io/Use-Typora-From-Shell-or-cmd/
+alias typora="open -a typora"
+
 # less options from https://litecli.com/output/
 # -X leaves file contents on the screen when less exits.
 # -F makes less quit if the entire output can be displayed on one screen.
