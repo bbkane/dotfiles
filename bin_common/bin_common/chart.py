@@ -267,6 +267,7 @@ def build_table(
     input_table: io.TextIOWrapper,
     output: ty.Optional[str],
     title: ty.Optional[str],
+    page_length: int,
 ):
     with input_table:
         if fieldnames:
@@ -283,7 +284,7 @@ def build_table(
         data=rows,
         columns=[DataTableColumn(data=k, title=k) for k in keys],
         columnDefs=[DataTableColumnDef(className="dt-center", targets="_all")],
-        pageLength=50,
+        pageLength=page_length,
     )
     div_id = "divID"
     if output is not None and output.endswith(".div"):
@@ -427,9 +428,15 @@ def parse_args(*args, **kwargs):
         "html_top",
         help="Print the top of the generated HTML file to stdout. Useful for multi-chart reports",
     )
-    subcommands.add_parser(
+
+    table_parser = subcommands.add_parser(
         "table",
         help="Table. NOTE: columns should not have a `.` in the title. See https://datatables.net/forums/discussion/69257/data-with-a-in-the-name-makes-table-creation-fail#latest",
+    )
+    table_parser.add_argument(
+        "--page_length",
+        default=50,
+        help="Chart title",
     )
 
     timechart_parser = subcommands.add_parser(
@@ -562,6 +569,7 @@ def main():
             input_table=args.input_table,
             output=args.output,
             title=args.html_title,
+            page_length=args.page_length,
         )
 
     elif args.subcommand_name == "timechart":
