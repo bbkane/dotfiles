@@ -212,3 +212,8 @@ export PAGER="less -SRXF"
 
 # https://unix.stackexchange.com/a/632196/185953
 tree-git-seen() { rg --files "$@" | tree --fromfile }
+
+# Show my Azure Groups
+az_my_groups() {
+    az ad user get-member-groups --id $(az ad signed-in-user show --query 'objectId' --output tsv)
+}
