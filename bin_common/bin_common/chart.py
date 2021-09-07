@@ -144,15 +144,19 @@ def datatables_html_div(div_id: str, table_data: DataTable) -> str:
 
 
 def plotly_html_div(div_id: str, plotly_data: ty.List[PlotlyTrace], plotly_layout: PlotlyLayout) -> str:
-    plotly_data_str = json.dumps(plotly_data)
-    plotly_layout_str = json.dumps(plotly_layout)
+    plotly_data_str = json.dumps(plotly_data, indent=2, sort_keys=True)
+    plotly_layout_str = json.dumps(plotly_layout, indent=2, sort_keys=True)
+
+    plotly_data_str = plotly_data_str.replace("\\", "").replace("`", "")
+    plotly_layout_str = plotly_layout_str.replace("\\", "").replace("`", "")
+
     div = """
     <div id="{div_id}"></div>
     <script>
     Plotly.plot(
         "{div_id}",
-        JSON.parse('{plotly_data_str}'),
-        JSON.parse('{plotly_layout_str}'),
+        JSON.parse(`{plotly_data_str}`),
+        JSON.parse(`{plotly_layout_str}`),
         {{editable: false}}
     );
     </script>
