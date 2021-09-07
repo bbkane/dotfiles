@@ -199,23 +199,24 @@ html_footer = """
 
 # -- CSV functions --
 
+CSVRows = ty.List[ty.Dict[str, str]]
+CSVColums = ty.Dict[str, ty.List[str]]
 
-def csv_to_rows_with_fieldnames(
-    inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]
-) -> ty.List[ty.Dict[str, ty.Any]]:
+
+def csv_to_rows_with_fieldnames(inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]) -> CSVRows:
     dictreader = csv.DictReader(inputfile, delimiter=delimiter, fieldnames=fieldnames)
     return [row for row in dictreader]
 
 
-def csv_to_columns_with_fieldnames(inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]):
+def csv_to_columns_with_fieldnames(inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str]) -> CSVColums:
     """Create columns when you already know the fieldnames"""
     csvreader = csv.reader(inputfile, delimiter=delimiter)
-    first_line = next(csvreader)  # TODO: what if this is empty? Do I care?
+    first_line = next(csvreader)  # NOTE: will error on empty and that's ok
     assert len(first_line) == len(fieldnames)
     return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
 
 
-def csv_to_rows_gen_fieldnames(inputfile: ty.TextIO, delimiter: str) -> ty.List[ty.Dict[str, ty.Any]]:
+def csv_to_rows_gen_fieldnames(inputfile: ty.TextIO, delimiter: str) -> CSVRows:
     csvreader = csv.reader(inputfile, delimiter=delimiter)
     first_line = next(csvreader)
     fieldnames = [f"field_{i}" for i in range(len(first_line))]
@@ -225,33 +226,30 @@ def csv_to_rows_gen_fieldnames(inputfile: ty.TextIO, delimiter: str) -> ty.List[
     return rows
 
 
-def csv_to_columns_gen_fieldnames(inputfile: ty.TextIO, delimiter: str):
+def csv_to_columns_gen_fieldnames(inputfile: ty.TextIO, delimiter: str) -> CSVColums:
     """Create columns and just auto-generate the fieldnames"""
     csvreader = csv.reader(inputfile, delimiter=delimiter)
-    first_line = next(csvreader)  # TODO: what if this is empty? Do I care?
+    first_line = next(csvreader)  # NOTE: will error on empty and that's ok
     fieldnames = [f"field_{i}" for i in range(len(first_line))]
     return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
 
 
-def csv_to_rows_first_line_as_fieldnames(inputfile: ty.TextIO, delimiter: str):
+def csv_to_rows_first_line_as_fieldnames(inputfile: ty.TextIO, delimiter: str) -> CSVRows:
     dictreader = csv.DictReader(inputfile, delimiter=delimiter)
     return [row for row in dictreader]
 
 
-def csv_to_columns_first_line_as_fieldnames(inputfile: ty.TextIO, delimiter: str):
+def csv_to_columns_first_line_as_fieldnames(inputfile: ty.TextIO, delimiter: str) -> CSVColums:
     """Create columns and read fieldnames from first line"""
     csvreader = csv.reader(inputfile, delimiter=delimiter)
-    fieldnames = next(csvreader)  # TODO: what if this is empty? Do I care?
+    fieldnames = next(csvreader)  # NOTE: will error on empty and that's ok
     first_line = next(csvreader)
     return _csv_to_columns(inputfile, delimiter, fieldnames, first_line)
 
 
 def _csv_to_columns(
-    inputfile: ty.TextIO,
-    delimiter: str,
-    fieldnames: ty.List[str],
-    first_line: ty.List[str],
-) -> ty.Dict[str, ty.List[str]]:
+    inputfile: ty.TextIO, delimiter: str, fieldnames: ty.List[str], first_line: ty.List[str]
+) -> CSVColums:
     # add the first line
     # NOTE: we can rely on insertion order, so iterating over keys later
     # will work as expected
@@ -279,7 +277,7 @@ def build_table(
     firstline: bool,
     input_table: io.TextIOWrapper,
     output: ty.Optional[str],
-    title: ty.Optional[str],
+    html_title: ty.Optional[str],
     page_length: int,
 ):
     with input_table:
@@ -304,10 +302,10 @@ def build_table(
         # div_id = output.removesuffix(".div")
         div_id = output[:-4]  # remove ".div"
     write_output(
-        output,
-        title,
-        datatables_html_div(div_id, table),
-        table,
+        output_dest=output,
+        title=html_title,
+        div=datatables_html_div(div_id, table),
+        json_data=table,
     )
 
 
@@ -402,7 +400,8 @@ def parse_args(*args, **kwargs):
 
     parser.add_argument(
         "--html_title",
-        help="Title of the HTML. Defaults to 'TODO'",
+        default="chart.py output",
+        help="Title of the HTML. Defaults to 'chart.py output'",
     )
 
     parser.add_argument(
@@ -474,10 +473,9 @@ def parse_args(*args, **kwargs):
         help='Line graph. First column is x-axis, and should be datetime. Second column can optionally be a string whose values are used to "group" the numeric columns and create different lines in the chart. Other (numeric) columns are y-axes.',
     )
     timechart_parser.add_argument(
-        "--title",  # TODO: rename chart_title
+        "--chart_title",
         "-t",
-        # default=None,
-        help="Chart title",
+        help="Optional chart title",
     )
 
     timechart_parser.add_argument(
@@ -496,15 +494,16 @@ def parse_args(*args, **kwargs):
 
 
 def write_output(
-    output_flag: ty.Optional[str],
+    *,
+    output_dest: ty.Optional[str],
     title: ty.Optional[str],
     div: str,
     json_data: ty.Union[ty.Dict, DataTable],
 ) -> None:
     # some of these may be None
-    title = title or output_flag or "title"
+    title = title or output_dest or "title"
 
-    if not output_flag:
+    if not output_dest:
         with tempfile.NamedTemporaryFile(
             mode="w",
             delete=False,
@@ -515,26 +514,25 @@ def write_output(
             print(html_footer, file=fp)
             url = pathlib.Path(fp.name).as_uri()
         webbrowser.open_new_tab(url)
-    elif output_flag == "DATEME":
+    elif output_dest == "DATEME":
         right_now = datetime.datetime.now().strftime("%Y-%m-%d.%H.%M.%S")
         default_name = ".".join(["chart", right_now, "html"])
         with open(default_name, "w") as fp:
-            print(html_header("TODO"), file=fp)
+            print(html_header(title), file=fp)
             print(div, file=fp)
             print(html_footer, file=fp)
-    elif output_flag.endswith(".div"):
+    elif output_dest.endswith(".div"):
         print(div)
-    elif output_flag.endswith(".json"):
-        with open(output_flag, "w") as fp:
+    elif output_dest.endswith(".json"):
+        with open(output_dest, "w") as fp:
             json.dump(
-                # {"data": plotly_data, "layout": plotly_layout},
                 json_data,
                 fp,
                 indent=2,
                 sort_keys=True,
             )
     else:
-        with open(output_flag, "w") as fp:
+        with open(output_dest, "w") as fp:
             print(html_header(title), file=fp)
             print(div, file=fp)
             print(html_footer, file=fp)
@@ -547,7 +545,8 @@ def build_timechart(
     firstline: bool,
     input_table: io.TextIOWrapper,
     output: ty.Optional[str],
-    title: ty.Optional[str],
+    chart_title: ty.Optional[str],
+    html_title: ty.Optional[str],
     xaxis_title: ty.Optional[str],
     yaxis_title: ty.Optional[str],
 ):
@@ -563,8 +562,8 @@ def build_timechart(
     plotly_data = gen_timechart_json(columns)
 
     plotly_layout = PlotlyLayout()
-    if title:
-        plotly_layout["title"] = title
+    if chart_title:
+        plotly_layout["title"] = chart_title
     if xaxis_title:
         plotly_layout["xaxis"] = PlotlyAxis(title=xaxis_title)
     if yaxis_title:
@@ -575,10 +574,10 @@ def build_timechart(
         # div_id = output.removesuffix(".div")
         div_id = output[:-4]  # remove ".div"
     write_output(
-        output,
-        title,
-        plotly_html_div(div_id, plotly_data=plotly_data, plotly_layout=plotly_layout),
-        {"data": plotly_data, "layout": plotly_layout},
+        output_dest=output,
+        title=html_title,
+        div=plotly_html_div(div_id, plotly_data=plotly_data, plotly_layout=plotly_layout),
+        json_data={"data": plotly_data, "layout": plotly_layout},
     )
 
 
@@ -640,7 +639,7 @@ def main():
             firstline=args.firstline,
             input_table=args.input_table,
             output=args.output,
-            title=args.html_title,
+            html_title=args.html_title,
             page_length=args.page_length,
         )
 
@@ -651,7 +650,8 @@ def main():
             firstline=args.firstline,
             input_table=args.input_table,
             output=args.output,
-            title=args.html_title,  # TODO: use chart_title
+            chart_title=args.chart_title,
+            html_title=args.html_title,
             xaxis_title=args.xaxis_title,
             yaxis_title=args.yaxis_title,
         )
