@@ -96,5 +96,6 @@
     "notebook.cellToolbarLocation": {
         "default": "right",
         "jupyter-notebook": "left"
-    }
+    },
+    "swaggerViewer.previewInBrowser": true
 }

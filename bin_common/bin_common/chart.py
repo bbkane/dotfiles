@@ -7,10 +7,12 @@ import csv
 import datetime
 import io
 import json
+import logging
 import pathlib
 import sys
 import tempfile
 import typing as ty
+import unittest
 import webbrowser
 
 __author__ = "Benjamin Kane"
@@ -47,9 +49,18 @@ printf "2020-01-01 Ben 2\\n2020-02-01 Jenny 4\\n" | {prog} -o tmp.html -f ' ' --
 # named timechart with categories to group the lines
 printf "2010 warg 1 -1\\n2011 dotfiles 2 -1\\n2012 dotfiles 0 0\\n2013 warg 3 -4" \\
 | {prog} -o tmp.html -f ' ' --fieldnames year,project,added,deleted timechart
+
+# table from CSV
+chart.py --firstline --fieldsep ',' file.csv table
+
+# Run tests (for dev usage):
+python3 -m unittest chart.py
 """.format(
     prog=pathlib.Path(sys.argv[0]).name
 )
+
+logger = logging.getLogger(__name__)
+
 
 # TODO:
 # https://plotly.com/javascript/bar-charts/
@@ -69,7 +80,7 @@ class DataTableColumnDef(ty.TypedDict):
 
 class DataTable(ty.TypedDict):
     """see https://datatables.net/reference/option/data
-    NOTE: I don't need the list of objects: https://datatables.net/examples/data_sources/js_array.html
+    TODO: I don't need the list of objects: https://datatables.net/examples/data_sources/js_array.html
     But it already works like this, so whatever
     """
 
@@ -104,6 +115,7 @@ class PlotlyLayout(ty.TypedDict, total=False):
 
 
 def datatables_html_div(div_id: str, table_data: DataTable) -> str:
+    # TODO: used template literals? https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
     table_data_str = json.dumps(table_data)
 
     # remove inline single quotes so JSON.parse doesn't get confused. TODO: can
@@ -239,7 +251,7 @@ def _csv_to_columns(
     delimiter: str,
     fieldnames: ty.List[str],
     first_line: ty.List[str],
-) -> ty.DefaultDict[str, ty.List[str]]:
+) -> ty.Dict[str, ty.List[str]]:
     # add the first line
     # NOTE: we can rely on insertion order, so iterating over keys later
     # will work as expected
@@ -253,7 +265,8 @@ def _csv_to_columns(
         for k, v in d_row.items():
             ret[k].append(v)
 
-    return ret
+    # return a dict to make printing values easier
+    return dict(ret)
 
 
 # -- functions to build the JSONIFIED datastructures
@@ -299,9 +312,15 @@ def build_table(
 
 
 def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTrace]:
-    # first column is datetime for xs (leave as string for now)
-    # TODO: the second version is optionally a grouping string
-    # rest of the columns should be numeric for ys
+    """
+    - first column is datetime or string for xs
+    - the second column either a grouping string or numeric for ys
+    - the rest of the columns should be numeric for ys
+
+    See TestFunctions class for examples
+    """
+
+    logger.debug("columns = %r", columns)
 
     if len(columns) == 0:
         return []
@@ -328,6 +347,7 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTra
             )
             traces.append(trace)
 
+        logger.debug("traces = %r", traces)
         return traces
 
     # assume that its strings and we need to start grouping stuff
@@ -356,6 +376,9 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTra
             y=grouped_traces_ys[trace_name],
         )
         traces.append(trace)
+
+    logger.debug("traces = %r", traces)
+
     return traces
 
 
@@ -380,6 +403,13 @@ def parse_args(*args, **kwargs):
     parser.add_argument(
         "--html_title",
         help="Title of the HTML. Defaults to 'TODO'",
+    )
+
+    parser.add_argument(
+        "--loglevel",
+        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="INFO",
+        help="Defaults to 'INFO'. Logs to stderr. See https://docs.python.org/3/library/logging.html#levels",
     )
 
     parser.add_argument(
@@ -552,10 +582,52 @@ def build_timechart(
     )
 
 
-def main():
+class TestFunctions(unittest.TestCase):
+    """Test my difficult functions"""
 
-    # parse args
+    def test_gen_timechart_json_lines(self):
+        columns = {"time": ["1", "3"], "x": ["2", "4"], "y": ["3", "5"]}
+        got = gen_timechart_json(columns=columns)
+        expected = [
+            {"mode": "lines+markers", "name": "x", "type": "scatter", "x": ["1", "3"], "y": ["2", "4"]},
+            {"mode": "lines+markers", "name": "y", "type": "scatter", "x": ["1", "3"], "y": ["3", "5"]},
+        ]
+        self.assertEqual(expected, got)
+
+    def test_gen_timechart_json_grouped(self):
+        columns = {
+            "year": ["2010", "2011", "2011", "2012"],
+            "change": ["add", "rm", "add", "rm"],
+            "amount": ["10", "-2", "3", "-5"],
+        }
+        got = gen_timechart_json(columns=columns)
+        expected = [
+            {
+                "mode": "lines+markers",
+                "name": "add-amount",
+                "type": "scatter",
+                "x": ["2010", "2011"],
+                "y": ["10", "3"],
+            },
+            {
+                "mode": "lines+markers",
+                "name": "rm-amount",
+                "type": "scatter",
+                "x": ["2011", "2012"],
+                "y": ["-2", "-5"],
+            },
+        ]
+        self.assertEqual(expected, got)
+
+
+def main():
     args = parse_args()
+
+    # https://docs.python.org/3/library/logging.html#logging.basicConfig
+    logging.basicConfig(
+        format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",
+        level=args.loglevel,
+    )
 
     if args.subcommand_name == "html_bottom":
         print(html_footer)
