@@ -115,15 +115,14 @@ class PlotlyLayout(ty.TypedDict, total=False):
 
 
 def datatables_html_div(div_id: str, table_data: DataTable) -> str:
-    # TODO: used template literals? https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-    table_data_str = json.dumps(table_data)
-
-    # remove inline single quotes so JSON.parse doesn't get confused. TODO: can
-    # I just escape it? Also need to add to plotly div
-    table_data_str = table_data_str.replace("'", "")
+    # Use template literals: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+    table_data_str = json.dumps(table_data, indent=2, sort_keys=True)
 
     # remove inline r'\' for JSON.parse
     table_data_str = table_data_str.replace("\\", "")
+
+    table_data_str = table_data_str.replace("`", "")
+
     table_id = f"{div_id}_table"
     div = """
     <div id="{div_id}">
@@ -132,7 +131,7 @@ def datatables_html_div(div_id: str, table_data: DataTable) -> str:
     </div>
     <script>
     $(document).ready( function () {{
-      $('#{table_id}').DataTable(JSON.parse('{table_data_str}'));
+      $('#{table_id}').DataTable(JSON.parse(`{table_data_str}`));
     }} );
     </script>
     """
@@ -581,7 +580,7 @@ def build_timechart(
     )
 
 
-class TestFunctions(unittest.TestCase):
+class Tests(unittest.TestCase):
     """Test my difficult functions"""
 
     def test_gen_timechart_json_lines(self):
