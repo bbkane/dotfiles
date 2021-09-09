@@ -15,7 +15,7 @@ Examples:
 
 REPLY = """
 Hello {name},
-I'm very happy here at LinkedIn, and I'm going to stay a while. {exciting} {sentence} I've saved your contact info if anything changes on my end. Also, feel free to send me a Linkedin connection request. Best of luck finding good people!
+I'm very happy here at LinkedIn, and I'm going to stay a while. {exciting} {sentence} I've saved your contact info if anything changes on my end. Also, feel free to send me a LinkedIn connection request. Best of luck finding good people!
 Thanks,
 Ben
 """
