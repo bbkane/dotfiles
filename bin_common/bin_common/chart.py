@@ -119,13 +119,7 @@ class PlotlyLayout(ty.TypedDict, total=False):
 
 
 def datatables_html_div(div_id: str, table_data: DataTable) -> str:
-    # Use template literals: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-    table_data_str = json.dumps(table_data, indent=2, sort_keys=True)
-
-    # remove inline r'\' for JSON.parse
-    table_data_str = table_data_str.replace("\\", "")
-
-    table_data_str = table_data_str.replace("`", "")
+    table_data_str = json.dumps(table_data)
 
     table_id = f"{div_id}_table"
     div = """
@@ -133,9 +127,9 @@ def datatables_html_div(div_id: str, table_data: DataTable) -> str:
       <table id="{table_id}" class="compact stripe hover">
       </table>
     </div>
-    <script>
+    <script type="application/javascript">
     $(document).ready( function () {{
-      $('#{table_id}').DataTable(JSON.parse(`{table_data_str}`));
+      $('#{table_id}').DataTable({table_data_str});
     }} );
     </script>
     """
@@ -148,19 +142,16 @@ def datatables_html_div(div_id: str, table_data: DataTable) -> str:
 
 
 def plotly_html_div(div_id: str, plotly_data: ty.List[PlotlyTrace], plotly_layout: PlotlyLayout) -> str:
-    plotly_data_str = json.dumps(plotly_data, indent=2, sort_keys=True)
-    plotly_layout_str = json.dumps(plotly_layout, indent=2, sort_keys=True)
-
-    plotly_data_str = plotly_data_str.replace("\\", "").replace("`", "")
-    plotly_layout_str = plotly_layout_str.replace("\\", "").replace("`", "")
+    plotly_data_str = json.dumps(plotly_data)
+    plotly_layout_str = json.dumps(plotly_layout)
 
     div = """
     <div id="{div_id}"></div>
-    <script>
+    <script type="application/javascript">
     Plotly.plot(
         "{div_id}",
-        JSON.parse(`{plotly_data_str}`),
-        JSON.parse(`{plotly_layout_str}`),
+        {plotly_data_str},
+        {plotly_layout_str},
         {{editable: false}}
     );
     </script>
