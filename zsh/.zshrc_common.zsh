@@ -217,3 +217,8 @@ tree-git-seen() { rg --files "$@" | tree --fromfile }
 az_my_groups() {
     az ad user get-member-groups --id $(az ad signed-in-user show --query 'objectId' --output tsv)
 }
+
+# https://gist.github.com/joncalhoun/d0d765b9485de9cbd6949afbcde9ee04
+gotest() {
+  go test $* | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' | GREP_COLOR="01;33" egrep --color=always '\s*[a-zA-Z0-9\-_.]+[:][0-9]+[:]|^'
+}

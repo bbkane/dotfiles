@@ -79,7 +79,7 @@
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     // taniarascia.new-moon-vscode
-    "workbench.colorTheme": "Kimbie Dark",
+    "workbench.colorTheme": "Solarized Dark",
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
     },
@@ -97,5 +97,7 @@
         "default": "right",
         "jupyter-notebook": "left"
     },
-    "swaggerViewer.previewInBrowser": true
+    "swaggerViewer.previewInBrowser": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.guides.bracketPairs": true,
 }
