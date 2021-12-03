@@ -100,4 +100,5 @@
     "swaggerViewer.previewInBrowser": true,
     "security.workspace.trust.untrustedFiles": "open",
     "editor.guides.bracketPairs": true,
+    "window.zoomLevel": 1,
 }

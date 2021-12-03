@@ -1,5 +1,7 @@
 # Dotfiles
 
+TODO: change links curl files :)
+
 Store configuration for common apps.
 
 Use `stow` to manage most app configs. See [`./stow.sh`](./stow.sh).
