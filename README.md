@@ -1,16 +1,15 @@
 # Dotfiles
 
-TODO: change links curl files :)
+TODO:
+
+- change links curl files :)
+- replace cat EOF install code with echo and raw newlines cause that actually works in zsh :)
 
 Store configuration for common apps.
 
 Use [`fling`](https://github.com/bbkane/fling/) to manage most app configs.
 
 ## Install/Uninstall a config
-
-### Apps that cannot be installed with stow.sh
-
-- vscode has an install script in the subfolder
 
 ### Install/Symlink
 
@@ -28,7 +27,11 @@ fling --ignore 'README.*' --src-dir <dirname> unlink
 
 flign will prompt before unlinking
 
-## Add a stowable config to the repo
+### Apps that cannot be installed with fling
+
+- vscode has an install script in the subfolder
+
+## Add a flingable config to the repo
 
 - make a directory with the name of an app
 - mirror app config's file structure from `~` into `./<app>/`, replacing leading `.` with `dot-`. For example, if your app's config is stored at `~/.myapp/config`, then make `./dot-myapp/config`

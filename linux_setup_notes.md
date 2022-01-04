@@ -69,8 +69,6 @@ fi
 
 ## zsh config
 
-I changed the repo to not need the `--dotfiles` arg anymore so I can use RedHat's `stow`
-
 Need to install pastel
 
 ## pastel
@@ -192,4 +190,3 @@ curl -L -O https://github.com/dandavison/delta/releases/download/0.6.0/delta-0.6
 tar xvf delta-0.6.0-x86_64-unknown-linux-musl.tar.gz
 cp delta-0.6.0-x86_64-unknown-linux-musl/delta ~/bin/
 ```
-
