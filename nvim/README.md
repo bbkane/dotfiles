@@ -14,7 +14,7 @@ mv "$HOME/.config/nvim" "$HOME/.config/nvim.$(date +%Y-%m-%d)"
 
 ```
 mkdir -p "$HOME/.config"
-./stow.sh nvim
+fling nvim
 ```
 
 NOTE: I can't rename `.config` to `dot-config` because of https://github.com/aspiers/stow/issues/33 Hopefully that'll be fixed at some point
