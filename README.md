@@ -4,7 +4,7 @@ TODO: change links curl files :)
 
 Store configuration for common apps.
 
-Use `stow` to manage most app configs. See [`./stow.sh`](./stow.sh).
+Use [`fling`](https://github.com/bbkane/fling/) to manage most app configs.
 
 ## Install/Uninstall a config
 
@@ -15,22 +15,23 @@ Use `stow` to manage most app configs. See [`./stow.sh`](./stow.sh).
 ### Install/Symlink
 
 ```
-./stow.sh <dir>
+fling --ignore 'README.*' --src-dir <dirname> link
 ```
 
-This script will do a dry-run and prompt before symlinking
+flign will prompt before symlinking
 
 ### Uninstall/Unlink
 
 ```
-./stow.sh -D <dir>
+fling --ignore 'README.*' --src-dir <dirname> unlink
 ```
+
+flign will prompt before unlinking
 
 ## Add a stowable config to the repo
 
 - make a directory with the name of an app
 - mirror app config's file structure from `~` into `./<app>/`, replacing leading `.` with `dot-`. For example, if your app's config is stored at `~/.myapp/config`, then make `./dot-myapp/config`
-- run `./stow.sh <app>` then the app and make sure it picks up the config
 
 # Notes
 

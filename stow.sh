@@ -51,6 +51,9 @@ IFS=$'\n\t'
 
 # NOTE: --dotfiles is stow 2.3.x, not 2.2.x. My linux box only has 2.2.x and this isn't important enough for me to try to build from source
 
+printf "This script is now deprecated - fling replaces stow. See README\n"
+exit 1
+
 set -x
 stow --no --ignore 'README.*' -vvv --target "$HOME" "$@"
 { set +x; } 2>/dev/null
