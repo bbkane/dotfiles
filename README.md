@@ -51,6 +51,17 @@ https://stackoverflow.com/a/27921346/2958070
 
 ---
 
+Use https://levelup.gitconnected.com/how-to-update-fork-repo-from-original-repo-b853387dd471 to fork this repo, add features, make PRs, and keep it all synced.
+
+Basically, fork, clone locally, and:
+
+```bash
+# add original repo to git config
+$ git remote add upstream https://github.com/bbkane/dotfiles.git
+$ git pull upstream master
+$ git push origin <branch_name>
+```
+
 # TODO
 
 - Maybe get a better git prompt and tmux conf from https://github.com/mathiasbynens/dotfiles
