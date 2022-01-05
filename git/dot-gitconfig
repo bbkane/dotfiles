@@ -47,5 +47,5 @@
 
 # Override potential ~/.gitconfig.local for personal git directory
 # within work machine
-[includeIf "gitdir/i:~/Git-personal/"]
+[includeIf "gitdir/i:~/Git-Personal/"]
 	path = ~/.gitconfig.personal
