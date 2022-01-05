@@ -63,10 +63,9 @@ def parse_args(*args, **kwargs):
         help="servername to use. Defaults to cert_or_host. Pass NONE to not use SNI",
     )
     parser.add_argument(
-        "--print",
-        "-p",
+        "--silent",
         action="store_true",
-        help="print generated openssl command in addition to running it",
+        help="Don't print generated openssl command in addition to running it",
     )
     return parser.parse_args(*args, **kwargs)
 
@@ -74,7 +73,7 @@ def parse_args(*args, **kwargs):
 def main():
     args = parse_args()
     cmd = get(args.cert_or_host, args.servername) + query[args.query]
-    if args.print:
+    if not args.silent:
         print("$", cmd, end="\n\n")
     os.system(cmd)
 

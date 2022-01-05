@@ -9,11 +9,11 @@ subreddits:
   - name: abandonedporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 3
+    limit: 1
   - name: architectureporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 5
+    limit: 2
   - name: bookporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
@@ -21,11 +21,11 @@ subreddits:
   - name: churchporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 4
+    limit: 2
   - name: cityporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 4
+    limit: 3
   - name: conceptart
     destination: ~/Pictures/grabbit
     timeframe: "week"
@@ -37,11 +37,11 @@ subreddits:
   - name: futureporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 3
+    limit: 2
   - name: imaginarycastles
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 4
+    limit: 3
   - name: imaginaryinteriors
     destination: ~/Pictures/grabbit
     timeframe: "week"
