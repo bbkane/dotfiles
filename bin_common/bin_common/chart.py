@@ -332,6 +332,18 @@ def build_table(
     )
 
 
+def is_float(s: str) -> bool:
+    # https://docs.python.org/3/library/stdtypes.html#str.isnumeric
+    # only checks if all characters are digits (and unicode equivalents)
+    # so it can't handle floats
+    try:
+        float(s)
+    except ValueError:
+        return False
+    else:
+        return True
+
+
 def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTrace]:
     """
     - first column is datetime or string for xs
@@ -357,7 +369,9 @@ def gen_timechart_json(columns: ty.Dict[str, ty.List[str]]) -> ty.List[PlotlyTra
     #     "added": ["1", "2", "3", "2"],
     #     "deleted": ["-2", "-4", "0", "-3"],
     # }
-    if columns[column_names[1]][0].isnumeric():
+    potential_number = columns[column_names[1]][0]
+    logger.debug("potential_number = %r", potential_number)
+    if is_float(potential_number):
         for name in column_names[1:]:
             trace = PlotlyTrace(
                 mode="lines+markers",
