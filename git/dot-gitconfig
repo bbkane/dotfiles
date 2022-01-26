@@ -12,15 +12,14 @@
 	ui = true
 [core]
 	excludesfile = ~/.config/gitignore_global
-
-	# The following are for https://github.com/dandavison/delta
-	# I'm not getting a good green color when ssh'd into Azure VM... disabling for now...
-	# pager = delta --plus-color="#012800" --minus-color="#340001" --theme='Monokai Extended'
-	pager = delta --plus-color="#012800" --minus-color="#340001" --theme='zenburn'
-	# pager = delta --theme='zenburn' --dark
+	pager = delta
 [credential "https://github.com"]
 	helper = store
 	username = bbkane
+[delta]
+	minus-style = normal "#340001"
+	plus-style = syntax "#012800"
+	syntax-theme = zenburn
 # Not sure why git lfs got installed but whatever... 
 # https://mydeveloperplanet.com/2018/10/31/git-lfs-why-and-how-to-use/
 [filter "lfs"]
