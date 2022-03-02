@@ -43,6 +43,12 @@ git for-each-ref refs/tags \
 print_green "Create new tag and push!"
 
 read -r -p "New tag (Ex: v1.0.0): " new_tag
+
+if [[ ! "$new_tag" =~ ^v[0-9][0-9]?\.[0-9][0-9]?\.[0-9][0-9]? ]]; then
+    print_red "Tag must match version reges"
+    exit 1
+fi
+
 read -r -p "New message (Ex: 'new feature'): " new_message
 
 git tag -a "${new_tag}" -m "${new_message}"
