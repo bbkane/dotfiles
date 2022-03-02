@@ -99,6 +99,7 @@
     },
     "swaggerViewer.previewInBrowser": true,
     "security.workspace.trust.untrustedFiles": "open",
+    "terminal.integrated.fontSize": 15,
     "editor.guides.bracketPairs": true,
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
 }
