@@ -6,6 +6,8 @@
 chart.*.html
 litecli/.config/litecli/history
 litecli/.config/litecli/log
+litecli/dot-config/litecli/history
+litecli/dot-config/litecli/log
 nvim/.config/nvim/autoload/plug.vim
 nvim/.config/nvim/autoload/plug.vim.old
 tmp*
