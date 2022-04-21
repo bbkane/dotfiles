@@ -405,7 +405,8 @@ command! ChmodX call ChmodX()
 command! -range=% -nargs=0 -bar MarkdownToJira
     \ :<line1>,<line2>s:^  - :** :e
     \ | <line1>,<line2>s:^    - :*** :e
-    \ | <line1>,<line2>s:^```:{noformat}:e
+    \ | <line1>,<line2>s:^```$:{code}:e
+    \ | <line1>,<line2>s:^```\(.\+\):{code\:\1}:e
     \ | <line1>,<line2>s:^# :h1. :e
     \ | <line1>,<line2>s:^## :h2. :e
     \ | <line1>,<line2>s:^### :h3. :e
