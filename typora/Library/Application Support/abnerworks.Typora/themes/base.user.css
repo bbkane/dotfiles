@@ -1,0 +1,23 @@
+/* https://support.typora.io/Add-Custom-CSS/ */
+
+/* -- Make images fill width -- */
+/* https://support.typora.io/Images/ */
+
+/* for editing */
+p .md-image:only-child {
+    display: inline-block;
+    width: 100%;
+}
+
+p > .md-image:only-child:not(.md-img-error) img {
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+/* -- Make margins smaller -- */
+/* https://support.typora.io/Width-of-Writing-Area/ */
+
+#write {
+    max-width: 90%; /*adjust writing area position*/
+  }
