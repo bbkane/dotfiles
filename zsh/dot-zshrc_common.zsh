@@ -222,3 +222,9 @@ az_my_groups() {
 gotest() {
   go test $* | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' | GREP_COLOR="01;33" egrep --color=always '\s*[a-zA-Z0-9\-_.]+[:][0-9]+[:]|^'
 }
+
+# Use a local copy of warg in current Go project (grabbit, etc.)
+go_work_warg() {
+    go work init .
+    go work use -r ~/Git/warg
+}

@@ -4,7 +4,7 @@
 -- see cleaner results
 -- .mode markdown -- markdown tables
 -- .mode column -- older version of sqlite
-.mode box -- prettiest version :)
+.mode box
 
 
 -- see execution time
