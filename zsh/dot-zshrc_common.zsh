@@ -210,8 +210,11 @@ alias typora="open -a typora"
 # NOTE: for some reason this isn't working, but $PAGER does
 export PAGER="less -SRXF"
 
-# https://unix.stackexchange.com/a/632196/185953
-tree-git-seen() { rg --files "$@" | tree --fromfile }
+# https://unix.stackexchange.com/a/691245/185953
+# --ignore : respect .gitignore
+# --hidden : show files starting with '.', which includes .git/
+# --glob '!.git/' : ignore .git/ directory
+tree-git-seen() { rg --ignore --hidden --files --glob '!.git/' "$@" | tree --fromfile -a }
 
 # Show my Azure Groups
 az_my_groups() {
