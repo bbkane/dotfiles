@@ -11,7 +11,7 @@ import webbrowser
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
-Write html input to a tmpfile, then open in a browser
+Write html input to a tmpfile, then open in a browser. Useful for tablegraph
 
 Examples:
     printf '<h1>Hello JJ</h1>' | {sys.argv[0]}
@@ -34,18 +34,30 @@ def parse_args(*args, **kwargs):
         help="Use a file or stdin",
     )
 
+    parser.add_argument(
+        "--silent",
+        action="store_true",
+        help="Don't print file name to stdout",
+    )
+
     return parser.parse_args(*args, **kwargs)
 
 
 def main():
     args = parse_args()
+
     with args.infile, tempfile.NamedTemporaryFile(
         mode="w",
         delete=False,
         suffix=".html",
     ) as outfp:  # TODO: will this close stdin if args.infile is stdin?
         shutil.copyfileobj(args.infile, outfp)
-        url = pathlib.Path(outfp.name).as_uri()
+        filename = outfp.name
+        url = pathlib.Path(filename).as_uri()
+
+    if not args.silent:
+        print(f"Wrote:\n  {filename = }\n  {url = }")
+
     webbrowser.open_new_tab(url)
 
 
