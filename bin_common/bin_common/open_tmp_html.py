@@ -3,13 +3,18 @@
 
 import argparse
 import sys
+import tempfile
+import shutil
+import pathlib
+import webbrowser
 
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
-<description>
+Write html input to a tmpfile, then open in a browser
+
 Examples:
-    {sys.argv[0]}
+    printf '<h1>Hello JJ</h1>' | {sys.argv[0]}
 Help:
 Please see Benjamin Kane for help.
 Code at <repo>
@@ -17,10 +22,7 @@ Code at <repo>
 
 
 def parse_args(*args, **kwargs):
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     # Use a file or stdin for an argument
     # https://stackoverflow.com/a/11038508/2958070
@@ -37,8 +39,14 @@ def parse_args(*args, **kwargs):
 
 def main():
     args = parse_args()
-    with args.infile:
-        pass
+    with args.infile, tempfile.NamedTemporaryFile(
+        mode="w",
+        delete=False,
+        suffix=".html",
+    ) as outfp:  # TODO: will this close stdin if args.infile is stdin?
+        shutil.copyfileobj(args.infile, outfp)
+        url = pathlib.Path(outfp.name).as_uri()
+    webbrowser.open_new_tab(url)
 
 
 if __name__ == "__main__":
