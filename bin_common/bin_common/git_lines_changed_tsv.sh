@@ -16,22 +16,20 @@ git log \
     --reverse \
     --shortstat \
 | awk '
-    BEGIN { RS = ""; FS = "\n"; OFS="\t" }
+    BEGIN { RS = ""; FS = "\n"; OFS="\t"; print "date", "type", "lines" }
     {
         insertions = match($2, /[[:digit:]]+ insertion/)
         if (insertions != 0)
+        {
             insertions = substr($2, RSTART, RLENGTH - 10)
-        else
-            insertions = 0
+            print $1, "insertion", insertions
+        }
 
         deletions = match($2, /[[:digit:]]+ deletion/)
         if (deletions != 0)
+        {
             deletions = -substr($2, RSTART, RLENGTH - 9)
-        else
-            deletions = 0
-
-        print $1, insertions, deletions
+            print $1, "deletion", deletions
+        }
     }
 '
-
-# TODO: chart this... https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/renderoperator?pivots=azuredataexplorer
