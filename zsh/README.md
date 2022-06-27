@@ -152,6 +152,52 @@ EOF
 
 Open a new `zsh` shell.
 
+## Install [fzf-tab](https://github.com/Aloxaf/fzf-tab)
+
+Add fuzzy completion to tab-complete. Very useful when there's a bunch of similarly named things in a directory (like ticket notes).
+
+![fzf-tab](./README_img/fzf-tab.png)
+
+Clone the repo:
+
+```bash
+git clone https://github.com/Aloxaf/fzf-tab  ~/Git/fzf-tab
+```
+
+Add to zshrc:
+
+```bash
+printf '
+# https://github.com/Aloxaf/fzf-tab
+# Adding completion settings to ~/.zshrc_common because I think they're commonly applicable
+source ~/Git/fzf-tab/fzf-tab.plugin.zsh
+# Can run `build-fzf-tab-module` to get some colors ( https://github.com/Aloxaf/fzf-tab#binary-module )
+# fzf-tab completions settings - not sure how much I need these :)
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+' >> ~/.zshrc
+```
+
+Install `exa` for directory previews: 
+
+```bash
+brew install exa
+```
+
+Build the `ff-tab-module` to get colors (requires C compliation toolchain):
+
+```bash
+build-fzf-tab-module
+```
+
 ## Notes
 
 see [./notes.md](./notes.md)
