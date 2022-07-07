@@ -38,7 +38,7 @@ EOF
 
 Open a new `zsh` shell.
 
-## Install [`zp_prompt`](./.zshrc_prompt.zsh)
+## Install [`zp_prompt`](./dot-zshrc_prompt.zsh)
 
 Change prompt colors on the fly!
 
