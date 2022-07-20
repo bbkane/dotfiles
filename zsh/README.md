@@ -186,7 +186,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 ' >> ~/.zshrc
 ```
 
-Install `exa` for directory previews: 
+Install `exa` for directory previews:
 
 ```bash
 brew install exa
@@ -198,9 +198,29 @@ Build the `ff-tab-module` to get colors (requires C compliation toolchain):
 build-fzf-tab-module
 ```
 
+## Install [warhol.plugin.zsh](https://github.com/unixorn/warhol.plugin.zsh)
+
+Colorize command output using grc and lscolors
+
+![](./README_img/warhol.plugin.zsh.png)
+
+```bash
+brew install grc
+```
+
+```bash
+git clone https://github.com/unixorn/warhol.plugin.zsh.git  ~/Git/warhol.plugin.zsh
+```
+
+```bash
+printf '
+source ~/Git/warhol.plugin.zsh/warhol.plugin.zsh
+' >> ~/.zshrc
+```
+
 ## Notes
 
-see [./notes.md](./notes.md)
+see [./README_notes.md](./README_notes.md)
 
 ## TODO
 
