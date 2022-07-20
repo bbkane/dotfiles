@@ -83,7 +83,7 @@
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     // taniarascia.new-moon-vscode
-    "workbench.colorTheme": "Monokai",
+    "workbench.colorTheme": "New Moon",
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
     },
@@ -107,4 +107,8 @@
     "editor.guides.bracketPairs": true,
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "problems.defaultViewMode": "table",
+    "window.zoomLevel": 1,
+    "window.commandCenter": true,
+    "dart.previewFlutterUiGuides": true,
+    "editor.acceptSuggestionOnEnter": "off",
 }

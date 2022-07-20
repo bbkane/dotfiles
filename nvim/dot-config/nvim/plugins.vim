@@ -35,9 +35,6 @@ endif
 "   S' -> adds ' around selected object
 Plug 'tpope/vim-surround'
 
-" :Delete , :Rename
-Plug 'tpope/vim-eunuch'
-
 " Highlights and fixes trailing whitespace
 " Turns out ale does this... I've got ale fixing on every save, so I'll leave
 " this here commented out in case I need a standalone command
