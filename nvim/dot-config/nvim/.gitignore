@@ -1,8 +1,0 @@
-autoload/plug.vim
-bundle/
-spell/
-swap/
-*.swp
-.netrwhist
-tmp/
-
