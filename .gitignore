@@ -15,4 +15,11 @@ nvim/dot-config/nvim/spell/
 nvim/dot-config/nvim/swap/
 nvim/dot-config/nvim/.netrwhist
 
+nvim2-min/dot-config/nvim/autoload/plug.vim*
+nvim2-min/dot-config/nvim/bundle/
+nvim2-min/dot-config/nvim/plugin/  # this is new!
+nvim2-min/dot-config/nvim/spell/
+nvim2-min/dot-config/nvim/swap/
+nvim2-min/dot-config/nvim/.netrwhist
+
 tmp*
