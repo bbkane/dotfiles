@@ -1,22 +1,43 @@
-inoremap jk <Esc>
 
-" map j to gj and k to gk, so line navigation ignores line wrap
-nnoremap j gj
-nnoremap k gk
 
-" https://stackoverflow.com/a/30691754 
-set clipboard=unnamedplus
-set nohlsearch
+lua << EOF
 
-set wrap                          " Only use a soft wrap, not a hard one
-set linebreak                     " Break lines at word (requires Wrap lines)
+-- inoremap jk <Esc>
+vim.keymap.set('i', 'jk', '<Esc>')
 
-" https://stackoverflow.com/a/1878984/2958070
-set tabstop=4       " The width of a TAB is set to 4. Still it is a \t. It is just that
-                    " Vim will interpret it to be having a width of 4.
-set shiftwidth=4    " Indents will have a width of 4
-set softtabstop=4   " Sets the number of columns for a TAB
-set expandtab       " Expand TABs to spaces
+-- map j to gj and k to gk, so line navigation ignores line wrap
+-- nnoremap j gj
+-- nnoremap k gk
+vim.keymap.set('n', 'j', 'gj')
+vim.keymap.set('n', 'k', 'gk')
+
+-- https://stackoverflow.com/a/30691754 
+-- set clipboard=unnamedplus
+vim.o.clipboard = "unnamedplus"
+
+-- set nohlsearch
+vim.o.hlsearch = false
+
+-- set wrap                          " Only use a soft wrap, not a hard one
+vim.o.wrap = true
+-- set linebreak                     " Break lines at word (requires Wrap lines)
+vim.o.linebreak = true
+
+-- " https://stackoverflow.com/a/1878984/2958070
+
+-- set tabstop=4       " The width of a TAB is set to 4. Still it is a \t. It is just that
+vim.o.tabstop = 4
+
+-- set shiftwidth=4    " Indents will have a width of 4
+vim.o.shiftwidth = 4
+
+-- set softtabstop=4   " Sets the number of columns for a TAB
+vim.o.softtabstop = 4
+
+-- set expandtab       " Expand TABs to spaces
+vim.o.expandtab = true
+
+EOF
 
 " NOTE: add bottom one first to not mess up what's <line2>
 command! -range=% -nargs=0 -bar AddCodeFence
