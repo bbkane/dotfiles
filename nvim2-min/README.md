@@ -10,6 +10,10 @@ keyboard remaps, commands
 
 https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
 
+https://github.com/nanotee/nvim-lua-guide#debugging-lua-mappingscommandsautocommands
+
+https://github.com/nanotee/nvim-lua-guide#testing-lua-code:q
+
 
 # TODO:
 

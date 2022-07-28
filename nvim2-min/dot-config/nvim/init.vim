@@ -37,7 +37,34 @@ vim.o.softtabstop = 4
 -- set expandtab       " Expand TABs to spaces
 vim.o.expandtab = true
 
+
+-- augroup custom_filetype
+--     autocmd!
+--     autocmd BufNewFile,BufRead *.src set filetype=xml
+-- augroup END
+local bbkane_augroup = vim.api.nvim_create_augroup('bbkane_augroup', {clear = true})
+
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+    group = bbkane_augroup,
+    pattern = "*.src",
+    command = "set filetype=xml"
+})
+
+-- " http://stackoverflow.com/a/18444962/2958070
+-- " custom file templates
+-- augroup templates
+--     au!
+--     autocmd BufNewFile *.* silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand("<afile>:e")
+-- augroup END
+vim.api.nvim_create_autocmd({'BufNewFile'}, {
+    group = bbkane_augroup,
+    pattern = "*.*",
+    command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
+})
+
 EOF
+
+
 
 " NOTE: add bottom one first to not mess up what's <line2>
 command! -range=% -nargs=0 -bar AddCodeFence
@@ -80,14 +107,3 @@ command! RenameFile :call RenameFile()
 command! InsertDate :execute 'norm i' .
     \ substitute(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"), '\n\+$', '', '')
 
-augroup custom_filetype
-    autocmd!
-    autocmd BufNewFile,BufRead *.src set filetype=xml
-augroup END
-
-" http://stackoverflow.com/a/18444962/2958070
-" custom file templates
-augroup templates
-    au!
-    autocmd BufNewFile *.* silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand("<afile>:e")
-augroup END
