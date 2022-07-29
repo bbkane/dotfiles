@@ -62,22 +62,40 @@ vim.api.nvim_create_autocmd({'BufNewFile'}, {
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
 })
 
-EOF
+-- " NOTE: add bottom one first to not mess up what's <line2>
+-- command! -range=% -nargs=0 -bar AddCodeFence
+--     \ :<line2>s:$:\r```:
+--     \ | <line1>s:^:```\r:
+vim.api.nvim_create_user_command(
+    "AddCodeFence",
+    [[:<line2>s:$:\r```:
+    \ | <line1>s:^:```\r:]],
+    {bang = true, bar = true, range = "%", nargs=0}
+)
 
-
-
-" NOTE: add bottom one first to not mess up what's <line2>
-command! -range=% -nargs=0 -bar AddCodeFence
-    \ :<line2>s:$:\r```:
-    \ | <line1>s:^:```\r:
-
-" The 'e' on the end of the substitute ignores errors
-" -range=% means without a visual selection the whole buffer is selected
-"  Special thanks to a @jfim for the link substitution line
-"  Note that top level lists can be represented by ^-, not ^*
-"  TODO: handle ^# substitution in code blocks
-command! -range=% -nargs=0 -bar MarkdownToJira
-    \ :<line1>,<line2>s:^  - :** :e
+-- " The 'e' on the end of the substitute ignores errors
+-- " -range=% means without a visual selection the whole buffer is selected
+-- "  Special thanks to a @jfim for the link substitution line
+-- "  Note that top level lists can be represented by ^-, not ^*
+-- "  TODO: handle ^# substitution in code blocks
+-- command! -range=% -nargs=0 -bar MarkdownToJira
+--     \ :<line1>,<line2>s:^  - :** :e
+--     \ | <line1>,<line2>s:^    - :*** :e
+--     \ | <line1>,<line2>s:^```$:{code}:e
+--     \ | <line1>,<line2>s:^```\(.\+\):{code\:\1}:e
+--     \ | <line1>,<line2>s:^# :h1. :e
+--     \ | <line1>,<line2>s:^## :h2. :e
+--     \ | <line1>,<line2>s:^### :h3. :e
+--     \ | <line1>,<line2>s: `: {{:eg
+--     \ | <line1>,<line2>s:^`:{{:e
+--     \ | <line1>,<line2>s:` :}} :eg
+--     \ | <line1>,<line2>s:`$:}}:eg
+--     \ | <line1>,<line2>s:`\.:}}.:eg
+--     \ | <line1>,<line2>s:^\d\+\. :# :e
+--     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
+vim.api.nvim_create_user_command(
+    "MarkdownToJira",
+    [=[:<line1>,<line2>s:^  - :** :e
     \ | <line1>,<line2>s:^    - :*** :e
     \ | <line1>,<line2>s:^```$:{code}:e
     \ | <line1>,<line2>s:^```\(.\+\):{code\:\1}:e
@@ -91,17 +109,26 @@ command! -range=% -nargs=0 -bar MarkdownToJira
     \ | <line1>,<line2>s:`\.:}}.:eg
     \ | <line1>,<line2>s:^\d\+\. :# :e
     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
+    \]=],
+    {bang = true, bar = true, range = "%", nargs=0}
+)
 
-function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
-endfunction
-command! RenameFile :call RenameFile()
+vim.api.nvim_create_user_command(
+    "RenameFile",
+    function(args)
+        local old_name = vim.fn.expand("%")
+        local new_name = vim.fn.input("New file name: ", old_name, "file")
+        if new_name ~= '' and new_name ~= old_name then
+            vim.api.nvim_command(' saveas ' .. new_name)
+            -- TODO: https://unix.stackexchange.com/a/562421/185953
+            vim.api.nvim_command(' silent !rm ' .. old_name)
+        end
+    end,
+    {bang = true}
+)
+
+-- END LUA
+EOF
 
 " https://askubuntu.com/a/686806/483521
 command! InsertDate :execute 'norm i' .

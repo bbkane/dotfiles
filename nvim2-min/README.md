@@ -14,6 +14,8 @@ https://github.com/nanotee/nvim-lua-guide#debugging-lua-mappingscommandsautocomm
 
 https://github.com/nanotee/nvim-lua-guide#testing-lua-code:q
 
+Try stuff in https://toroid.org/modern-neovim
+
 
 # TODO:
 
