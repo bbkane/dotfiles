@@ -1,7 +1,4 @@
 
-
-lua << EOF
-
 -- inoremap jk <Esc>
 vim.keymap.set('i', 'jk', '<Esc>')
 
@@ -17,6 +14,8 @@ vim.o.clipboard = "unnamedplus"
 
 -- set nohlsearch
 vim.o.hlsearch = false
+
+vim.o.number = true
 
 -- set wrap                          " Only use a soft wrap, not a hard one
 vim.o.wrap = true
@@ -73,6 +72,7 @@ vim.api.nvim_create_user_command(
     {bang = true, bar = true, range = "%", nargs=0}
 )
 
+-- TODO: use subsitute function: https://jeffkreeftmeijer.com/vim-reformat-dates/
 -- " The 'e' on the end of the substitute ignores errors
 -- " -range=% means without a visual selection the whole buffer is selected
 -- "  Special thanks to a @jfim for the link substitution line
@@ -113,6 +113,17 @@ vim.api.nvim_create_user_command(
     {bang = true, bar = true, range = "%", nargs=0}
 )
 
+-- function! RenameFile()
+--     let old_name = expand('%')
+--     let new_name = input('New file name: ', expand('%'), 'file')
+--     if new_name != '' && new_name != old_name
+--         exec ':saveas ' . new_name
+--         exec ':silent !rm ' . old_name
+--         redraw!
+--     endif
+-- endfunction
+-- command! RenameFile :call RenameFile()
+
 -- https://github.com/richardmarbach/dotfiles/blob/7912ba284aac6cc005b9dfe35349bf1e5d50f1fe/config/nvim/lua/utils/file.lua#L5
 vim.api.nvim_create_user_command(
     "RenameFile",
@@ -129,10 +140,16 @@ vim.api.nvim_create_user_command(
     {bang = true}
 )
 
--- END LUA
-EOF
-
-" https://askubuntu.com/a/686806/483521
-command! InsertDate :execute 'norm i' .
-    \ substitute(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"), '\n\+$', '', '')
+-- " https://askubuntu.com/a/686806/483521
+-- " :lua =os.date('%Y/%m/%d %H:%M:%S')
+-- command! InsertDate :execute 'norm i' .
+--     \ substitute(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"), '\n\+$', '', '')
+vim.api.nvim_create_user_command(
+    "NewInsertDate",
+    function(args)
+        local today = os.date('%a %b %d - %Y-%m-%d %H:%M:%S %Z')
+        vim.api.nvim_command('norm i ' .. today)
+    end,
+    {bang = true}
+)
 
