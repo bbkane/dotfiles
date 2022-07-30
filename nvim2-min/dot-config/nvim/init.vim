@@ -113,6 +113,7 @@ vim.api.nvim_create_user_command(
     {bang = true, bar = true, range = "%", nargs=0}
 )
 
+-- https://github.com/richardmarbach/dotfiles/blob/7912ba284aac6cc005b9dfe35349bf1e5d50f1fe/config/nvim/lua/utils/file.lua#L5
 vim.api.nvim_create_user_command(
     "RenameFile",
     function(args)
@@ -122,6 +123,7 @@ vim.api.nvim_create_user_command(
             vim.api.nvim_command(' saveas ' .. new_name)
             -- TODO: https://unix.stackexchange.com/a/562421/185953
             vim.api.nvim_command(' silent !rm ' .. old_name)
+            vim.cmd('redraw!')
         end
     end,
     {bang = true}
