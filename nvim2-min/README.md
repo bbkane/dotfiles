@@ -1,4 +1,4 @@
-Pare down my vim config and incrementally migrate that to lua, in prep for doing fun tree-sitter/lsp thingies.
+Pre down my vim config and incrementally migrate that to lua, in prep for doing fun tree-sitter/lsp thingies.
 
 # Links
 
@@ -19,7 +19,39 @@ Try stuff in https://toroid.org/modern-neovim
 
 # TODO:
 
-- Install packer.nvim and use it to install a commenting plugin
-- start migrating those 70 lines to lua!
+It looks like I need to modify the packpath when I download packer:
 
+
+
+See it with `:set packpath?'
+
+```
+packpath=
+/etc/xdg/nvim
+/etc/xdg/nvim/after
+/usr/local/Cellar/neovim/0.7.2_1/share/nvim/runtime
+/usr/local/Cellar/neovim/0.7.2_1/lib/nvim
+/usr/local/share/nvim/site/after
+/usr/local/share/nvim/site
+/usr/share/nvim/site
+/usr/share/nvim/site/after
+~/.config/nvim
+~/.config/nvim/after
+~/.local/share/nvim/site
+~/.local/share/nvim/site/after
+```
+
+I can set it with https://superuser.com/a/1466466/643441
+
+I don't think I need to set it as long as 
+
+
+https://neovim.io/doc/user/starting.html - "Standard Paths"
+
+I can modify the path with: https://www.reddit.com/r/neovim/comments/wacwhy/comment/ii0adg9/?utm_source=share&utm_medium=web2x&context=3
+
+Note that vim.fn.stdpath('config') = "/Users/bbkane/.local/share/nvim" , which is in the packpath by default. So my packer install path is going to be that + 
+
+- Install packer.nvim and use it to install a commenting plugin - make sure packer puts stuff into ~/.config/nvim
+- Install markdown plugins (tree-sitter)
 

@@ -145,7 +145,7 @@ vim.api.nvim_create_user_command(
 -- command! InsertDate :execute 'norm i' .
 --     \ substitute(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"), '\n\+$', '', '')
 vim.api.nvim_create_user_command(
-    "NewInsertDate",
+    "InsertDate",
     function(args)
         local today = os.date('%a %b %d - %Y-%m-%d %H:%M:%S %Z')
         vim.api.nvim_command('norm i ' .. today)
@@ -153,3 +153,4 @@ vim.api.nvim_create_user_command(
     {bang = true}
 )
 
+require("bbkane/packer_init")
