@@ -76,3 +76,11 @@ vim.cmd("colorscheme kanagawa")
 -- })
 -- vim.o.background = "dark" -- or "light" for light mode
 -- vim.cmd([[colorscheme gruvbox]])
+
+use {
+  'lewis6991/gitsigns.nvim',
+  -- TODO: can I use a config function for the other ones too?
+  config = function()
+    require('gitsigns').setup()
+  end
+}

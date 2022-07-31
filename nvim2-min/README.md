@@ -53,12 +53,17 @@ Note that vim.fn.stdpath('config') = "/Users/bbkane/.local/share/nvim" , which i
 
 # Adding Tree-sitter + Markdown
 
-Painless so far... TODO: get a colorscheme that hightlights the text in code blocks and check long files
-
 using material.nvim - the code block text isn't highlighting code differently than block text..
 
-# TODO
+Requires a C compiler - Zig with scoop on Windows?
 
-- Install packer.nvim and use it to install a commenting plugin - make sure packer puts stuff into ~/.config/nvim
-- Install markdown plugins (tree-sitter)
+```
+TSInstall markdown markdown_inline python bash
+```
+
+# Gitsigns or something
+
+# Mason + Bash support (shellcheck, etc)
+
+# TODO
 
