@@ -24,7 +24,7 @@ return require('packer').startup(function(use)
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup()
-        end
+        end,
     }
 
     -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#packernvim
@@ -32,7 +32,8 @@ return require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = function() 
             require('nvim-treesitter.install').update({ with_sync = true }) 
-
+        end,
+        config = function()
             require('nvim-treesitter.configs').setup({
                 -- A list of parser names, or "all"
                 ensure_installed = { "markdown", "markdown_inline", "bash", "python", "go" },
@@ -41,6 +42,35 @@ return require('packer').startup(function(use)
                 },
             })
         end,
+    }
+
+    -- TODO: mv to common.lua
+    vim.o.termguicolors = true
+
+    use {
+        'marko-cerovac/material.nvim',
+        config = function()
+            vim.g.material_style = "palenight"
+            -- vim.cmd 'colorscheme material'
+        end,
+    }
+
+    -- -- I really like this one for markdown, but not so much for Lua code
+    -- use "rebelot/kanagawa.nvim"
+    -- vim.cmd("colorscheme kanagawa")
+    use {
+        "rebelot/kanagawa.nvim",
+        config = function()
+            vim.cmd 'colorscheme kanagawa'
+        end,
+    }
+
+    use {
+        'lewis6991/gitsigns.nvim',
+        -- TODO: can I use a config function for the other ones too?
+        config = function()
+            require('gitsigns').setup()
+        end
     }
 
     -- Automatically set up your configuration after cloning packer.nvim
