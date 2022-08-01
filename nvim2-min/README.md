@@ -100,3 +100,7 @@ Let's save this, then make a new experiment that sets envvars to change stdpath 
 # nvim3-stdpath
 
 Ok. At the top of this init.lua, let's change the envvars that stdpath reads from, then checkout the runtime path and see what happens
+
+Packer log at:
+
+ ~/.cache/nvim/packer.nvim.log
