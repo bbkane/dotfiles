@@ -17,6 +17,7 @@ nvim/dot-config/nvim/swap/
 
 nvim2-min/dot-config/nvim/.netrwhist
 nvim2-min/dot-config/nvim/autoload/plug.vim*
+nvim2-min/dot-config/nvim/mason_install_root_dir
 nvim2-min/dot-config/nvim/packer_packpath
 nvim2-min/dot-config/nvim/plugin/packer_compiled.lua
 nvim2-min/dot-config/nvim/spell/

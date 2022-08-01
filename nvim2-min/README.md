@@ -61,9 +61,13 @@ Requires a C compiler - Zig with scoop on Windows?
 TSInstall markdown markdown_inline python bash
 ```
 
-# Gitsigns or something
+# Mason + Go support
 
-# Mason + Bash support (shellcheck, etc)
+Ok, I think I might need to combine this with a completion plugin, like nvim-cmp, but let's install mason first...
 
-# TODO
+https://github.com/williamboman/nvim-config/blob/116650568adc856d8a556a54029d67e31424aed8/lua/wb/plugins.lua#L105
+
+I use C-x,C-o to trigger autocomplete
+
+Let's save this, then make a new experiment that sets envvars to change stdpath (stdpath looks like it reads envvars each time). Then I can use stuff more directly (because things are still getting in my ~/.local/share/nvim directory
 
