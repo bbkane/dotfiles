@@ -104,3 +104,4 @@ Ok. At the top of this init.lua, let's change the envvars that stdpath reads fro
 Packer log at:
 
  ~/.cache/nvim/packer.nvim.log
+

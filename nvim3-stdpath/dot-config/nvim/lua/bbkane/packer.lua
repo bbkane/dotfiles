@@ -15,6 +15,7 @@ vim.cmd([[
   augroup end
 ]])
 
+-- log at:  ~/.cache/nvim/packer.nvim.log
 return require('packer').startup(function(use)
 
     -- Packer can manage itself
@@ -45,9 +46,6 @@ return require('packer').startup(function(use)
         end,
     }
 
-    -- TODO: mv to common.lua
-    vim.o.termguicolors = true
-
     use {
         'marko-cerovac/material.nvim',
         config = function()
@@ -68,7 +66,6 @@ return require('packer').startup(function(use)
 
     use {
         'lewis6991/gitsigns.nvim',
-        -- TODO: can I use a config function for the other ones too?
         config = function()
             require('gitsigns').setup()
         end,
@@ -121,15 +118,14 @@ return require('packer').startup(function(use)
               vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
             end
 
-            local lsp_flags = {
-              -- This is the default in Nvim 0.7+
-              debounce_text_changes = 150,
-            }
-
             require('lspconfig')['gopls'].setup{
                 on_attach = on_attach,
-                flags = lsp_flags,
             }
+
+            require('lspconfig')['pyright'].setup{
+                on_attach = on_attach,
+            }
+
         end,
     }
 

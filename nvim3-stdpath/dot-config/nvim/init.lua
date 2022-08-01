@@ -15,6 +15,7 @@ vim.env.XDG_DATA_HOME = vim.fn.expand('~/.config/nvim/stdpath_data')
 -- that again now that we've modified the data dir
 
 -- this is needed for packer, but it's global so keep it here
+-- :lua =vim.opt.packpath:get()
 vim.opt.packpath:append(path.join(vim.fn.stdpath("data"), "site"))
 
 require("bbkane.common")

@@ -35,6 +35,7 @@ vim.o.softtabstop = 4
 -- set expandtab       " Expand TABs to spaces
 vim.o.expandtab = true
 
+vim.o.termguicolors = true
 
 -- augroup custom_filetype
 --     autocmd!
