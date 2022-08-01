@@ -23,4 +23,10 @@ nvim2-min/dot-config/nvim/plugin/packer_compiled.lua
 nvim2-min/dot-config/nvim/spell/
 nvim2-min/dot-config/nvim/swap/
 
+nvim3-stdpath/dot-config/nvim/.netrwhist
+nvim3-stdpath/dot-config/nvim/plugin/
+nvim3-stdpath/dot-config/nvim/spell/
+nvim3-stdpath/dot-config/nvim/stdpath_data/
+nvim3-stdpath/dot-config/nvim/swap/
+
 tmp*

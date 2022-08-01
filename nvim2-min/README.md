@@ -16,13 +16,39 @@ https://github.com/nanotee/nvim-lua-guide#testing-lua-code:q
 
 Try stuff in https://toroid.org/modern-neovim
 
+Debug with:
+
+```lua
+:lua =vim.loop
+```
 
 # Adding Packer
 
 It looks like I need to modify the packpath when I download packer:
 
 
-See it with `:set packpath?'
+See it with `:set packpath?' or:
+
+```
+:lua =vim.opt.packpath:get()
+```
+
+```
+{ 
+"/Users/bbkane/.config/nvim",
+"/Users/bbkane/.config/nvim/after" 
+"/Users/bbkane/.local/share/nvim/site",
+"/Users/bbkane/.local/share/nvim/site/after",
+"/etc/xdg/nvim",
+"/etc/xdg/nvim/after",
+"/usr/local/Cellar/neovim/0.7.2_1/lib/nvim",
+"/usr/local/Cellar/neovim/0.7.2_1/share/nvim/runtime",
+"/usr/local/share/nvim/site",
+"/usr/local/share/nvim/site/after",
+"/usr/share/nvim/site",
+"/usr/share/nvim/site/after",
+}
+```
 
 ```
 packpath=
@@ -71,3 +97,6 @@ I use C-x,C-o to trigger autocomplete
 
 Let's save this, then make a new experiment that sets envvars to change stdpath (stdpath looks like it reads envvars each time). Then I can use stuff more directly (because things are still getting in my ~/.local/share/nvim directory
 
+# nvim3-stdpath
+
+Ok. At the top of this init.lua, let's change the envvars that stdpath reads from, then checkout the runtime path and see what happens
