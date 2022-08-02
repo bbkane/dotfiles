@@ -7,7 +7,7 @@ vim.keymap.set('i', 'jk', '<Esc>')
 vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 
--- https://stackoverflow.com/a/30691754 
+-- https://stackoverflow.com/a/30691754
 -- set clipboard=unnamedplus
 vim.o.clipboard = "unnamedplus"
 
@@ -41,9 +41,9 @@ vim.o.termguicolors = true
 --     autocmd!
 --     autocmd BufNewFile,BufRead *.src set filetype=xml
 -- augroup END
-local bbkane_augroup = vim.api.nvim_create_augroup('bbkane_augroup', {clear = true})
+local bbkane_augroup = vim.api.nvim_create_augroup('bbkane_augroup', { clear = true })
 
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     group = bbkane_augroup,
     pattern = "*.src",
     command = "set filetype=xml"
@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
 --     au!
 --     autocmd BufNewFile *.* silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand("<afile>:e")
 -- augroup END
-vim.api.nvim_create_autocmd({'BufNewFile'}, {
+vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
     group = bbkane_augroup,
     pattern = "*.*",
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
@@ -69,7 +69,7 @@ vim.api.nvim_create_user_command(
     "AddCodeFence",
     [[:<line2>s:$:\r```:
     \ | <line1>s:^:```\r:]],
-    {bang = true, bar = true, range = "%", nargs=0}
+    { bang = true, bar = true, range = "%", nargs = 0 }
 )
 
 -- TODO: use subsitute function: https://jeffkreeftmeijer.com/vim-reformat-dates/
@@ -110,7 +110,7 @@ vim.api.nvim_create_user_command(
     \ | <line1>,<line2>s:^\d\+\. :# :e
     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
     \]=],
-    {bang = true, bar = true, range = "%", nargs=0}
+    { bang = true, bar = true, range = "%", nargs = 0 }
 )
 
 -- function! RenameFile()
@@ -137,7 +137,7 @@ vim.api.nvim_create_user_command(
             vim.cmd('redraw!')
         end
     end,
-    {bang = true}
+    { bang = true }
 )
 
 -- " https://askubuntu.com/a/686806/483521
@@ -150,5 +150,5 @@ vim.api.nvim_create_user_command(
         local today = os.date('%a %b %d - %Y-%m-%d %H:%M:%S %Z')
         vim.api.nvim_command('norm i ' .. today)
     end,
-    {bang = true}
+    { bang = true }
 )

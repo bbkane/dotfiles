@@ -21,4 +21,3 @@ vim.opt.packpath:append(path.join(vim.fn.stdpath("data"), "site"))
 require("bbkane.common")
 
 require("bbkane.packer")
-
