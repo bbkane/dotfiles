@@ -137,6 +137,40 @@ return require('packer').startup(function(use)
         requires = {"neovim/nvim-lspconfig", "williamboman/mason.nvim" },
     }
 
+    use {
+        -- https://github.com/jose-elias-alvarez/null-ls.nvim/discussions/593
+        -- :NullLsInfo
+        -- format with :lua vim.lsp.buf.formatting()
+        "jose-elias-alvarez/null-ls.nvim",
+        config = function()
+            -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#sync-formatting
+            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+            require("null-ls").setup({
+                sources = {
+                    -- :MasonInstall black
+                    require("null-ls").builtins.formatting.black,
+                },
+
+                -- you can reuse a shared lspconfig on_attach callback here
+                on_attach = function(client, bufnr)
+                    if client.supports_method("textDocument/formatting") then
+                        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                        vim.api.nvim_create_autocmd("BufWritePre", {
+                            group = augroup,
+                            buffer = bufnr,
+                            callback = function()
+                                -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                                vim.lsp.buf.formatting_sync()
+                            end,
+                        })
+                    end
+                end,
+
+            })
+        end,
+        requires = { 'nvim-lua/plenary.nvim' },
+    }
+
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
