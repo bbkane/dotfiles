@@ -74,6 +74,7 @@ return require('packer').startup(function(use)
     }
 
     use {
+        -- :checkhealth mason
         "williamboman/mason.nvim",
         config = function()
             require("mason").setup()
@@ -163,10 +164,30 @@ return require('packer').startup(function(use)
         config = function()
             require("mason-lspconfig").setup({
                 -- This doesn't seem to work, so just install manually...
-                ensure_installed = { "black", "gopls", "flake8", "pyright", "shellcheck", "sumneko_lua", }
+                -- NOTE: this ONLY installs lsps, so moving to mason-tool-installer
+                -- ensure_installed = { "black", "gopls", "flake8", "pyright", "shellcheck", "sumneko_lua", }
             })
         end,
         requires = { "neovim/nvim-lspconfig", "williamboman/mason.nvim" },
+    }
+
+    use {
+        'WhoIsSethDaniel/mason-tool-installer.nvim',
+        config = function()
+            require("mason-tool-installer").setup({
+                ensure_installed = {
+                    "black",
+                    "flake8",
+                    "gopls",
+                    "lua-language-server", -- sumneko_lua in lsp
+                    "pyright",
+                    "shellcheck",
+                },
+                auto_update = false,
+                run_on_start = true, -- Use MasonToolsUpdate to run this
+            })
+        end,
+        requires = { "williamboman/mason.nvim" },
     }
 
     use {
@@ -177,7 +198,7 @@ return require('packer').startup(function(use)
         config = function()
             -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#sync-formatting
             local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-            null_ls = require("null-ls")
+            local null_ls = require("null-ls")
             null_ls.setup({
                 -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
                 sources = {
@@ -210,6 +231,7 @@ return require('packer').startup(function(use)
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
+        print("Boostrap complete. Syncing")
         require('packer').sync()
     end
 end)
