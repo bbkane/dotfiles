@@ -1,5 +1,7 @@
 local path = require("bbkane.path")
 
+-- When in doubt: :PackerSync and :PackerCompile
+
 -- this must be in packpath (see ../../init.lua)
 local packer_install_path = path.join(vim.fn.stdpath('data'), '/site/pack/packer/start/packer.nvim')
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
@@ -146,9 +148,13 @@ return require('packer').startup(function(use)
             -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#sync-formatting
             local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
             require("null-ls").setup({
+
                 sources = {
                     -- :MasonInstall black
                     require("null-ls").builtins.formatting.black,
+
+                    -- :MasonInstall shellcheck
+                    require("null-ls").builtins.diagnostics.shellcheck,
                 },
 
                 -- you can reuse a shared lspconfig on_attach callback here
