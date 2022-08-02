@@ -39,8 +39,7 @@ return require('packer').startup(function(use)
         config = function()
             require('nvim-treesitter.configs').setup({
                 -- A list of parser names, or "all"
-                -- ensure_installed = { "markdown", "markdown_inline", "bash", "python", "go" },
-                ensure_installed = { "markdown" },
+                ensure_installed = { "markdown", "markdown_inline", "bash", "python", "go", "lua", },
                 highlight = {
                     enable = true,
                 },
@@ -134,7 +133,10 @@ return require('packer').startup(function(use)
     use {
         "williamboman/mason-lspconfig.nvim",
         config = function()
-            require("mason-lspconfig").setup()
+            require("mason-lspconfig").setup({
+                -- This doesn't seem to work, so just install manually...
+                ensure_installed = { "black", "gopls", "flake8", "pyright", "shellcheck" }
+            })
         end,
         requires = {"neovim/nvim-lspconfig", "williamboman/mason.nvim" },
     }
@@ -147,14 +149,13 @@ return require('packer').startup(function(use)
         config = function()
             -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#sync-formatting
             local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-            require("null-ls").setup({
-
+            null_ls = require("null-ls")
+            null_ls.setup({
+                -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
                 sources = {
-                    -- :MasonInstall black
-                    require("null-ls").builtins.formatting.black,
-
-                    -- :MasonInstall shellcheck
-                    require("null-ls").builtins.diagnostics.shellcheck,
+                    null_ls.builtins.formatting.black,
+                    null_ls.builtins.diagnostics.flake8,
+                    null_ls.builtins.diagnostics.shellcheck,
                 },
 
                 -- you can reuse a shared lspconfig on_attach callback here
