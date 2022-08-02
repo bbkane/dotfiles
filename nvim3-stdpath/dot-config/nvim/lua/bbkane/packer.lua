@@ -5,9 +5,10 @@ local path = require("bbkane.path")
 -- this must be in packpath (see ../../init.lua)
 local packer_install_path = path.join(vim.fn.stdpath('data'), '/site/pack/packer/start/packer.nvim')
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
-  print("Cloning packer to: " .. packer_install_path)
-  packer_bootstrap = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_install_path})
-  vim.cmd [[packadd packer.nvim]]
+    print("Cloning packer to: " .. packer_install_path)
+    packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        packer_install_path })
+    vim.cmd [[packadd packer.nvim]]
 end
 
 vim.cmd([[
@@ -33,8 +34,8 @@ return require('packer').startup(function(use)
     -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#packernvim
     use {
         'nvim-treesitter/nvim-treesitter',
-        run = function() 
-            require('nvim-treesitter.install').update({ with_sync = true }) 
+        run = function()
+            require('nvim-treesitter.install').update({ with_sync = true })
         end,
         config = function()
             require('nvim-treesitter.configs').setup({
@@ -87,7 +88,7 @@ return require('packer').startup(function(use)
 
             -- Mappings.
             -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-            local opts = { noremap=true, silent=true }
+            local opts = { noremap = true, silent = true }
             vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
             vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
             vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -96,35 +97,62 @@ return require('packer').startup(function(use)
             -- Use an on_attach function to only map the following keys
             -- after the language server attaches to the current buffer
             local on_attach = function(client, bufnr)
-              -- Enable completion triggered by <c-x><c-o>
-              vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+                -- Enable completion triggered by <c-x><c-o>
+                vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-              -- Mappings.
-              -- See `:help vim.lsp.*` for documentation on any of the below functions
-              local bufopts = { noremap=true, silent=true, buffer=bufnr }
-              vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-              vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-              vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-              vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-              vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-              vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-              vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-              vim.keymap.set('n', '<space>wl', function()
-                print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-              end, bufopts)
-              vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-              vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-              vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-              vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-              vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+                -- Mappings.
+                -- See `:help vim.lsp.*` for documentation on any of the below functions
+                local bufopts = { noremap = true, silent = true, buffer = bufnr }
+                vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+                vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+                vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+                vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+                vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+                vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+                vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+                vim.keymap.set('n', '<space>wl', function()
+                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+                end, bufopts)
+                vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+                vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+                vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+                vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+                vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
             end
 
-            require('lspconfig')['gopls'].setup{
+            local lspconfig = require("lspconfig")
+
+            lspconfig['gopls'].setup {
                 on_attach = on_attach,
             }
 
-            require('lspconfig')['pyright'].setup{
+            lspconfig['pyright'].setup {
                 on_attach = on_attach,
+            }
+            -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
+            lspconfig['sumneko_lua'].setup {
+                on_attach = on_attach,
+
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                            version = 'LuaJIT',
+                        },
+                        diagnostics = {
+                            -- Get the language server to recognize the `vim` global
+                            globals = { 'vim' },
+                        },
+                        workspace = {
+                            -- Make the server aware of Neovim runtime files
+                            library = vim.api.nvim_get_runtime_file("", true),
+                        },
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
+                },
             }
 
         end,
@@ -135,10 +163,10 @@ return require('packer').startup(function(use)
         config = function()
             require("mason-lspconfig").setup({
                 -- This doesn't seem to work, so just install manually...
-                ensure_installed = { "black", "gopls", "flake8", "pyright", "shellcheck" }
+                ensure_installed = { "black", "gopls", "flake8", "pyright", "shellcheck", "sumneko_lua", }
             })
         end,
-        requires = {"neovim/nvim-lspconfig", "williamboman/mason.nvim" },
+        requires = { "neovim/nvim-lspconfig", "williamboman/mason.nvim" },
     }
 
     use {
@@ -182,6 +210,6 @@ return require('packer').startup(function(use)
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
-      require('packer').sync()
+        require('packer').sync()
     end
 end)
