@@ -74,6 +74,13 @@ return require('packer').startup(function(use)
     }
 
     use {
+        "lukas-reineke/lsp-format.nvim",
+        config = function()
+            require("lsp-format").setup()
+        end,
+    }
+
+    use {
         -- :checkhealth mason
         "williamboman/mason.nvim",
         config = function()
@@ -98,6 +105,9 @@ return require('packer').startup(function(use)
             -- Use an on_attach function to only map the following keys
             -- after the language server attaches to the current buffer
             local on_attach = function(client, bufnr)
+
+                require("lsp-format").on_attach(client)
+
                 -- Enable completion triggered by <c-x><c-o>
                 vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -157,6 +167,7 @@ return require('packer').startup(function(use)
             }
 
         end,
+        requires = { "lukas-reineke/lsp-format.nvim" },
     }
 
     use {
@@ -197,7 +208,7 @@ return require('packer').startup(function(use)
         "jose-elias-alvarez/null-ls.nvim",
         config = function()
             -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#sync-formatting
-            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+            -- Trying lsp-format instead
             local null_ls = require("null-ls")
             null_ls.setup({
                 -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
@@ -210,21 +221,13 @@ return require('packer').startup(function(use)
                 -- you can reuse a shared lspconfig on_attach callback here
                 on_attach = function(client, bufnr)
                     if client.supports_method("textDocument/formatting") then
-                        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-                        vim.api.nvim_create_autocmd("BufWritePre", {
-                            group = augroup,
-                            buffer = bufnr,
-                            callback = function()
-                                -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                                vim.lsp.buf.formatting_sync()
-                            end,
-                        })
+                        require("lsp-format").on_attach(client)
                     end
                 end,
 
             })
         end,
-        requires = { 'nvim-lua/plenary.nvim' },
+        requires = { "lukas-reineke/lsp-format.nvim", 'nvim-lua/plenary.nvim' },
     }
 
 
