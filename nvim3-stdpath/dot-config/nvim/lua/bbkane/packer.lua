@@ -22,7 +22,19 @@ vim.cmd([[
 return require('packer').startup(function(use)
 
     -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
+    use {
+        'wbthomason/packer.nvim',
+        config = function()
+            vim.api.nvim_create_user_command(
+                "PackerSnapShotWithDate",
+                function()
+                    local snapshot_name = tostring(os.date('packer_snapshot_%Y-%m-%d_%H-%M-%S-%Z.json'))
+                    require('packer').snapshot(snapshot_name)
+                end,
+                { bang = true }
+            )
+        end,
+    }
 
     use {
         'numToStr/Comment.nvim',
