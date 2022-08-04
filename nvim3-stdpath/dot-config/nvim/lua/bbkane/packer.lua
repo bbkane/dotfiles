@@ -91,6 +91,13 @@ return require('packer').startup(function(use)
     }
 
     use {
+        'nvim-telescope/telescope.nvim',
+        branch = '0.1.x',
+        requires = { { 'nvim-lua/plenary.nvim' } }
+    }
+
+    -- format on save
+    use {
         "lukas-reineke/lsp-format.nvim",
         config = function()
             require("lsp-format").setup()
@@ -169,7 +176,7 @@ return require('packer').startup(function(use)
                         },
                         diagnostics = {
                             -- Get the language server to recognize the `vim` global
-                            globals = { 'vim' },
+                            globals = { 'vim', 'print', 'require' },
                         },
                         workspace = {
                             -- Make the server aware of Neovim runtime files
