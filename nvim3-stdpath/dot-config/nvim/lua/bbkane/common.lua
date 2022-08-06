@@ -61,16 +61,23 @@ vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
 })
 
+-- TODO: lua version not working...
 -- " NOTE: add bottom one first to not mess up what's <line2>
 -- command! -range=% -nargs=0 -bar AddCodeFence
 --     \ :<line2>s:$:\r```:
 --     \ | <line1>s:^:```\r:
-vim.api.nvim_create_user_command(
-    "AddCodeFence",
-    [[:<line2>s:$:\r```:
-    \ | <line1>s:^:```\r:]],
-    { bang = true, bar = true, range = "%", nargs = 0 }
-)
+-- vim.api.nvim_create_user_command(
+--     "AddCodeFence",
+--     [[:<line2>s:$:\r```:
+--     \ | <line1>s:^:```\r:]],
+--     { bang = true, bar = true, range = "%", nargs = 0 }
+-- )
+
+vim.cmd [[
+command! -range=% -nargs=0 -bar AddCodeFence
+    \ :<line2>s:$:\r```:
+    \ | <line1>s:^:```\r:
+]]
 
 -- TODO: use subsitute function: https://jeffkreeftmeijer.com/vim-reformat-dates/
 -- " The 'e' on the end of the substitute ignores errors
