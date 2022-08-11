@@ -37,14 +37,18 @@
 	default = simple
 [user]
 	name = Benjamin Kane
-	email = bbk1524@gmail.com
 
-# This is primarily for setting user.email differently at work
-# and needs to go at the bottom so it overwrites above settings
-[include]
-	path = ~/.gitconfig.local
+# case insensitive include
+# personal GitHub
+[includeIf "gitdir/i:~/Git-GH"]
+	path = ~/.config/gitconfig_Git-GH
 
-# Override potential ~/.gitconfig.local for personal git directory
-# within work machine
-[includeIf "gitdir/i:~/Git-Personal/"]
-	path = ~/.gitconfig.personal
+[includeIf "gitdir/i:~/Git-LI-GH"]
+	path = ~/.config/gitconfig_Git-LI-GH
+
+[includeIf "gitdir/i:~/Git-LI-GH-Ent"]
+	path = ~/.config/gitconfig_Git-LI-GH-Ent
+
+[includeIf "gitdir/i:~/Git-LI-Gerrit"]
+	path = ~/.config/gitconfig_Git-LI-Gerrit
+
