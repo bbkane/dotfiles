@@ -140,12 +140,12 @@ Add syntax highglighting while typing
 I clone into `~/Git`. Change this name if you want to clone somewhere else!
 
 ```
-git clone https://github.com/zdharma/fast-syntax-highlighting ~/Git/fast-syntax-highlighting
+git clone https://github.com/zdharma/fast-syntax-highlighting ~/Git-GH/fast-syntax-highlighting
 ```
 
 ```
 cat >> "$HOME/.zshrc" << 'EOF'
-source ~/Git/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/Git-GH/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
 EOF
 ```
@@ -161,7 +161,7 @@ Add fuzzy completion to tab-complete. Very useful when there's a bunch of simila
 Clone the repo:
 
 ```bash
-git clone https://github.com/Aloxaf/fzf-tab  ~/Git/fzf-tab
+git clone https://github.com/Aloxaf/fzf-tab  ~/Git-GH/fzf-tab
 ```
 
 Add to zshrc:
@@ -170,7 +170,7 @@ Add to zshrc:
 printf '
 # https://github.com/Aloxaf/fzf-tab
 # Adding completion settings to ~/.zshrc_common because I think they're commonly applicable
-source ~/Git/fzf-tab/fzf-tab.plugin.zsh
+source ~/Git-GH/fzf-tab/fzf-tab.plugin.zsh
 # Can run `build-fzf-tab-module` to get some colors ( https://github.com/Aloxaf/fzf-tab#binary-module )
 # fzf-tab completions settings - not sure how much I need these :)
 # disable sort when completing `git checkout`
@@ -209,12 +209,12 @@ brew install grc
 ```
 
 ```bash
-git clone https://github.com/unixorn/warhol.plugin.zsh.git  ~/Git/warhol.plugin.zsh
+git clone https://github.com/unixorn/warhol.plugin.zsh.git  ~/Git-GH/warhol.plugin.zsh
 ```
 
 ```bash
 printf '
-source ~/Git/warhol.plugin.zsh/warhol.plugin.zsh
+source ~/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh
 ' >> ~/.zshrc
 ```
 

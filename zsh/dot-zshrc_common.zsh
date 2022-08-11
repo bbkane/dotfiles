@@ -229,5 +229,5 @@ gotest() {
 # Use a local copy of warg in current Go project (grabbit, etc.)
 go_work_warg() {
     go work init .
-    go work use -r ~/Git/warg
+    go work use -r ~/Git-GH/warg
 }

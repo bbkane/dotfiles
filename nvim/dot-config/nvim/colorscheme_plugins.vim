@@ -59,5 +59,5 @@ let g:miramare_palette = {
     \ 'light_grey': ['#c0c0c0', '245', 'LightGrey']
     \ }
 " Plug 'franbach/miramare'
-" Plug '~/Git/miramare'
+" Plug '~/Git-GH/miramare'
 Plug 'bbkane/miramare'  " TODO: switch back if my PR gets merged
