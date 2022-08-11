@@ -206,6 +206,11 @@ return require('packer').startup(function(use)
         requires = { "lukas-reineke/lsp-format.nvim" },
     }
 
+    -- :lsp command
+    use {
+        "ii14/lsp-command"
+    }
+
     use {
         "williamboman/mason-lspconfig.nvim",
         config = function()
