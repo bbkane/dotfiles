@@ -145,7 +145,7 @@ git clone https://github.com/zdharma/fast-syntax-highlighting ~/Git-GH/fast-synt
 
 ```
 cat >> "$HOME/.zshrc" << 'EOF'
-source ~/Git-GH/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/Git-GH/fast-syntax-highlighting/F-Sy-H.plugin.zsh
 
 EOF
 ```
@@ -161,15 +161,13 @@ Add fuzzy completion to tab-complete. Very useful when there's a bunch of simila
 Clone the repo:
 
 ```bash
-git clone https://github.com/Aloxaf/fzf-tab  ~/Git-GH/fzf-tab
+git clone https://github.com/Aloxaf/fzf-tab ~/Git-GH/fzf-tab
 ```
 
 Add to zshrc:
 
 ```bash
-printf '
 # https://github.com/Aloxaf/fzf-tab
-# Adding completion settings to ~/.zshrc_common because I think they're commonly applicable
 source ~/Git-GH/fzf-tab/fzf-tab.plugin.zsh
 # Can run `build-fzf-tab-module` to get some colors ( https://github.com/Aloxaf/fzf-tab#binary-module )
 # fzf-tab completions settings - not sure how much I need these :)
@@ -183,7 +181,6 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
-' >> ~/.zshrc
 ```
 
 Install `exa` for directory previews:
@@ -214,6 +211,7 @@ git clone https://github.com/unixorn/warhol.plugin.zsh.git  ~/Git-GH/warhol.plug
 
 ```bash
 printf '
+# https://github.com/unixorn/warhol.plugin.zsh
 source ~/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh
 ' >> ~/.zshrc
 ```
