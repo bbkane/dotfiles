@@ -40,15 +40,15 @@
 
 # case insensitive include
 # personal GitHub
-[includeIf "gitdir/i:~/Git-GH"]
+[includeIf "gitdir/i:~/Git-GH/"]
 	path = ~/.config/gitconfig_Git-GH
 
-[includeIf "gitdir/i:~/Git-LI-GH"]
+[includeIf "gitdir/i:~/Git-LI-GH/"]
 	path = ~/.config/gitconfig_Git-LI-GH
 
-[includeIf "gitdir/i:~/Git-LI-GH-Ent"]
+[includeIf "gitdir/i:~/Git-LI-GH-Ent/"]
 	path = ~/.config/gitconfig_Git-LI-GH-Ent
 
-[includeIf "gitdir/i:~/Git-LI-Gerrit"]
+[includeIf "gitdir/i:~/Git-LI-Gerrit/"]
 	path = ~/.config/gitconfig_Git-LI-Gerrit
 
