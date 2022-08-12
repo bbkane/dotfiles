@@ -17,7 +17,7 @@ Use [`fling`](https://github.com/bbkane/fling/) to manage most app configs.
 fling --ignore 'README.*' --src-dir <dirname> link
 ```
 
-flign will prompt before symlinking
+fling will prompt before symlinking
 
 ### Uninstall/Unlink
 
@@ -25,7 +25,7 @@ flign will prompt before symlinking
 fling --ignore 'README.*' --src-dir <dirname> unlink
 ```
 
-flign will prompt before unlinking
+fling will prompt before unlinking
 
 ### Apps that cannot be installed with fling
 
