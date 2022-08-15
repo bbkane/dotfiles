@@ -37,7 +37,7 @@
     "python.linting.enabled": true,
     "python.linting.flake8Args": [
         "--max-line-length=100",
-        "ignore=W503"
+        "--ignore=W503"
     ],
     "python.linting.flake8Enabled": true,
     "python.linting.flake8Path": "/usr/local/bin/flake8",

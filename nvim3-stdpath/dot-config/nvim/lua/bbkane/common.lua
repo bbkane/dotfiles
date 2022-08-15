@@ -37,6 +37,10 @@ vim.o.expandtab = true
 
 vim.o.termguicolors = true
 
+vim.o.inccommand = "split"
+
+vim.o.smartcase = true
+
 -- augroup custom_filetype
 --     autocmd!
 --     autocmd BufNewFile,BufRead *.src set filetype=xml
@@ -159,3 +163,7 @@ vim.api.nvim_create_user_command(
     end,
     { bang = true }
 )
+
+vim.cmd [[
+command! -range FormatShellCmd <line1>!format_shell_cmd.py
+]]
