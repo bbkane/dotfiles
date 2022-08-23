@@ -12,6 +12,7 @@
 	ui = true
 [core]
 	excludesfile = ~/.config/gitignore_global
+	longpaths = true
 	pager = delta
 [credential "https://github.com"]
 	helper = store
