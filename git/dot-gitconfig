@@ -52,3 +52,8 @@
 [includeIf "gitdir/i:~/Git-LI-Gerrit/"]
 	path = ~/.config/gitconfig_Git-LI-Gerrit
 
+[includeIf "gitdir/i:~/Git-LI-AzDev/"]
+	path = ~/.config/gitconfig_Git-LI-AzDev
+
+[includeIf "gitdir/i:~/Git-MS-AzDev/"]
+	path = ~/.config/gitconfig_Git-MS-AzDev
