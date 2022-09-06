@@ -107,7 +107,6 @@
     "editor.guides.bracketPairs": true,
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "problems.defaultViewMode": "table",
-    "window.zoomLevel": 1,
     "window.commandCenter": true,
     "dart.previewFlutterUiGuides": true,
     "editor.acceptSuggestionOnEnter": "off",

@@ -36,6 +36,8 @@ return require('packer').startup(function(use)
         end,
     }
 
+    use "GutenYe/json5.vim"
+
     use {
         'numToStr/Comment.nvim',
         config = function()
@@ -230,6 +232,7 @@ return require('packer').startup(function(use)
                 ensure_installed = {
                     "black",
                     "flake8",
+                    "goimports",
                     "gopls",
                     "lua-language-server", -- sumneko_lua in lsp
                     "pyright",
@@ -256,6 +259,7 @@ return require('packer').startup(function(use)
                 sources = {
                     null_ls.builtins.formatting.black,
                     null_ls.builtins.diagnostics.flake8,
+                    null_ls.builtins.formatting.goimports,
                     null_ls.builtins.diagnostics.shellcheck,
                 },
 
