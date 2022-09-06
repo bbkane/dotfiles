@@ -9,4 +9,4 @@ IFS=$'\n\t'
 readonly script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${script_dir}"
 
-code --list-extensions | sort > ./installed_extensions.txt
+code --list-extensions | grep -Ev '^linkedin\.' | sort > ./installed_extensions.txt
