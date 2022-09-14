@@ -6,38 +6,26 @@ lumberjacklogger:
   maxbackups: 0
   maxage: 30  # days
 subreddits:
-  - name: abandonedporn
-    destination: ~/Pictures/grabbit
-    timeframe: "week"
-    limit: 1
   - name: architectureporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 2
-  - name: bookporn
-    destination: ~/Pictures/grabbit
-    timeframe: "week"
-    limit: 1
   - name: churchporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 2
+    limit: 1
   - name: cityporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 3
-  - name: conceptart
-    destination: ~/Pictures/grabbit
-    timeframe: "week"
-    limit: 2
+    limit: 4
   - name: earthporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 7
+    limit: 10
   - name: futureporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 2
+    limit: 1
   - name: imaginarycastles
     destination: ~/Pictures/grabbit
     timeframe: "week"
@@ -45,15 +33,15 @@ subreddits:
   - name: imaginaryinteriors
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 4
+    limit: 3
   - name: villageporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 4
+    limit: 2
   - name: roomporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
-    limit: 2
+    limit: 1
   - name: wallpapers
     destination: ~/Pictures/grabbit
     timeframe: "week"
