@@ -4,6 +4,7 @@ Dart-Code.flutter
 GrapeCity.gc-excelviewer
 VisualStudioExptTeam.intellicode-api-usage-examples
 VisualStudioExptTeam.vscodeintellicode
+alefragnani.Bookmarks
 bierner.docs-view
 elmTooling.elm-ls-vscode
 golang.go
