@@ -231,3 +231,14 @@ go_work_warg() {
     go work init .
     go work use -r ~/Git-GH/warg
 }
+
+# https://stackoverflow.com/a/30029855/2958070
+port_listening() {
+    if [ $# -eq 0 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P
+    elif [ $# -eq 1 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+    else
+        echo "Usage: listening [pattern]"
+    fi
+}
