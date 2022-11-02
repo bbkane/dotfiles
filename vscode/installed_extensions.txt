@@ -1,6 +1,7 @@
 Arjun.swagger-viewer
 Dart-Code.dart-code
 Dart-Code.flutter
+FranciscoBach.miramare
 GrapeCity.gc-excelviewer
 VisualStudioExptTeam.intellicode-api-usage-examples
 VisualStudioExptTeam.vscodeintellicode
@@ -11,8 +12,8 @@ golang.go
 hashicorp.terraform
 hbenl.vscode-test-explorer
 hediet.vscode-drawio
+humao.rest-client
 jebbs.plantuml
-johnpapa.vscode-peacock
 kisstkondoros.vscode-gutter-preview
 mhutchie.git-graph
 ms-dotnettools.vscode-dotnet-runtime
@@ -24,6 +25,8 @@ ms-python.vscode-pylance
 ms-toolsai.jupyter
 ms-toolsai.jupyter-keymap
 ms-toolsai.jupyter-renderers
+ms-toolsai.vscode-jupyter-cell-tags
+ms-toolsai.vscode-jupyter-slideshow
 ms-vscode-remote.remote-containers
 ms-vscode-remote.remote-ssh
 ms-vscode-remote.remote-ssh-edit

@@ -10,6 +10,12 @@
     //
     "go.autocompleteUnimportedPackages": true,
     "go.useLanguageServer": true,
+    "go.lintTool": "golangci-lint",
+    // This is recommended to not freeze the editor,
+    // but it isn't catching stuff!
+    // "go.lintFlags": [
+    //     "--fast"
+    // ],
     //
     // -- oderwat.indent-rainbow
     //
@@ -74,16 +80,26 @@
         "editor.suggest.insertMode": "replace",
         // Controls whether sorting favours words that appear close to the cursor
         "editor.suggest.localityBonus": true,
-        "editor.wordBasedSuggestons": true
     },
     "editor.fontSize": 14,
     "editor.formatOnSave": true,
     "editor.minimap.enabled": false,
+    "editor.tokenColorCustomizations": {
+        "[Miramare]": {
+            "comments": "#c0c0c0"
+        }
+    },
     "editor.wordWrap": "on",
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     // taniarascia.new-moon-vscode
-    "workbench.colorTheme": "New Moon",
+    "workbench.colorTheme": "Miramare",
+    "workbench.colorCustomizations": {
+        "[Miramare]": {
+            "editorLineNumber.foreground": "#c0c0c0",
+            "scrollbarSlider.background": "#928374"
+        }
+    },
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
     },
@@ -110,4 +126,5 @@
     "window.commandCenter": true,
     "dart.previewFlutterUiGuides": true,
     "editor.acceptSuggestionOnEnter": "off",
+    "go.lintOnSave": "workspace",
 }
