@@ -1,45 +1,16 @@
 {
-    // @bbkane's VS Code settings!
-    // Repo: https://github.com/bbkane/dotfiles
-    //
-    // -- eamodio.gitlens
-    //
     "gitlens.hovers.currentLine.over": "line",
-    //
-    // -- golang.go
-    //
     "go.autocompleteUnimportedPackages": true,
     "go.useLanguageServer": true,
     "go.lintTool": "golangci-lint",
-    // This is recommended to not freeze the editor,
-    // but it isn't catching stuff!
-    // "go.lintFlags": [
-    //     "--fast"
-    // ],
-    //
-    // -- oderwat.indent-rainbow
-    //
-    // For which languages indent-rainbow should be activated (if empty it means all).
-    "indentRainbow.includedLanguages": [
-        "html",
-        "json",
-        "xml",
-        "yaml"
-    ],
-    //
-    // -- ms-python.vscode-pylance
-    // brew install python3 black flake8 mypy
-    //
-    // formatting
+    "python._comment": "brew install python3 black flake8 mypy",
     "python.formatting.blackArgs": [
         "--line-length",
         "100"
     ],
     "python.formatting.blackPath": "/usr/local/bin/black",
     "python.formatting.provider": "black",
-    // ls
     "python.languageServer": "Pylance",
-    // linting
     "python.linting.enabled": true,
     "python.linting.flake8Args": [
         "--max-line-length=100",
@@ -47,16 +18,12 @@
     ],
     "python.linting.flake8Enabled": true,
     "python.linting.flake8Path": "/usr/local/bin/flake8",
-    // TODO: why doesn't mypy work?
+    "python.linting.mypyEnabled._comment": "TODO: not working",
     "python.linting.mypyEnabled": true,
     "python.linting.mypyPath": "/usr/local/bin/mypy",
     "python.linting.pylintEnabled": false,
-    // NOTE: overwrite this for venvs
-    // "python.pythonPath": "${workspaceFolder}/venv/bin/python"
+    "python.pythonPath._comment": "could be ${workspaceFolder}/venv/bin/python",
     "python.pythonPath": "/usr/local/bin/python3",
-    //
-    // -- General Editor settings
-    //
     "[json]": {
         "editor.formatOnPaste": false,
         "editor.formatOnSave": false,
@@ -66,8 +33,7 @@
         "editor.suggest.insertMode": "replace"
     },
     "[markdown]": {
-        // https://stackoverflow.com/a/41324717/2958070
-        // https://code.visualstudio.com/docs/editor/intellisense
+        "editor._comment": "https://code.visualstudio.com/docs/editor/intellisense , https://stackoverflow.com/a/41324717/2958070",
         "editor.formatOnPaste": false,
         "editor.formatOnSave": false,
         "editor.quickSuggestions": {
@@ -75,11 +41,10 @@
             "strings": "on",
             "other": "on"
         },
-        // Controls how suggestions are pre-selected when showing the suggest list
         "editor.suggestSelection": "recentlyUsed",
         "editor.suggest.insertMode": "replace",
-        // Controls whether sorting favours words that appear close to the cursor
-        "editor.suggest.localityBonus": true,
+        "editor.suggest.localityBonus._comment": "Controls whether sorting favours words that appear close to the cursor",
+        "editor.suggest.localityBonus": true
     },
     "editor.fontSize": 14,
     "editor.formatOnSave": true,
@@ -92,7 +57,6 @@
     "editor.wordWrap": "on",
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
-    // taniarascia.new-moon-vscode
     "workbench.colorTheme": "Miramare",
     "workbench.colorCustomizations": {
         "[Miramare]": {
@@ -126,5 +90,5 @@
     "window.commandCenter": true,
     "dart.previewFlutterUiGuides": true,
     "editor.acceptSuggestionOnEnter": "off",
-    "go.lintOnSave": "workspace",
+    "go.lintOnSave": "workspace"
 }
