@@ -67,25 +67,19 @@
     "python.linting.mypyEnabled._comment": "TODO: not working",
     "python.linting.mypyPath": "/usr/local/bin/mypy",
     "python.linting.pylintEnabled": false,
-    "python.pythonPath": "/usr/local/bin/python3",
-    "python.pythonPath._comment": "could be ${workspaceFolder}/venv/bin/python",
     "redhat.telemetry.enabled": true,
     "security.workspace.trust.untrustedFiles": "open",
-    "sqltools.format": {
-        "language": "sql",
-        "linesBetweenQueries": "preserve"
-    },
     "swaggerViewer.previewInBrowser": true,
     "terminal.integrated.fontSize": 15,
-    "terminal.integrated.shell.osx": "/bin/zsh",
     "window.commandCenter": true,
+    "window.zoomLevel": 1,
     "workbench.colorCustomizations": {
         "[Miramare]": {
             "editorLineNumber.foreground": "#c0c0c0",
             "scrollbarSlider.background": "#928374"
         }
     },
-    "workbench.colorTheme": "Miramare",
+    "workbench.colorTheme": "Visual Studio Light",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
