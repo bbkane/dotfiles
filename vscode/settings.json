@@ -1,29 +1,4 @@
 {
-    "gitlens.hovers.currentLine.over": "line",
-    "go.autocompleteUnimportedPackages": true,
-    "go.useLanguageServer": true,
-    "go.lintTool": "golangci-lint",
-    "python._comment": "brew install python3 black flake8 mypy",
-    "python.formatting.blackArgs": [
-        "--line-length",
-        "100"
-    ],
-    "python.formatting.blackPath": "/usr/local/bin/black",
-    "python.formatting.provider": "black",
-    "python.languageServer": "Pylance",
-    "python.linting.enabled": true,
-    "python.linting.flake8Args": [
-        "--max-line-length=100",
-        "--ignore=W503"
-    ],
-    "python.linting.flake8Enabled": true,
-    "python.linting.flake8Path": "/usr/local/bin/flake8",
-    "python.linting.mypyEnabled._comment": "TODO: not working",
-    "python.linting.mypyEnabled": true,
-    "python.linting.mypyPath": "/usr/local/bin/mypy",
-    "python.linting.pylintEnabled": false,
-    "python.pythonPath._comment": "could be ${workspaceFolder}/venv/bin/python",
-    "python.pythonPath": "/usr/local/bin/python3",
     "[json]": {
         "editor.formatOnPaste": false,
         "editor.formatOnSave": false,
@@ -38,16 +13,19 @@
         "editor.formatOnSave": false,
         "editor.quickSuggestions": {
             "comments": "on",
-            "strings": "on",
-            "other": "on"
+            "other": "on",
+            "strings": "on"
         },
-        "editor.suggestSelection": "recentlyUsed",
         "editor.suggest.insertMode": "replace",
+        "editor.suggest.localityBonus": true,
         "editor.suggest.localityBonus._comment": "Controls whether sorting favours words that appear close to the cursor",
-        "editor.suggest.localityBonus": true
+        "editor.suggestSelection": "recentlyUsed"
     },
+    "dart.previewFlutterUiGuides": true,
+    "editor.acceptSuggestionOnEnter": "off",
     "editor.fontSize": 14,
     "editor.formatOnSave": true,
+    "editor.guides.bracketPairs": true,
     "editor.minimap.enabled": false,
     "editor.tokenColorCustomizations": {
         "[Miramare]": {
@@ -57,38 +35,60 @@
     "editor.wordWrap": "on",
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
-    "workbench.colorTheme": "Miramare",
+    "gitlens.hovers.currentLine.over": "line",
+    "go.autocompleteUnimportedPackages": true,
+    "go.formatTool": "goimports",
+    "go.lintOnSave": "workspace",
+    "go.lintTool": "golangci-lint",
+    "go.toolsManagement.autoUpdate": true,
+    "go.useLanguageServer": true,
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "problems.defaultViewMode": "table",
+    "python._comment": "brew install python3 black flake8 mypy",
+    "python.defaultInterpreterPath": "/usr/local/bin/python3",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "100"
+    ],
+    "python.formatting.blackPath": "/usr/local/bin/black",
+    "python.formatting.provider": "black",
+    "python.languageServer": "Pylance",
+    "python.linting.enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=100",
+        "--ignore=W503"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "/usr/local/bin/flake8",
+    "python.linting.mypyEnabled": true,
+    "python.linting.mypyEnabled._comment": "TODO: not working",
+    "python.linting.mypyPath": "/usr/local/bin/mypy",
+    "python.linting.pylintEnabled": false,
+    "python.pythonPath": "/usr/local/bin/python3",
+    "python.pythonPath._comment": "could be ${workspaceFolder}/venv/bin/python",
+    "redhat.telemetry.enabled": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "sqltools.format": {
+        "language": "sql",
+        "linesBetweenQueries": "preserve"
+    },
+    "swaggerViewer.previewInBrowser": true,
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.shell.osx": "/bin/zsh",
+    "window.commandCenter": true,
     "workbench.colorCustomizations": {
         "[Miramare]": {
             "editorLineNumber.foreground": "#c0c0c0",
             "scrollbarSlider.background": "#928374"
         }
     },
+    "workbench.colorTheme": "Miramare",
+    "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
     },
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    "go.formatTool": "goimports",
-    "sqltools.format": {
-        "language": "sql",
-        "linesBetweenQueries": "preserve"
-    },
-    "workbench.sideBar.location": "right",
-    "go.toolsManagement.autoUpdate": true,
-    "terminal.integrated.shell.osx": "/bin/zsh",
-    "redhat.telemetry.enabled": true,
-    "notebook.cellToolbarLocation": {
-        "default": "right",
-        "jupyter-notebook": "left"
-    },
-    "swaggerViewer.previewInBrowser": true,
-    "security.workspace.trust.untrustedFiles": "open",
-    "terminal.integrated.fontSize": 15,
-    "editor.guides.bracketPairs": true,
-    "python.defaultInterpreterPath": "/usr/local/bin/python3",
-    "problems.defaultViewMode": "table",
-    "window.commandCenter": true,
-    "dart.previewFlutterUiGuides": true,
-    "editor.acceptSuggestionOnEnter": "off",
-    "go.lintOnSave": "workspace"
+    "workbench.sideBar.location": "right"
 }
