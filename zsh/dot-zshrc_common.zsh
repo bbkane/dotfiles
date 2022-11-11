@@ -221,9 +221,12 @@ az_my_groups() {
     az ad user get-member-groups --id $(az ad signed-in-user show --query 'objectId' --output tsv)
 }
 
-# https://gist.github.com/joncalhoun/d0d765b9485de9cbd6949afbcde9ee04
+
+# https://github.com/maruel/panicparse
+# https://stackoverflow.com/a/13979036/2958070
+# https://stackoverflow.com/a/5947802/2958070
 gotest() {
-  go test $* | sed ''/PASS/s//$(printf "\033[32mPASS\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' | sed ''/FAIL/s//$(printf "\033[31mFAIL\033[0m")/'' | GREP_COLOR="01;33" egrep --color=always '\s*[a-zA-Z0-9\-_.]+[:][0-9]+[:]|^'
+    go test $* |& ~/go/bin/pp -force-color | GREP_COLOR="0;31" grep --color -E 'FAIL|$'
 }
 
 # Use a local copy of warg in current Go project (grabbit, etc.)
