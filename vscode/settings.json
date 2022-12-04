@@ -72,14 +72,13 @@
     "swaggerViewer.previewInBrowser": true,
     "terminal.integrated.fontSize": 15,
     "window.commandCenter": true,
-    "window.zoomLevel": 1,
     "workbench.colorCustomizations": {
         "[Miramare]": {
             "editorLineNumber.foreground": "#c0c0c0",
             "scrollbarSlider.background": "#928374"
         }
     },
-    "workbench.colorTheme": "Visual Studio Light",
+    "workbench.colorTheme": "Miramare",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.editorAssociations": {
         "*.ipynb": "jupyter-notebook"
