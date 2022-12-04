@@ -5,7 +5,7 @@ TODO:
 - change links curl files :)
 - replace cat EOF install code with echo and raw newlines cause that actually works in zsh :)
 
-Store configuration for common apps.
+Store configuration for apps I use.
 
 Use [`fling`](https://github.com/bbkane/fling/) to manage most app configs.
 
