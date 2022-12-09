@@ -53,10 +53,10 @@
     "go.toolsManagement.autoUpdate": true,
     "go.useLanguageServer": true,
     "indentRainbow.colors": [
-        "#e298701f",
-        "#89beba1f",
-        "#87af871f",
-        "#c0c0c01f"
+        "#e2987013",
+        "#89beba13",
+        "#87af8713",
+        "#c0c0c013"
     ],
     "isort.args": [
         "--profile",
