@@ -62,22 +62,11 @@
     },
     "outline.showVariables": false,
     "problems.defaultViewMode": "table",
-    "python._comment": "brew install python3 black flake8 mypy",
+    "python._comment": "brew install python3",
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "python.formatting.provider": "none",
     "python.languageServer": "Pylance",
     "python.linting.enabled": false,
-    // "python.linting.enabled": true,
-    // "python.linting.flake8Args": [
-    //     "--max-line-length=100",
-    //     "--ignore=W503"
-    // ],
-    // "python.linting.flake8Enabled": true,
-    // "python.linting.flake8Path": "/usr/local/bin/flake8",
-    // "python.linting.mypyEnabled": true,
-    // "python.linting.mypyEnabled._comment": "TODO: not working",
-    // "python.linting.mypyPath": "/usr/local/bin/mypy",
-    // "python.linting.pylintEnabled": false,
     "redhat.telemetry.enabled": true,
     "security.workspace.trust.untrustedFiles": "open",
     "swaggerViewer.previewInBrowser": true,
@@ -88,6 +77,8 @@
         "[Miramare]": {
             "activityBar.foreground": "#87af87",
             "activityBar.inactiveForeground": "#e6dcac",
+            "editor.findMatchHighlightBackground": "#87af877f",
+            "editor.findRangeHighlightBackground._comment": "https://code.visualstudio.com/api/references/theme-color#editor-colors",
             "editorLineNumber.foreground": "#c0c0c0",
             "scrollbarSlider.background": "#928374"
         }
