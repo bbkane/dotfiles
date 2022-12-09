@@ -75,17 +75,20 @@
     "window.zoomLevel": 2,
     "workbench.colorCustomizations": {
         "[Miramare]": {
-            "activityBar.border": "#e6dcac",
+            "activityBar.border": "#e6dcac3f",
             "activityBar.foreground": "#87af87",
             "activityBar.inactiveForeground": "#e6dcac",
             "editor.findMatchHighlightBackground": "#87af877f",
             "editor.findRangeHighlightBackground._comment": "https://code.visualstudio.com/api/references/theme-color#editor-colors",
-            "editorGroup.border": "#e6dcac",
+            "editorGroup.border": "#e6dcac3f",
             "editorLineNumber.foreground": "#c0c0c0",
-            "panel.border": "#e6dcac",
+            "panel.border": "#e6dcac3f",
+            "panelTitle.activeForeground": "#87af87",
+            "panelTitle.inactiveForeground": "#e6dcac",
             "scrollbarSlider.background": "#928374",
-            "sideBar.border": "#e6dcac",
-            "sideBarSectionHeader.border": "#e6dcac"
+            "sideBar.border": "#e6dcac3f",
+            "sideBarSectionHeader.border": "#e6dcac3f",
+            "tab.activeBorderTop": "#e6dcac3f"
         }
     },
     "workbench.colorTheme": "Miramare",
