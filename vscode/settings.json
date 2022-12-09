@@ -39,7 +39,7 @@
     "editor.minimap.enabled": false,
     "editor.tokenColorCustomizations": {
         "[Miramare]": {
-            "comments": "#c0c0c0"
+            "comments": "#c0c0c09f"
         }
     },
     "editor.wordBasedSuggestions": true,
@@ -52,6 +52,12 @@
     "go.lintTool": "golangci-lint",
     "go.toolsManagement.autoUpdate": true,
     "go.useLanguageServer": true,
+    "indentRainbow.colors": [
+        "#e298701f",
+        "#89beba1f",
+        "#87af871f",
+        "#c0c0c01f"
+    ],
     "isort.args": [
         "--profile",
         "black"
@@ -84,7 +90,7 @@
             "editor.findMatchHighlightBackground": "#87af877f",
             "editor.findRangeHighlightBackground._comment": "https://code.visualstudio.com/api/references/theme-color#editor-colors",
             "editorGroup.border": "#e6dcac3f",
-            "editorLineNumber.foreground": "#c0c0c0",
+            "editorLineNumber.foreground": "#c0c0c09f",
             "panel.border": "#e6dcac3f",
             "panelTitle.activeForeground": "#87af87",
             "panelTitle.inactiveForeground": "#e6dcac",
