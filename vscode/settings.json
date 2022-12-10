@@ -58,6 +58,12 @@
         "#87af8713",
         "#c0c0c013"
     ],
+    "indentRainbow.excludedLanguages": [
+        "go",
+        "json",
+        "jsonc",
+        "plaintext"
+    ],
     "isort.args": [
         "--profile",
         "black"
@@ -81,7 +87,7 @@
     "swaggerViewer.previewInBrowser": true,
     "terminal.integrated.fontSize": 15,
     "window.commandCenter": true,
-    "window.zoomLevel": 2,
+    "window.zoomLevel": 1,
     "workbench.colorCustomizations": {
         "[Miramare]": {
             "activityBar.border": "#e6dcac3f",
