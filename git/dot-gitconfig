@@ -35,6 +35,7 @@
 [pull]
 	rebase = false
 [push]
+	autoSetupRemote = true
 	default = simple
 [user]
 	name = Benjamin Kane
