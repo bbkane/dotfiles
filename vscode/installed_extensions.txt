@@ -19,8 +19,8 @@ kisstkondoros.vscode-gutter-preview
 mhutchie.git-graph
 ms-dotnettools.vscode-dotnet-runtime
 ms-python.black-formatter
-ms-python.flake8
 ms-python.isort
+ms-python.pylint
 ms-python.python
 ms-python.vscode-pylance
 ms-toolsai.jupyter

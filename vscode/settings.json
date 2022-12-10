@@ -3,7 +3,7 @@
         "editor.formatOnPaste": false,
         "editor.formatOnSave": false,
         "editor.quickSuggestions": {
-            "strings": true
+            "strings": "on"
         },
         "editor.suggest.insertMode": "replace"
     },
@@ -18,9 +18,19 @@
         },
         "editor.suggest.insertMode": "replace",
         "editor.suggest.localityBonus": true,
-        "editor.suggest.localityBonus._comment": "Controls whether sorting favours words that appear close to the cursor",
         "editor.suggestSelection": "recentlyUsed"
     },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "black-formatter.args": [
+        "--line-length",
+        "100"
+    ],
     "dart.previewFlutterUiGuides": true,
     "editor.acceptSuggestionOnEnter": "off",
     "editor.fontSize": 14,
@@ -29,53 +39,71 @@
     "editor.minimap.enabled": false,
     "editor.tokenColorCustomizations": {
         "[Miramare]": {
-            "comments": "#c0c0c0"
+            "comments": "#c0c0c09f"
         }
     },
+    "editor.wordBasedSuggestions": true,
     "editor.wordWrap": "on",
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
-    "gitlens.hovers.currentLine.over": "line",
     "go.autocompleteUnimportedPackages": true,
     "go.formatTool": "goimports",
     "go.lintOnSave": "workspace",
     "go.lintTool": "golangci-lint",
     "go.toolsManagement.autoUpdate": true,
     "go.useLanguageServer": true,
+    "indentRainbow.colors": [
+        "#e2987013",
+        "#89beba13",
+        "#87af8713",
+        "#c0c0c013"
+    ],
+    "indentRainbow.excludedLanguages": [
+        "go",
+        "json",
+        "jsonc",
+        "plaintext"
+    ],
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
     "notebook.cellToolbarLocation": {
         "default": "right",
         "jupyter-notebook": "left"
     },
+    "outline.showVariables": false,
     "problems.defaultViewMode": "table",
-    "python._comment": "brew install python3 black flake8 mypy",
+    "python._comment": "brew install python3",
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.variableTypes": true,
+    "python.analysis.typeCheckingMode": "basic",
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
-    "python.formatting.blackArgs": [
-        "--line-length",
-        "100"
-    ],
-    "python.formatting.blackPath": "/usr/local/bin/black",
-    "python.formatting.provider": "black",
+    "python.formatting.provider": "none",
     "python.languageServer": "Pylance",
-    "python.linting.enabled": true,
-    "python.linting.flake8Args": [
-        "--max-line-length=100",
-        "--ignore=W503"
-    ],
-    "python.linting.flake8Enabled": true,
-    "python.linting.flake8Path": "/usr/local/bin/flake8",
-    "python.linting.mypyEnabled": true,
-    "python.linting.mypyEnabled._comment": "TODO: not working",
-    "python.linting.mypyPath": "/usr/local/bin/mypy",
-    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": false,
     "redhat.telemetry.enabled": true,
     "security.workspace.trust.untrustedFiles": "open",
     "swaggerViewer.previewInBrowser": true,
     "terminal.integrated.fontSize": 15,
     "window.commandCenter": true,
+    "window.zoomLevel": 1,
     "workbench.colorCustomizations": {
         "[Miramare]": {
-            "editorLineNumber.foreground": "#c0c0c0",
-            "scrollbarSlider.background": "#928374"
+            "activityBar.border": "#e6dcac3f",
+            "activityBar.foreground": "#87af87",
+            "activityBar.inactiveForeground": "#e6dcac",
+            "editor.findMatchHighlightBackground": "#87af877f",
+            "editor.findRangeHighlightBackground._comment": "https://code.visualstudio.com/api/references/theme-color#editor-colors",
+            "editorGroup.border": "#e6dcac3f",
+            "editorLineNumber.foreground": "#c0c0c09f",
+            "panel.border": "#e6dcac3f",
+            "panelTitle.activeForeground": "#87af87",
+            "panelTitle.inactiveForeground": "#e6dcac",
+            "scrollbarSlider.background": "#928374",
+            "sideBar.border": "#e6dcac3f",
+            "sideBarSectionHeader.border": "#e6dcac3f",
+            "tab.activeBorderTop": "#e6dcac3f"
         }
     },
     "workbench.colorTheme": "Miramare",
