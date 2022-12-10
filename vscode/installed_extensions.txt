@@ -17,8 +17,12 @@ humao.rest-client
 jebbs.plantuml
 kisstkondoros.vscode-gutter-preview
 mhutchie.git-graph
+ms-azuretools.vscode-azurefunctions
+ms-azuretools.vscode-azureresourcegroups
+ms-azuretools.vscode-bicep
 ms-dotnettools.vscode-dotnet-runtime
 ms-python.black-formatter
+ms-python.flake8
 ms-python.isort
 ms-python.pylint
 ms-python.python
@@ -33,6 +37,7 @@ ms-vscode-remote.remote-ssh
 ms-vscode-remote.remote-ssh-edit
 ms-vscode-remote.remote-wsl
 ms-vscode-remote.vscode-remote-extensionpack
+ms-vscode.azure-account
 ms-vscode.remote-explorer
 ms-vscode.test-adapter-converter
 mushan.vscode-paste-image
