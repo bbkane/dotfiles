@@ -104,9 +104,36 @@ command! -range=% -nargs=0 -bar AddCodeFence
 --     \ | <line1>,<line2>s:`\.:}}.:eg
 --     \ | <line1>,<line2>s:^\d\+\. :# :e
 --     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
-vim.api.nvim_create_user_command(
-    "MarkdownToJira",
-    [=[:<line1>,<line2>s:^  - :** :e
+-- NOTE: this throws the following error:
+-- E10: \ should be followed by /, ? or &
+-- vim.api.nvim_create_user_command(
+--     "MarkdownToJira",
+--     [=[:<line1>,<line2>s:^  - :** :e
+--     \ | <line1>,<line2>s:^    - :*** :e
+--     \ | <line1>,<line2>s:^```$:{code}:e
+--     \ | <line1>,<line2>s:^```\(.\+\):{code\:\1}:e
+--     \ | <line1>,<line2>s:^# :h1. :e
+--     \ | <line1>,<line2>s:^## :h2. :e
+--     \ | <line1>,<line2>s:^### :h3. :e
+--     \ | <line1>,<line2>s: `: {{:eg
+--     \ | <line1>,<line2>s:^`:{{:e
+--     \ | <line1>,<line2>s:` :}} :eg
+--     \ | <line1>,<line2>s:`$:}}:eg
+--     \ | <line1>,<line2>s:`\.:}}.:eg
+--     \ | <line1>,<line2>s:^\d\+\. :# :e
+--     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
+--     \]=],
+--     { bang = true, bar = true, range = "%", nargs = 0 }
+-- )
+
+vim.cmd [=[
+" The 'e' on the end of the substitute ignores errors
+" -range=% means without a visual selection the whole buffer is selected
+"  Special thanks to a @jfim for the link substitution line
+"  Note that top level lists can be represented by ^-, not ^*
+"  TODO: handle ^# substitution in code blocks
+command! -range=% -nargs=0 -bar MarkdownToJira
+    \ :<line1>,<line2>s:^  - :** :e
     \ | <line1>,<line2>s:^    - :*** :e
     \ | <line1>,<line2>s:^```$:{code}:e
     \ | <line1>,<line2>s:^```\(.\+\):{code\:\1}:e
@@ -120,9 +147,7 @@ vim.api.nvim_create_user_command(
     \ | <line1>,<line2>s:`\.:}}.:eg
     \ | <line1>,<line2>s:^\d\+\. :# :e
     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
-    \]=],
-    { bang = true, bar = true, range = "%", nargs = 0 }
-)
+]=]
 
 -- function! RenameFile()
 --     let old_name = expand('%')
