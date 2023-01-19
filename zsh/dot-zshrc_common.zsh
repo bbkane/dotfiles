@@ -245,3 +245,9 @@ port_listening() {
         echo "Usage: listening [pattern]"
     fi
 }
+
+# https://stackoverflow.com/a/1115909/2958070
+function swap() {
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
+}
