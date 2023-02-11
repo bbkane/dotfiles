@@ -13,5 +13,6 @@
 - MeetingBar (GUI) - put meetings in Mac status bar and let you join them by clicking it :)
 - itsycal (GUI) - calendar in the menu bar
 - copyq (GUI) - cross-platform clipboard manager
+- ocrmypdf ( https://pypi.org/project/ocrmypdf/ )
 
 https://github.com/Homebrew/homebrew-cask-fonts and `brew cask install font-ia-writer-mono`

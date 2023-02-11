@@ -40,7 +40,7 @@
     "editor.minimap.enabled": false,
     "editor.tokenColorCustomizations": {
         "[Miramare]": {
-            "comments": "#c0c0c09f"
+            "comments": "#c0c0c0"
         }
     },
     "editor.wordBasedSuggestions": true,
@@ -84,7 +84,6 @@
     "swaggerViewer.previewInBrowser": true,
     "terminal.integrated.fontSize": 15,
     "window.commandCenter": true,
-    "window.zoomLevel": 1,
     "workbench.colorCustomizations": {
         "[Miramare]": {
             "activityBar.border": "#e6dcac3f",
@@ -103,7 +102,8 @@
             "tab.activeBorderTop": "#e6dcac3f"
         }
     },
-    "workbench.colorTheme": "Miramare",
+    "workbench.colorTheme": "Default Dark+ Experimental",
     "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.sideBar.location": "right"
+    "workbench.sideBar.location": "right",
+    "window.zoomLevel": 1
 }
