@@ -48,6 +48,9 @@ export LESS="-R"
 
 export MYPY_CACHE_DIR="$HOME/.mypy_cache"
 
+# https://github.com/sharkdp/bat#highlighting-theme
+export BAT_THEME="1337"
+
 # rclone settings
 # NOTE: these aren't tested :)
 # I'm leaving dry-run on because I want that explicitly
