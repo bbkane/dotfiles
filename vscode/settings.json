@@ -25,7 +25,8 @@
             "source.organizeImports": true
         },
         "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
     },
     "black-formatter.args": [
         "--line-length",
@@ -72,8 +73,8 @@
     "outline.showVariables": false,
     "problems.defaultViewMode": "table",
     "python._comment": "brew install python3",
-    "python.analysis.inlayHints.functionReturnTypes": true,
-    "python.analysis.inlayHints.variableTypes": true,
+    "python.analysis.inlayHints.functionReturnTypes": false,
+    "python.analysis.inlayHints.variableTypes": false,
     "python.analysis.typeCheckingMode": "basic",
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "python.formatting.provider": "none",
@@ -105,5 +106,21 @@
     "workbench.colorTheme": "Default Dark+ Experimental",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.sideBar.location": "right",
-    "window.zoomLevel": 1
+    "githubIssues.queries": [
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        },
+        {
+            "label": "Recent Issues",
+            "query": "state:open repo:${owner}/${repository} sort:updated-desc"
+        }
+    ],
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "editor.renderWhitespace": "none"
 }
