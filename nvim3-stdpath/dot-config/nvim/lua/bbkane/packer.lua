@@ -54,7 +54,7 @@ return require('packer').startup(function(use)
         config = function()
             require('nvim-treesitter.configs').setup({
                 -- A list of parser names, or "all"
-                ensure_installed = { "markdown", "markdown_inline", "bash", "python", "go", "lua", },
+                ensure_installed = { "markdown", "markdown_inline", "bash", "python", "go", "lua", "yaml" },
                 highlight = {
                     enable = true,
                 },
