@@ -29,15 +29,11 @@ if type nvim > /dev/null; then
     alias vimdiff='nvim -d'
 fi
 
-# work around npx's hilariously insecure behavior:
-# https://github.com/npm/npx/issues/9
-alias npx="npx --no-install $@"
-
 # -- Exports --
 
 # if EDITOR is not set (zsh > 5.3)
 if [[ ! -v EDITOR ]]; then
-    export EDITOR=vim
+    export EDITOR=nvim
 fi
 
 # groups | tr_space_to_newline
@@ -108,7 +104,8 @@ rgmd() { rg --type md --ignore-case "$@" }
 # NOTE: this checks $VISUAL, then $EDITOR to find an editor
 # I'm setting $VISUAL to /usr/bin/vim so it loads faster than NeoVim with all
 # its plugins I don't use in this context
-export VISUAL=/usr/bin/vim
+# NOTE: 2023-05-07: nvim is faster now
+# export VISUAL=/usr/bin/vim
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
@@ -219,19 +216,6 @@ export PAGER="less -SRXF"
 # --glob '!.git/' : ignore .git/ directory
 tree-git-seen() { rg --ignore --hidden --files --glob '!.git/' "$@" | tree --fromfile -a }
 
-# Show my Azure Groups
-az_my_groups() {
-    az ad user get-member-groups --id $(az ad signed-in-user show --query 'objectId' --output tsv)
-}
-
-
-# https://github.com/maruel/panicparse
-# https://stackoverflow.com/a/13979036/2958070
-# https://stackoverflow.com/a/5947802/2958070
-gotest() {
-    go test $* |& ~/go/bin/pp -force-color | GREP_COLOR="0;31" grep --color -E 'FAIL|$'
-}
-
 # Use a local copy of warg in current Go project (grabbit, etc.)
 go_work_warg() {
     go work init .
@@ -255,3 +239,17 @@ swap() {
     mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
 }
 
+
+# NOTE: hyper link on long links is broken... TODO: make an issue
+gh_random_issue() {
+gh search issues \
+    --author bbkane \
+    --state open \
+    --owner bbkane \
+    --limit 100 \
+    --json number,repository,title,updatedAt,url \
+    --template '{{range .}}{{tablerow (printf "#%v" .number | color "green") (timeago .updatedAt) .repository.name (hyperlink .url .title)}}{{"\n"}}{{end}}' \
+| perl \
+    -MList::Util=shuffle \
+    -e 'print shuffle<STDIN>' 
+}

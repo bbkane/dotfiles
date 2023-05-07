@@ -23,11 +23,11 @@ Common functions and settings.
 
 ### Install via Curl
 
-```
+```bash
 curl -Lo ~/.zshrc_common.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_common.zsh
 ```
 
-```
+```bash
 cat >> "$HOME/.zshrc" << 'EOF'
 
 # See https://github.com/bbkane/dotfiles
@@ -106,9 +106,12 @@ Run the install script it prints on install (`/usr/local/opt/fzf/install` for me
 
 This modifies `~/.zshrc` for you
 
-## Install [fasd](https://github.com/clvv/fasd)
+## ~~Install [fasd](https://github.com/clvv/fasd)~~
+
+> NOTE: fasd has been deprecated by Homebrew. It's probably better at this point to use `zoxide`. See the next section. I have ported and undeprecated the formula to my personal homebrew tap, just in case `zoxide` doesn't keep me happy: `brew install bbkane/tap/fasd`.
 
 `fasd` lets you:
+
 - Open recently/frequently used files with `v <fuzzy-term><Tab>`
 - `cd` to recent/frequent directories with `z <fuzzy-term><Tab>`
 - Trigger completion with `<Ctrl>x<Ctrl>a` - example `vim <Ctrl>x<Ctrl>a`
@@ -130,6 +133,30 @@ EOF
 ```
 
 Open a new `zsh` shell.
+
+## Install [`zoxide`](https://github.com/ajeetdsouza/zoxide)
+
+`zoxide` is a replacement for `fasd`, which has been deprecated in Homebrew :(
+
+It has some differences:
+
+- doesn't support frecently used files with `v`
+- **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>` 
+- It does let you edit the database.
+
+```bash
+brew install zoxide
+```
+
+Also see notes about `compinit` in the [README](https://github.com/ajeetdsouza/zoxide).
+
+```bash
+echo '
+eval "$(zoxide init zsh)"
+' >> "$HOME/.zshrc"
+```
+
+
 
 ## Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
 
@@ -271,3 +298,7 @@ see [./README_notes.md](./README_notes.md)
 - mess with vim mode? http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
 - https://github.com/romkatv/powerlevel10k
 - Try https://github.com/denisidoro/navi ? Things I'd like a cheatsheet for: curl, az
+
+```
+$ gh search issues --author bbkane --state open --owner bbkane --limit 3 --json number,repository,title,updatedAt,url --template '{{range .}}{{tablerow (printf "#%v" .number | color "green") (timeago .updatedAt) .repository.name (hyperlink .url .title)}}{{"\n"}}{{end}}'
+```

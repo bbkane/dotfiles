@@ -122,5 +122,6 @@
     ],
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
-    "editor.renderWhitespace": "none"
+    "editor.renderWhitespace": "none",
+    "window.zoomLevel": 1
 }

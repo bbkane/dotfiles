@@ -60,18 +60,3 @@
 [includeIf "gitdir/i:~/Git-MS-AzDev/"]
 	path = ~/.config/gitconfig_Git-MS-AzDev
 
-# NOTE: 2022-10-11 - I think this was added when I did installed
-# https://github.com/GitCredentialManager/git-credential-manager via brew? I
-# think that first line is to unset the helpeers in includeIf git configs
-# Let's see if it breaks things on windows...
-# I've moved this to ~/.config/gitconfig_Git-LI-AzDev
-# [credential]
-# 	helper = 
-# 	helper = /usr/local/share/gcm-core/git-credential-manager-core
-# [credential "https://dev.azure.com"]
-# 	useHttpPath = true
-[credential]
-	helper = 
-	helper = /usr/local/share/gcm-core/git-credential-manager
-[credential "https://dev.azure.com"]
-	useHttpPath = true

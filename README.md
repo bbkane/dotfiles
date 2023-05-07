@@ -13,7 +13,7 @@ Use [`fling`](https://github.com/bbkane/fling/) to manage most app configs.
 
 ### Install/Symlink
 
-```
+```bash
 fling --ignore 'README.*' --src-dir <dirname> link
 ```
 
@@ -21,7 +21,7 @@ fling will prompt before symlinking
 
 ### Uninstall/Unlink
 
-```
+```bash
 fling --ignore 'README.*' --src-dir <dirname> unlink
 ```
 
