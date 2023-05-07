@@ -6,20 +6,11 @@
 # Need two sets of quotes
 alias chrome='"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"'
 
-case "$OSTYPE" in
-    # https://geoff.greer.fm/lscolors/
-    darwin*)
-        # -F : display symbols after things
-        # -G : colorize output
-        export LSCOLORS='gxfxcxdxbxeggdabagacad'
-        alias ls='ls -GF'
-    ;;
-    linux*)
-        export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=36;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
-        alias ls='ls -F --color=auto'
-    ;;
-esac
-
+# https://geoff.greer.fm/lscolors/
+export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=36;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
+alias ls='ls -F --color=auto'
+# 2023-05-04: warhol isn't coloring ls?
+export warhol_ignore_ls=1
 
 # if I have nvim, use it instead of vim
 # https://stackoverflow.com/a/7522866/2958070
@@ -251,5 +242,5 @@ gh search issues \
     --template '{{range .}}{{tablerow (printf "#%v" .number | color "green") (timeago .updatedAt) .repository.name (hyperlink .url .title)}}{{"\n"}}{{end}}' \
 | perl \
     -MList::Util=shuffle \
-    -e 'print shuffle<STDIN>' 
+    -e 'print shuffle<STDIN>'
 }
