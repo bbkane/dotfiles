@@ -234,13 +234,15 @@ swap() {
 # NOTE: hyper link on long links is broken... TODO: make an issue
 gh_random_issue() {
 gh search issues \
-    --author bbkane \
     --state open \
     --owner bbkane \
     --limit 100 \
     --json number,repository,title,updatedAt,url \
-    --template '{{range .}}{{tablerow (printf "#%v" .number | color "green") (timeago .updatedAt) .repository.name (hyperlink .url .title)}}{{"\n"}}{{end}}' \
+    --template '{{range .}}{{tablerow (printf "#%v" .number) (timeago .updatedAt) .repository.name (hyperlink .url (truncate 51 .title))}}{{"\n"}}{{end}}' \
+| sed '/^$/d' \
 | perl \
     -MList::Util=shuffle \
-    -e 'print shuffle<STDIN>'
+    -e 'print shuffle<STDIN>' \
+| head \
+    -10 
 }
