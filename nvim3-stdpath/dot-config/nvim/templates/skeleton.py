@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import logging
 import sys
 
 __author__ = "Benjamin Kane"
@@ -15,11 +16,20 @@ Please see Benjamin Kane for help.
 Code at <repo>
 """
 
+logger = logging.getLogger(__name__)
 
-def parse_args(*args, **kwargs):
+
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+
+    parser.add_argument(
+        "--log-level",
+        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="INFO",
+        help="log level",
     )
 
     # Use a file or stdin for an argument
@@ -32,11 +42,23 @@ def parse_args(*args, **kwargs):
         help="Use a file or stdin",
     )
 
-    return parser.parse_args(*args, **kwargs)
+    return parser
 
 
 def main():
-    args = parse_args()
+
+    parser = build_parser()
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",
+        level=logging.getLevelName(args.log_level),
+    )
+
+    logger.debug("debug")
+    logger.info("info")
+    logger.warning("warning")
+
     with args.infile:
         pass
 
