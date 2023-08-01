@@ -2,12 +2,17 @@ Arjun.swagger-viewer
 Dart-Code.dart-code
 Dart-Code.flutter
 FranciscoBach.miramare
+GitHub.copilot
 GrapeCity.gc-excelviewer
+Tyriar.sort-lines
 VisualStudioExptTeam.intellicode-api-usage-examples
 VisualStudioExptTeam.vscodeintellicode
 alefragnani.Bookmarks
 bierner.docs-view
+bradlc.vscode-tailwindcss
+eamodio.gitlens
 elmTooling.elm-ls-vscode
+github.vscode-github-actions
 golang.go
 griimick.vhs
 hashicorp.terraform
@@ -17,6 +22,7 @@ humao.rest-client
 jebbs.plantuml
 kisstkondoros.vscode-gutter-preview
 mhutchie.git-graph
+ms-azure-devops.azure-pipelines
 ms-azuretools.vscode-azurefunctions
 ms-azuretools.vscode-azureresourcegroups
 ms-azuretools.vscode-bicep
@@ -24,6 +30,7 @@ ms-dotnettools.vscode-dotnet-runtime
 ms-python.black-formatter
 ms-python.flake8
 ms-python.isort
+ms-python.mypy-type-checker
 ms-python.pylint
 ms-python.python
 ms-python.vscode-pylance
@@ -39,10 +46,14 @@ ms-vscode-remote.remote-wsl
 ms-vscode-remote.vscode-remote-extensionpack
 ms-vscode.azure-account
 ms-vscode.remote-explorer
+ms-vscode.remote-server
 ms-vscode.test-adapter-converter
 mushan.vscode-paste-image
 nick-rudenko.back-n-forth
 oderwat.indent-rainbow
+pomdtr.excalidraw-editor
+redhat.java
+redhat.vscode-xml
 redhat.vscode-yaml
 ritwickdey.LiveServer
 rust-lang.rust-analyzer
@@ -50,3 +61,8 @@ tamasfe.even-better-toml
 taniarascia.new-moon-vscode
 timonwong.shellcheck
 usernamehw.errorlens
+vscjava.vscode-java-debug
+vscjava.vscode-java-dependency
+vscjava.vscode-java-pack
+vscjava.vscode-java-test
+vscjava.vscode-maven
