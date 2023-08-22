@@ -238,7 +238,7 @@ gh search issues \
     --owner bbkane \
     --limit 100 \
     --json number,repository,title,updatedAt,url \
-    --template '{{range .}}{{tablerow (printf "#%v" .number) (timeago .updatedAt) .repository.name (hyperlink .url (truncate 51 .title))}}{{"\n"}}{{end}}' \
+    --template '{{range .}}{{tablerow (printf "#%v" .number) (timeago .updatedAt) .repository.name (hyperlink .url (truncate 49 .title))}}{{"\n"}}{{end}}' \
 | sed '/^$/d' \
 | perl \
     -MList::Util=shuffle \
