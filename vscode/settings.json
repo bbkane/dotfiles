@@ -1,4 +1,8 @@
 {
+    "[html]": {
+        "editor.formatOnPaste": true,
+        "editor.formatOnSave": true,
+    },
     "[json]": {
         "editor.formatOnPaste": false,
         "editor.formatOnSave": false,
@@ -103,7 +107,6 @@
             "tab.activeBorderTop": "#e6dcac3f"
         }
     },
-    "workbench.colorTheme": "Default Dark+ Experimental",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.sideBar.location": "right",
     "githubIssues.queries": [
@@ -123,5 +126,6 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "editor.renderWhitespace": "none",
+    "workbench.colorTheme": "Default Light Modern",
     "window.zoomLevel": 1
 }
