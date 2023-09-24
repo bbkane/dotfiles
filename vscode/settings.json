@@ -34,7 +34,10 @@
     },
     "black-formatter.args": [
         "--line-length",
-        "100"
+        "88"
+    ],
+    "flake8.args": [
+        "--max-line-length=88"
     ],
     "dart.previewFlutterUiGuides": true,
     "diffEditor.ignoreTrimWhitespace": false,
