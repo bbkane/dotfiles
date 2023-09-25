@@ -3,10 +3,11 @@
 
 import argparse
 import logging
-import tomllib
 from pathlib import Path
 from shlex import quote
 from typing import Any, NamedTuple
+
+import tomllib
 
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
@@ -90,6 +91,14 @@ def read_config(*, config: dict[str, Any], key: str) -> ConfigParseResult:
     return ConfigParseResult(kvs=kvs, errors=errors)
 
 
+def print_config_block(key: str) -> None:
+    template = """
+[names."{key}"]
+key = "value"
+"""
+    print(template.format(key=key))
+
+
 def add_common_args(parser: argparse.ArgumentParser):
     parser.add_argument(
         "--log-level",
@@ -123,6 +132,17 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
     )
 
+    # print-config-block
+    print_config_block_cmd = subcommands.add_parser(
+        "print-config-block", help="print a section to add to the config"
+    )
+    add_common_args(print_config_block_cmd)
+    print_config_block_cmd.add_argument(
+        "--key",
+        default=str(Path().cwd()),
+        help="name to put in the 'names' section of the config",
+    )
+
     return parser
 
 
@@ -143,6 +163,8 @@ def main():
                 config = tomllib.load(fp)
             pr = read_config(config=config, key=args.key)
             print_as_shell(pr=pr)
+        case "print-config-block":
+            print_config_block(key=args.key)
         case _:
             raise SystemExit(f"Unknown command: {args.subcommand_name!r}")
 
