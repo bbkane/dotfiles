@@ -8,8 +8,11 @@ Tyriar.sort-lines
 VisualStudioExptTeam.intellicode-api-usage-examples
 VisualStudioExptTeam.vscodeintellicode
 alefragnani.Bookmarks
+alexandernanberg.horizon-theme-vscode
 bierner.docs-view
 bradlc.vscode-tailwindcss
+charliermarsh.ruff
+coolbear.systemd-unit-file
 eamodio.gitlens
 elmTooling.elm-ls-vscode
 github.vscode-github-actions
@@ -53,6 +56,7 @@ mushan.vscode-paste-image
 nick-rudenko.back-n-forth
 oderwat.indent-rainbow
 pomdtr.excalidraw-editor
+redhat.ansible
 redhat.java
 redhat.vscode-xml
 redhat.vscode-yaml
