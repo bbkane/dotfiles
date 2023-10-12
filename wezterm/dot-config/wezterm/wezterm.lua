@@ -12,7 +12,6 @@ end
 
 -- This is where you actually apply your config choices
 
--- For example, changing the color scheme:
 -- config.color_scheme = 'kanagawabones'
 config.color_scheme = '3024 (base16)'
 
@@ -29,7 +28,6 @@ config.font = wezterm.font_with_fallback {
 config.window_frame = {
     font_size = 15.0
 }
-
 
 local home_dir_url = "file://" .. wezterm.home_dir
 
@@ -49,6 +47,7 @@ wezterm.on(
         local pane = tab.active_pane
         local process = basename(pane.foreground_process_name)
         -- NOTE: in the nightly, this will return a URL object, not a string
+        -- TODO: this shoes file:// for paths above ~
         local cwd = string.gsub(pane.current_working_dir, home_dir_url, '~')
         local title = process .. ' ' .. cwd
         return {
