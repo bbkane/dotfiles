@@ -16,8 +16,21 @@ end
 -- config.color_scheme = 'kanagawabones'
 config.color_scheme = '3024 (base16)'
 
-config.font = wezterm.font('Monaco', { weight = 'Bold' })
-config.font_size = 17.0
+config.font_size = 18.0
+
+config.font = wezterm.font_with_fallback {
+    -- brew tap homebrew/cask-fonts
+    -- brew install font-ia-writer-mono
+    'iA Writer Mono S',
+    'Monaco',
+}
+
+config.use_fancy_tab_bar = true
+
+-- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
+config.window_frame = {
+    font_size = 15.0
+}
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 -- https://wezfurlong.org/wezterm/config/lua/PaneInformation.html
