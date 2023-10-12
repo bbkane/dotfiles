@@ -25,12 +25,13 @@ config.font = wezterm.font_with_fallback {
     'Monaco',
 }
 
-config.use_fancy_tab_bar = true
-
 -- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
 config.window_frame = {
     font_size = 15.0
 }
+
+
+local home_dir_url = "file://" .. wezterm.home_dir
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 -- https://wezfurlong.org/wezterm/config/lua/PaneInformation.html
@@ -46,9 +47,10 @@ wezterm.on(
     'format-tab-title',
     function(tab, tabs, panes, config, hover, max_width)
         local pane = tab.active_pane
+        local process = basename(pane.foreground_process_name)
         -- NOTE: in the nightly, this will return a URL object, not a string
-        local cwd = pane.current_working_dir
-        local title = basename(cwd)
+        local cwd = string.gsub(pane.current_working_dir, home_dir_url, '~')
+        local title = process .. ' ' .. cwd
         return {
             { Text = ' ' .. title .. ' ' },
         }
