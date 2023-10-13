@@ -17,6 +17,8 @@ To open a link, you shift click it (not cmd click like MacOS). I think I should
 get used to that as it's more cross platform -
 https://wezfurlong.org/wezterm/config/mouse.html#default-mouse-assignments
 
+Running into garbled text when I SSH into a server and tail logs...
+
 # Other terminals
 
 
