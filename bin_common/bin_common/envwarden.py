@@ -3,11 +3,10 @@
 
 import argparse
 import logging
+import tomllib
 from pathlib import Path
 from shlex import quote
 from typing import Any, NamedTuple
-
-import tomllib
 
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
@@ -17,21 +16,22 @@ envwarden exports environmental variables.
 Create a TOML config file:
 
 ```toml
-[envvars]
+[shared]
 service_api_key = "thiswasntworththemoney"
 other_key = "value"
 
-[names."/path/to/thing"]
-SERVICE_API_KEY = "service_api_key"
+[env."/path/to/thing"]
+shared.SERVICE_API_KEY = "service_api_key"
+local.LOG_LEVEL = "DEBUG"
 ```
 
 Then plop those API keys in your environment with:
 
 ```bash
-eval $(envwarden.py gen --config /path/to/cfg.toml --key "/path/to/thing")
+eval $(envwarden.py gen --config /path/to/cfg.toml --envname "/path/to/thing")
 ```
 
-That's a lot to type, and `--key` defaults to the current directory, so I put the following alias in my `~/.bashrc`:
+That's a lot to type, and `--envname` defaults to the current directory, so I put the following alias in my `~/.bashrc`:
 
 ```bash
 ew() {
@@ -76,27 +76,30 @@ def print_as_shell(*, pr: ConfigParseResult) -> None:
         print(f"export {quote(kv.key)}={quote(kv.value)};")
 
 
-def read_config(*, config: dict[str, Any], key: str) -> ConfigParseResult:
-    if key not in config["names"]:
-        return ConfigParseResult(kvs=[], errors=[Error(msg=f"{key!r} not in names")])
+def read_config(*, config: dict[str, Any], envname: str) -> ConfigParseResult:
+    if envname not in config["env"]:
+        return ConfigParseResult(kvs=[], errors=[Error(msg=f"{envname!r} not in env")])
 
     errors: list[Error] = []
     kvs: list[KV] = []
-    for kv_name, kv_envvar_name in config["names"][key].items():
-        if kv_envvar_name not in config["envvars"]:
-            errors.append(Error(msg=f"{kv_envvar_name!r} not found in envvars"))
+    for kv_name, kv_value in config["env"][envname].get("local", {}).items():
+        kvs.append(KV(key=kv_name, value=kv_value))
+
+    for kv_name, kv_shared_name in config["env"][envname].get("shared", {}).items():
+        if kv_shared_name not in config["shared"]:
+            errors.append(Error(msg=f"{kv_shared_name!r} not found in shared section"))
         else:
-            kvs.append(KV(key=kv_name, value=config["envvars"][kv_envvar_name]))
+            kvs.append(KV(key=kv_name, value=config["shared"][kv_shared_name]))
 
     return ConfigParseResult(kvs=kvs, errors=errors)
 
 
-def print_config_block(key: str) -> None:
-    template = """
-[names."{key}"]
-key = "value"
+def print_config_block(envname: str) -> None:
+    template = f"""
+[env."{envname}"]
+local.key = "value"
 """
-    print(template.format(key=key))
+    print(template)
 
 
 def add_common_args(parser: argparse.ArgumentParser):
@@ -116,11 +119,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     subcommands = parser.add_subparsers(dest="subcommand_name", required=True)
 
-    # greet
+    # gen
     greet_cmd = subcommands.add_parser("gen", help="print an environment script")
     add_common_args(greet_cmd)
     greet_cmd.add_argument(
-        "--key",
+        "--envname",
         default=str(Path().cwd()),
         help="section of the config to print a script form. Defaults to cwd",
     )
@@ -138,7 +141,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common_args(print_config_block_cmd)
     print_config_block_cmd.add_argument(
-        "--key",
+        "--envname",
         default=str(Path().cwd()),
         help="name to put in the 'names' section of the config",
     )
@@ -161,10 +164,10 @@ def main():
         case "gen":
             with args.config.open(mode="rb") as fp:
                 config = tomllib.load(fp)
-            pr = read_config(config=config, key=args.key)
+            pr = read_config(config=config, envname=args.envname)
             print_as_shell(pr=pr)
         case "print-config-block":
-            print_config_block(key=args.key)
+            print_config_block(envname=args.envname)
         case _:
             raise SystemExit(f"Unknown command: {args.subcommand_name!r}")
 
