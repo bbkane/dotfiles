@@ -6,6 +6,7 @@ Trying to switch from iTerm2 for the following reasons:
 - this is supposed to be faster, though I've never felt slowed by iTerm2
 - Cross platform if I move to Linux
 - A buncha built-in color schemes
+- Help me learn Lua
 
 Font looks odd, but that could be ok. I think it's a different font
 
@@ -18,6 +19,11 @@ get used to that as it's more cross platform -
 https://wezfurlong.org/wezterm/config/mouse.html#default-mouse-assignments
 
 Running into garbled text when I SSH into a server and tail logs...
+
+```bash
+brew tap homebrew/cask-fonts
+brew install font-ia-writer-mono
+```
 
 # Other terminals
 

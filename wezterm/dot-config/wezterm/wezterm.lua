@@ -18,9 +18,7 @@ config.color_scheme = '3024 (base16)'
 config.font_size = 18.0
 
 config.font = wezterm.font_with_fallback {
-    -- brew tap homebrew/cask-fonts
-    -- brew install font-ia-writer-mono
-    { family = 'iA Writer Mono S', weight = 'DemiBold' },
+    { family = 'iA Writer Mono S', weight = 'Regular' },
     'Monaco',
 }
 
