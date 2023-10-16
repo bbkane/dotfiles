@@ -25,7 +25,7 @@ In particular, `/etc/zprofile` `eval`'s `/usr/libexec/path_helper`. Running
 
 # Profiling
 
-There's a couple different options to profile, but I found [How to profile your zsh startup time – Benjamin Esham](https://esham.io/2018/02/zsh-profiling) to be my favorite.
+There's a couple different options to profile, but I found [How to profile your zsh startup time – Benjamin Esham](https://esham.io/2018/02/zsh-profiling) to be my favorite. [Faster and enjoyable ZSH (maybe) • htr3n's](https://htr3n.github.io/2018/07/faster-zsh/) also has great suggestions.
 
 I started with:
 
@@ -57,3 +57,46 @@ zsh -i -c exit  0.12s user 0.11s system 98% cpu 0.226 total
 
 After caching, 0.23 seconds, which is much better.
 
+# ~~Install [zsh-completions](https://github.com/zsh-users/zsh-completions)~~
+
+> **This adds like 1.5s to my zsh startup time which I now value more than auto-completions**
+
+This particularly helps with `openssl` completion.
+
+```bash
+brew install zsh-completions
+```
+
+```bash
+printf '
+# https://github.com/zsh-users/zsh-completions
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
+' >> ~/.zshrc
+```
+
+If getting the following error:
+
+```bash
+Last login: Fri Jan  6 05:07:16 on ttys002
+zsh compinit: insecure directories, run compaudit for list.
+Ignore insecure directories and continue [y] or abort compinit [n]? y
+05:07:33.237 PST mac02:~
+$
+05:07:33.261 PST mac02:~
+$ compaudit
+There are insecure directories:
+/usr/local/share
+```
+
+Fix it with this [StackOverflow answer](https://stackoverflow.com/a/22753363/2958070):
+
+```bash
+chmod g-w /usr/local/share
+```
+
+And open a new terminal window

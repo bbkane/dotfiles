@@ -1,6 +1,6 @@
 # Ben's Zsh Customizations and Plugins!!!
 
-## Design Goals
+# Design Goals
 
 - Don't change how the shell works too much! I `ssh` into other machines installed with `bash`, and it's essential that I don't need to context switch too hard when I do. This config tries to accomplish this by:
   - using `zsh` (fairly `bash` compatible)
@@ -13,15 +13,19 @@
 
 ## Install via [fling](https://github.com/bbkane/fling/)
 
-NOTE: this is not necessary if you use the `curl` commands provided and most people should use those. I use the `fling` method below to keep all my `zsh` config under version control, and you probably don't care about that
+NOTE: this is not necessary if you use the `curl` commands provided and most people should use those. I use the `fling` method below to keep all my `zsh` config under version control, and you probably don't care about that.
 
 Clone the repo and `fling`. Most people should use the `curl` install methods instead.
 
-## Install [Common Settings](./.zshrc_common.zsh)
+## Notes
+
+see [./README_notes.md](./README_notes.md)
+
+# Install [Common Settings](./.zshrc_common.zsh)
 
 Common functions and settings.
 
-### Install via Curl
+Install via curl:
 
 ```bash
 curl -Lo ~/.zshrc_common.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_common.zsh
@@ -38,13 +42,13 @@ EOF
 
 Open a new `zsh` shell.
 
-## Install [`zp_prompt`](./dot-zshrc_prompt.zsh)
+# Install [`zp_prompt`](./dot-zshrc_prompt.zsh)
 
 Change prompt colors on the fly!
 
 ![](./README_img/zp_prompt.png)
 
-### Install via Curl
+Install via `curl`
 
 ```
 curl -Lo ~/.zshrc_prompt.zsh https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh/.zshrc_prompt.zsh
@@ -65,7 +69,7 @@ EOF
 
 Open a new `zsh` shell.
 
-## Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+# Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 
 Add auto-complete based on history. Accept suggestions with `<Ctrl><Space>` or right arrow key.
 
@@ -87,7 +91,7 @@ EOF
 
 Open a new `zsh` shell.
 
-## Install [fzf](https://github.com/junegunn/fzf)
+# Install [fzf](https://github.com/junegunn/fzf)
 
 - Search through shell history interactively (`<Ctrl>r`)
 - Search through file names (`<Ctrl>t`). Example: `cat <Ctrl>t`
@@ -106,80 +110,7 @@ Run the install script it prints on install (`/usr/local/opt/fzf/install` for me
 
 This modifies `~/.zshrc` for you
 
-## ~~Install [fasd](https://github.com/clvv/fasd)~~
-
-> NOTE: fasd has been deprecated by Homebrew. It's probably better at this point to use `zoxide`. See the next section. I have ported and undeprecated the formula to my personal homebrew tap, just in case `zoxide` doesn't keep me happy: `brew install bbkane/tap/fasd`.
-
-`fasd` lets you:
-
-- Open recently/frequently used files with `v <fuzzy-term><Tab>`
-- `cd` to recent/frequent directories with `z <fuzzy-term><Tab>`
-- Trigger completion with `<Ctrl>x<Ctrl>a` - example `vim <Ctrl>x<Ctrl>a`
-
-```
-brew install fasd
-```
-
-```
-cat >> "$HOME/.zshrc" << 'EOF'
-# NOTE: this has to build a database of frecently used files and dirs
-# so it won't be useful for a while. Once it has a list, use `z <fuzzyname>`
-# to cd into a directory or `v <fuzzyname>` to nvim it. Push <TAB> to complete from list
-eval "$(fasd --init auto)"
-alias v='f -e nvim' # quick opening files with nvim
-bindkey '^X^A' fasd-complete
-
-EOF
-```
-
-Open a new `zsh` shell.
-
-## Install [`zoxide`](https://github.com/ajeetdsouza/zoxide)
-
-`zoxide` is a replacement for `fasd`, which has been deprecated in Homebrew :(
-
-It has some differences:
-
-- doesn't support frecently used files with `v`
-- **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>` 
-- It does let you edit the database.
-
-```bash
-brew install zoxide
-```
-
-Also see notes about `compinit` in the [README](https://github.com/ajeetdsouza/zoxide).
-
-```bash
-echo '
-eval "$(zoxide init zsh)"
-' >> "$HOME/.zshrc"
-```
-
-
-
-## Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
-
-Add syntax highglighting while typing
-
-![](./README_img/fast-syntax-highlighting.png)
-
-I clone into `~/Git`. Change this name if you want to clone somewhere else!
-
-```
-git clone https://github.com/zdharma/fast-syntax-highlighting ~/Git-GH/fast-syntax-highlighting
-```
-
-```
-cat >> "$HOME/.zshrc" << 'EOF'
-source ~/Git-GH/fast-syntax-highlighting/F-Sy-H.plugin.zsh
-
-EOF
-```
-
-Open a new `zsh` shell.
-
-## Install [fzf-tab](https://github.com/Aloxaf/fzf-tab)
+# Install [fzf-tab](https://github.com/Aloxaf/fzf-tab)
 
 Add fuzzy completion to tab-complete. Very useful when there's a bunch of similarly named things in a directory (like ticket notes).
 
@@ -222,7 +153,80 @@ Build the `ff-tab-module` to get colors (requires C compliation toolchain):
 build-fzf-tab-module
 ```
 
-## Install [warhol.plugin.zsh](https://github.com/unixorn/warhol.plugin.zsh)
+# ~~Install [fasd](https://github.com/clvv/fasd)~~
+
+> NOTE: fasd has been deprecated by Homebrew. It's probably better at this point to use `zoxide`. See the next section. I have ported and undeprecated the formula to my personal homebrew tap, just in case `zoxide` doesn't keep me happy: `brew install bbkane/tap/fasd`.
+
+`fasd` lets you:
+
+- Open recently/frequently used files with `v <fuzzy-term><Tab>`
+- `cd` to recent/frequent directories with `z <fuzzy-term><Tab>`
+- Trigger completion with `<Ctrl>x<Ctrl>a` - example `vim <Ctrl>x<Ctrl>a`
+
+```
+brew install fasd
+```
+
+```
+cat >> "$HOME/.zshrc" << 'EOF'
+# NOTE: this has to build a database of frecently used files and dirs
+# so it won't be useful for a while. Once it has a list, use `z <fuzzyname>`
+# to cd into a directory or `v <fuzzyname>` to nvim it. Push <TAB> to complete from list
+eval "$(fasd --init auto)"
+alias v='f -e nvim' # quick opening files with nvim
+bindkey '^X^A' fasd-complete
+
+EOF
+```
+
+Open a new `zsh` shell.
+
+# Install [`zoxide`](https://github.com/ajeetdsouza/zoxide)
+
+`zoxide` is a replacement for `fasd`, which has been deprecated in Homebrew :(
+
+It has some differences:
+
+- doesn't support frecently used files with `v`
+- **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>` 
+- It does let you edit the database.
+
+```bash
+brew install zoxide
+```
+
+Also see notes about `compinit` in the [README](https://github.com/ajeetdsouza/zoxide).
+
+```bash
+echo '
+eval "$(zoxide init zsh)"
+' >> "$HOME/.zshrc"
+```
+
+
+
+# Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
+
+Add syntax highglighting while typing
+
+![](./README_img/fast-syntax-highlighting.png)
+
+I clone into `~/Git`. Change this name if you want to clone somewhere else!
+
+```
+git clone https://github.com/zdharma/fast-syntax-highlighting ~/Git-GH/fast-syntax-highlighting
+```
+
+```
+cat >> "$HOME/.zshrc" << 'EOF'
+source ~/Git-GH/fast-syntax-highlighting/F-Sy-H.plugin.zsh
+
+EOF
+```
+
+Open a new `zsh` shell.
+
+# Install [warhol.plugin.zsh](https://github.com/unixorn/warhol.plugin.zsh)
 
 Colorize command output using grc and lscolors
 
@@ -243,55 +247,7 @@ source ~/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh
 ' >> ~/.zshrc
 ```
 
-## ~~Install [zsh-completions](https://github.com/zsh-users/zsh-completions)~~
-
-> **This adds like 1.5s to my zsh startup time which I now value more than auto-completions**
-
-This particularly helps with `openssl` completion.
-
-```bash
-brew install zsh-completions
-```
-
-```bash
-printf '
-# https://github.com/zsh-users/zsh-completions
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
-fi
-' >> ~/.zshrc
-```
-
-If getting the following error:
-
-```bash
-Last login: Fri Jan  6 05:07:16 on ttys002
-zsh compinit: insecure directories, run compaudit for list.
-Ignore insecure directories and continue [y] or abort compinit [n]? y
-05:07:33.237 PST mac02:~
-$
-05:07:33.261 PST mac02:~
-$ compaudit
-There are insecure directories:
-/usr/local/share
-```
-
-Fix it with this [StackOverflow answer](https://stackoverflow.com/a/22753363/2958070):
-
-```bash
-chmod g-w /usr/local/share
-```
-
-And open a new terminal window
-
-## Notes
-
-see [./README_notes.md](./README_notes.md)
-
-## TODO
+# TODO
 
 - url auto-complete, tetris: https://matt.blissett.me.uk/linux/zsh/zshrc
 
