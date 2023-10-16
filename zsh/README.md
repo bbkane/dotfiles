@@ -203,11 +203,30 @@ eval "$(zoxide init zsh)"
 ' >> "$HOME/.zshrc"
 ```
 
+## zoxide + fzf-tab
 
+Provide easier completion `z startofname<TAB>`
+
+Courtesy of [Ordinary completion with TAB in addition to custom one from SPACE+TAB · Issue #484 · ajeetdsouza/zoxide](https://github.com/ajeetdsouza/zoxide/issues/484)
+
+Pop the following in `.zshrc`:
+
+```zsh
+eval "$(zoxide init zsh)"
+
+__zoxide_z_complete () {
+  args=$(zoxide query -l)
+  _arguments "1:profiles:($args)"
+}
+#fzf-tab config
+zstyle ':completion:*:__zoxide_z:*' sort false
+```
+
+This doesn't seem to be working like I'd like.
 
 # Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
 
-Add syntax highglighting while typing
+Add syntax highlighting while typing
 
 ![](./README_img/fast-syntax-highlighting.png)
 
