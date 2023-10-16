@@ -16,6 +16,9 @@ end
 config.color_scheme = '3024 (base16)'
 
 config.font_size = 18.0
+config.freetype_render_target = "HorizontalLcd"
+config.freetype_load_target = "Light"
+config.cell_width = 0.9
 
 config.font = wezterm.font_with_fallback {
     { family = 'Fira Code', weight = 'Regular' },

@@ -30,7 +30,11 @@ brew install font-ia-writer-mono
 
 For some reason, iTerm2 has much better font rendering to me. See https://github.com/wez/wezterm/issues/681
 
-Also see https://github.com/wez/wezterm/issues/3774 - maybe I should try kitty?
+Also see https://github.com/wez/wezterm/issues/3774 - maybe I should try kitty again?
+
+## Lag 
+
+It lags when I do my three-finger-up swipe to zoom out...
 
 # Other terminals
 
