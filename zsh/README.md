@@ -157,6 +157,8 @@ build-fzf-tab-module
 
 > NOTE: fasd has been deprecated by Homebrew. It's probably better at this point to use `zoxide`. See the next section. I have ported and undeprecated the formula to my personal homebrew tap, just in case `zoxide` doesn't keep me happy: `brew install bbkane/tap/fasd`.
 
+> `fasd` also shows up as one of the slower things to load when I profile zsh startup time
+
 `fasd` lets you:
 
 - Open recently/frequently used files with `v <fuzzy-term><Tab>`
@@ -191,6 +193,8 @@ It has some differences:
 - **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>` 
 - It does let you edit the database.
 
+I think my favorite use is `zi` to open a fzf picker for frecently used files.
+
 ```bash
 brew install zoxide
 ```
@@ -202,8 +206,6 @@ echo '
 eval "$(zoxide init zsh)"
 ' >> "$HOME/.zshrc"
 ```
-
-
 
 # Install [`fast-syntax-highlighting`](https://github.com/zdharma/fast-syntax-highlighting)
 
