@@ -22,11 +22,15 @@ Running into garbled text when I SSH into a server and tail logs...
 
 ```bash
 brew tap homebrew/cask-fonts
+brew install font-fira-code
 brew install font-ia-writer-mono
 ```
 
-# Other terminals
+## Font rendering
 
+For some reason, iTerm2 has much better font rendering to me. See https://github.com/wez/wezterm/issues/681
+
+# Other terminals
 
 ## Kitty
 

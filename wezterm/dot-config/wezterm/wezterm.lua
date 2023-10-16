@@ -18,6 +18,7 @@ config.color_scheme = '3024 (base16)'
 config.font_size = 18.0
 
 config.font = wezterm.font_with_fallback {
+    { family = 'Fira Code', weight = 'Regular' },
     { family = 'iA Writer Mono S', weight = 'Regular' },
     'Monaco',
 }
