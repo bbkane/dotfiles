@@ -243,7 +243,9 @@ source ~/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh
 ' >> ~/.zshrc
 ```
 
-## Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
+## ~~Install [zsh-completions](https://github.com/zsh-users/zsh-completions)~~
+
+> **This adds like 1.5s to my zsh startup time which I now value more than auto-completions**
 
 This particularly helps with `openssl` completion.
 
@@ -291,14 +293,7 @@ see [./README_notes.md](./README_notes.md)
 
 ## TODO
 
-- make blog post of zsh/fasd/fzf/zsh-autosuggestions
-- prompt: consider indicating username when logged into a remote host
 - url auto-complete, tetris: https://matt.blissett.me.uk/linux/zsh/zshrc
+
 - autocomplete: https://unix.stackexchange.com/a/214699/185953
 - mess with vim mode? http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
-- https://github.com/romkatv/powerlevel10k
-- Try https://github.com/denisidoro/navi ? Things I'd like a cheatsheet for: curl, az
-
-```
-$ gh search issues --author bbkane --state open --owner bbkane --limit 3 --json number,repository,title,updatedAt,url --template '{{range .}}{{tablerow (printf "#%v" .number | color "green") (timeago .updatedAt) .repository.name (hyperlink .url .title)}}{{"\n"}}{{end}}'
-```
