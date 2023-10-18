@@ -79,12 +79,15 @@ Add auto-complete based on history. Accept suggestions with `<Ctrl><Space>` or r
 brew install zsh-autosuggestions
 ```
 
+I used [HTML Color Picker: #c0c0c0](https://imagecolorpicker.com/color-code/c0c0c0) to get the highlight color.
+
 ```
 cat >> "$HOME/.zshrc" << 'EOF'
 # NOTE: this source location might change if brew changes how it installs
 # See `brew info zsh-autosuggestions`
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept  # also use Ctrl+Space to accept
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#737373'
 
 EOF
 ```

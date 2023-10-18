@@ -23,8 +23,8 @@ config.freetype_load_target = "Light"
 config.cell_width = 0.9
 
 config.font = wezterm.font_with_fallback {
-    { family = 'Fira Code', weight = 'Regular' },
     { family = 'iA Writer Mono S', weight = 'Regular' },
+    { family = 'Fira Code', weight = 'Regular' },
     'Monaco',
 }
 
