@@ -13,9 +13,10 @@ end
 -- This is where you actually apply your config choices
 
 -- config.color_scheme = 'kanagawabones'
--- config.color_scheme = '3024 (base16)'
--- config.color_scheme = 'Oceanic Next'
-config.color_scheme = 'OneHalfBlack (Gogh)'
+-- config.color_scheme = 'OneHalfBlack (Gogh)'
+-- config.color_scheme = 'Scarlet Protocol'
+-- config.color_scheme = 'Solarized Dark Higher Contrast'
+config.color_scheme = 'Modus-Vivendi'
 
 config.font_size = 18.0
 config.freetype_render_target = "HorizontalLcd"
