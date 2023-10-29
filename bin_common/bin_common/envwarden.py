@@ -191,7 +191,7 @@ def read_config(
         res = DarwinKeyring.get(service=str(config_path), username=kv_keyring_name)
         match res:
             case Error(_) as err:
-                errors.append(err)
+                errors.append(Error(msg=f"{kv_name} -> {kv_keyring_name}: {err.msg}"))
             case String(msg):
                 kvs.append(KV(key=kv_name, value=msg))
 
@@ -328,7 +328,7 @@ def main():
                     res = DarwinKeyring.get(service=args.config, username=args.name)
                     match res:
                         case Error(msg) as err:
-                            raise SystemExit(f"Err: {msg}")
+                            raise SystemExit(f"Err: {args.name}: {msg}")
                         case String(msg):
                             print(msg)
                 case "set":
