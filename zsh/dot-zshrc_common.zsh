@@ -37,6 +37,7 @@ export MYPY_CACHE_DIR="$HOME/.mypy_cache"
 
 # https://github.com/sharkdp/bat#highlighting-theme
 export BAT_THEME="1337"
+export BAT_STYLE='plain,header,grid'
 
 # rclone settings
 # NOTE: these aren't tested :)
