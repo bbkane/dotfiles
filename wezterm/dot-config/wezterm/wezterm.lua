@@ -15,18 +15,35 @@ end
 -- config.color_scheme = 'kanagawabones'
 -- config.color_scheme = 'OneHalfBlack (Gogh)'
 -- config.color_scheme = 'Scarlet Protocol'
--- config.color_scheme = 'Solarized Dark Higher Contrast'
-config.color_scheme = 'Modus-Vivendi'
+config.color_scheme = 'Solarized Dark Higher Contrast'
+-- config.color_scheme = 'Modus-Vivendi'
 
 config.font_size = 18.0
-config.freetype_render_target = "HorizontalLcd"
-config.freetype_load_target = "Light"
+-- config.freetype_load_flags = 'NO_HINTING'
+-- config.freetype_render_target = "HorizontalLcd"
+-- config.freetype_load_target = "Light"
 config.cell_width = 0.9
 
+-- Can also use: https://www.programmingfonts.org/
+-- https://www.codingfont.com/
 config.font = wezterm.font_with_fallback {
-    { family = 'iA Writer Mono S', weight = 'Regular' },
-    { family = 'Fira Code', weight = 'Regular' },
-    'Monaco',
+    -- 'IBM Plex Mono',  # not quite what I want
+    -- 'Iosevka Term Extended', -- Pretty close to iA Writer Mono S...
+    -- 'Inconsolata', -- also, ok but not better
+    -- 'Monocraft', -- MineCraft font, not really what I'm looking for
+    -- 'Terminus (TTF)', -- this is actually pretty good, different and thinner looking
+    -- 'Source Code Pro', -- this is good as well
+    'Hack', -- also quite good
+    -- 'Monaspace Argon Var', -- not bad...
+    -- 'Monaspace Krypton Var', -- pretty good too
+    -- 'Monaspace Xenon Var', -- actually really like this one
+    -- 'Cascadia Mono', -- I actually find this less readable
+    -- 'Roboto Mono', -- this is pretty clear, really like it
+    -- 'Liberation Mono', -- I like this one
+    -- 'Ubuntu Mono',
+    -- { family = 'iA Writer Mono S', weight = 'Regular' },
+    -- { family = 'Fira Code', weight = 'Regular' },
+    -- 'Monaco',
 }
 
 -- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
