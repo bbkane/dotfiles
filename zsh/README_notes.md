@@ -57,7 +57,37 @@ zsh -i -c exit  0.12s user 0.11s system 98% cpu 0.226 total
 
 After caching, 0.23 seconds, which is much better.
 
-# ~~Install [zsh-completions](https://github.com/zsh-users/zsh-completions)~~
+# ~~Install [fasd](https://github.com/clvv/fasd)~~  - replaced with zoxide
+
+> NOTE: fasd has been deprecated by Homebrew. It's probably better at this point to use `zoxide`. See the next section. I have ported and undeprecated the formula to my personal homebrew tap, just in case `zoxide` doesn't keep me happy: `brew install bbkane/tap/fasd`.
+
+> `fasd` also shows up as one of the slower things to load when I profile zsh startup time
+
+`fasd` lets you:
+
+- Open recently/frequently used files with `v <fuzzy-term><Tab>`
+- `cd` to recent/frequent directories with `z <fuzzy-term><Tab>`
+- Trigger completion with `<Ctrl>x<Ctrl>a` - example `vim <Ctrl>x<Ctrl>a`
+
+```
+brew install fasd
+```
+
+```
+cat >> "$HOME/.zshrc" << 'EOF'
+# NOTE: this has to build a database of frecently used files and dirs
+# so it won't be useful for a while. Once it has a list, use `z <fuzzyname>`
+# to cd into a directory or `v <fuzzyname>` to nvim it. Push <TAB> to complete from list
+eval "$(fasd --init auto)"
+alias v='f -e nvim' # quick opening files with nvim
+bindkey '^X^A' fasd-complete
+
+EOF
+```
+
+Open a new `zsh` shell.
+
+# ~~Install [zsh-completions](https://github.com/zsh-users/zsh-completions)~~ - replaced with carapace-bin
 
 > **This adds like 1.5s to my zsh startup time which I now value more than auto-completions**
 
