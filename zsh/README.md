@@ -156,35 +156,7 @@ Build the `ff-tab-module` to get colors (requires C compliation toolchain):
 build-fzf-tab-module
 ```
 
-# ~~Install [fasd](https://github.com/clvv/fasd)~~
 
-> NOTE: fasd has been deprecated by Homebrew. It's probably better at this point to use `zoxide`. See the next section. I have ported and undeprecated the formula to my personal homebrew tap, just in case `zoxide` doesn't keep me happy: `brew install bbkane/tap/fasd`.
-
-> `fasd` also shows up as one of the slower things to load when I profile zsh startup time
-
-`fasd` lets you:
-
-- Open recently/frequently used files with `v <fuzzy-term><Tab>`
-- `cd` to recent/frequent directories with `z <fuzzy-term><Tab>`
-- Trigger completion with `<Ctrl>x<Ctrl>a` - example `vim <Ctrl>x<Ctrl>a`
-
-```
-brew install fasd
-```
-
-```
-cat >> "$HOME/.zshrc" << 'EOF'
-# NOTE: this has to build a database of frecently used files and dirs
-# so it won't be useful for a while. Once it has a list, use `z <fuzzyname>`
-# to cd into a directory or `v <fuzzyname>` to nvim it. Push <TAB> to complete from list
-eval "$(fasd --init auto)"
-alias v='f -e nvim' # quick opening files with nvim
-bindkey '^X^A' fasd-complete
-
-EOF
-```
-
-Open a new `zsh` shell.
 
 # Install [`zoxide`](https://github.com/ajeetdsouza/zoxide)
 
@@ -250,6 +222,21 @@ printf '
 # https://github.com/unixorn/warhol.plugin.zsh
 source ~/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh
 ' >> ~/.zshrc
+```
+
+# Install [carapace-bin](https://github.com/rsteube/carapace-bin)
+
+Add nice auto-completion for common commands witha smaller startup-time penalty than  [zsh-completions](https://github.com/zsh-users/zsh-completions).
+
+```bash
+brew install rsteube/tap/carapace
+```
+
+```bash
+cat >> "$HOME/.zshrc" << 'EOF'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+EOF
 ```
 
 # TODO

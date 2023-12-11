@@ -61,4 +61,4 @@
 	path = ~/.config/gitconfig_Git-MS-AzDev
 
 [commit]
-	template = /Users/bbkane/.config/git_commit-template.txt
+	template = ~/.config/git_commit-template.txt
