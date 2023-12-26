@@ -12,12 +12,15 @@ from pathlib import Path
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
-<description>
+Format file, pretty-printing JSON lines
+
 Examples:
-    {sys.argv[0]}
+    go run . serve | format_jsonl.py fmt
+
 Help:
 Please see Benjamin Kane for help.
-Code at <repo>
+
+https://github.com/bbkane/dotfiles/blob/master/bin_common/bin_common/format_jsonl.py
 """
 
 logger = logging.getLogger(__name__)
