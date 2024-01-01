@@ -247,3 +247,8 @@ gh search issues \
 | head \
     -10 
 }
+
+# leaving out @$$ - too many false positives...
+rg_swear_words() {
+    rg -i $(base64 -d <<< "YmFzdGFyZHxiaXRjaHxkYW1ufGZ1Y2t8cGlzc3xzaGl0Cg==")
+}
