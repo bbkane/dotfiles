@@ -44,9 +44,9 @@ As of 2024-01-01. See the comments or `-h/--help` in each script for more detail
 
 - [json_to_yaml.sh](./bin_common/json_to_yaml.sh) - Read JSON file by path and print as YAML to stdout
 
-- [jsonl_to.py](./bin_common/jsonl_to.py) - Normalize a newline delimited JSON log by adding any missing keys with null
+- [jsonl_to_csv.py](./bin_common/jsonl_to_csv.py) - Normalize a newline delimited JSON log by adding any missing keys with null
 
-  values TODO: rename
+  values
 
 - [open_tmp_html.py](./bin_common/open_tmp_html.py) - Write html input to a tmpfile, then open in a browser
 
