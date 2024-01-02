@@ -34,9 +34,9 @@ As of 2024-01-01. See the comments or `-h/--help` in each script for more detail
 
 - [format_shell_cmd.py](./bin_common/format_shell_cmd.py) - Read a line from stdin and format as a BASH Command
 
-- [format_stdin.py](./bin_common/format_stdin.py) - read stdin formatted as a Python f-string and format with key-value pairs passed as args
+- [format_f-string.py](./bin_common/format_f-string.py) - read stdin formatted as a Python f-string and format with key-value pairs passed as args
 
-- [git-linechangedtsv](./bin_common/git-linechangedtsv) - Print lines changed over time for a git repo - TODO: rename to `git-lines-changed-tsv`
+- [git-lines-changed-tsv](./bin_common/git-lines-changed-tsv) - Print lines changed over time for a git repo
 
 - [git-tagit](./bin_common/git-tagit) - Print git status and current last 10 git tags, then prompt for a new git tag and push
 

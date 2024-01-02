@@ -1,6 +1,19 @@
 #!/bin/bash
 
-# Print lines changed over time for a git repo
+# Print lines changed over time for a git repo. Especially useful for plotting with https://github.com/bbkane/tablegraph/
+# Example (from `tablegraph examples repolines``):
+# git lines-changed-tsv \
+# | tablegraph graph \
+#     --fieldsep $'\t' \
+#     --fieldnames firstline \
+#     --graph-title "Git History" \
+#     --type stacked-bar \
+#     --x-scale-type utc \
+#     --x-time-unit utcyearmonthdate \
+#     --x-type temporal \
+#     --y-type quantitative \
+#     --mark-size 5 \
+# | open_tmp_html.py
 
 # exit the script on command errors or unset variables
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
