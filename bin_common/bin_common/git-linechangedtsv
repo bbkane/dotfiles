@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Print lines changed over time for a git repo
+
 # exit the script on command errors or unset variables
 # http://redsymbol.net/articles/unofficial-bash-strict-mode/
 set -euo pipefail
