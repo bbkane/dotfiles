@@ -9,14 +9,14 @@ __version__ = "0.1.0"
 __doc__ = """
 Format stdin with f-string rules
 Examples:
-    echo 'hi {name}' | format_stdin.py name Ben
+    echo 'hi {name}' | format_f-string.py name Ben
 Help:
 Please see Benjamin Kane for help.
-Code at <repo>
+Code at https://github.com/bbkane/dotfiles
 """
 
 # Test as_pairs with:
-# python3 -m doctest format_stdin.py
+# python3 -m doctest format_f-string.py
 
 
 def as_pairs(lst):
@@ -50,11 +50,14 @@ def as_pairs(lst):
 
 
 def main():
+    if len(sys.argv) == 2 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__)
+        exit(0)
     infile = sys.stdin.read()
     args = sys.argv[1:]
     if len(args) == 0 or len(args) % 2 != 0:
         raise SystemExit(
-            "Need some keys and values! Ex: cat file.txt | format_stdin.py key value key2 value2"
+            "Need some keys and values! Ex: cat file.txt | format_f-string.py key value key2 value2"
         )
     print(infile.format(**dict(as_pairs(args))))
 

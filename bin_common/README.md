@@ -34,7 +34,7 @@ As of 2024-01-01. See the comments or `-h/--help` in each script for more detail
 
 - [format_shell_cmd.py](./bin_common/format_shell_cmd.py) - Read a line from stdin and format as a BASH Command
 
-- [format_stdin.py](./bin_common/format_stdin.py) - read stdin formatted as a Python f-string and format with key-value pairs passed as args - TODO: rename
+- [format_stdin.py](./bin_common/format_stdin.py) - read stdin formatted as a Python f-string and format with key-value pairs passed as args
 
 - [git-linechangedtsv](./bin_common/git-linechangedtsv) - Print lines changed over time for a git repo - TODO: rename to `git-lines-changed-tsv`
 
