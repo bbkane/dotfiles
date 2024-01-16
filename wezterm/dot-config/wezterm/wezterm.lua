@@ -51,6 +51,20 @@ config.window_frame = {
     font_size = 15.0
 }
 
+-- stop lagging on "Mission Contro" zoom out
+-- https://github.com/wez/wezterm/issues/2669
+config.window_decorations = 'TITLE|RESIZE|MACOS_FORCE_DISABLE_SHADOW'
+
+-- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
+config.keys = {
+    -- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
+    { key = "LeftArrow", mods = "OPT", action = wezterm.action { SendString = "\x1bb" } },
+    -- Make Option-Right equivalent to Alt-f; forward-word
+    { key = "RightArrow", mods = "OPT", action = wezterm.action { SendString = "\x1bf" } },
+}
+
+
+
 local home_dir_url = "file://" .. wezterm.home_dir
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
