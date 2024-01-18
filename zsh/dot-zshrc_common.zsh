@@ -252,3 +252,8 @@ gh search issues \
 rg_swear_words() {
     rg -i $(base64 -d <<< "YmFzdGFyZHxiaXRjaHxkYW1ufGZ1Y2t8cGlzc3xzaGl0Cg==")
 }
+
+# https://stackoverflow.com/a/17581317/2958070
+shuffle() {
+    perl -MList::Util=shuffle -e 'print shuffle<STDIN>'
+}

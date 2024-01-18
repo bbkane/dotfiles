@@ -73,8 +73,30 @@ local home_dir_url = "file://" .. wezterm.home_dir
 -- Equivalent to POSIX basename(3)
 -- Given "/foo/bar" returns "bar"
 -- Given "c:\\foo\\bar" returns "bar"
-function basename(s)
+local basename = function(s)
     return string.gsub(s, '(.*[/\\])(.*)', '%2')
+end
+
+-- NOTE: these aren't working yet, but leaving them in till I get time to work on them...
+-- https://gist.github.com/scheler/26a942d34fb5576a68c111b05ac3fabe
+local hash = function(str)
+    local h = 5381;
+
+    for c in str:gmatch "." do
+        h = ((h << 5) + h) + string.byte(c)
+    end
+    return h
+end
+
+local title_to_hex = function(str)
+    local hex = hash(str)
+    wezterm.log_info('hex: ' .. hex)
+    hex = string.format("%x", str)
+    -- TODO: ensure this is 6 characters...
+    -- TODO: get inverse too - https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
+    -- NOTE: this isn't working - https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
+    hex = string.strsub(hex, 1, 6)
+    return '#' .. hex
 end
 
 wezterm.on(
@@ -87,6 +109,7 @@ wezterm.on(
         local cwd = string.gsub(pane.current_working_dir, home_dir_url, '~')
         local title = process .. ' ' .. cwd
         return {
+            { Background = { Color = 'black' } },
             { Text = ' ' .. title .. ' ' },
         }
     end
