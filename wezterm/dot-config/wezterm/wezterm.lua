@@ -1,3 +1,5 @@
+-- https://wezfurlong.org/wezterm/troubleshooting.html#debug-overlay
+
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
@@ -77,39 +79,41 @@ local basename = function(s)
     return string.gsub(s, '(.*[/\\])(.*)', '%2')
 end
 
--- NOTE: these aren't working yet, but leaving them in till I get time to work on them...
--- https://gist.github.com/scheler/26a942d34fb5576a68c111b05ac3fabe
 local hash = function(str)
+    -- https://gist.github.com/scheler/26a942d34fb5576a68c111b05ac3fabe
     local h = 5381;
-
     for c in str:gmatch "." do
         h = ((h << 5) + h) + string.byte(c)
     end
-    return h
+
+    -- turn into a 6 digit hex value prefixed with '#'
+    local hex = string.format("%x", h)
+    hex = hex .. hex -- this should be long enough...
+    local truncated = string.sub(hex, 1, 6)
+    return '#' .. truncated
 end
 
-local title_to_hex = function(str)
-    local hex = hash(str)
-    wezterm.log_info('hex: ' .. hex)
-    hex = string.format("%x", str)
-    -- TODO: ensure this is 6 characters...
-    -- TODO: get inverse too - https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
-    -- NOTE: this isn't working - https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
-    hex = string.strsub(hex, 1, 6)
-    return '#' .. hex
-end
-
+-- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 wezterm.on(
     'format-tab-title',
     function(tab, tabs, panes, config, hover, max_width)
+        -- https://wezfurlong.org/wezterm/config/lua/pane/index.html
         local pane = tab.active_pane
         local process = basename(pane.foreground_process_name)
+
         -- NOTE: in the nightly, this will return a URL object, not a string
         -- TODO: this shoes file:// for paths above ~
         local cwd = string.gsub(pane.current_working_dir, home_dir_url, '~')
         local title = process .. ' ' .. cwd
+
+        -- https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
+        -- TODO: use the whole args? https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
+        local bg = wezterm.color.parse(hash(process))
+        local fg = bg:complement_ryb():saturate_fixed(0.6)
+
         return {
-            { Background = { Color = 'black' } },
+            { Background = { Color = bg } },
+            { Foreground = { Color = fg } },
             { Text = ' ' .. title .. ' ' },
         }
     end
