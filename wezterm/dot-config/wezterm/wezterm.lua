@@ -81,6 +81,8 @@ end
 
 local hash = function(str)
     -- https://gist.github.com/scheler/26a942d34fb5576a68c111b05ac3fabe
+    -- also try https://github.com/lancelijade/qqwry.lua/blob/master/crc32.lua
+    -- https://wezfurlong.org/wezterm/config/files.html#making-your-own-lua-modules
     local h = 5381;
     for c in str:gmatch "." do
         h = ((h << 5) + h) + string.byte(c)
@@ -114,6 +116,7 @@ wezterm.on(
         return {
             { Background = { Color = bg } },
             { Foreground = { Color = fg } },
+            { Attribute = { Intensity = "Bold" } },
             { Text = ' ' .. title .. ' ' },
         }
     end
