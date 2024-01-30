@@ -66,9 +66,6 @@ config.keys = {
 }
 
 
-
-local home_dir_url = "file://" .. wezterm.home_dir
-
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 -- https://wezfurlong.org/wezterm/config/lua/PaneInformation.html
 
@@ -103,9 +100,7 @@ wezterm.on(
         local pane = tab.active_pane
         local process = basename(pane.foreground_process_name)
 
-        -- NOTE: in the nightly, this will return a URL object, not a string
-        -- TODO: this shoes file:// for paths above ~
-        local cwd = string.gsub(pane.current_working_dir, home_dir_url, '~')
+        local cwd = string.gsub(pane.current_working_dir.file_path, wezterm.home_dir, '~')
         local title = process .. ' ' .. cwd
 
         -- https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
