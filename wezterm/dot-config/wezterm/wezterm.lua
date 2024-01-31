@@ -57,7 +57,6 @@ config.window_frame = {
 -- https://github.com/wez/wezterm/issues/2669
 config.window_decorations = 'TITLE|RESIZE|MACOS_FORCE_DISABLE_SHADOW'
 
--- NOTE: delete word backwards is Ctrl+w
 -- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
 config.keys = {
     -- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
