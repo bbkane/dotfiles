@@ -34,6 +34,7 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
     local process = basename(pane.foreground_process_name)
 
     local cwd = pane.current_working_dir
+    -- cwd is nil if I pull up the Debug Overlay for example
     if cwd == nil then
         cwd = ""
     else
@@ -46,6 +47,7 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
     local bg = wezterm.color.parse(hash(process))
     local fg = bg:complement_ryb():saturate_fixed(0.6)
 
+    -- TODO: what if I just always made the background black? I think most things would be more readable
     return {
         { Background = { Color = bg } },
         { Foreground = { Color = fg } },
