@@ -18,6 +18,7 @@ brew install font-ia-writer-mono
 | Move forward word  | `OPT` + `RIGHT ARROW`  | Set in Lua config (send `Alt` + `b`)                         |
 | Move backward word | `OPT` + `LEFT ARROW`   | Set in Lua config (send `Alt` + `f`)                         |
 | Backspace word     | `CTRL` + `w`           | Standard Unix shortcut                                       |
+| Debug Overlay      | `Ctrl` + `Shift` + `L` | [Troubleshooting - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/troubleshooting.html) |
 
 ## Bugs
 

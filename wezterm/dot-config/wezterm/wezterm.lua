@@ -3,6 +3,8 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
+local font = require 'font'
+
 -- This table will hold the configuration.
 local config = {}
 
@@ -26,27 +28,8 @@ config.font_size = 18.0
 -- config.freetype_load_target = "Light"
 config.cell_width = 0.9
 
--- Can also use: https://www.programmingfonts.org/
--- https://www.codingfont.com/
-config.font = wezterm.font_with_fallback {
-    -- 'IBM Plex Mono',  # not quite what I want
-    -- 'Iosevka Term Extended', -- Pretty close to iA Writer Mono S...
-    -- 'Inconsolata', -- also, ok but not better
-    -- 'Monocraft', -- MineCraft font, not really what I'm looking for
-    -- 'Terminus (TTF)', -- this is actually pretty good, different and thinner looking
-    -- 'Source Code Pro', -- this is good as well
-    'Hack', -- also quite good
-    -- 'Monaspace Argon Var', -- not bad...
-    -- 'Monaspace Krypton Var', -- pretty good too
-    -- 'Monaspace Xenon Var', -- actually really like this one
-    -- 'Cascadia Mono', -- I actually find this less readable
-    -- 'Roboto Mono', -- this is pretty clear, really like it
-    -- 'Liberation Mono', -- I like this one
-    -- 'Ubuntu Mono',
-    -- { family = 'iA Writer Mono S', weight = 'Regular' },
-    -- { family = 'Fira Code', weight = 'Regular' },
-    -- 'Monaco',
-}
+
+config.font = wezterm.font_with_fallback(font.font())
 
 -- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
 config.window_frame = {
@@ -100,7 +83,12 @@ wezterm.on(
         local pane = tab.active_pane
         local process = basename(pane.foreground_process_name)
 
-        local cwd = string.gsub(pane.current_working_dir.file_path, wezterm.home_dir, '~')
+        local cwd = pane.current_working_dir
+        if cwd == nil then
+            cwd = ""
+        else
+            cwd = string.gsub(cwd.file_path, wezterm.home_dir, '~')
+        end
         local title = process .. ' ' .. cwd
 
         -- https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
