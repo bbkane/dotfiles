@@ -92,21 +92,25 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
         cwd = string.gsub(cwd.file_path, wezterm.home_dir, '~')
     end
 
-    local title = process .. ' ' .. cwd
+    local title = ' ' .. process .. ' ' .. cwd .. ' '
     -- TODO: use the whole args? https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
     local color = hash_to_color(hash(process))
+
+    -- NOTE: my underline and intensity don't seem to be working...
+    local underline = 'None'
     local intensity = 'Normal'
     if tab.is_active then
-        intensity = 'Bold'
+        underline = 'Double'
+        intensity = 'Half'
     end
-
 
     -- https://wezfurlong.org/wezterm/config/lua/wezterm/format.html
     return {
+        { Attribute = { Intensity = intensity } },
+        { Attribute = { Underline = underline } },
         { Background = { Color = 'black' } },
         { Foreground = { Color = color } },
-        { Attribute = { Intensity = intensity } },
-        { Text = ' ' .. title .. ' ' },
+        { Text = title },
     }
 end
 
