@@ -12,7 +12,8 @@ local basename = function(s)
     return string.gsub(s, '(.*[/\\])(.*)', '%2')
 end
 
-local hash = function(str)
+-- this one produces short hashes and they always seem to be blue or red
+local GHhash = function(str)
     -- https://gist.github.com/scheler/26a942d34fb5576a68c111b05ac3fabe
     -- also try https://github.com/lancelijade/qqwry.lua/blob/master/crc32.lua
     -- https://wezfurlong.org/wezterm/config/files.html#making-your-own-lua-modules
@@ -21,12 +22,18 @@ local hash = function(str)
         h = ((h << 5) + h) + string.byte(c)
     end
 
-    -- turn into a 6 digit hex value prefixed with '#'
-    local hex = string.format("%x", h)
-    hex = hex .. hex -- this should be long enough...
-    local truncated = string.sub(hex, 1, 6)
-    return '#' .. truncated
+    return h
 end
+
+local hash = GHhash
+
+local hash_to_color = function(hash_int)
+    local hex = string.format('%x', hash_int)
+    hex = hex .. hex -- make it long enough
+    local truncated = string.sub(hex, 1, 6)
+    return wezterm.color.parse('#' .. truncated)
+end
+
 
 function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
     -- https://wezfurlong.org/wezterm/config/lua/pane/index.html
@@ -44,13 +51,12 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 
     -- https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
     -- TODO: use the whole args? https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
-    local bg = wezterm.color.parse(hash(process))
-    local fg = bg:complement_ryb():saturate_fixed(0.6)
+    local color = hash_to_color(hash(process))
 
     -- TODO: what if I just always made the background black? I think most things would be more readable
     return {
-        { Background = { Color = bg } },
-        { Foreground = { Color = fg } },
+        { Background = { Color = 'black' } },
+        { Foreground = { Color = color } },
         { Attribute = { Intensity = "Bold" } },
         { Text = ' ' .. title .. ' ' },
     }
