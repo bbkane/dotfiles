@@ -65,7 +65,11 @@ local hash_to_color = function(hash_int)
     hex = hex .. hex -- make it long enough
     local truncated = string.sub(hex, 1, 6)
     -- https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
-    return wezterm.color.parse('#' .. truncated)
+    local color = wezterm.color.parse('#' .. truncated)
+    color = color:saturate(0.2)
+    color = color:lighten(0.2)
+    return color
+
 end
 
 -- Equivalent to POSIX basename(3)
@@ -108,8 +112,8 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
     return {
         { Attribute = { Intensity = intensity } },
         { Attribute = { Underline = underline } },
-        { Background = { Color = 'black' } },
-        { Foreground = { Color = color } },
+        { Background = { Color = color } },
+        { Foreground = { Color = 'black' } },
         { Text = title },
     }
 end
