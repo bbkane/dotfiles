@@ -257,3 +257,7 @@ rg_swear_words() {
 shuffle() {
     perl -MList::Util=shuffle -e 'print shuffle<STDIN>'
 }
+
+unquarantine() {
+    xattr -r -d com.apple.quarantine "$1"
+}
