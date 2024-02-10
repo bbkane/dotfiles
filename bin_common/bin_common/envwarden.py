@@ -209,6 +209,64 @@ def read_config(
     return ConfigParseResult(kvs=kvs, errors=errors)
 
 
+def migrate(config_path: Path, config_data: dict[str, Any]) -> None:
+
+
+    for envname in config_data["env"]:
+
+        errors: list[Error] = []
+        local_vars: list[KV] = []
+        keyring_vars: list[KV] = []
+        shared_vars: list[KV] = []
+
+        # keyring vars
+        for kv_name, kv_keyring_name in (
+            config_data["env"][envname].get("keyring", {}).items()
+        ):
+            res = DarwinKeyring.get(service=str(config_path), username=kv_keyring_name)
+            match res:
+                case Error(_) as err:
+                    errors.append(Error(msg=f"{kv_name} -> {kv_keyring_name}: {err.msg}"))
+                case String(msg):
+                    keyring_vars.append(KV(key=kv_name, value=msg))
+
+        # local vars
+        for kv_name, kv_value in config_data["env"][envname].get("local", {}).items():
+            local_vars.append(KV(key=kv_name, value=kv_value))
+
+        # shared vars
+        for kv_name, kv_shared_name in (
+            config_data["env"][envname].get("shared", {}).items()
+        ):
+            if kv_shared_name not in config_data["shared"]:
+                errors.append(Error(msg=f"{kv_shared_name!r} not found in shared section"))
+            else:
+                shared_vars.append(KV(key=kv_name, value=config_data["shared"][kv_shared_name]))
+
+        # output
+        print(f"# {envname = !r}")
+        for err in errors:
+            print(f"# Error: {err.msg}")
+
+        print(f"envelope env create --name {quote(envname)}")
+
+        # local vars
+        print(f"# -- local vars")
+        for kv in local_vars:
+            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)}")
+
+        # shared vars
+        print("# -- shared vars")
+        for kv in shared_vars:
+            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)}")
+
+        # keyring vars
+        print("# -- keyring vars")
+        for kv in keyring_vars:
+            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)}")
+
+        print()
+
 def print_config_block(envname: str) -> None:
     template = f"""
 [env."{envname}"]
@@ -286,6 +344,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="value to store",
     )
 
+    # migrate
+    migrate_cmd = subcommands.add_parser("migrate", help="migrate all data in the config")
+    add_config_arg(migrate_cmd)
+    add_logger_arg(migrate_cmd)
+
     # print-config-block
     print_config_block_cmd = subcommands.add_parser(
         "print-config-block", help="print a section to add to the config"
@@ -331,6 +394,7 @@ def main():
                             raise SystemExit(f"Err: {args.name}: {msg}")
                         case String(msg):
                             print(msg)
+
                 case "set":
                     err = DarwinKeyring.set(
                         service=args.config, username=args.name, password=args.value
@@ -342,6 +406,11 @@ def main():
                     raise SystemExit(
                         f"Unknown keyring subcommand: {args.subcommand_name!r}"
                     )
+
+        case "migrate":
+            with args.config.open(mode="rb") as fp:
+                config = tomllib.load(fp)
+            migrate(config_path=args.config, config_data=config)
 
         case "print-config-block":
             print_config_block(envname=args.envname)
