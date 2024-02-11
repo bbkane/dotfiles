@@ -131,6 +131,10 @@ setopt HIST_REDUCE_BLANKS
 # when using !!, don't auto-hit enter
 setopt HIST_VERIFY
 
+# Remove command from history if it starts with a space
+# https://superuser.com/a/352858
+setopt HIST_IGNORE_SPACE
+
 # Enable autocorrect for command, but not for arguments
 # https://superuser.com/a/610025/643441
 unsetopt CORRECT_ALL
