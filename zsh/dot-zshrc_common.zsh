@@ -265,3 +265,6 @@ shuffle() {
 unquarantine() {
     xattr -r -d com.apple.quarantine "$1"
 }
+
+# Use pure Go builds!!
+export CGO_ENABLED=0

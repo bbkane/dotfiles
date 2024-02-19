@@ -52,6 +52,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--root",
         "-r",
         default=Path("~/Git-GH/www.bbkane.com/content/blog"),
+        type=Path,
         help="blog post directory",
     )
 
