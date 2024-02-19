@@ -38,7 +38,7 @@
 		},
 		"browserBookmarksOptions": {
 			"browser": "Google Chrome",
-			"isEnabled": true
+			"isEnabled": false
 		},
 		"calculatorOptions": {
 			"isEnabled": true,
@@ -85,7 +85,7 @@
 			"prefix": "dict?"
 		},
 		"emailOptions": {
-			"isEnabled": true
+			"isEnabled": false
 		},
 		"everythingSearchOptions": {
 			"enabled": false,
@@ -97,10 +97,10 @@
 			"blackList": [
 				"desktop.ini"
 			],
-			"isEnabled": false,
+			"isEnabled": true,
 			"maxSearchResults": 100,
 			"showFullFilePath": true,
-			"showHiddenFiles": false
+			"showHiddenFiles": true
 		},
 		"generalOptions": {
 			"allowWindowMove": true,
@@ -259,7 +259,7 @@
 			]
 		},
 		"workflowOptions": {
-			"isEnabled": false,
+			"isEnabled": true,
 			"workflows": []
 		},
 		"loremIpsumOptions": {
