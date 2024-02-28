@@ -8,6 +8,7 @@ import logging
 import subprocess
 import sys
 import tomllib
+from datetime import UTC, datetime
 from pathlib import Path
 from shlex import quote
 from typing import Any, NamedTuple
@@ -211,6 +212,9 @@ def read_config(
 
 def migrate(config_path: Path, config_data: dict[str, Any]) -> None:
 
+    comment = f"envwarden migration: {datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%SZ')}"
+    print("TODO: need to make shared and keyring envs and populate them from the right config section, then use refs for all envs")
+    return
 
     for envname in config_data["env"]:
 
@@ -248,24 +252,25 @@ def migrate(config_path: Path, config_data: dict[str, Any]) -> None:
         for err in errors:
             print(f"# Error: {err.msg}")
 
-        print(f"envelope env create --name {quote(envname)}")
+        print(f"envelope env create --name {quote(envname)} --comment {quote(comment)}")
 
         # local vars
-        print(f"# -- local vars")
+        print("# -- local vars")
         for kv in local_vars:
-            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)}")
+            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}")
 
         # shared vars
         print("# -- shared vars")
         for kv in shared_vars:
-            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)}")
+            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}")
 
         # keyring vars
         print("# -- keyring vars")
         for kv in keyring_vars:
-            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)}")
+            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}")
 
         print()
+
 
 def print_config_block(envname: str) -> None:
     template = f"""
