@@ -7,11 +7,12 @@ import binascii
 import logging
 import subprocess
 import sys
-import tomllib
 from datetime import UTC, datetime
 from pathlib import Path
 from shlex import quote
 from typing import Any, NamedTuple
+
+import tomllib
 
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
@@ -159,6 +160,12 @@ class KV(NamedTuple):
     value: str
 
 
+class Ref(NamedTuple):
+    name: str
+    ref_env_name: str
+    ref_var_name: str
+
+
 class ConfigParseResult(NamedTuple):
     kvs: list[KV]
     errors: list[Error]
@@ -213,39 +220,93 @@ def read_config(
 def migrate(config_path: Path, config_data: dict[str, Any]) -> None:
 
     comment = f"envwarden migration: {datetime.now(UTC).strftime('%Y-%m-%dT%H:%M:%SZ')}"
-    print("TODO: need to make shared and keyring envs and populate them from the right config section, then use refs for all envs")
-    return
 
+    # build keys and values for shared env
+    shared_env_vars: list[KV] = []
+    for key, value in config_data["shared"].items():
+        shared_env_vars.append(KV(key=key, value=value))
+
+    # build keys and values for keyring env
+    keyring_env_vars: list[KV] = []
+    keyring_errors: list[Error] = []
     for envname in config_data["env"]:
-
-        errors: list[Error] = []
-        local_vars: list[KV] = []
-        keyring_vars: list[KV] = []
-        shared_vars: list[KV] = []
-
-        # keyring vars
         for kv_name, kv_keyring_name in (
             config_data["env"][envname].get("keyring", {}).items()
         ):
             res = DarwinKeyring.get(service=str(config_path), username=kv_keyring_name)
             match res:
                 case Error(_) as err:
-                    errors.append(Error(msg=f"{kv_name} -> {kv_keyring_name}: {err.msg}"))
+                    keyring_errors.append(
+                        Error(msg=f"{kv_name} -> {kv_keyring_name}: {err.msg}")
+                    )
                 case String(msg):
-                    keyring_vars.append(KV(key=kv_name, value=msg))
+                    keyring_env_vars.append(KV(key=kv_keyring_name, value=msg))
+
+    print("set -x")
+
+    # output shared env
+    if keyring_errors:
+        print("# -- keyring errors")
+    for err in keyring_errors:
+        print(f"# Error: {err.msg}")
+
+    print("# -- shared env")
+    print(f"envelope env create --name shared --comment {quote(comment)}")
+    for kv in shared_env_vars:
+        print(
+            f"envelope env var create --env-name shared --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}"
+        )
+    print()
+
+    # output keyring env
+    print("# -- keyring env")
+    print(f"envelope env create --name keyring --comment {quote(comment)}")
+    for kv in keyring_env_vars:
+        print(
+            f"envelope env var create --env-name keyring --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}"
+        )
+    print()
+
+    # loop through other envs and create local vars, shared refs, and keyring refs
+    for envname in config_data["env"]:
+
+        errors: list[Error] = []
+        local_vars: list[KV] = []
+        keyring_refs: list[Ref] = []
+        shared_refs: list[Ref] = []
+
+        # keyring refs
+        for kv_name, kv_keyring_name in (
+            config_data["env"][envname].get("keyring", {}).items()
+        ):
+            keyring_refs.append(
+                Ref(
+                    name=kv_name,
+                    ref_env_name="keyring",
+                    ref_var_name=kv_keyring_name,
+                )
+            )
 
         # local vars
         for kv_name, kv_value in config_data["env"][envname].get("local", {}).items():
             local_vars.append(KV(key=kv_name, value=kv_value))
 
-        # shared vars
+        # shared refs
         for kv_name, kv_shared_name in (
             config_data["env"][envname].get("shared", {}).items()
         ):
             if kv_shared_name not in config_data["shared"]:
-                errors.append(Error(msg=f"{kv_shared_name!r} not found in shared section"))
+                errors.append(
+                    Error(msg=f"{kv_shared_name!r} not found in shared section")
+                )
             else:
-                shared_vars.append(KV(key=kv_name, value=config_data["shared"][kv_shared_name]))
+                shared_refs.append(
+                    Ref(
+                        name=kv_name,
+                        ref_env_name="shared",
+                        ref_var_name=kv_shared_name,
+                    )
+                )
 
         # output
         print(f"# {envname = !r}")
@@ -257,17 +318,23 @@ def migrate(config_path: Path, config_data: dict[str, Any]) -> None:
         # local vars
         print("# -- local vars")
         for kv in local_vars:
-            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}")
+            print(
+                f"envelope env var create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}"
+            )
 
-        # shared vars
-        print("# -- shared vars")
-        for kv in shared_vars:
-            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}")
+        # shared refs
+        print("# -- shared refs")
+        for r in shared_refs:
+            print(
+                f"envelope env ref create --env-name {quote(envname)} --name {quote(r.name)} --ref-env-name {quote(r.ref_env_name)}  --ref-var-name {quote(r.ref_var_name)} --comment {quote(comment)}"
+            )
 
-        # keyring vars
-        print("# -- keyring vars")
-        for kv in keyring_vars:
-            print(f"envelope env localvar create --env-name {quote(envname)} --name {quote(kv.key)} --value {quote(kv.value)} --comment {quote(comment)}")
+        # keyring refs
+        print("# -- keyring refs")
+        for r in keyring_refs:
+            print(
+                f"envelope env ref create --env-name {quote(envname)} --name {quote(r.name)} --ref-env-name {quote(r.ref_env_name)}  --ref-var-name {quote(r.ref_var_name)} --comment {quote(comment)}"
+            )
 
         print()
 
@@ -350,7 +417,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     # migrate
-    migrate_cmd = subcommands.add_parser("migrate", help="migrate all data in the config")
+    migrate_cmd = subcommands.add_parser(
+        "migrate", help="migrate all data in the config"
+    )
     add_config_arg(migrate_cmd)
     add_logger_arg(migrate_cmd)
 
