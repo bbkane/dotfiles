@@ -36,12 +36,12 @@ def get(cert_or_host: str, servername: Optional[str]) -> str:
 
 query = {
     "all": "",  # do nothing
-    "dates": " | openssl x509 -noout -dates",
-    "md5": " | openssl x509 -noout -fingerprint -md5",
-    "pem": " | openssl x509 -outform pem",
-    "subject": " | openssl x509 -noout -subject",
-    "san": ' | openssl x509 -text -noout | awk -F, -v OFS="\\n" \'/Subject: /{x=gsub(/.*CN=/, "  "); printf "Common Name:\\n"$x} /DNS:/{gsub(/ *DNS:/, "  "); $1=$1; printf "\\n\\nSAN Domains:\\n" $0"\\n"}\'',
-    "text": " | openssl x509 -noout -text",
+    "dates": " | openssl x509 -in /dev/stdin -noout -dates",
+    "md5": " | openssl x509 -in /dev/stdin -noout -fingerprint -md5",
+    "pem": " | openssl x509 -in /dev/stdin -outform pem",
+    "subject": " | openssl x509 -in /dev/stdin -noout -subject",
+    "san": ' | openssl x509 -in /dev/stdin -text -noout | awk -F, -v OFS="\\n" \'/Subject: /{x=gsub(/.*CN=/, "  "); printf "Common Name:\\n"$x} /DNS:/{gsub(/ *DNS:/, "  "); $1=$1; printf "\\n\\nSAN Domains:\\n" $0"\\n"}\'',
+    "text": " | openssl x509 -in /dev/stdin -noout -text",
 }
 
 
