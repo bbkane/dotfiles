@@ -8,6 +8,9 @@
 	#   git difftool --no-prompt --extcmd 'vim -d "+colorscheme morning"'
 	# already have gruvbox plugin as a really good diffing colorscheme
 	vimdiff = difftool --no-prompt --extcmd 'nvim -d'
+[branch]
+  # https://blog.gitbutler.com/git-tips-2-new-stuff-in-git/#some-git-branch-stuff
+	sort = -committerdate
 [color]
 	ui = true
 [core]
