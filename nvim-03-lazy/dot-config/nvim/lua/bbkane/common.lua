@@ -1,3 +1,8 @@
+-- https://github.com/folke/lazy.nvim?tab=readme-ov-file#-installation
+-- Example using a list of specs with the default options
+vim.g.mapleader = " "       -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.maplocalleader = "\\" -- Same for `maplocalleader`
+
 -- inoremap jk <Esc>
 vim.keymap.set('i', 'jk', '<Esc>')
 
@@ -87,49 +92,6 @@ command! -range=% -nargs=0 -bar AddCodeFence
     \ | <line1>s:^:```\r:
 ]]
 
--- TODO: use subsitute function: https://jeffkreeftmeijer.com/vim-reformat-dates/
--- " The 'e' on the end of the substitute ignores errors
--- " -range=% means without a visual selection the whole buffer is selected
--- "  Special thanks to a @jfim for the link substitution line
--- "  Note that top level lists can be represented by ^-, not ^*
--- "  TODO: handle ^# substitution in code blocks
--- command! -range=% -nargs=0 -bar MarkdownToJira
---     \ :<line1>,<line2>s:^  - :** :e
---     \ | <line1>,<line2>s:^    - :*** :e
---     \ | <line1>,<line2>s:^```$:{code}:e
---     \ | <line1>,<line2>s:^```\(.\+\):{code\:\1}:e
---     \ | <line1>,<line2>s:^# :h1. :e
---     \ | <line1>,<line2>s:^## :h2. :e
---     \ | <line1>,<line2>s:^### :h3. :e
---     \ | <line1>,<line2>s: `: {{:eg
---     \ | <line1>,<line2>s:^`:{{:e
---     \ | <line1>,<line2>s:` :}} :eg
---     \ | <line1>,<line2>s:`$:}}:eg
---     \ | <line1>,<line2>s:`\.:}}.:eg
---     \ | <line1>,<line2>s:^\d\+\. :# :e
---     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
--- NOTE: this throws the following error:
--- E10: \ should be followed by /, ? or &
--- vim.api.nvim_create_user_command(
---     "MarkdownToJira",
---     [=[:<line1>,<line2>s:^  - :** :e
---     \ | <line1>,<line2>s:^    - :*** :e
---     \ | <line1>,<line2>s:^```$:{code}:e
---     \ | <line1>,<line2>s:^```\(.\+\):{code\:\1}:e
---     \ | <line1>,<line2>s:^# :h1. :e
---     \ | <line1>,<line2>s:^## :h2. :e
---     \ | <line1>,<line2>s:^### :h3. :e
---     \ | <line1>,<line2>s: `: {{:eg
---     \ | <line1>,<line2>s:^`:{{:e
---     \ | <line1>,<line2>s:` :}} :eg
---     \ | <line1>,<line2>s:`$:}}:eg
---     \ | <line1>,<line2>s:`\.:}}.:eg
---     \ | <line1>,<line2>s:^\d\+\. :# :e
---     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
---     \]=],
---     { bang = true, bar = true, range = "%", nargs = 0 }
--- )
-
 vim.cmd [=[
 " The 'e' on the end of the substitute ignores errors
 " -range=% means without a visual selection the whole buffer is selected
@@ -152,17 +114,6 @@ command! -range=% -nargs=0 -bar MarkdownToJira
     \ | <line1>,<line2>s:^\d\+\. :# :e
     \ | <line1>,<line2>s/\v\[([^\]]*)\]\(([^\)]*)\)/[\1|\2]/ge
 ]=]
-
--- function! RenameFile()
---     let old_name = expand('%')
---     let new_name = input('New file name: ', expand('%'), 'file')
---     if new_name != '' && new_name != old_name
---         exec ':saveas ' . new_name
---         exec ':silent !rm ' . old_name
---         redraw!
---     endif
--- endfunction
--- command! RenameFile :call RenameFile()
 
 -- https://github.com/richardmarbach/dotfiles/blob/7912ba284aac6cc005b9dfe35349bf1e5d50f1fe/config/nvim/lua/utils/file.lua#L5
 vim.api.nvim_create_user_command(
