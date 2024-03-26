@@ -4,4 +4,30 @@ If I need to edit any of that, I'm just going to use VS Code - including for nvi
 
 Let's keep my NeoVim config focused on quick text edits and as stable as I can make it.
 
-As part of this, I'm not modifying standard vim locations - see https://www.lazyvim.org/installation for locations
+As part of this, I'm not modifying standard vim locations.
+
+How to back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
+
+```bash
+# required
+mv ~/.config/nvim{,.bak}
+
+# optional but recommended
+mv ~/.local/share/nvim{,.bak}
+mv ~/.local/state/nvim{,.bak}
+mv ~/.cache/nvim{,.bak}
+```
+
+Or just delete them:
+
+```bash
+rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
+```
+
+Symlink nvim config dir:
+
+```bash
+fling link -s nvim-03-lazy
+```
+
+Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
