@@ -4,29 +4,30 @@
 .DS_Store
 .mypy_cache/
 chart.*.html
+
 litecli/.config/litecli/history
 litecli/.config/litecli/log
 litecli/dot-config/litecli/history
 litecli/dot-config/litecli/log
 
-nvim/dot-config/nvim/.netrwhist
-nvim/dot-config/nvim/autoload/plug.vim*
-nvim/dot-config/nvim/bundle/
-nvim/dot-config/nvim/spell/
-nvim/dot-config/nvim/swap/
+nvim-01-vimscript/dot-config/nvim/.netrwhist
+nvim-01-vimscript/dot-config/nvim/autoload/plug.vim*
+nvim-01-vimscript/dot-config/nvim/bundle/
+nvim-01-vimscript/dot-config/nvim/spell/
+nvim-01-vimscript/dot-config/nvim/swap/
 
-nvim2-min/dot-config/nvim/.netrwhist
-nvim2-min/dot-config/nvim/autoload/plug.vim*
-nvim2-min/dot-config/nvim/mason_install_root_dir
-nvim2-min/dot-config/nvim/packer_packpath
-nvim2-min/dot-config/nvim/plugin/packer_compiled.lua
-nvim2-min/dot-config/nvim/spell/
-nvim2-min/dot-config/nvim/swap/
 
-nvim3-stdpath/dot-config/nvim/.netrwhist
-nvim3-stdpath/dot-config/nvim/plugin/
-nvim3-stdpath/dot-config/nvim/spell/
-nvim3-stdpath/dot-config/nvim/stdpath_data/
-nvim3-stdpath/dot-config/nvim/swap/
+nvim-02-lua/dot-config/nvim/.netrwhist
+nvim-02-lua/dot-config/nvim/plugin/
+nvim-02-lua/dot-config/nvim/spell/
+nvim-02-lua/dot-config/nvim/stdpath_data/
+nvim-02-lua/dot-config/nvim/swap/
+
+nvim-03-lazy/dot-config/nvim/.netrwhist
+nvim-03-lazy/dot-config/nvim/plugin/
+nvim-03-lazy/dot-config/nvim/spell/
+nvim-03-lazy/dot-config/nvim/stdpath_data/
+nvim-03-lazy/dot-config/nvim/swap/
+
 
 tmp*
