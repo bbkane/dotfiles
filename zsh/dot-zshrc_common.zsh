@@ -195,6 +195,8 @@ function man() {
 # Open commands in MacOS Preview app
 pman() { man -t "$@" | open -f -a Preview; }
 
+alias marktext="open -a /Applications/MarkText.app"
+
 # https://support.typora.io/Use-Typora-From-Shell-or-cmd/
 alias typora="open -a typora"
 
