@@ -14,15 +14,18 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     {
         "rebelot/kanagawa.nvim",
-        lazy = false,
-        priority = 1000,
         config = function()
             vim.cmd 'colorscheme kanagawa'
         end,
+        lazy = false,
+        priority = 1000,
     },
 
     {
         'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end,
         lazy = false,
     },
 
