@@ -130,3 +130,22 @@ chmod g-w /usr/local/share
 ```
 
 And open a new terminal window
+
+# ~~Install [carapace-bin](https://github.com/rsteube/carapace-bin)~~
+
+> 2024-04-02 - I couldn't make this work properly - completion didn't load or something.
+
+Add nice auto-completion for common commands witha smaller startup-time penalty than  [zsh-completions](https://github.com/zsh-users/zsh-completions).
+
+```bash
+brew install rsteube/tap/carapace
+```
+
+```bash
+cat >> "$HOME/.zshrc" << 'EOF'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+EOF
+```
+
+# 

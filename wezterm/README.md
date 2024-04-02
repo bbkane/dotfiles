@@ -5,6 +5,8 @@
 ```bash
 brew install wezterm
 brew tap homebrew/cask-fonts
+# Fonts I'm liking these days
+brew install font-hack
 brew install font-fira-code
 brew install font-ia-writer-mono
 ```
