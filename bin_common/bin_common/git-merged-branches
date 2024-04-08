@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# List branches that can be deleted becaused they've been merged into the GitHub repo via PR
+
+# Thanks https://github.com/PapaCharlie !
+
+set -e
+
+local_state=$(git branch --format '%(refname:short) %(objectname)' | grep -v head:master | sort)
+query=$(cut -d' ' -f1 <<< "$local_state" | sed 's/^/head:/' | tr '\n' ' ')
+merged_prs=$(gh pr list -S "is:pr is:merged $query" --json headRefName,headRefOid -q '.[] | .headRefName + " " + .headRefOid' | sort)
+merged_branches=$(comm -12 <(echo "$local_state") <(echo "$merged_prs") | cut -d' ' -f1)
+
+echo "$merged_branches"
+# git branch -D $merged_branches
