@@ -109,7 +109,7 @@ Add to zshrc:
 # https://github.com/Aloxaf/fzf-tab
 # NOTE: fzf-tab should be installed before most other things. See the README
 autoload -U compinit; compinit
-source ~/Git-LI-GH/fzf-tab/fzf-tab.plugin.zsh
+source ~/Git-GH/fzf-tab/fzf-tab.plugin.zsh
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -126,7 +126,7 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 ```
 
-Install `exa` for directory previews:
+Install `eza` for directory previews:
 
 ```bash
 brew install eza

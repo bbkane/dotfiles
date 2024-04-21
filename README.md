@@ -1,17 +1,8 @@
 # Dotfiles
 
-TODO:
+My personal dotfiles! I use [`fling`](https://github.com/bbkane/fling/) to manage most app configs.
 
-- change links curl files :)
-- replace cat EOF install code with echo and raw newlines cause that actually works in zsh :)
-
-Store configuration for apps I use.
-
-Use [`fling`](https://github.com/bbkane/fling/) to manage most app configs.
-
-## Install/Uninstall a config
-
-### Install/Symlink
+## Install/Symlink
 
 ```bash
 fling --ignore 'README.*' --src-dir <dirname> link
@@ -19,7 +10,7 @@ fling --ignore 'README.*' --src-dir <dirname> link
 
 fling will prompt before symlinking
 
-### Uninstall/Unlink
+## Uninstall/Unlink
 
 ```bash
 fling --ignore 'README.*' --src-dir <dirname> unlink
@@ -27,7 +18,7 @@ fling --ignore 'README.*' --src-dir <dirname> unlink
 
 fling will prompt before unlinking
 
-### Apps that cannot be installed with fling
+## Apps that cannot be installed with fling
 
 - vscode has an install script in the subfolder
 
@@ -61,10 +52,3 @@ $ git remote add upstream https://github.com/bbkane/dotfiles.git
 $ git pull upstream master
 $ git push origin <branch_name>
 ```
-
-# TODO
-
-- Maybe get a better git prompt and tmux conf from https://github.com/mathiasbynens/dotfiles
-- zsh compinstall
-- zsh fasd
-- zsh typeahead - in ~/.zshrc for now
