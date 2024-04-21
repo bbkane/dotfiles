@@ -22,6 +22,8 @@ end
 -- config.color_scheme = 'Scarlet Protocol'
 config.color_scheme = "Solarized Dark Higher Contrast"
 -- config.color_scheme = 'Modus-Vivendi'
+config.color_scheme = 'MaterialDarker'
+config.color_scheme = 'Nucolors (terminal.sexy)'
 
 config.font_size = 18.0
 -- config.freetype_load_flags = 'NO_HINTING'
