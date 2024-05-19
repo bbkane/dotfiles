@@ -232,3 +232,37 @@ printf '
 source ~/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh
 ' >> ~/.zshrc
 ```
+
+# Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
+
+> last updated: 2024-05-18
+
+NOTE: this can add startup time, so inspect this if that slows down (see [./README_notes.md](./README_notes.md)).
+
+This particularly helps with `openssl` completion.
+
+```
+brew install zsh-completions
+```
+
+Add the following to `~/.zshrc`:
+
+```bash
+# zsh-completions
+FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+```
+
+NOTE: you ALSO need to run `compinit` for this to take effect. See below
+
+If getting an `zsh compinit: insecure directories` warning, see the output of `brew info zsh-completions`.
+
+# Run `compinit` to build completions
+
+This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`
+
+```bash
+# do all compiniting at the end so we get completions from previous configuration - especially fpath config
+autoload -Uz bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+```
+

@@ -87,50 +87,6 @@ EOF
 
 Open a new `zsh` shell.
 
-# ~~Install [zsh-completions](https://github.com/zsh-users/zsh-completions)~~ - replaced with carapace-bin
-
-> **This adds like 1.5s to my zsh startup time which I now value more than auto-completions**
-
-This particularly helps with `openssl` completion.
-
-```bash
-brew install zsh-completions
-```
-
-```bash
-printf '
-# https://github.com/zsh-users/zsh-completions
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
-fi
-' >> ~/.zshrc
-```
-
-If getting the following error:
-
-```bash
-Last login: Fri Jan  6 05:07:16 on ttys002
-zsh compinit: insecure directories, run compaudit for list.
-Ignore insecure directories and continue [y] or abort compinit [n]? y
-05:07:33.237 PST mac02:~
-$
-05:07:33.261 PST mac02:~
-$ compaudit
-There are insecure directories:
-/usr/local/share
-```
-
-Fix it with this [StackOverflow answer](https://stackoverflow.com/a/22753363/2958070):
-
-```bash
-chmod g-w /usr/local/share
-```
-
-And open a new terminal window
-
 # ~~Install [carapace-bin](https://github.com/rsteube/carapace-bin)~~
 
 > 2024-04-02 - I couldn't make this work properly - completion didn't load or something.
@@ -148,4 +104,3 @@ source <(carapace _carapace)
 EOF
 ```
 
-# 

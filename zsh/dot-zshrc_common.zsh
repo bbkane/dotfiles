@@ -169,8 +169,10 @@ zstyle ':completion:*' expand prefix suffix
 # complete from a presented menu
 zstyle ':completion:*' menu select
 
-# enable completion
-autoload -Uz compinit && compinit
+# cache completions - https://thevaluable.dev/zsh-completion-guide-examples/
+zstyle ':completion:*' use-cache on
+# NOTE: I also found ~/.zcompcache by accident. Not sure how that was created
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
 
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/colored-man-pages/colored-man-pages.plugin.zsh
 function colored() {
@@ -269,4 +271,4 @@ unquarantine() {
 }
 
 # Use pure Go builds!!
-export CGO_ENABLED=0
+# export CGO_ENABLED=0
