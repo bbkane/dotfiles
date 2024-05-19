@@ -21,13 +21,15 @@ require("lazy").setup({
         priority = 1000,
     },
 
-    {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end,
-        lazy = false,
-    },
+    -- not needed in nvim 0.10 - https://gpanders.com/blog/whats-new-in-neovim-0.10/#builtin-commenting
+    -- leaving for now (2024-05-16) in case I miss something here
+    -- {
+    --     'numToStr/Comment.nvim',
+    --     config = function()
+    --         require('Comment').setup()
+    --     end,
+    --     lazy = false,
+    -- },
 
     {
         'lewis6991/gitsigns.nvim',
