@@ -258,11 +258,14 @@ If getting an `zsh compinit: insecure directories` warning, see the output of `b
 
 # Run `compinit` to build completions
 
-This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`
+This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`.
+
+See https://stackoverflow.com/a/67161186/2958070 for more details
 
 ```bash
-# do all compiniting at the end so we get completions from previous configuration - especially fpath config
-autoload -Uz bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
+# https://stackoverflow.com/a/67161186/2958070
+autoload -Uz compinit bashcompinit
+compinit
+bashcompinit
 ```
 
