@@ -50,6 +50,9 @@ config.keys = {
 	{ key = "RightArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bf" }) },
 }
 
+-- https://wezfurlong.org/wezterm/config/lua/config/term.html
+config.term = 'wezterm'
+
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 wezterm.on("format-tab-title", format_tab_title.format_tab_title)
 
