@@ -35,6 +35,7 @@ Install into `~/.zshrc_common.zsh`, then use the following command to source it 
 cat >> "$HOME/.zshrc" << 'EOF'
 
 # See https://github.com/bbkane/dotfiles
+autoload -Uz edit-command-line
 source ~/.zshrc_common.zsh
 
 EOF
@@ -55,6 +56,7 @@ brew install pastel  # Optional but highly recommended
 ```bash
 cat >> "$HOME/.zshrc" << 'EOF'
 # See https://github.com/bbkane/dotfiles
+autoload -Uz add-zsh-hook
 source ~/.zshrc_prompt.zsh
 zp_prompt_pastel dodgerblue lightgreen
 
@@ -264,7 +266,8 @@ See https://stackoverflow.com/a/67161186/2958070 for more details
 
 ```bash
 # https://stackoverflow.com/a/67161186/2958070
-autoload -Uz compinit bashcompinit
+autoload -Uz bashcompinit
+autoload -Uz compinit
 compinit
 bashcompinit
 ```

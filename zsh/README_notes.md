@@ -104,3 +104,19 @@ source <(carapace _carapace)
 EOF
 ```
 
+# autoload
+
+I only want to `autoload` stuff once at the top of `~/.zshrc`, so setting that up...
+
+https://unix.stackexchange.com/a/33898/185953 has a great explanation of what I want:
+
+> "What is the -Uz about?", you ask? Well, that's just a set of options that will cause `autoload' to do the right thing, no matter what options are being set otherwise. The `U' disables alias expansion while the function is being loaded and the `z' forces zsh-style autoloading even if `KSH_AUTOLOAD' is set for whatever reason.
+
+As of 2024-06-02, that means the top of my `~/.zshrc` looks like:
+
+```zsh
+autoload -Uz add-zsh-hook
+autoload -Uz bashcompinit
+autoload -Uz compinit
+autoload -Uz edit-command-line
+```

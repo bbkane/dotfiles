@@ -134,7 +134,7 @@ zp_git_precmd() {
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html
 # https://stackoverflow.com/q/30840651/2958070
 # see loaded precmds with `add-zsh-hook -L`
-autoload -Uz add-zsh-hook
+# requires: autoload -Uz add-zsh-hook
 add-zsh-hook precmd zp_git_precmd
 add-zsh-hook precmd zp_venv_precmd
 
