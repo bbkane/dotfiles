@@ -51,7 +51,7 @@ config.keys = {
 }
 
 -- https://wezfurlong.org/wezterm/config/lua/config/term.html
-config.term = 'wezterm'
+-- config.term = 'wezterm'
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 wezterm.on("format-tab-title", format_tab_title.format_tab_title)

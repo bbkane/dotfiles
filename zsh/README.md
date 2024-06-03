@@ -23,22 +23,70 @@ However, I install my dotfiles via cloning this repo and using [`fling`](https:/
 
 Like a river, Installation instructions for plugins tend to wend slowly over time, so I'm trying to add "last updated" sections to each header here.
 
+Also note that these should be installed in order... in particular, completions need to be added to `fpath`  BEFORE calling `compinit` and `fzf-tab` needs to be loaded AFTER `compinit`.
+
 ## Random Notes
 
 see [./README_notes.md](./README_notes.md)
 
-# Install [Common Settings](./.zshrc_common.zsh)
+# Add autoloads
 
-Install into `~/.zshrc_common.zsh`, then use the following command to source it from `~/.zshrc`
+I'm trying to put all `autoload -Uz <thing>` at the top of `~/.zshrc` to keep them together and reduce startup times. As of 2024-06-02, so far I have:
+
+```zsh
+autoload -Uz add-zsh-hook # zp_prompt , envelope
+autoload -Uz bashcompinit  # completions
+autoload -Uz compinit  # completions
+autoload -Uz edit-command-line  # common settings
+```
+
+https://unix.stackexchange.com/a/33898/185953 has a great explanation of what the `-Uz` flags
+
+> "What is the -Uz about?", you ask? Well, that's just a set of options that will cause `autoload' to do the right thing, no matter what options are being set otherwise. The `U' disables alias expansion while the function is being loaded and the `z' forces zsh-style autoloading even if `KSH_AUTOLOAD' is set for whatever reason.
+
+# Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
+
+> last updated: 2024-05-18
+
+NOTE: this can add startup time, so inspect this if that slows down (see [./README_notes.md](./README_notes.md)).
+
+This particularly helps with `openssl` completion.
+
+```
+brew install zsh-completions
+```
+
+Add the following to `~/.zshrc`:
 
 ```bash
-cat >> "$HOME/.zshrc" << 'EOF'
+# zsh-completions
+FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+```
 
+NOTE: you ALSO need to run `compinit` for this to take effect. See below
+
+If getting an `zsh compinit: insecure directories` warning, see the output of `brew info zsh-completions`.
+
+# Run `compinit` to build completions
+
+This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`.
+
+See https://stackoverflow.com/a/67161186/2958070 for more details
+
+```bash
+compinit
+bashcompinit
+```
+
+# Install [Common Settings](./.zshrc_common.zsh)
+
+Install into `~/.zshrc_common.zsh`, then use the following command to source it from `~/.zshrc`.
+
+Requires `autoload -Uz add-zsh-hook` (see above)
+
+```bash
 # See https://github.com/bbkane/dotfiles
-autoload -Uz edit-command-line
 source ~/.zshrc_common.zsh
-
-EOF
 ```
 
 Open a new `zsh` shell.
@@ -47,6 +95,8 @@ Open a new `zsh` shell.
 
 ![](./README_img/zp_prompt.png)
 
+Requires `autoload -Uz add-zsh-hook`, see above.
+
 Install into `~/.zshrc_prompt.zsh`, then use the following command to source it from `~/.zshrc`
 
 ```bash
@@ -54,13 +104,10 @@ brew install pastel  # Optional but highly recommended
 ```
 
 ```bash
-cat >> "$HOME/.zshrc" << 'EOF'
 # See https://github.com/bbkane/dotfiles
 autoload -Uz add-zsh-hook
 source ~/.zshrc_prompt.zsh
 zp_prompt_pastel dodgerblue lightgreen
-
-EOF
 ```
 
 Open a new `zsh` shell.
@@ -96,7 +143,7 @@ Add fuzzy completion to tab-complete. Very useful when there's a bunch of simila
 
 ![fzf-tab](./README_img/fzf-tab.png)
 
-Warning from thre README:
+Warning from the README:
 
 > 1. make sure [fzf](https://github.com/junegunn/fzf)  is installed
 > 2. fzf-tab needs to be loaded after `compinit`, but before plugins which will wrap widgets, such as [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) or [fast-syntax-highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting)
@@ -151,14 +198,11 @@ brew install zsh-autosuggestions
 I used [HTML Color Picker: #c0c0c0](https://imagecolorpicker.com/color-code/c0c0c0) to get the highlight color.
 
 ```bash
-cat >> "$HOME/.zshrc" << 'EOF'
 # NOTE: this source location might change if brew changes how it installs
 # See `brew info zsh-autosuggestions`
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept  # also use Ctrl+Space to accept
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#737373'
-
-EOF
 ```
 
 Open a new `zsh` shell.
@@ -184,9 +228,7 @@ brew install zoxide
 Also see notes about `compinit` in the [README](https://github.com/ajeetdsouza/zoxide).
 
 ```bash
-echo '
 eval "$(zoxide init zsh)"
-' >> "$HOME/.zshrc"
 ```
 
 # Install [`fast-syntax-highlighting`](https://github.com/z-shell/F-Sy-H)
@@ -197,17 +239,14 @@ Add syntax highglighting while typing
 
 ![](./README_img/fast-syntax-highlighting.png)
 
-I clone into `~/Git`. Change this name if you want to clone somewhere else!
+I clone into `~/Git-GH`. Change this name if you want to clone somewhere else!
 
 ```bash
 git clone https://github.com/z-shell/F-Sy-H ~/Git-GH/fast-syntax-highlighting
 ```
 
 ```bash
-cat >> "$HOME/.zshrc" << 'EOF'
 source ~/Git-GH/fast-syntax-highlighting/F-Sy-H.plugin.zsh
-
-EOF
 ```
 
 Open a new `zsh` shell.
@@ -229,46 +268,7 @@ git clone https://github.com/unixorn/warhol.plugin.zsh.git  ~/Git-GH/warhol.plug
 ```
 
 ```bash
-printf '
 # https://github.com/unixorn/warhol.plugin.zsh
 source ~/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh
-' >> ~/.zshrc
-```
-
-# Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
-
-> last updated: 2024-05-18
-
-NOTE: this can add startup time, so inspect this if that slows down (see [./README_notes.md](./README_notes.md)).
-
-This particularly helps with `openssl` completion.
-
-```
-brew install zsh-completions
-```
-
-Add the following to `~/.zshrc`:
-
-```bash
-# zsh-completions
-FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-```
-
-NOTE: you ALSO need to run `compinit` for this to take effect. See below
-
-If getting an `zsh compinit: insecure directories` warning, see the output of `brew info zsh-completions`.
-
-# Run `compinit` to build completions
-
-This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`.
-
-See https://stackoverflow.com/a/67161186/2958070 for more details
-
-```bash
-# https://stackoverflow.com/a/67161186/2958070
-autoload -Uz bashcompinit
-autoload -Uz compinit
-compinit
-bashcompinit
 ```
 
