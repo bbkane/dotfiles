@@ -105,7 +105,6 @@ brew install pastel  # Optional but highly recommended
 
 ```bash
 # See https://github.com/bbkane/dotfiles
-autoload -Uz add-zsh-hook
 source ~/.zshrc_prompt.zsh
 zp_prompt_pastel dodgerblue lightgreen
 ```
@@ -157,7 +156,6 @@ Add to zshrc:
 ```bash
 # https://github.com/Aloxaf/fzf-tab
 # NOTE: fzf-tab should be installed before most other things. See the README
-autoload -U compinit; compinit
 source ~/Git-GH/fzf-tab/fzf-tab.plugin.zsh
 
 # disable sort when completing `git checkout`
@@ -242,7 +240,7 @@ Add syntax highglighting while typing
 I clone into `~/Git-GH`. Change this name if you want to clone somewhere else!
 
 ```bash
-git clone https://github.com/z-shell/F-Sy-H ~/Git-GH/fast-syntax-highlighting
+git clone https://github.com/z-shell/F-Sy-H ~/Git-GH/F-Sy-H
 ```
 
 ```bash
