@@ -11,17 +11,6 @@ brew install font-fira-code
 brew install font-ia-writer-mono
 ```
 
-Set up [terminfo](https://wezfurlong.org/wezterm/config/lua/config/term.html):
-
-```bash
-tempfile=$(mktemp) \
-&& curl -o $tempfile https://raw.githubusercontent.com/wez/wezterm/main/termwiz/data/wezterm.terminfo \
-&& tic -x -o ~/.terminfo $tempfile \
-&& rm $tempfile
-```
-
-Tbh, I'm not at all sure I care about undercurl this much...
-
 ## Keyboard Shortcuts
 
 | Action             | Keys                   | Notes                                                        |
