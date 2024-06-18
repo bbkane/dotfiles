@@ -18,17 +18,7 @@ mv \
     ~/Library/Application\ Support/Code/User/settings.json.$(date +%Y-%m-%d)
 ```
 
-### Install settings.json with `curl`
-
-Note: this will overwrite any current settings.json - see above
-
-```
-curl \
-    -fLo ~/Library/Application\ Support/Code/User/settings.json \
-    https://raw.githubusercontent.com/bbkane/dotfiles/master/vscode/settings.json
-```
-
-### Install settings.json with a symlink (not for most users)
+### Install settings.json with a symlink
 
 This is not needed if you used the `curl` method
 
@@ -38,8 +28,6 @@ python3 ./symlink_settings.py
 ./install_extensions.sh
 ```
 
-## Install Python tools
+## Extension management
 
-- Install linters: `brew install python3 black flake8 mypy`
-- Restart Visual Studio Code
-
+VS Code extensions are kinda hard to manage with scripts that can be version-controlled. I've included scripts to do this, and every once in a while I run `./purge_installed_extensions.sh` to delete everything I've manually installed and reinstall them.

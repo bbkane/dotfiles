@@ -9,8 +9,8 @@ IFS=$'\n\t'
 readonly script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${script_dir}"
 
-code --list-extensions \
-| grep -Ev '^linkedin\.' \
-| grep -Ev 'github\.copilot' \
-| grep -Ev 'suchitadoshi1987.vscode-ember-experimental' \
-| sort > ./installed_extensions.txt 
+# https://stackoverflow.com/a/72394467/2958070
+code --list-extensions | while read extension;
+do
+ code --uninstall-extension $extension --force
+done
