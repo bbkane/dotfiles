@@ -8,9 +8,13 @@ My Git setup is somewhat complicated, but the gist of it is:
 
 When I'm on my personal laptop, those files don't exist and my work config (things like`user.email = ben@work.com` ) isn't loaded. When I'm on my work laptop, those files DO exist and the git config is set up for work in those directories.
 
-My git config requires `git-credential-manager`, `git-delta` and `neovim`
+My git config requires `git-credential-manager`, `git-delta` and `neovim`:
 
 ```bash
 brew install git-credential-manager git-delta neovim
 ```
+Symlink these files from the dotfiles repo root:
 
+```bash
+fling link -s ./git
+```

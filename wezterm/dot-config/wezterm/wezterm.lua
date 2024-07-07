@@ -15,6 +15,10 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+-- https://github.com/wez/wezterm/discussions/4728
+local is_darwin <const> = wezterm.target_triple:find("darwin") ~= nil
+local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
+
 -- This is where you actually apply your config choices
 
 -- config.color_scheme = 'kanagawabones'
@@ -25,18 +29,18 @@ config.color_scheme = "Solarized Dark Higher Contrast"
 config.color_scheme = 'MaterialDarker'
 config.color_scheme = 'Nucolors (terminal.sexy)'
 
-config.font_size = 18.0
--- config.freetype_load_flags = 'NO_HINTING'
--- config.freetype_render_target = "HorizontalLcd"
--- config.freetype_load_target = "Light"
-config.cell_width = 0.9
-
-config.font = wezterm.font_with_fallback(font.font())
-
--- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
-config.window_frame = {
-	font_size = 15.0,
-}
+if is_darwin then
+	config.font_size = 18.0
+	-- config.freetype_load_flags = 'NO_HINTING'
+	-- config.freetype_render_target = "HorizontalLcd"
+	-- config.freetype_load_target = "Light"
+	config.cell_width = 0.9
+	config.font = wezterm.font_with_fallback(font.font())
+	-- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
+	config.window_frame = {
+		font_size = 15.0,
+	}
+end
 
 -- stop lagging on "Mission Contro" zoom out
 -- https://github.com/wez/wezterm/issues/2669

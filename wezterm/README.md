@@ -13,14 +13,18 @@ brew install font-ia-writer-mono
 
 ## Keyboard Shortcuts
 
-| Action             | Keys                   | Notes                                                        |
-| ------------------ | ---------------------- | ------------------------------------------------------------ |
-| Open Link          | Double click           | [Mouse Binding - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/config/mouse.html#default-mouse-assignments) |
-| Insert Unicode     | `CTRL` + `SHIFT` + `u` |                                                              |
-| Move forward word  | `OPT` + `RIGHT ARROW`  | Set in Lua config (send `Alt` + `b`)                         |
-| Move backward word | `OPT` + `LEFT ARROW`   | Set in Lua config (send `Alt` + `f`)                         |
-| Backspace word     | `CTRL` + `w`           | Standard Unix shortcut                                       |
-| Debug Overlay      | `Ctrl` + `Shift` + `L` | [Troubleshooting - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/troubleshooting.html) |
+Default keyboard shortcuts at https://wezfurlong.org/wezterm/config/default-keys.html
+
+| Action               | Keys                   | Notes                                                        |
+| -------------------- | ---------------------- | ------------------------------------------------------------ |
+| Open Link            | Double click           | [Mouse Binding - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/config/mouse.html#default-mouse-assignments) |
+| Insert Unicode       | `CTRL` + `SHIFT` + `u` |                                                              |
+| Move forward word    | `OPT` + `RIGHT ARROW`  | Set in Lua config (send `Alt` + `b`)                         |
+| Move backward word   | `OPT` + `LEFT ARROW`   | Set in Lua config (send `Alt` + `f`)                         |
+| Backspace word       | `CTRL` + `w`           | Standard Unix shortcut                                       |
+| Debug Overlay        | `Ctrl` + `Shift` + `L` | [Troubleshooting - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/troubleshooting.html) |
+| New Window           | `Ctrl` + `Shift` + `n` |                                                              |
+| Paste from Clipboard | `Ctrl` + `Shift` + `v` |                                                              |
 
 ## Bugs
 
