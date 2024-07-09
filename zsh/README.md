@@ -244,7 +244,7 @@ git clone https://github.com/z-shell/F-Sy-H ~/Git-GH/F-Sy-H
 ```
 
 ```bash
-source ~/Git-GH/fast-syntax-highlighting/F-Sy-H.plugin.zsh
+source ~/Git-GH/F-Sy-H/F-Sy-H.plugin.zsh
 ```
 
 Open a new `zsh` shell.

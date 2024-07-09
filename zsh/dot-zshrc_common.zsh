@@ -148,6 +148,9 @@ setopt auto_menu # automatically use menu completion
 # https://stackoverflow.com/a/11873793/2958070
 setopt INTERACTIVECOMMENTS
 
+# from zsh-newuser-install
+setopt beep extendedglob nomatch notify
+
 # URL completion. Use URLs from history.
 # zstyle -e ':completion:*:*:urls' urls 'reply=( ${${(f)"$(egrep --only-matching \(ftp\|https\?\)://\[A-Za-z0-9\].\* $HISTFILE)"}%%[# ]*} )'
 
