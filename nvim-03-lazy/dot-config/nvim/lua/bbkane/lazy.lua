@@ -17,19 +17,17 @@ require("lazy").setup({
         config = function()
             vim.cmd 'colorscheme kanagawa'
         end,
+        enabled = true,
         lazy = false,
         priority = 1000,
     },
 
-    -- not needed in nvim 0.10 - https://gpanders.com/blog/whats-new-in-neovim-0.10/#builtin-commenting
-    -- leaving for now (2024-05-16) in case I miss something here
-    -- {
-    --     'numToStr/Comment.nvim',
-    --     config = function()
-    --         require('Comment').setup()
-    --     end,
-    --     lazy = false,
-    -- },
+    {
+      "folke/tokyonight.nvim",
+      lazy = false,
+      priority = 1000,
+      opts = {},
+    },
 
     {
         'lewis6991/gitsigns.nvim',
@@ -45,3 +43,6 @@ require("lazy").setup({
         opts = {},
     }
 })
+
+-- let's set the colorscheme here since I have two to chose from, and they come from plugins
+vim.cmd 'colorscheme tokyonight-night'

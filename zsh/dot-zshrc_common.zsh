@@ -193,13 +193,17 @@ function man() {
 	colored man "$@"
 }
 
-# Open commands in MacOS Preview app
-pman() { man -t "$@" | open -f -a Preview; }
+if [[ "$OSTYPE" == darwin* ]]; then
+    # Open commands in MacOS Preview app
+    pman() { man -t "$@" | open -f -a Preview; }
 
-alias marktext="open -a /Applications/MarkText.app"
+    alias marktext="open -a /Applications/MarkText.app"
 
-# https://support.typora.io/Use-Typora-From-Shell-or-cmd/
-alias typora="open -a typora"
+    # https://support.typora.io/Use-Typora-From-Shell-or-cmd/
+    alias typora="open -a typora"
+
+# elif [[ "$OSTYPE" == linux* ]]; then
+fi
 
 # less options from https://litecli.com/output/
 # -X leaves file contents on the screen when less exits.

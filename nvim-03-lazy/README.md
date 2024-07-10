@@ -31,3 +31,23 @@ fling link -s nvim-03-lazy
 ```
 
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
+
+# Colorschemes I like
+
+## Built-in
+
+- darkblue
+- default (bad for markdown, great for lua)
+- desert
+- elflord
+- habamax
+- industry
+
+stopped here...
+
+- slate
+- wildcharm
+
+## Plugin
+
+- tokyonight-night
