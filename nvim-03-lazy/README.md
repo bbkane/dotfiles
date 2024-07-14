@@ -30,6 +30,12 @@ Symlink nvim config dir:
 fling link -s nvim-03-lazy
 ```
 
+On Linux, `xsel` is needed for clipboard interaction:
+
+```bash
+sudo apt install xsel
+```
+
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
 
 # Colorschemes I like
