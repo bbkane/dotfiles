@@ -1,70 +1,108 @@
-#!/usr/bin/python3
-
-# VSCode has different config locations depending on platform
-# This should make symlinks based on that...
-from __future__ import print_function
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import argparse
-import os
+import logging
+import os.path
 import platform
 import sys
+from pathlib import Path
 
-DESCRIPTION = """
-Use the same VS Code settings across platforms with symlinks
+__author__ = "Benjamin Kane"
+__version__ = "0.1.0"
+__doc__ = f"""
+Symlinks VS Code dotfiles
+Examples:
+    {sys.argv[0]}
+Help:
+Please see Benjamin Kane for help.
+Code at https://github.com/bbkane/dotfiles
 """
 
+logger = logging.getLogger(__name__)
 
-# monkey patch the new input function if this is an old Python
-if sys.version_info.major == 2:
-    input = raw_input
 
-# http://stackoverflow.com/a/1026626/2958070 if I want to confirm admin privs
-
-SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
-VS_SETTINGS_SRC_PATH = os.path.join(SCRIPT_DIR, "settings.json")
-
-# https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
-if platform.system() == "Windows":
-    VS_SETTINGS_DST_PATH = os.path.expandvars(r"%APPDATA%\Code\User\settings.json")
-elif platform.system() == "Darwin":
-    VS_SETTINGS_DST_PATH = os.path.expandvars(
-        r"$HOME/Library/Application Support/Code/User/settings.json"
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-elif platform.system() == "Linux":
-    VS_SETTINGS_DST_PATH = os.path.expandvars(r"$HOME/.config/Code/User/settings.json")
-else:
-    raise NotImplementedError("No platform support for %r" % (platform.system()))
 
-parser = argparse.ArgumentParser(description=DESCRIPTION)
-parser.add_argument(
-    "--batch", action="store_true", help="Don't ask for confirmation or print stdout"
-)
-
-args = parser.parse_args()
-
-
-if args.batch:
-    do_it = True
-else:
-    choice = input(
-        "symlink %r -> %r ? [y/n] " % (VS_SETTINGS_SRC_PATH, VS_SETTINGS_DST_PATH)
+    parser.add_argument(
+        "--confirm",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Ask for confirmation",
     )
-    do_it = choice == "y"
 
-if do_it:
+    parser.add_argument(
+        "--log-level",
+        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="INFO",
+        help="Log level",
+    )
 
-    # TODO: is this cross-platform?
-    try:
-        os.makedirs(os.path.dirname(VS_SETTINGS_DST_PATH))
-    except OSError as e:
-        if e.args[0] != 17:  # file exists
-            raise
+    parser.add_argument(
+        "--platform",
+        choices=("Windows", "Darwin", "Linux"),
+        default=platform.system(),
+        help=f"Platform. Currently set to to {platform.system()!r}",
+    )
 
-    # On Windows, there might be a symlink pointing to a different file
-    # Always remove symlinks
-    if os.path.islink(VS_SETTINGS_DST_PATH):
-        os.remove(VS_SETTINGS_DST_PATH)
 
-    os.symlink(VS_SETTINGS_SRC_PATH, VS_SETTINGS_DST_PATH)
-else:
-    print("Aborted")
+    return parser
+
+
+def symlink_file(src_file: Path, dst_file: Path, confirm: bool):
+    if dst_file.exists() and not dst_file.is_symlink():
+        raise SystemExit(f"Non-symlink already exists: {dst_file}")
+
+    logger.info(f"About to symlink: {src_file} -> {dst_file}")
+
+    if not confirm:
+        confirm = input("Type 'yes' to create dirs and symlinks: ") in ("yes", "'yes'", "y")
+
+    if confirm:
+        dst_file.unlink(missing_ok=True)
+
+        dst_file.symlink_to(src_file)
+
+
+def main():
+    parser = build_parser()
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        format="%(levelname)s: %(message)s",
+        level=logging.getLevelName(args.log_level),
+    )
+
+    script_dir = Path(os.path.dirname(os.path.realpath(__file__)))
+    settings_src_file = script_dir / "settings.json"
+
+    if args.platform == "Windows":
+        settings_dst_dir = Path(os.path.expandvars(r"%APPDATA%\Code\User"))
+        settings_dst_file = settings_dst_dir / "settings.json"
+        symlink_file(settings_src_file, settings_dst_file, args.confirm)
+
+    elif args.platform == "Darwin":
+        settings_dst_dir = Path("~/Library/Application Support/Code/User").expanduser()
+        settings_dst_file = settings_dst_dir / "settings.json"
+        symlink_file(settings_src_file, settings_dst_file, args.confirm)
+
+    elif args.platform == "Linux":
+        settings_dst_dir = Path("~/.config/Code/User").expanduser()
+        settings_dst_file = settings_dst_dir / "settings.json"
+        symlink_file(settings_src_file, settings_dst_file, args.confirm)
+
+        # on Linux, also symlink the keybindings
+        keybindings_src_file = script_dir / "keybindings_linux.json"
+        keybindings_dst_file = settings_dst_dir / "keybindings.json"
+        symlink_file(keybindings_src_file, keybindings_dst_file, args.confirm)
+
+    else:
+        raise SystemExit(f"No platform support for {args.platform!r}")
+
+
+if __name__ == "__main__":
+    main()
