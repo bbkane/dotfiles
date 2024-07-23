@@ -29,9 +29,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
-        "--confirm",
+        "--ask",
         action=argparse.BooleanOptionalAction,
-        default=False,
+        default=True,
         help="Ask for confirmation",
     )
 
@@ -49,20 +49,24 @@ def build_parser() -> argparse.ArgumentParser:
         help=f"Platform. Currently set to to {platform.system()!r}",
     )
 
-
     return parser
 
 
-def symlink_file(src_file: Path, dst_file: Path, confirm: bool):
+def symlink_file(src_file: Path, dst_file: Path, ask: bool):
     if dst_file.exists() and not dst_file.is_symlink():
         raise SystemExit(f"Non-symlink already exists: {dst_file}")
 
     logger.info(f"About to symlink: {src_file} -> {dst_file}")
 
-    if not confirm:
-        confirm = input("Type 'yes' to create dirs and symlinks: ") in ("yes", "'yes'", "y")
+    do_it = True
+    if ask:
+        do_it = input("Type 'yes' to create dirs and symlinks: ") in (
+            "yes",
+            "'yes'",
+            "y",
+        )
 
-    if confirm:
+    if do_it:
         dst_file.unlink(missing_ok=True)
 
         dst_file.symlink_to(src_file)
@@ -83,22 +87,22 @@ def main():
     if args.platform == "Windows":
         settings_dst_dir = Path(os.path.expandvars(r"%APPDATA%\Code\User"))
         settings_dst_file = settings_dst_dir / "settings.json"
-        symlink_file(settings_src_file, settings_dst_file, args.confirm)
+        symlink_file(settings_src_file, settings_dst_file, args.ask)
 
     elif args.platform == "Darwin":
         settings_dst_dir = Path("~/Library/Application Support/Code/User").expanduser()
         settings_dst_file = settings_dst_dir / "settings.json"
-        symlink_file(settings_src_file, settings_dst_file, args.confirm)
+        symlink_file(settings_src_file, settings_dst_file, args.ask)
 
     elif args.platform == "Linux":
         settings_dst_dir = Path("~/.config/Code/User").expanduser()
         settings_dst_file = settings_dst_dir / "settings.json"
-        symlink_file(settings_src_file, settings_dst_file, args.confirm)
+        symlink_file(settings_src_file, settings_dst_file, args.ask)
 
         # on Linux, also symlink the keybindings
         keybindings_src_file = script_dir / "keybindings_linux.json"
         keybindings_dst_file = settings_dst_dir / "keybindings.json"
-        symlink_file(keybindings_src_file, keybindings_dst_file, args.confirm)
+        symlink_file(keybindings_src_file, keybindings_dst_file, args.ask)
 
     else:
         raise SystemExit(f"No platform support for {args.platform!r}")
