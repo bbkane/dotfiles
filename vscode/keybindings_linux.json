@@ -27,5 +27,9 @@
         "key": "ctrl+up",
         "command": "-selectPrevSuggestion",
         "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion"
+    },
+    {
+        "key": "ctrl+space",
+        "command": "editor.action.inlineSuggest.trigger"
     }
 ]

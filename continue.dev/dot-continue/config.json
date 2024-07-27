@@ -19,9 +19,9 @@
     }
   ],
   "tabAutocompleteModel": {
-    "title": "Starcoder 3b",
+    "title": "deepseek-coder:1.3b-base",
     "provider": "ollama",
-    "model": "starcoder2:3b"
+    "model": "deepseek-coder:1.3b-base"
   },
   "allowAnonymousTelemetry": true,
   "embeddingsProvider": {
