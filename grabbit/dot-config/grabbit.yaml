@@ -30,10 +30,12 @@ subreddits:
     destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 3
-  - name: imaginaryinteriors
-    destination: ~/Pictures/grabbit
-    timeframe: "week"
-    limit: 3
+  # too many pics of young girls in rooms that, while SFW,
+  # look odd as a work screensaver :/
+  # - name: imaginaryinteriors
+  #   destination: ~/Pictures/grabbit
+  #   timeframe: "week"
+  #   limit: 3
   - name: villageporn
     destination: ~/Pictures/grabbit
     timeframe: "week"
