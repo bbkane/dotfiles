@@ -1,0 +1,3 @@
+This does AI autocomplete and stuff. Let's see how we like it!
+
+There's a buncha Typescript code in `~/.continue` as well. Not sure what that's about...

@@ -129,6 +129,6 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "editor.renderWhitespace": "none",
-    "workbench.colorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Default Dark+",
     "window.zoomLevel": 1
 }
