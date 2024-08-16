@@ -63,3 +63,4 @@ tyriar.sort-lines
 usernamehw.errorlens
 visualstudioexptteam.intellicode-api-usage-examples
 visualstudioexptteam.vscodeintellicode
+zhuangtongfa.material-theme
