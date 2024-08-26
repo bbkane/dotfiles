@@ -11,6 +11,5 @@ cd "${script_dir}"
 
 code --list-extensions \
 | grep -Ev '^linkedin\.' \
-| grep -Ev 'github\.copilot' \
 | grep -Ev 'suchitadoshi1987.vscode-ember-experimental' \
 | sort > ./installed_extensions.txt 

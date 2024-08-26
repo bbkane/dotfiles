@@ -130,5 +130,7 @@
     "git.confirmSync": false,
     "editor.renderWhitespace": "none",
     "workbench.colorTheme": "Default Dark+",
-    "window.zoomLevel": 1
+    "window.zoomLevel": 1,
+    "github.copilot.preferredAccount": "bkane-msft",
+    "workbench.externalBrowser": "firefox"
 }
