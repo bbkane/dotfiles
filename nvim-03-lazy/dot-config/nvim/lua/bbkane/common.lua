@@ -50,6 +50,12 @@ vim.o.smartcase = true
 -- https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/?utm_source=share&utm_medium=web2x&context=3
 vim.opt.mouse = nil
 
+-- https://stackoverflow.com/a/5774854
+-- this means I can put something like `# vim:set ft=zsh:` in a file
+-- It's also a security risk - arbitrary commands can be run on file open...
+-- vim.o.modeline = true
+-- vim.o.modelines = 5
+
 -- augroup custom_filetype
 --     autocmd!
 --     autocmd BufNewFile,BufRead *.src set filetype=xml
