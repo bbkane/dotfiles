@@ -12,22 +12,31 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+    -- start color schemes
+    -- https://vimcolorschemes.com/i/trending
     {
-        "rebelot/kanagawa.nvim",
+        "sainnhe/everforest",
         config = function()
-            vim.cmd 'colorscheme kanagawa'
+            -- https://github.com/sainnhe/everforest/blob/master/doc/everforest.txt
+            vim.g.everforest_background = 'hard'
         end,
-        enabled = true,
         lazy = false,
         priority = 1000,
     },
 
     {
-      "folke/tokyonight.nvim",
-      lazy = false,
-      priority = 1000,
-      opts = {},
+        "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
     },
+
+    {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+    },
+    -- end color schemes
 
     {
         'lewis6991/gitsigns.nvim',
@@ -45,4 +54,7 @@ require("lazy").setup({
 })
 
 -- let's set the colorscheme here since I have two to chose from, and they come from plugins
-vim.cmd 'colorscheme tokyonight-night'
+vim.cmd 'colorscheme everforest'
+-- vim.cmd 'colorscheme kanagawa'
+-- vim.cmd 'colorscheme tokyonight-night'
+
