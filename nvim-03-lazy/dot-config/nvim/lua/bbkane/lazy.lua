@@ -38,6 +38,15 @@ require("lazy").setup({
     },
     -- end color schemes
 
+    -- https://github.com/cappyzawa/trim.nvim
+    {
+        "cappyzawa/trim.nvim",
+        opts = {
+            highlight = true,
+            trim_last_line = false,
+        },
+    },
+
     {
         'lewis6991/gitsigns.nvim',
         config = function()
