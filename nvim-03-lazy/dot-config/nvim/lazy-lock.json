@@ -4,5 +4,6 @@
   "indent-blankline.nvim": { "branch": "master", "commit": "3d08501caef2329aba5121b753e903904088f7e6" },
   "kanagawa.nvim": { "branch": "master", "commit": "bfa818c7bf6259152f1d89cf9fbfba3554c93695" },
   "lazy.nvim": { "branch": "main", "commit": "bef521ac89c8d423f9d092e37b58e8af0c099309" },
+  "nvim-treesitter": { "branch": "master", "commit": "399062d072355be7cd3441a7931cb05378a6c6a2" },
   "tokyonight.nvim": { "branch": "main", "commit": "66a272ba6cf93bf303c4b7a91b100ca0dd3ec7bd" }
 }

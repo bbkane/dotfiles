@@ -50,7 +50,24 @@ require("lazy").setup({
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         opts = {},
-    }
+    },
+
+
+    -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#lazynvim
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function()
+            local configs = require("nvim-treesitter.configs")
+            configs.setup({
+                ensure_installed = { "go", "python"},
+                sync_install = false,
+                highlight = { enable = true },
+                indent = { enable = true },
+            })
+        end
+    },
+
 })
 
 -- let's set the colorscheme here since I have two to chose from, and they come from plugins
