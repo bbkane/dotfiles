@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+local mux = wezterm.mux
 
 local module = {}
 
@@ -81,10 +82,26 @@ end
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 	-- https://wezfurlong.org/wezterm/config/lua/pane/index.html
-	local pane = tab.active_pane
-	local process = basename(pane.foreground_process_name)
+	local pane_info = tab.active_pane
+	local process = basename(pane_info.foreground_process_name)
 
-	local cwd = pane.current_working_dir
+	-- I'll have to come back tot his when I have more time, but it's doing the righ thing!
+	-- -- https://wezfurlong.org/wezterm/config/lua/PaneInformation.html?h=foreground_
+	-- -- https://wezfurlong.org/wezterm/config/lua/pane/index.html#available-methods
+	-- -- https://wezfurlong.org/wezterm/config/lua/pane/get_foreground_process_info.html
+	-- -- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/get_pane.html
+	-- -- https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
+	-- -- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/
+	-- local pane = mux.get_pane(pane_info.pane_id)
+	-- local process_info = pane:get_foreground_process_info()
+	-- if process_info ~= nil then
+	-- 	wezterm.log_info("process_info: " .. wezterm.to_string(process_info.argv))
+	-- else
+	-- 	wezterm.log_info("process_info is nil")
+	-- end
+
+
+	local cwd = pane_info.current_working_dir
 	-- cwd is nil if I pull up the Debug Overlay for example
 	if cwd == nil then
 		cwd = "<unknown>"
