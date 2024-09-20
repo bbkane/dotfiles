@@ -137,14 +137,24 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 		return build_title(unknown, unknown, tab.is_active)
 	end
 
-	cwd = basename(cwd.file_path)
-
-	-- local process = basename(pane_info.foreground_process_name)
 	local pane = mux.get_pane(pane_info.pane_id)
 	local process_info = pane:get_foreground_process_info()
 	local process_name = process_info.executable
 	process_name = basename(process_name)
 
+	if process_name == "ssh" then
+		-- wezterm.log_info("process_info: " .. wezterm.to_string(process_info.argv))
+		-- 18:39:58.661 INFO logging > lua: process_info: [
+		-- 	"ssh",
+		-- 	"<hostname here>",
+		-- ]
+
+		-- TODO: check that argv[2] exists
+		process_name = process_info.argv[2]
+		return build_title(process_name, "", tab.is_active)
+	end
+
+	cwd = basename(cwd.file_path)
 	return build_title(process_name, cwd, tab.is_active)
 end
 
