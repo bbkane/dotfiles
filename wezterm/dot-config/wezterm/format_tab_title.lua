@@ -144,7 +144,7 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 	-- for SSH, use the hostname as the title
 	if process_name == "ssh" and #process_info.argv == 2 then
 		local hostname = process_info.argv[2]
-		local dot = hostname.find '[.]'
+		local dot = hostname:find '[.]'
 		if dot then
 			local truncated_hostname = hostname:sub(1, dot - 1)
 			if truncated_hostname ~= '' then
