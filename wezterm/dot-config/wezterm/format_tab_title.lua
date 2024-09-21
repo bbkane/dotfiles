@@ -83,7 +83,7 @@ end
 ---@param cwd string
 ---@param is_active boolean
 ---@return table
-local build_title = function (process, cwd, is_active)
+local build_title = function(process, cwd, is_active)
 	local title = " " .. process .. " " .. cwd .. " "
 	-- TODO: use the whole args? https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
 	local color = hash_to_color(hash(process))
@@ -109,7 +109,6 @@ end
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
-
 	-- I'll have to come back tot his when I have more time, but it's doing the righ thing!
 	-- -- https://wezfurlong.org/wezterm/config/lua/PaneInformation.html?h=foreground_
 	-- -- https://wezfurlong.org/wezterm/config/lua/pane/index.html#available-methods
@@ -142,21 +141,21 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 	local process_name = process_info.executable
 	process_name = basename(process_name)
 
-	if process_name == "ssh" then
-		-- wezterm.log_info("process_info: " .. wezterm.to_string(process_info.argv))
-		-- 18:39:58.661 INFO logging > lua: process_info: [
-		-- 	"ssh",
-		-- 	"<hostname here>",
-		-- ]
-
-		-- TODO: check that argv[2] exists
-		process_name = process_info.argv[2]
-		return build_title(process_name, "", tab.is_active)
+	-- for SSH, use the hostname as the title
+	if process_name == "ssh" and #process_info.argv == 2 then
+		local hostname = process_info.argv[2]
+		local dot = hostname.find '[.]'
+		if dot then
+			local truncated_hostname = hostname:sub(1, dot - 1)
+			if truncated_hostname ~= '' then
+				hostname = truncated_hostname
+			end
+		end
+		return build_title(hostname, "", tab.is_active)
 	end
 
 	cwd = basename(cwd.file_path)
 	return build_title(process_name, cwd, tab.is_active)
 end
-
 
 return module
