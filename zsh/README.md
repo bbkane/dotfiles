@@ -44,7 +44,9 @@ https://unix.stackexchange.com/a/33898/185953 has a great explanation of what th
 
 > "What is the -Uz about?", you ask? Well, that's just a set of options that will cause `autoload' to do the right thing, no matter what options are being set otherwise. The `U' disables alias expansion while the function is being loaded and the `z' forces zsh-style autoloading even if `KSH_AUTOLOAD' is set for whatever reason.
 
-# Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
+# Get zsh completions working
+
+## Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
 
 > last updated: 2024-05-18
 
@@ -63,11 +65,20 @@ Add the following to `~/.zshrc`:
 FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 ```
 
-NOTE: you ALSO need to run `compinit` for this to take effect. See below
-
 If getting an `zsh compinit: insecure directories` warning, see the output of `brew info zsh-completions`.
 
-# Run `compinit` to build completions
+## Add zsh function files to `$FPATH` in `~/.zshrc`
+
+```zsh
+# Add Homebrew completions
+FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+# Personal completions
+FPATH="$HOME/fbin:$FPATH"
+```
+
+## Run `compinit` to build completions
 
 This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`.
 
