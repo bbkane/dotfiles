@@ -109,6 +109,12 @@ zp_venv_precmd() {
 
 # sets `zp_git_precmd_var`
 zp_git_precmd() {
+    # if git commands are being slow, it'll slow the prompt down
+    #   export zp_skip_git=1
+    if [[ -v zp_skip_git ]]; then
+        zp_git_precmd_var=':GIT_INFO_SKIPPED:'
+        return
+    fi
     # https://stackoverflow.com/a/56501750/2958070
     # git >= 2.21, doesn't work in detatched head mode
     zp_git_precmd_var="$(git branch --show-current 2>/dev/null)"
