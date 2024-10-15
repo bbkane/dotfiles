@@ -1,10 +1,10 @@
 {
-  "everforest": { "branch": "master", "commit": "93b89630861a4c8a1be07bc54f6d53487acb2e57" },
-  "gitsigns.nvim": { "branch": "main", "commit": "1ef74b546732f185d0f806860fa5404df7614f28" },
-  "indent-blankline.nvim": { "branch": "master", "commit": "18603eb949eba08300799f64027af11ef922283f" },
+  "everforest": { "branch": "master", "commit": "87b8554b2872ef69018d4b13d288756dd4e47c0f" },
+  "gitsigns.nvim": { "branch": "main", "commit": "863903631e676b33e8be2acb17512fdc1b80b4fb" },
+  "indent-blankline.nvim": { "branch": "master", "commit": "e7a4442e055ec953311e77791546238d1eaae507" },
   "kanagawa.nvim": { "branch": "master", "commit": "f491b0fe68fffbece7030181073dfe51f45cda81" },
-  "lazy.nvim": { "branch": "main", "commit": "460e1cd8f24e364d54543a4b0e83f6f4ec1f65fb" },
-  "nvim-treesitter": { "branch": "master", "commit": "3c6af36794b26e1bcac3f126b43e0f646154725d" },
-  "tokyonight.nvim": { "branch": "main", "commit": "817bb6ffff1b9ce72cdd45d9fcfa8c9cd1ad3839" },
-  "trim.nvim": { "branch": "master", "commit": "4fe47a46c02a58894ded8328ca81f6c214a892f5" }
+  "lazy.nvim": { "branch": "main", "commit": "1159bdccd8910a0fd0914b24d6c3d186689023d9" },
+  "nvim-treesitter": { "branch": "master", "commit": "5a2ff8b7ca5470b1011ed82ef3fdd53139ffc467" },
+  "tokyonight.nvim": { "branch": "main", "commit": "2c85fad417170d4572ead7bf9fdd706057bd73d7" },
+  "trim.nvim": { "branch": "master", "commit": "7dc35b9e61b9f77f475807a2be6fe8115a12d81c" }
 }

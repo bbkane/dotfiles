@@ -129,8 +129,9 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "editor.renderWhitespace": "none",
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "Default Light+",
     "window.zoomLevel": 1,
     "github.copilot.preferredAccount": "bkane-msft",
-    "workbench.externalBrowser": "firefox"
+    "workbench.externalBrowser": "firefox",
+    "git.openRepositoryInParentFolders": "never"
 }
