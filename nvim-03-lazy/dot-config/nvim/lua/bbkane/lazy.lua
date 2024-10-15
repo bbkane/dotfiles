@@ -69,7 +69,7 @@ require("lazy").setup({
         config = function()
             local configs = require("nvim-treesitter.configs")
             configs.setup({
-                ensure_installed = { "go", "python"},
+                ensure_installed = {"bash", "go", "python", "sql"},
                 sync_install = false,
                 highlight = { enable = true },
                 indent = { enable = true },

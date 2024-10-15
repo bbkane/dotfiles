@@ -84,7 +84,12 @@ end
 ---@param is_active boolean
 ---@return table
 local build_title = function(process, cwd, is_active)
-	local title = " " .. process .. " " .. cwd .. " "
+    local sep = " "
+    if process == "" or cwd == "" then
+		sep = ""
+	end
+
+	local title = process .. sep .. cwd
 	-- TODO: use the whole args? https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
 	local color = hash_to_color(hash(process))
 

@@ -48,7 +48,7 @@ https://unix.stackexchange.com/a/33898/185953 has a great explanation of what th
 
 ## Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
 
-> last updated: 2024-05-18
+> last updated: Fri 2024-10-11
 
 NOTE: this can add startup time, so inspect this if that slows down (see [./README_notes.md](./README_notes.md)).
 
@@ -70,21 +70,35 @@ If getting an `zsh compinit: insecure directories` warning, see the output of `b
 ## Add zsh function files to `$FPATH` in `~/.zshrc`
 
 ```zsh
-# Add Homebrew completions
-FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+# Add Homebrew completions not from zsh-completions
 FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-
-# Personal completions
+# Add spot to put local completions
 FPATH="$HOME/fbin:$FPATH"
 ```
 
 ## Run `compinit` to build completions
 
-This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`.
+This needs to be done AFTER all modifications to `$FPATH`, but before some of the plugins below.
 
 See https://stackoverflow.com/a/67161186/2958070 for more details
 
 ```bash
+compinit
+bashcompinit
+```
+
+## `zsh` Completions `~/.zshrc` summary
+
+At the end, this part of `~/.zshrc` should look like this:
+
+```zsh
+# zsh-completions
+FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+# Add Homebrew completions not from zsh-completions
+FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+# Add spot to put local completions
+FPATH="$HOME/fbin:$FPATH"
+
 compinit
 bashcompinit
 ```
@@ -225,7 +239,7 @@ Open a new `zsh` shell.
 It has some differences:
 
 - doesn't support frecently used files with `v`
-- **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>` 
+- **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>`
 - It does let you edit the database.
 
 I think my favorite use is `zi` to open a fzf picker for frecently used files.
