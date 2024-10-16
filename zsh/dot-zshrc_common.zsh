@@ -273,5 +273,9 @@ unquarantine() {
     xattr -r -d com.apple.quarantine "$1"
 }
 
+grabbit_audit() {
+    find ~/Pictures/grabbit \( -name 'wallpapers_*' -o -name 'futureporn_*' -o -name 'roomporn_*' \) -ctime -14 -print -exec open {} \;
+}
+
 # Use pure Go builds!!
 # export CGO_ENABLED=0
