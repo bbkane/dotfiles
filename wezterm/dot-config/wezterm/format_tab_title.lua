@@ -84,53 +84,25 @@ end
 ---@param is_active boolean
 ---@return table
 local build_title = function(process, cwd, is_active)
-    local sep = " "
-    if process == "" or cwd == "" then
+	local sep = " "
+	if process == "" or cwd == "" then
 		sep = ""
 	end
 
-	local title = process .. sep .. cwd
-	-- TODO: use the whole args? https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
+	local icon = is_active and "✨" or "💤"
+	local title = icon .. process .. sep .. cwd
 	local color = hash_to_color(hash(process))
-
-	-- NOTE: my underline and intensity don't seem to be working...
-	local underline = "None"
-	local intensity = "Normal"
-	if is_active then
-		underline = "Double"
-		intensity = "Half"
-	end
 
 	-- https://wezfurlong.org/wezterm/config/lua/wezterm/format.html
 	return {
-		{ Attribute = { Intensity = intensity } },
-		{ Attribute = { Underline = underline } },
 		{ Background = { Color = color } },
 		{ Foreground = { Color = "black" } },
 		{ Text = title },
 	}
 end
 
-
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
-	-- I'll have to come back tot his when I have more time, but it's doing the righ thing!
-	-- -- https://wezfurlong.org/wezterm/config/lua/PaneInformation.html?h=foreground_
-	-- -- https://wezfurlong.org/wezterm/config/lua/pane/index.html#available-methods
-	-- -- https://wezfurlong.org/wezterm/config/lua/pane/get_foreground_process_info.html
-	-- -- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/get_pane.html
-	-- -- https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
-	-- -- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/
-	-- local pane = mux.get_pane(pane_info.pane_id)
-	-- local process_info = pane:get_foreground_process_info()
-	-- if process_info ~= nil then
-	-- 	wezterm.log_info("process_info: " .. wezterm.to_string(process_info.argv))
-	-- else
-	-- 	wezterm.log_info("process_info is nil")
-	-- end
-
-	local unknown = "<unknown>"
-
 	-- https://wezfurlong.org/wezterm/config/lua/pane/index.html
 	local pane_info = tab.active_pane
 	local cwd = pane_info.current_working_dir
@@ -138,10 +110,12 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 	-- cwd is nil if I pull up the Debug Overlay for example
 	if cwd == nil then
 		-- assume process is also nil
-		return build_title(unknown, unknown, tab.is_active)
+		return build_title("<unknown>", "<unknown>", tab.is_active)
 	end
 
+	-- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/get_pane.html
 	local pane = mux.get_pane(pane_info.pane_id)
+	-- https://wezfurlong.org/wezterm/config/lua/pane/get_foreground_process_info.html
 	local process_info = pane:get_foreground_process_info()
 	local process_name = process_info.executable
 	process_name = basename(process_name)
