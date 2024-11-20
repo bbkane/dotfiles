@@ -1,3 +1,5 @@
+local in_ssh = vim.env.SSH_CONNECTION ~= nil
+
 -- https://github.com/folke/lazy.nvim?tab=readme-ov-file#-installation
 -- Example using a list of specs with the default options
 vim.g.mapleader = " "       -- Make sure to set `mapleader` before lazy so your mappings are correct
@@ -19,7 +21,11 @@ vim.o.clipboard = "unnamedplus"
 -- set nohlsearch
 vim.o.hlsearch = false
 
-vim.o.number = true
+-- In SSH, I don't want line numbers as I want to use the mouse to copy lines with the terminal
+-- TODO: do I need line numbers in general?
+if not in_ssh then
+    vim.o.number = true
+end
 
 -- set wrap                          " Only use a soft wrap, not a hard one
 vim.o.wrap = true
@@ -48,7 +54,7 @@ vim.o.smartcase = true
 
 -- https://stackoverflow.com/a/65352148/2958070
 -- https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/?utm_source=share&utm_medium=web2x&context=3
-vim.opt.mouse = nil
+vim.opt.mouse = ''
 
 -- augroup custom_filetype
 --     autocmd!
