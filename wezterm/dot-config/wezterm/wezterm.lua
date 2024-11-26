@@ -46,6 +46,8 @@ end
 -- https://github.com/wez/wezterm/issues/2669
 config.window_decorations = "TITLE|RESIZE|MACOS_FORCE_DISABLE_SHADOW"
 
+config.enable_scroll_bar = true
+
 -- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
 config.keys = {
 	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
