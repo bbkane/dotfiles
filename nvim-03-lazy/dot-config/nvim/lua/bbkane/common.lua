@@ -68,6 +68,12 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     command = "set filetype=xml"
 })
 
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    group = bbkane_augroup,
+    pattern = "*.code-workspace",
+    command = "set filetype=jsonc"
+})
+
 -- " http://stackoverflow.com/a/18444962/2958070
 -- " custom file templates
 -- augroup templates
