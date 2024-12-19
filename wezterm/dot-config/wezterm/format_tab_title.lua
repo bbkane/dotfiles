@@ -103,6 +103,15 @@ end
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
+
+	-- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
+	-- if the tab title is explicitly set, take that
+	-- set title: wezterm cli set-tab-title 'alice'
+	local title = tab.tab_title
+	if title and #title > 0 then
+		return build_title(title, "", tab.is_active)
+	end
+
 	-- https://wezfurlong.org/wezterm/config/lua/pane/index.html
 	local pane_info = tab.active_pane
 	local cwd = pane_info.current_working_dir
