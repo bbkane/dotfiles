@@ -91,7 +91,10 @@ local build_title = function(process, cwd, is_active)
 
 	local icon = is_active and "✨" or "💤"
 	local title = icon .. process .. sep .. cwd
-	local color = hash_to_color(hash(process))
+	-- if zsh is the process, hash the cwd so the color is relevant to me
+	-- otherwise, hash the process name
+	local string_to_color = process == "zsh" and cwd or process
+	local color = hash_to_color(hash(string_to_color))
 
 	-- https://wezfurlong.org/wezterm/config/lua/wezterm/format.html
 	return {
@@ -103,7 +106,6 @@ end
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
-
 	-- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 	-- if the tab title is explicitly set, take that
 	-- set title: wezterm cli set-tab-title 'alice'
