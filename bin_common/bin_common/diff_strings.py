@@ -34,6 +34,7 @@ Diff two strings!
 Stolen from https://stackoverflow.com/questions/32500167/how-to-show-diff-of-two-string-sequences-in-colors
 
 Examples:
+    {sys.argv[0]}  # will prompt for strings
     {sys.argv[0]} string1 string2
 """
 
@@ -60,11 +61,16 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main():
+    if len(sys.argv) == 1:
+        string1 = input("string1: ")
+        string2 = input("string2: ")
+    else:
+        parser = build_parser()
+        args = parser.parse_args()
+        string1 = args.string1
+        string2 = args.string2
 
-    parser = build_parser()
-    args = parser.parse_args()
-
-    print(get_edits_string(args.string1, args.string2))
+    print(get_edits_string(string1, string2))
 
 
 if __name__ == "__main__":
