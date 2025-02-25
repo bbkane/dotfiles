@@ -13,6 +13,11 @@
 	sort = -committerdate
 [color]
 	ui = true
+[column]
+	# show `git branch` output as columns if available
+	ui = auto
+[commit]
+	template = ~/.config/git_commit-template.txt
 [core]
 	excludesfile = ~/.config/gitignore_global
 	longpaths = true
@@ -21,9 +26,11 @@
 	helper = store
 	username = bbkane
 [delta]
-	minus-style = normal "#340001"
-	plus-style = syntax "#012800"
-	syntax-theme = zenburn
+	# minus-style = normal "#340001"
+	# plus-style = syntax "#012800"
+	# syntax-theme = zenburn
+	navigate = true  # use n and N to move between diff sections
+	dark = true      # or light = true, or omit for auto-detection
 [fetch]
 	# keep remote refs as close as possible to remote
 	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
@@ -43,11 +50,8 @@
 	defaultBranch = master
 [interactive]
 	diffFilter = delta --color-only
-[column]
-	# show `git branch` output as columns if available
-	ui = auto
-[commit]
-	template = ~/.config/git_commit-template.txt
+[merge]
+	conflictstyle = zdiff3
 [pull]
 	rebase = false
 [push]
