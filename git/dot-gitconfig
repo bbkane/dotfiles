@@ -31,6 +31,12 @@
 	# syntax-theme = zenburn
 	navigate = true  # use n and N to move between diff sections
 	dark = true      # or light = true, or omit for auto-detection
+[diff]
+	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
 [fetch]
 	# keep remote refs as close as possible to remote
 	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
