@@ -1,5 +1,9 @@
 *.bak
 .DS_Store
+
+# Produced when debugging Go in VS Code
+__debug_bin*
+
 go.work
 go.work.sum
 tags
