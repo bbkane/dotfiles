@@ -41,7 +41,9 @@
 	# keep remote refs as close as possible to remote
 	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
 	prune = true
-	pruneTags = true
+	# NOTE: this blocks pulls if they would clobber existing tags, so commenting out
+	# ! [rejected]          tag_name -> tag_name  (would clobber existing tag)
+	# pruneTags = true
 	all = true
 # Not sure why git lfs got installed but whatever...
 # https://mydeveloperplanet.com/2018/10/31/git-lfs-why-and-how-to-use/
