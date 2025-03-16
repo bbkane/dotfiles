@@ -10,7 +10,10 @@ brew services start grabbit
 
 Symlink the timer file:
 
-TODO
+```bash
+fling link -s grabbit-systemd
+```
+
 Start and enable the timer:
 
 ```bash
@@ -19,6 +22,12 @@ systemctl --user enable homebrew.grabbit.timer
 ```
 
 # Debug
+
+Analyze service/timer for errors:
+
+```bash
+systemd-analyze --user verify homebrew.grabbit.time
+```
 
 Check the status of the timer:
 
@@ -44,8 +53,19 @@ See download stdout:
 journalctl --user -u homebrew.grabbit.service
 ```
 
+Check the time format:
+
+```bash
+$ systemd-analyze calendar Weekly
+  Original form: Weekly
+Normalized form: Mon *-*-* 00:00:00
+    Next elapse: Mon 2025-03-17 00:00:00 PDT
+       (in UTC): Mon 2025-03-17 07:00:00 UTC
+       From now: 7h left
+```
+
 # Links
 
 - https://wiki.archlinux.org/title/Systemd/Timers
-- TODO: timer article in issues
+- https://documentation.suse.com/smart/systems-management/html/systemd-working-with-timers/index.html
 
