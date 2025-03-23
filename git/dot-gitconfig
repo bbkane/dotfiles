@@ -34,6 +34,7 @@
 [diff]
 	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
 	algorithm = histogram
+	# "moved from" is purple and "moved to" is blue. I wish it had an arrow or something
 	colorMoved = plain
 	mnemonicPrefix = true
 	renames = true

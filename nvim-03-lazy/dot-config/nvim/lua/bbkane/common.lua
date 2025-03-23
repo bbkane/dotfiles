@@ -32,7 +32,8 @@ vim.o.wrap = true
 -- set linebreak                     " Break lines at word (requires Wrap lines)
 vim.o.linebreak = true
 
--- " https://stackoverflow.com/a/1878984/2958070
+-- https://stackoverflow.com/a/1878984/2958070
+-- https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd
 
 -- set tabstop=4       " The width of a TAB is set to 4. Still it is a \t. It is just that
 vim.o.tabstop = 4
@@ -61,6 +62,14 @@ vim.opt.mouse = ''
 --     autocmd BufNewFile,BufRead *.src set filetype=xml
 -- augroup END
 local bbkane_augroup = vim.api.nvim_create_augroup('bbkane_augroup', { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    group = bbkane_augroup,
+    pattern = {".gitconfig,", "gitconfig_*"},
+    -- https://stackoverflow.com/a/1878992
+    -- https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd#tabs-only
+    command = "set filetype=gitconfig noexpandtab tabstop=8 shiftwidth=0 softtabstop=0 smarttab"
+})
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     group = bbkane_augroup,
