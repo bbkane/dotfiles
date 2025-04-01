@@ -98,6 +98,19 @@ require("lazy").setup({
         end
     },
 
+    {
+        "saghen/blink.cmp",
+        opts = {
+            fuzzy = { implementation = "lua" },
+            completion = {
+                menu = {
+                    auto_show = false,
+                },
+            },
+            keymap = { preset = 'default' },
+        },
+    },
+
 })
 
 -- let's set the colorscheme here since I have two to chose from, and they come from plugins
