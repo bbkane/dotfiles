@@ -56,4 +56,6 @@ stopped here...
 
 ## Plugin
 
+See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top)
+
 - tokyonight-night

@@ -15,6 +15,27 @@ require("lazy").setup({
     -- start color schemes
     -- https://vimcolorschemes.com/i/trending
     {
+        "embark-theme/vim",
+        lazy = false,
+        priority = 1000,
+    },
+    {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+    },
+    {
+        "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
+    },
+    {
+        "rose-pine/neovim",
+        lazy = false,
+        priority = 1000,
+    },
+    {
         "sainnhe/everforest",
         config = function()
             -- https://github.com/sainnhe/everforest/blob/master/doc/everforest.txt
@@ -23,19 +44,19 @@ require("lazy").setup({
         lazy = false,
         priority = 1000,
     },
-
     {
-        "rebelot/kanagawa.nvim",
+        "sainnhe/gruvbox-material",
+        config = function()
+            -- Optionally configure and load the colorscheme
+            -- directly inside the plugin declaration.
+            vim.g.gruvbox_material_enable_italic = true
+            vim.g.gruvbox_material_background = 'medium' -- 'hard', 'medium', 'soft'
+            vim.g.gruvbox_material_foreground = 'mix' -- 'material', 'mix', 'original'
+        end,
         lazy = false,
         priority = 1000,
     },
 
-    {
-        "folke/tokyonight.nvim",
-        lazy = false,
-        priority = 1000,
-        opts = {},
-    },
     -- end color schemes
 
     -- https://github.com/cappyzawa/trim.nvim
@@ -80,7 +101,9 @@ require("lazy").setup({
 })
 
 -- let's set the colorscheme here since I have two to chose from, and they come from plugins
-vim.cmd 'colorscheme everforest'
+-- vim.cmd 'colorscheme embark'
+-- vim.cmd 'colorscheme everforest'
 -- vim.cmd 'colorscheme kanagawa'
--- vim.cmd 'colorscheme tokyonight-night'
-
+-- vim.cmd 'colorscheme gruvbox-material'
+-- vim.cmd 'colorscheme rose-pine-moon'
+vim.cmd 'colorscheme tokyonight-moon'
