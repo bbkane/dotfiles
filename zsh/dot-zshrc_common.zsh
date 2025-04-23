@@ -205,6 +205,15 @@ if [[ "$OSTYPE" == darwin* ]]; then
 # elif [[ "$OSTYPE" == linux* ]]; then
 fi
 
+# https://news.ycombinator.com/item?id=42061773
+if [[ "$OSTYPE" == darwin* ]]; then
+    clip() { [ -t 0 ] && pbpaste || pbcopy }
+else # assume linux if not macos
+    # using xsel as I also need it for NeoVim
+    clip() { [ -t 0 ] && xsel --clipboard --output || xsel --clipboard --input }
+fi
+
+
 # less options from https://litecli.com/output/
 # -X leaves file contents on the screen when less exits.
 # -F makes less quit if the entire output can be displayed on one screen.
