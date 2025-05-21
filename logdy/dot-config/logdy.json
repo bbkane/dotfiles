@@ -1,0 +1,84 @@
+{
+	"name": "main",
+	"columns": [
+		{
+			"id": "872297",
+			"name": "TraceID",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['SpanContext']['TraceID'] }\n}",
+			"idx": 2,
+			"width": 150,
+			"faceted": true
+		},
+		{
+			"id": "540828",
+			"name": "Name",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['Name'] }\n}",
+			"idx": 1,
+			"width": 179,
+			"faceted": true
+		},
+		{
+			"id": "321781",
+			"name": "Attributes",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    const attributes = line.json_content[\"Attributes\"];\n    const headers = attributes.map(attr => attr.Key);\n    const values = attributes.map(attr => attr.Value.Value);\n\n    const headerHtml = headers.map(header => `<th>${header}</th>`).join('');\n    const rowHtml = values.map(value => `<td>${value}</td>`).join('');\n\n    return {\n        allowHtmlInText: true,\n        text: `<table>\n             <tr>${headerHtml}</tr>\n             <tr>${rowHtml}</tr>\n           </table>`,\n    };\n\n}",
+			"idx": 7,
+			"width": 487
+		},
+		{
+			"id": "013912",
+			"name": "SpanKind",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    const spanKindToName = {\n        0: \"UNSPECIFIED\",\n        1: \"INTERNAL\",\n        2: \"SERVER\",\n        3: \"CLIENT\",\n        4: \"PRODUCER\",\n        5: \"CONSUMER\",\n    };\n    return { text: spanKindToName[line.json_content['SpanKind']] }\n}",
+			"idx": 4,
+			"width": 78,
+			"faceted": true
+		},
+		{
+			"id": "410970",
+			"name": "Status",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['Status']['Code'] }\n}",
+			"idx": 10,
+			"width": 150,
+			"faceted": true
+		},
+		{
+			"id": "320654",
+			"name": "ChildSpanCount",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['ChildSpanCount'] }\n}",
+			"idx": 14,
+			"width": 54
+		},
+		{
+			"id": "042478",
+			"name": "StartTime",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['StartTime'] }\n}",
+			"idx": 5,
+			"width": 150
+		},
+		{
+			"id": "893274",
+			"name": "EndTime",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['EndTime'] }\n}",
+			"idx": 6,
+			"width": 150
+		},
+		{
+			"id": "736290",
+			"name": "Resource",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    const attributes = line.json_content[\"Resource\"];\n    const headers = attributes.map(attr => attr.Key);\n    const values = attributes.map(attr => attr.Value.Value);\n\n    const headerHtml = headers.map(header => `<th>${header}</th>`).join('');\n    const rowHtml = values.map(value => `<td>${value}</td>`).join('');\n\n    return {\n        allowHtmlInText: true,\n        text: `<table>\n             <tr>${headerHtml}</tr>\n             <tr>${rowHtml}</tr>\n           </table>`,\n    };\n}",
+			"idx": 15,
+			"width": 325
+		}
+	],
+	"settings": {
+		"leftColWidth": 300,
+		"drawerColWidth": 581,
+		"maxMessages": 1000,
+		"middlewares": [
+			{
+				"id": "m_262251",
+				"name": "Line Things",
+				"handlerTsCode": "(line: Message): Message | void => {\n    // line.timing = {\n    //     start: parseInt(line.json_content.unix),\n    //     duration: parseInt(line.json_content.duration),\n    //     label: `${line.json_content.duration}ms`,\n    // }\n    line.correlation_id = line.json_content.SpanContext.TraceID;\n    line.order_key = line.json_content.StartTime;\n    return line;\n}"
+			}
+		]
+	}
+}
