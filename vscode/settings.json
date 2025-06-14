@@ -133,5 +133,12 @@
     "github.copilot.preferredAccount": "bkane-msft",
     "workbench.externalBrowser": "firefox",
     "git.openRepositoryInParentFolders": "never",
-    "vscode-default-keybindings.macOSKeybindings": true
+    "vscode-default-keybindings.macOSKeybindings": true,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "rust": false
+    }
 }
