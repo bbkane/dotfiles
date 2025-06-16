@@ -15,6 +15,12 @@ require("lazy").setup({
     -- start color schemes
     -- https://vimcolorschemes.com/i/trending
     {
+        "bluz71/vim-moonfly-colors",
+        lazy = false,
+        name = "moonfly",
+        priority = 1000,
+    },
+    {
         "embark-theme/vim",
         lazy = false,
         priority = 1000,
@@ -22,8 +28,8 @@ require("lazy").setup({
     {
         "folke/tokyonight.nvim",
         lazy = false,
-        priority = 1000,
         opts = {},
+        priority = 1000,
     },
     {
         "rebelot/kanagawa.nvim",
@@ -119,4 +125,5 @@ require("lazy").setup({
 -- vim.cmd 'colorscheme kanagawa'
 -- vim.cmd 'colorscheme gruvbox-material'
 -- vim.cmd 'colorscheme rose-pine-moon'
-vim.cmd 'colorscheme tokyonight-moon'
+-- vim.cmd 'colorscheme tokyonight-moon'
+vim.cmd 'colorscheme moonfly'

@@ -1,7 +1,7 @@
 {
     "[html]": {
         "editor.formatOnPaste": true,
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
     "[json]": {
         "editor.formatOnPaste": false,
@@ -36,9 +36,6 @@
         "--line-length",
         "88"
     ],
-    "flake8.args": [
-        "--max-line-length=88"
-    ],
     "dart.previewFlutterUiGuides": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.acceptSuggestionOnEnter": "off",
@@ -46,6 +43,7 @@
     "editor.formatOnSave": true,
     "editor.guides.bracketPairs": true,
     "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "none",
     "editor.tokenColorCustomizations": {
         "[Miramare]": {
             "comments": "#c0c0c0"
@@ -55,6 +53,34 @@
     "editor.wordWrap": "on",
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
+    "flake8.args": [
+        "--max-line-length=88"
+    ],
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    "git.openRepositoryInParentFolders": "never",
+    "github.copilot.enable": {
+        "*": true,
+        "markdown": false,
+        "plaintext": false,
+        "rust": false,
+        "scminput": false
+    },
+    "github.copilot.preferredAccount": "bkane-msft",
+    "githubIssues.queries": [
+        {
+            "label": "My Issues",
+            "query": "default"
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        },
+        {
+            "label": "Recent Issues",
+            "query": "state:open repo:${owner}/${repository} sort:updated-desc"
+        }
+    ],
     "go.autocompleteUnimportedPackages": true,
     "go.formatTool": "goimports",
     "go.lintOnSave": "workspace",
@@ -91,7 +117,9 @@
     "security.workspace.trust.untrustedFiles": "open",
     "swaggerViewer.previewInBrowser": true,
     "terminal.integrated.fontSize": 15,
+    "vscode-default-keybindings.macOSKeybindings": true,
     "window.commandCenter": true,
+    "window.zoomLevel": 1,
     "workbench.colorCustomizations": {
         "[Miramare]": {
             "activityBar.border": "#e6dcac3f",
@@ -111,30 +139,9 @@
         }
     },
     "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.sideBar.location": "right",
-    "githubIssues.queries": [
-        {
-            "label": "My Issues",
-            "query": "default"
-        },
-        {
-            "label": "Created Issues",
-            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
-        },
-        {
-            "label": "Recent Issues",
-            "query": "state:open repo:${owner}/${repository} sort:updated-desc"
-        }
-    ],
-    "git.enableSmartCommit": true,
-    "git.confirmSync": false,
-    "editor.renderWhitespace": "none",
-    "window.zoomLevel": 1,
-    "github.copilot.preferredAccount": "bkane-msft",
     "workbench.externalBrowser": "firefox",
-    "git.openRepositoryInParentFolders": "never",
-    "vscode-default-keybindings.macOSKeybindings": true,
     "chat.agent.enabled": true,
     "workbench.colorTheme": "Default Light+",
-    "yaml.format.singleQuote": true
+    "yaml.format.singleQuote": true,
+    "workbench.sideBar.location": "right"
 }
