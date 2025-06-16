@@ -36,6 +36,7 @@
         "--line-length",
         "88"
     ],
+    "chat.agent.enabled": true,
     "dart.previewFlutterUiGuides": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.acceptSuggestionOnEnter": "off",
@@ -138,10 +139,9 @@
             "tab.activeBorderTop": "#e6dcac3f"
         }
     },
+    "workbench.colorTheme": "Default Light+",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
-    "chat.agent.enabled": true,
-    "workbench.colorTheme": "Default Light+",
-    "yaml.format.singleQuote": true,
-    "workbench.sideBar.location": "right"
+    "workbench.sideBar.location": "right",
+    "yaml.format.singleQuote": true
 }
