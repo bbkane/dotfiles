@@ -121,9 +121,9 @@ require("lazy").setup({
 
 -- let's set the colorscheme here since I have two to chose from, and they come from plugins
 -- vim.cmd 'colorscheme embark'
--- vim.cmd 'colorscheme everforest'
+vim.cmd 'colorscheme everforest'
 -- vim.cmd 'colorscheme kanagawa'
 -- vim.cmd 'colorscheme gruvbox-material'
 -- vim.cmd 'colorscheme rose-pine-moon'
 -- vim.cmd 'colorscheme tokyonight-moon'
-vim.cmd 'colorscheme moonfly'
+-- vim.cmd 'colorscheme moonfly'
