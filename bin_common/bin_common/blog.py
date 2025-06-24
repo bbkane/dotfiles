@@ -93,7 +93,7 @@ def main():
 
     logging.basicConfig(
         format=args.log_format,
-        level=logging.getLevelName(args.log_level),
+        level=logging.getLevelNamesMapping()[args.log_level],
     )
 
     if not args.root.expanduser().exists():

@@ -78,7 +78,7 @@ def main():
 
     logging.basicConfig(
         format="%(levelname)s: %(message)s",
-        level=logging.getLevelName(args.log_level),
+        level=logging.getLevelNamesMapping()[args.log_level],
     )
 
     script_dir = Path(os.path.dirname(os.path.realpath(__file__)))
