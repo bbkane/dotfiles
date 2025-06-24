@@ -67,6 +67,7 @@
         "rust": false,
         "scminput": false
     },
+    "github.copilot.nextEditSuggestions.enabled": false,
     "github.copilot.preferredAccount": "bkane-msft",
     "githubIssues.queries": [
         {
@@ -109,7 +110,7 @@
     "python._comment": "brew install python3",
     "python.analysis.inlayHints.functionReturnTypes": false,
     "python.analysis.inlayHints.variableTypes": false,
-    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.typeCheckingMode": "standard",
     "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "python.formatting.provider": "none",
     "python.languageServer": "Pylance",
