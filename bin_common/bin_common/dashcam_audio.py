@@ -61,7 +61,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "--output-name",
-        help="output name. Will prompt for a name if not provided",
+        help="output name. Will prompt for a name if not provided. Must end in .m4a",
     )
 
     parser.add_argument(
@@ -93,7 +93,9 @@ def main():
     if not args.last:
         args.last = input("Last file to process: ")
     if not args.output_name:
-        args.output_name = input("Output name: ")
+        args.output_name = input("Output name (must end in .m4a): ")
+    if not args.output_name.endswith(".m4a"):
+        raise ValueError("Output name must end in .m4a. Please provide a valid name.")
 
     args.first = args.root / args.first
     args.last = args.root / args.last
