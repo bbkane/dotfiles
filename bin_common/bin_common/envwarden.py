@@ -445,7 +445,7 @@ def main():
 
     logging.basicConfig(
         format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",  # noqa: E501
-        level=logging.getLevelName(args.log_level),
+        level=logging.getLevelNamesMapping()[args.log_level],
     )
 
     logger.debug(f"{args = !r}")

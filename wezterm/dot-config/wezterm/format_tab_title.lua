@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+local mux = wezterm.mux
 
 local module = {}
 
@@ -78,43 +79,73 @@ local basename = function(s)
 	return string.gsub(s, "(.*[/\\])(.*)", "%2")
 end
 
--- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
-function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
-	-- https://wezfurlong.org/wezterm/config/lua/pane/index.html
-	local pane = tab.active_pane
-	local process = basename(pane.foreground_process_name)
-
-	local cwd = pane.current_working_dir
-	-- cwd is nil if I pull up the Debug Overlay for example
-	if cwd == nil then
-		cwd = "<unknown>"
-		-- assume process is nil as well
-		process = "<unknown>"
-	else
-		-- cwd = string.gsub(cwd.file_path, wezterm.home_dir, '~')
-		cwd = basename(cwd.file_path)
+---@param process string
+---@param cwd string
+---@param is_active boolean
+---@return table
+local build_title = function(process, cwd, is_active)
+	local sep = " "
+	if process == "" or cwd == "" then
+		sep = ""
 	end
 
-	local title = " " .. process .. " " .. cwd .. " "
-	-- TODO: use the whole args? https://wezfurlong.org/wezterm/config/lua/LocalProcessInfo.html
-	local color = hash_to_color(hash(process))
-
-	-- NOTE: my underline and intensity don't seem to be working...
-	local underline = "None"
-	local intensity = "Normal"
-	if tab.is_active then
-		underline = "Double"
-		intensity = "Half"
-	end
+	local icon = is_active and "✨" or "💤"
+	local title = icon .. process .. sep .. cwd
+	-- if zsh is the process, hash the cwd so the color is relevant to me
+	-- otherwise, hash the process name
+	local string_to_color = process == "zsh" and cwd or process
+	local color = hash_to_color(hash(string_to_color))
 
 	-- https://wezfurlong.org/wezterm/config/lua/wezterm/format.html
 	return {
-		{ Attribute = { Intensity = intensity } },
-		{ Attribute = { Underline = underline } },
 		{ Background = { Color = color } },
 		{ Foreground = { Color = "black" } },
 		{ Text = title },
 	}
+end
+
+-- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
+function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
+	-- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
+	-- if the tab title is explicitly set, take that
+	-- set title: wezterm cli set-tab-title 'alice'
+	local title = tab.tab_title
+	if title and #title > 0 then
+		return build_title(title, "", tab.is_active)
+	end
+
+	-- https://wezfurlong.org/wezterm/config/lua/pane/index.html
+	local pane_info = tab.active_pane
+	local cwd = pane_info.current_working_dir
+
+	-- cwd is nil if I pull up the Debug Overlay for example
+	if cwd == nil then
+		-- assume process is also nil
+		return build_title("<unknown>", "<unknown>", tab.is_active)
+	end
+
+	-- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/get_pane.html
+	local pane = mux.get_pane(pane_info.pane_id)
+	-- https://wezfurlong.org/wezterm/config/lua/pane/get_foreground_process_info.html
+	local process_info = pane:get_foreground_process_info()
+	local process_name = process_info.executable
+	process_name = basename(process_name)
+
+	-- for SSH, use the hostname as the title
+	if process_name == "ssh" and #process_info.argv == 2 then
+		local hostname = process_info.argv[2]
+		local dot = hostname:find '[.]'
+		if dot then
+			local truncated_hostname = hostname:sub(1, dot - 1)
+			if truncated_hostname ~= '' then
+				hostname = truncated_hostname
+			end
+		end
+		return build_title(hostname, "", tab.is_active)
+	end
+
+	cwd = basename(cwd.file_path)
+	return build_title(process_name, cwd, tab.is_active)
 end
 
 return module

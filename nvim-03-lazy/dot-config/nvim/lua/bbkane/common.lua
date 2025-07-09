@@ -1,3 +1,5 @@
+local in_ssh = vim.env.SSH_CONNECTION ~= nil
+
 -- https://github.com/folke/lazy.nvim?tab=readme-ov-file#-installation
 -- Example using a list of specs with the default options
 vim.g.mapleader = " "       -- Make sure to set `mapleader` before lazy so your mappings are correct
@@ -19,14 +21,19 @@ vim.o.clipboard = "unnamedplus"
 -- set nohlsearch
 vim.o.hlsearch = false
 
-vim.o.number = true
+-- In SSH, I don't want line numbers as I want to use the mouse to copy lines with the terminal
+-- TODO: do I need line numbers in general?
+if not in_ssh then
+    vim.o.number = true
+end
 
 -- set wrap                          " Only use a soft wrap, not a hard one
 vim.o.wrap = true
 -- set linebreak                     " Break lines at word (requires Wrap lines)
 vim.o.linebreak = true
 
--- " https://stackoverflow.com/a/1878984/2958070
+-- https://stackoverflow.com/a/1878984/2958070
+-- https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd
 
 -- set tabstop=4       " The width of a TAB is set to 4. Still it is a \t. It is just that
 vim.o.tabstop = 4
@@ -48,7 +55,7 @@ vim.o.smartcase = true
 
 -- https://stackoverflow.com/a/65352148/2958070
 -- https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/?utm_source=share&utm_medium=web2x&context=3
-vim.opt.mouse = nil
+vim.opt.mouse = ''
 
 -- https://stackoverflow.com/a/5774854
 -- this means I can put something like `# vim:set ft=zsh:` in a file
@@ -64,8 +71,22 @@ local bbkane_augroup = vim.api.nvim_create_augroup('bbkane_augroup', { clear = t
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     group = bbkane_augroup,
+    pattern = {".gitconfig,", "gitconfig_*"},
+    -- https://stackoverflow.com/a/1878992
+    -- https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd#tabs-only
+    command = "set filetype=gitconfig noexpandtab tabstop=8 shiftwidth=0 softtabstop=0 smarttab"
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    group = bbkane_augroup,
     pattern = "*.src",
     command = "set filetype=xml"
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    group = bbkane_augroup,
+    pattern = "*.code-workspace",
+    command = "set filetype=jsonc"
 })
 
 -- " http://stackoverflow.com/a/18444962/2958070

@@ -48,12 +48,13 @@ def build_parser() -> argparse.ArgumentParser:
         help=r"log format",
     )
 
+    default_path = "~/Git-GH/www.bbkane.com/content/blog"
     parser.add_argument(
         "--root",
         "-r",
-        default=Path("~/Git-GH/www.bbkane.com/content/blog"),
+        default=Path(default_path),
         type=Path,
-        help="blog post directory",
+        help=f"blog post directory (default: {default_path})",
     )
 
     parser.add_argument(
@@ -93,7 +94,7 @@ def main():
 
     logging.basicConfig(
         format=args.log_format,
-        level=logging.getLevelName(args.log_level),
+        level=logging.getLevelNamesMapping()[args.log_level],
     )
 
     if not args.root.expanduser().exists():

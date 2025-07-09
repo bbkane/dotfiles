@@ -90,8 +90,8 @@ def main():
     args = parser.parse_args()
 
     logging.basicConfig(
-        format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",
-        level=logging.getLevelName(args.log_level),
+        format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",  # noqa: E501
+        level=logging.getLevelNamesMapping()[args.log_level],
     )
 
     match args.subcommand_name:

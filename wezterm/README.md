@@ -26,6 +26,44 @@ Default keyboard shortcuts at https://wezfurlong.org/wezterm/config/default-keys
 | New Window           | `Ctrl` + `Shift` + `n` |                                                              |
 | Paste from Clipboard | `Ctrl` + `Shift` + `v` |                                                              |
 
+# Layout
+
+I use a lot of the same tab/window layouts that I want to re-create. I'd like to do tmux-like things, but for now here are some notes on doing it via the CLI. A lot of this is from [this blog](https://mwop.net/blog/2024-07-04-how-i-use-wezterm.html) and some is from Googling.
+
+Definitions:
+
+- window - an open Wezterm app window
+- Workspace - a label on a window for easy switching? Note that this hides all windows NOT part of the current workspace.
+- domain - a way to share workspaces  among windows? I don't think I need this
+- pane - a "subwindow" you can split your window into. Like a physical window must have a least one pane, but can also have multiple to break it into 2 or 4 or 9 subwindows. This is mostly what I'm dealing with as I'm mostly interested in tab layout
+- tab - a tab. I think each tab is also a pane? Not sure.
+
+Can list everything with:
+
+```bash
+$ wezterm cli list
+WINID TABID PANEID WORKSPACE SIZE   TITLE CWD
+    0     0      0 default   142x36 zsh   file:///path/to/cwd
+```
+
+Create a new window with one pane and 2 child tabs with custom titles
+
+```bash
+# returns pane ID of new window
+$ wezterm cli spawn --new-window
+1
+
+# set tab title
+$ wezterm cli set-tab-title 'tab1' --pane-id=1
+
+# create new tab in that pane
+$ wezterm cli spawn --pane-id=1
+2
+
+# set 2nd tab title
+$ wezterm cli set-tab-title 'tab2' --pane-id=2
+```
+
 ## Bugs
 
 ### FIXED - Font rendering

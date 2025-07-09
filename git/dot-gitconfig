@@ -9,10 +9,15 @@
 	# already have gruvbox plugin as a really good diffing colorscheme
 	vimdiff = difftool --no-prompt --extcmd 'nvim -d'
 [branch]
-  # https://blog.gitbutler.com/git-tips-2-new-stuff-in-git/#some-git-branch-stuff
+	# https://blog.gitbutler.com/git-tips-2-new-stuff-in-git/#some-git-branch-stuff
 	sort = -committerdate
 [color]
 	ui = true
+[column]
+	# show `git branch` output as columns if available
+	ui = auto
+[commit]
+	template = ~/.config/git_commit-template.txt
 [core]
 	excludesfile = ~/.config/gitignore_global
 	longpaths = true
@@ -21,25 +26,49 @@
 	helper = store
 	username = bbkane
 [delta]
-	minus-style = normal "#340001"
-	plus-style = syntax "#012800"
-	syntax-theme = zenburn
-# Not sure why git lfs got installed but whatever... 
+	# minus-style = normal "#340001"
+	# plus-style = syntax "#012800"
+	# syntax-theme = zenburn
+	navigate = true  # use n and N to move between diff sections
+	dark = true      # or light = true, or omit for auto-detection
+[diff]
+	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+	algorithm = histogram
+	# "moved from" is purple and "moved to" is blue. I wish it had an arrow or something
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[fetch]
+	# keep remote refs as close as possible to remote
+	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+	prune = true
+	# NOTE: this blocks pulls if they would clobber existing tags, so commenting out
+	# ! [rejected]          tag_name -> tag_name  (would clobber existing tag)
+	# pruneTags = true
+	all = true
+# Not sure why git lfs got installed but whatever...
 # https://mydeveloperplanet.com/2018/10/31/git-lfs-why-and-how-to-use/
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[help]
+	autocorrect = prompt
 [init]
 	defaultBranch = master
 [interactive]
 	diffFilter = delta --color-only
+[merge]
+	conflictstyle = zdiff3
 [pull]
 	rebase = false
 [push]
 	autoSetupRemote = true
 	default = simple
+	followTags = true
+[tag]
+	sort = version:refname
 [user]
 	name = Benjamin Kane
 
@@ -60,5 +89,3 @@
 [includeIf "gitdir/i:~/Git-MS-AzDev/"]
 	path = ~/.config/gitconfig_Git-MS-AzDev
 
-[commit]
-	template = ~/.config/git_commit-template.txt

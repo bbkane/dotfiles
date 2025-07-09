@@ -44,9 +44,11 @@ https://unix.stackexchange.com/a/33898/185953 has a great explanation of what th
 
 > "What is the -Uz about?", you ask? Well, that's just a set of options that will cause `autoload' to do the right thing, no matter what options are being set otherwise. The `U' disables alias expansion while the function is being loaded and the `z' forces zsh-style autoloading even if `KSH_AUTOLOAD' is set for whatever reason.
 
-# Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
+# Get zsh completions working
 
-> last updated: 2024-05-18
+## Install [zsh-completions](https://github.com/zsh-users/zsh-completions)
+
+> last updated: Fri 2024-10-11
 
 NOTE: this can add startup time, so inspect this if that slows down (see [./README_notes.md](./README_notes.md)).
 
@@ -63,17 +65,40 @@ Add the following to `~/.zshrc`:
 FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 ```
 
-NOTE: you ALSO need to run `compinit` for this to take effect. See below
-
 If getting an `zsh compinit: insecure directories` warning, see the output of `brew info zsh-completions`.
 
-# Run `compinit` to build completions
+## Add zsh function files to `$FPATH` in `~/.zshrc`
 
-This needs to be done at the end of `~/.zshrc`, AFTER all modifications to `$fpath`.
+```zsh
+# Add Homebrew completions not from zsh-completions
+FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+# Add spot to put local completions
+FPATH="$HOME/fbin:$FPATH"
+```
+
+## Run `compinit` to build completions
+
+This needs to be done AFTER all modifications to `$FPATH`, but before some of the plugins below.
 
 See https://stackoverflow.com/a/67161186/2958070 for more details
 
 ```bash
+compinit
+bashcompinit
+```
+
+## `zsh` Completions `~/.zshrc` summary
+
+At the end, this part of `~/.zshrc` should look like this:
+
+```zsh
+# zsh-completions
+FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+# Add Homebrew completions not from zsh-completions
+FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+# Add spot to put local completions
+FPATH="$HOME/fbin:$FPATH"
+
 compinit
 bashcompinit
 ```
@@ -214,7 +239,7 @@ Open a new `zsh` shell.
 It has some differences:
 
 - doesn't support frecently used files with `v`
-- **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>` 
+- **requires** a space after z to trigger fancy autocompletion: `z startofname<SPACE><TAB>`
 - It does let you edit the database.
 
 I think my favorite use is `zi` to open a fzf picker for frecently used files.

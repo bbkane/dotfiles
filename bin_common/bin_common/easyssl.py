@@ -25,13 +25,15 @@ def get(cert_or_host: str, servername: Optional[str]) -> str:
     "generate the part of the openssl command to get the cert"
     if os.path.exists(cert_or_host):
         return f"cat {cert_or_host}"
+    if ':' not in cert_or_host:
+        cert_or_host = cert_or_host + ":443"
     if servername == "NONE":  # don't use SNI
         # https://stackoverflow.com/a/50770880/2958070
         # NOTE: might break if openssl updates, see ^
-        return f"echo | openssl s_client -connect {cert_or_host}:443 2> /dev/null"
+        return f"echo | openssl s_client -connect {cert_or_host} 2> /dev/null"
     if servername is None:
         servername = cert_or_host
-    return f"echo | openssl s_client -connect {cert_or_host}:443 -servername {servername} 2> /dev/null"
+    return f"echo | openssl s_client -connect {cert_or_host} -servername {servername} 2> /dev/null"
 
 
 query = {
@@ -50,7 +52,7 @@ def parse_args(*args, **kwargs):
 
     parser.add_argument(
         "cert_or_host",
-        help="filepath or host (www.example.com) to connect to. Appends :443 automatically. Also used for SNI (also see --servername)",
+        help="filepath or host (www.example.com) to connect to. Appends :443 if no port supplied. Also used for SNI (override with --servername)",
     )
     parser.add_argument(
         "query",

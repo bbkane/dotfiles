@@ -56,4 +56,18 @@ stopped here...
 
 ## Plugin
 
+See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top)
+
 - tokyonight-night
+
+# Keyboard Shortcuts
+
+[Introduction | Blink Completion (blink.cmp)](https://cmp.saghen.dev/)
+
+| Action            | Keys    | Notes                                              |
+| ----------------- | ------- | -------------------------------------------------- |
+| Open menu         | C-space | https://cmp.saghen.dev/installation.html#lazy-nvim |
+| Select Next/Prev  | C-n/C-p |                                                    |
+| Hide menu         | C-e     |                                                    |
+| Accept suggestion | C-y     |                                                    |
+
