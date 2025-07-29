@@ -39,6 +39,9 @@ export MYPY_CACHE_DIR="$HOME/.mypy_cache"
 export BAT_THEME="1337"
 export BAT_STYLE='plain,header,grid'
 
+# for viewing OTEL traces with logdy (logdy.dev)
+export LOGDY_CONFIG="$HOME/.config/logdy.json"
+
 # rclone settings
 # NOTE: these aren't tested :)
 # I'm leaving dry-run on because I want that explicitly

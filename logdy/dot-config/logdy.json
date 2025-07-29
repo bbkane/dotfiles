@@ -20,7 +20,7 @@
 		{
 			"id": "321781",
 			"name": "Attributes",
-			"handlerTsCode": "(line: Message): CellHandler => {\n    const attributes = line.json_content[\"Attributes\"];\n    const headers = attributes.map(attr => attr.Key);\n    const values = attributes.map(attr => attr.Value.Value);\n\n    const headerHtml = headers.map(header => `<th>${header}</th>`).join('');\n    const rowHtml = values.map(value => `<td>${value}</td>`).join('');\n\n    return {\n        allowHtmlInText: true,\n        text: `<table>\n             <tr>${headerHtml}</tr>\n             <tr>${rowHtml}</tr>\n           </table>`,\n    };\n\n}",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    const attributes = line.json_content[\"Attributes\"];\n    if (attributes == null) {\n        return {\n            text: \"<no attributes found>\"\n        }\n    }\n    const headers = attributes.map(attr => attr.Key);\n    const values = attributes.map(attr => attr.Value.Value);\n\n    const headerHtml = headers.map(header => `<th>${header}</th>`).join('');\n    const rowHtml = values.map(value => `<td>${value}</td>`).join('');\n\n    return {\n        allowHtmlInText: true,\n        text: `<table>\n             <tr>${headerHtml}</tr>\n             <tr>${rowHtml}</tr>\n           </table>`,\n    };\n\n}",
 			"idx": 7,
 			"width": 487
 		},
