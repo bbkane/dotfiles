@@ -1,0 +1,3 @@
+# [espanso](https://espanso.org/)
+
+Will be adding things like date expansions (`:date`) and oncall help...
