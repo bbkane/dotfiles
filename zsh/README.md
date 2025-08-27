@@ -42,7 +42,7 @@ autoload -Uz edit-command-line  # common settings
 
 https://unix.stackexchange.com/a/33898/185953 has a great explanation of what the `-Uz` flags
 
-> "What is the -Uz about?", you ask? Well, that's just a set of options that will cause `autoload' to do the right thing, no matter what options are being set otherwise. The `U' disables alias expansion while the function is being loaded and the `z' forces zsh-style autoloading even if `KSH_AUTOLOAD' is set for whatever reason.
+> "What is the -Uz about?", you ask? Well, that's just a set of options that will cause `autoload` to do the right thing, no matter what options are being set otherwise. The `U` disables alias expansion while the function is being loaded and the `z` forces zsh-style autoloading even if `KSH_AUTOLOAD` is set for whatever reason.
 
 # Get zsh completions working
 
@@ -87,7 +87,7 @@ compinit
 bashcompinit
 ```
 
-## `zsh` Completions `~/.zshrc` summary
+## `zsh` completions `~/.zshrc` summary
 
 At the end, this part of `~/.zshrc` should look like this:
 
@@ -103,7 +103,7 @@ compinit
 bashcompinit
 ```
 
-# Install [Common Settings](./.zshrc_common.zsh)
+# Install [common settings](./.zshrc_common.zsh)
 
 Install into `~/.zshrc_common.zsh`, then use the following command to source it from `~/.zshrc`.
 
@@ -136,7 +136,7 @@ zp_prompt_pastel dodgerblue lightgreen
 
 Open a new `zsh` shell.
 
-# Install [fzf](https://github.com/junegunn/fzf)
+# Install [`fzf`](https://github.com/junegunn/fzf)
 
 > Last updated: 2024-04-02
 
@@ -159,7 +159,7 @@ Add the following to `~/.zshrc`:
 eval "$(fzf --zsh)"
 ```
 
-# Install [fzf-tab](https://github.com/Aloxaf/fzf-tab)
+# Install [`fzf-tab`](https://github.com/Aloxaf/fzf-tab)
 
 > Last updated: 2024-04-02
 
@@ -206,7 +206,7 @@ brew install eza
 
 NOTE: the README suggests using `build-ff-tab-module` to speed up colorizing files, but the build failed for me and I'm not currently having a speed problem
 
-# Install [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+# Install [`zsh-autosuggestions`](https://github.com/zsh-users/zsh-autosuggestions)
 
 > Last updated: 2024-04-02
 
