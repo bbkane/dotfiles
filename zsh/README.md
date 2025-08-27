@@ -254,25 +254,23 @@ Also see notes about `compinit` in the [README](https://github.com/ajeetdsouza/z
 eval "$(zoxide init zsh)"
 ```
 
-# Install [`fast-syntax-highlighting`](https://github.com/z-shell/F-Sy-H)
+# Install [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting)
 
-> Last updated: 2024-04-02
+> Last updated: 2025-08-26
 
-Add syntax highglighting while typing
+Add syntax highlighting while typing:
 
-![](./README_img/fast-syntax-highlighting.png)
-
-I clone into `~/Git-GH`. Change this name if you want to clone somewhere else!
+![image-20250826202155373](README.assets/image-20250826202155373.png)
 
 ```bash
-git clone https://github.com/z-shell/F-Sy-H ~/Git-GH/F-Sy-H
+brew install zsh-syntax-highlighting
 ```
 
-```bash
-source ~/Git-GH/F-Sy-H/F-Sy-H.plugin.zsh
-```
+Add to `~/.zshrc` (the docs say this should be done at the bottom of `~/zshrc`:
 
-Open a new `zsh` shell.
+```zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```
 
 # Install [warhol.plugin.zsh](https://github.com/unixorn/warhol.plugin.zsh)
 
