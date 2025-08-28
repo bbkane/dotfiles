@@ -170,7 +170,7 @@ Add fuzzy completion to tab-complete. Very useful when there's a bunch of simila
 Warning from the README:
 
 > 1. make sure [fzf](https://github.com/junegunn/fzf)  is installed
-> 2. fzf-tab needs to be loaded after `compinit`, but before plugins which will wrap widgets, such as [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) or [fast-syntax-highlighting](https://github.com/zdharma-continuum/fast-syntax-highlighting)
+> 2. fzf-tab needs to be loaded after `compinit`, but before plugins which will wrap widgets, such as [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) or [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 ```bash
 git clone https://github.com/Aloxaf/fzf-tab ~/Git-GH/fzf-tab
@@ -269,6 +269,7 @@ brew install zsh-syntax-highlighting
 Add to `~/.zshrc` (the docs say this should be done at the bottom of `~/zshrc`:
 
 ```zsh
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ```
 
