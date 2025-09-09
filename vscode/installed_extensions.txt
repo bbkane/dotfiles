@@ -4,6 +4,7 @@ arjun.swagger-viewer
 bierner.docs-view
 bradlc.vscode-tailwindcss
 charliermarsh.ruff
+coolbear.systemd-unit-file
 davidnussio.vscode-jq-playground
 eamodio.gitlens
 editorconfig.editorconfig
@@ -26,7 +27,6 @@ mhutchie.git-graph
 mikecunneen.cunneen-copy-breadcrumbs
 mkhl.shfmt
 ms-azuretools.vscode-azureresourcegroups
-ms-python.black-formatter
 ms-python.debugpy
 ms-python.flake8
 ms-python.isort
@@ -44,6 +44,10 @@ ms-vscode-remote.remote-ssh
 ms-vscode-remote.remote-ssh-edit
 ms-vscode-remote.remote-wsl
 ms-vscode-remote.vscode-remote-extensionpack
+ms-vscode.cmake-tools
+ms-vscode.cpptools
+ms-vscode.cpptools-extension-pack
+ms-vscode.cpptools-themes
 ms-vscode.remote-explorer
 ms-vscode.remote-server
 ms-vscode.test-adapter-converter
@@ -57,10 +61,12 @@ redhat.vscode-yaml
 ritwickdey.liveserver
 rust-lang.rust-analyzer
 samuelcolvin.jinjahtml
+skeswa.skeswa-noctis
 sumneko.lua
 tamasfe.even-better-toml
 taniarascia.new-moon-vscode
 timonwong.shellcheck
+twxs.cmake
 tyriar.sort-lines
 usernamehw.errorlens
 visualstudioexptteam.intellicode-api-usage-examples
