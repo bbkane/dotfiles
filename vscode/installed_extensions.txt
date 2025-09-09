@@ -1,6 +1,4 @@
-42crunch.vscode-openapi
 alexandernanberg.horizon-theme-vscode
-arjun.swagger-viewer
 bierner.docs-view
 bradlc.vscode-tailwindcss
 charliermarsh.ruff
@@ -21,7 +19,6 @@ humao.rest-client
 jbro.vscode-default-keybindings
 jebbs.plantuml
 jq-syntax-highlighting.jq-syntax-highlighting
-kisstkondoros.vscode-gutter-preview
 liviuschera.noctis
 mhutchie.git-graph
 mikecunneen.cunneen-copy-breadcrumbs
