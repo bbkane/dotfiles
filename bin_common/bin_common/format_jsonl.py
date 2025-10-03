@@ -39,11 +39,17 @@ class col:
     UNDERLINE = "\033[4m"
 
 
+class NonDictJSONObject(ValueError):
+    pass
+
+
 def fmt(*, stream: typing.TextIO):
     print(col.BOLD + "---" + col.RESET)
     for line in stream:
         try:
             obj = json.loads(line)
+            if not isinstance(obj, dict):
+                raise NonDictJSONObject()
             sorted_keys = sorted(obj.keys())
             for key in sorted_keys:
                 value = obj[key]
@@ -53,7 +59,7 @@ def fmt(*, stream: typing.TextIO):
                     print(col.CYAN + repr(key) + col.RESET + ":", value)
             print(col.BOLD + "---" + col.RESET)
 
-        except json.decoder.JSONDecodeError:
+        except (json.decoder.JSONDecodeError, NonDictJSONObject):
             # line already ends in "\n"
             print(col.GREEN + "line:" + col.RESET, line, end="")
 
