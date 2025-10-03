@@ -1,0 +1,18 @@
+{
+    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+    "Lua.workspace.checkThirdParty": false,
+    "runtime": {
+        "version": "LuaJIT"
+    },
+    "diagnostics": {
+        "globals": [
+            "vim"
+        ]
+    },
+    "workspace": {
+        "library": [
+            "/home/linuxbrew/.linuxbrew/Cellar/neovim/0.11.3/share/nvim/runtime",
+            "/home/bbkane/.config/nvim"
+        ]
+    }
+}

@@ -21,10 +21,10 @@ vim.o.clipboard = "unnamedplus"
 -- set nohlsearch
 vim.o.hlsearch = false
 
--- In SSH, I don't want line numbers as I want to use the mouse to copy lines with the terminal
--- TODO: do I need line numbers in general?
-if not in_ssh then
-    vim.o.number = true
+-- https://mil.ad/blog/2024/remote-clipboard.html
+-- help :clipboard-osc52 (TODO: test in ssh)
+if in_ssh then
+    vim.g.clipboard = 'osc52'
 end
 
 -- set wrap                          " Only use a soft wrap, not a hard one
@@ -71,7 +71,7 @@ local bbkane_augroup = vim.api.nvim_create_augroup('bbkane_augroup', { clear = t
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     group = bbkane_augroup,
-    pattern = {".gitconfig,", "gitconfig_*"},
+    pattern = { ".gitconfig,", "gitconfig_*" },
     -- https://stackoverflow.com/a/1878992
     -- https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd#tabs-only
     command = "set filetype=gitconfig noexpandtab tabstop=8 shiftwidth=0 softtabstop=0 smarttab"

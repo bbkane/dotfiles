@@ -71,3 +71,6 @@ See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top
 | Hide menu         | C-e     |                                                    |
 | Accept suggestion | C-y     |                                                    |
 
+# LSP config
+
+Uses `.luarc.json`. See [nvim: improve LSP config · Issue #54 · bbkane/dotfiles](https://github.com/bbkane/dotfiles/issues/54) for improvement ideas

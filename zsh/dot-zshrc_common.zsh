@@ -216,6 +216,11 @@ else # assume linux if not macos
     clip() { [ -t 0 ] && xsel --clipboard --output || xsel --clipboard --input }
 fi
 
+# https://mil.ad/blog/2024/remote-clipboard.html
+function clip-osc52() {
+    printf "\033]52;c;%s\007" "$(base64 -w0 < /dev/stdin)"
+}
+
 
 # less options from https://litecli.com/output/
 # -X leaves file contents on the screen when less exits.

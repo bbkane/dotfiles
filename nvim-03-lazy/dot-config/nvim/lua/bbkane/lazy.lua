@@ -1,4 +1,7 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+
+---@diagnostic disable-next-line: undefined-field
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
         "git",
@@ -57,7 +60,7 @@ require("lazy").setup({
             -- directly inside the plugin declaration.
             vim.g.gruvbox_material_enable_italic = true
             vim.g.gruvbox_material_background = 'medium' -- 'hard', 'medium', 'soft'
-            vim.g.gruvbox_material_foreground = 'mix' -- 'material', 'mix', 'original'
+            vim.g.gruvbox_material_foreground = 'mix'    -- 'material', 'mix', 'original'
         end,
         lazy = false,
         priority = 1000,
@@ -96,7 +99,7 @@ require("lazy").setup({
         config = function()
             local configs = require("nvim-treesitter.configs")
             configs.setup({
-                ensure_installed = {"bash", "go", "python", "sql"},
+                ensure_installed = { "bash", "go", "python", "sql" },
                 sync_install = false,
                 highlight = { enable = true },
                 indent = { enable = true },
