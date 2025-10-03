@@ -24,10 +24,10 @@ Or just delete them:
 rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 ```
 
-Symlink nvim config dir:
+Symlink nvim config directory (from root `dotfiles` directory):
 
 ```bash
-fling link -s nvim-03-lazy
+fling link -s nvim-03-lazy -i .luarc.json -i README.md
 ```
 
 On Linux, `xsel` is needed for clipboard interaction:
@@ -60,17 +60,6 @@ See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top
 
 - tokyonight-night
 
-# Keyboard Shortcuts
+# Editing this config
 
-[Introduction | Blink Completion (blink.cmp)](https://cmp.saghen.dev/)
-
-| Action            | Keys    | Notes                                              |
-| ----------------- | ------- | -------------------------------------------------- |
-| Open menu         | C-space | https://cmp.saghen.dev/installation.html#lazy-nvim |
-| Select Next/Prev  | C-n/C-p |                                                    |
-| Hide menu         | C-e     |                                                    |
-| Accept suggestion | C-y     |                                                    |
-
-# LSP config
-
-Uses `.luarc.json`. See [nvim: improve LSP config · Issue #54 · bbkane/dotfiles](https://github.com/bbkane/dotfiles/issues/54) for improvement ideas
+Uses `.luarc.json` in VS Code... See [nvim: improve LSP config · Issue #54 · bbkane/dotfiles](https://github.com/bbkane/dotfiles/issues/54) for improvement ideas
