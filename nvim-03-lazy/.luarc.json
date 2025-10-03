@@ -12,7 +12,9 @@
     "workspace": {
         "library": [
             "/home/linuxbrew/.linuxbrew/Cellar/neovim/0.11.3/share/nvim/runtime",
-            "/home/bbkane/.config/nvim"
+            "/home/bbkane/.config/nvim",
+            "/opt/homebrew/Cellar/neovim/0.11.3/share/nvim/runtime",
+            "/Users/bkane/.config/nvim"
         ]
     }
 }
