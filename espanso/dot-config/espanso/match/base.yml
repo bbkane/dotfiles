@@ -24,6 +24,15 @@ matches:
   # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
 
   # https://docs.rs/chrono/latest/chrono/format/strftime/index.html
+  - trigger: ";time"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%H:%M"
+
+  # https://docs.rs/chrono/latest/chrono/format/strftime/index.html
   - trigger: ";date"
     replace: "{{mydate}}"
     vars:

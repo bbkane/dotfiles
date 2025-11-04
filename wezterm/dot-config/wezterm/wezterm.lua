@@ -66,5 +66,17 @@ wezterm.on("open-uri", function(window, pane, uri)
 	return false
 end)
 
+-- https://news.ycombinator.com/item?id=45753978
+-- Hide the scrollbar when there is no scrollback or alternate screen is active
+wezterm.on("update-status", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	local dimensions = pane:get_dimensions()
+
+	overrides.enable_scroll_bar = dimensions.scrollback_rows > dimensions.viewport_rows and
+	not pane:is_alt_screen_active()
+
+	window:set_config_overrides(overrides)
+end)
+
 -- and finally, return the configuration to wezterm
 return config

@@ -171,6 +171,14 @@ vim.api.nvim_create_user_command(
     { bang = true }
 )
 
+vim.api.nvim_create_user_command(
+    "FullPath",
+    function (args)
+        print(vim.fn.expand("%:p"))
+    end,
+    { bang = true }
+)
+
 vim.cmd [[
 command! -range FormatShellCmd <line1>!format_shell_cmd.py
 ]]
