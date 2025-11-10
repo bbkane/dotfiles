@@ -62,10 +62,10 @@
     "git.openRepositoryInParentFolders": "never",
     "github.copilot.enable": {
         "*": true,
-        "markdown": false,
         "plaintext": false,
-        "rust": false,
-        "scminput": false
+        "markdown": false,
+        "scminput": false,
+        "rust": true
     },
     "github.copilot.nextEditSuggestions.enabled": false,
     "github.copilot.preferredAccount": "bkane-msft",
@@ -144,5 +144,9 @@
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
-    "yaml.format.singleQuote": true
+    "yaml.format.singleQuote": true,
+    "rust-analyzer.inlayHints.chainingHints.enable": false,
+    "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
+    "rust-analyzer.inlayHints.typeHints.enable": false
 }
