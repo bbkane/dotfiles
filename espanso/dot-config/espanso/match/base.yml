@@ -10,16 +10,16 @@
 matches:
   # Simple text replacement
   - trigger: ";asked"
-    replace: ":question: ASKED:"
+    replace: ":question: ASKED-"
 
   - trigger: ";blocked"
-    replace: ":stop_sign: BLOCKED:"
+    replace: ":stop_sign: BLOCKED-"
 
   - trigger: ";done"
-    replace: "DONE:"
+    replace: "DONE-"
 
   - trigger: ";todo"
-    replace: ":memo: TODO:"
+    replace: ":memo: TODO-"
 
   # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
 

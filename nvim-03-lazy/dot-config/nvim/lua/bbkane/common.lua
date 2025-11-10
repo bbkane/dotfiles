@@ -113,6 +113,12 @@ vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
 --     { bang = true, bar = true, range = "%", nargs = 0 }
 -- )
 
+-- https://unix.stackexchange.com/a/32003
+vim.cmd [[
+command! -range=% -nargs=0 -bar Dos2Unix
+    \ :<line1>,<line2>s:$::
+]]
+
 vim.cmd [[
 command! -range=% -nargs=0 -bar AddCodeFence
     \ :<line2>s:$:\r```:
