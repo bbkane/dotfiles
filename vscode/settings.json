@@ -62,10 +62,10 @@
     "git.openRepositoryInParentFolders": "never",
     "github.copilot.enable": {
         "*": true,
-        "plaintext": false,
         "markdown": false,
-        "scminput": false,
-        "rust": true
+        "plaintext": false,
+        "rust": true,
+        "scminput": false
     },
     "github.copilot.nextEditSuggestions.enabled": false,
     "github.copilot.preferredAccount": "bkane-msft",
@@ -83,6 +83,8 @@
             "query": "state:open repo:${owner}/${repository} sort:updated-desc"
         }
     ],
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
     "go.autocompleteUnimportedPackages": true,
     "go.formatTool": "goimports",
     "go.lintOnSave": "workspace",
@@ -116,6 +118,10 @@
     "python.languageServer": "Pylance",
     "python.linting.enabled": false,
     "redhat.telemetry.enabled": true,
+    "rust-analyzer.inlayHints.chainingHints.enable": false,
+    "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
+    "rust-analyzer.inlayHints.parameterHints.enable": false,
+    "rust-analyzer.inlayHints.typeHints.enable": false,
     "security.workspace.trust.untrustedFiles": "open",
     "swaggerViewer.previewInBrowser": true,
     "terminal.integrated.fontSize": 15,
@@ -144,9 +150,5 @@
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
-    "yaml.format.singleQuote": true,
-    "rust-analyzer.inlayHints.chainingHints.enable": false,
-    "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
-    "rust-analyzer.inlayHints.parameterHints.enable": false,
-    "rust-analyzer.inlayHints.typeHints.enable": false
+    "yaml.format.singleQuote": true
 }
