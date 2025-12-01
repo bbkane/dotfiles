@@ -1,5 +1,12 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
+vim.api.nvim_create_user_command(
+    "LazyPath",
+    function(args)
+        print(lazypath)
+    end,
+    { bang = true }
+)
 
 ---@diagnostic disable-next-line: undefined-field
 if not vim.loop.fs_stat(lazypath) then
@@ -99,7 +106,7 @@ require("lazy").setup({
         config = function()
             local configs = require("nvim-treesitter.configs")
             configs.setup({
-                ensure_installed = { "bash", "go", "python", "sql" },
+                ensure_installed = { "bash", "go", "markdown", "python", "rust", "sql" },
                 sync_install = false,
                 highlight = { enable = true },
                 indent = { enable = true },
