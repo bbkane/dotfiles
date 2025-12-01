@@ -5,6 +5,7 @@
   "indent-blankline.nvim": { "branch": "master", "commit": "005b56001b2cb30bfa61b7986bc50657816ba4ba" },
   "kanagawa.nvim": { "branch": "master", "commit": "debe91547d7fb1eef34ce26a5106f277fbfdd109" },
   "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
+  "mini.clue": { "branch": "main", "commit": "8b8598afa285f2a25cfd15a67e7eaa210ad405c3" },
   "mini.trailspace": { "branch": "main", "commit": "39a0460c025a605519fdd6bea1ce870642429996" },
   "moonfly": { "branch": "master", "commit": "ff822100c5d268e0db79e8e725cbd3ade3470de3" },
   "neovim": { "branch": "main", "commit": "72befaffeac38db7bdd49e0549eaa2c4806dd878" },

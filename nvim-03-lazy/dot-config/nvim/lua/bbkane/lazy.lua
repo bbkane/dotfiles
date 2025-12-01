@@ -75,6 +75,58 @@ require("lazy").setup({
 
     -- end color schemes
 
+    -- https://github.com/nvim-mini/mini.clue
+    {
+        'nvim-mini/mini.clue',
+        version = '*',
+        config = function()
+            local miniclue = require('mini.clue')
+            miniclue.setup({
+                triggers = {
+                    -- Leader triggers
+                    { mode = 'n', keys = '<Leader>' },
+                    { mode = 'x', keys = '<Leader>' },
+
+                    -- Built-in completion
+                    { mode = 'i', keys = '<C-x>' },
+
+                    -- `g` key
+                    { mode = 'n', keys = 'g' },
+                    { mode = 'x', keys = 'g' },
+
+                    -- Marks
+                    { mode = 'n', keys = "'" },
+                    { mode = 'n', keys = '`' },
+                    { mode = 'x', keys = "'" },
+                    { mode = 'x', keys = '`' },
+
+                    -- Registers
+                    { mode = 'n', keys = '"' },
+                    { mode = 'x', keys = '"' },
+                    { mode = 'i', keys = '<C-r>' },
+                    { mode = 'c', keys = '<C-r>' },
+
+                    -- Window commands
+                    { mode = 'n', keys = '<C-w>' },
+
+                    -- `z` key
+                    { mode = 'n', keys = 'z' },
+                    { mode = 'x', keys = 'z' },
+                },
+
+                clues = {
+                    -- Enhance this by adding descriptions for <Leader> mapping groups
+                    miniclue.gen_clues.builtin_completion(),
+                    miniclue.gen_clues.g(),
+                    miniclue.gen_clues.marks(),
+                    miniclue.gen_clues.registers(),
+                    miniclue.gen_clues.windows(),
+                    miniclue.gen_clues.z(),
+                },
+            })
+        end,
+    },
+
     -- 2025-11-30: I was using cappyzawa/trim.nvim but it caused an issue with markdown files. When I scroll down rapidly with 'j', the first character of the line turns dark.
     -- this seems to work better.
     -- https://github.com/nvim-mini/mini.trailspace
@@ -96,6 +148,7 @@ require("lazy").setup({
         end,
     },
 
+    -- TODO: can mini.git do this?
     {
         'lewis6991/gitsigns.nvim',
         config = function()
@@ -103,6 +156,7 @@ require("lazy").setup({
         end,
     },
 
+    -- TODO: try https://github.com/nvim-mini/mini.indentscope
     -- https://github.com/lukas-reineke/indent-blankline.nvim?tab=readme-ov-file#install
     {
         "lukas-reineke/indent-blankline.nvim",
