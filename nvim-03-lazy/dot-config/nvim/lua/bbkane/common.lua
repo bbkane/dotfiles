@@ -114,9 +114,10 @@ vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
 -- )
 
 -- https://unix.stackexchange.com/a/32003
+-- NOTE: i was using Ctrl+v,M to make ^M here but VS Code autoformatter doesn't like it. This seems to work
 vim.cmd [[
 command! -range=% -nargs=0 -bar Dos2Unix
-    \ :<line1>,<line2>s:$::
+    \ :<line1>,<line2>s:\r::ge
 ]]
 
 vim.cmd [[
