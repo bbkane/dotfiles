@@ -5,10 +5,10 @@
   "indent-blankline.nvim": { "branch": "master", "commit": "005b56001b2cb30bfa61b7986bc50657816ba4ba" },
   "kanagawa.nvim": { "branch": "master", "commit": "debe91547d7fb1eef34ce26a5106f277fbfdd109" },
   "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
+  "mini.trailspace": { "branch": "main", "commit": "39a0460c025a605519fdd6bea1ce870642429996" },
   "moonfly": { "branch": "master", "commit": "ff822100c5d268e0db79e8e725cbd3ade3470de3" },
   "neovim": { "branch": "main", "commit": "72befaffeac38db7bdd49e0549eaa2c4806dd878" },
   "nvim-treesitter": { "branch": "master", "commit": "42fc28ba918343ebfd5565147a42a26580579482" },
   "tokyonight.nvim": { "branch": "main", "commit": "057ef5d260c1931f1dffd0f052c685dcd14100a3" },
-  "trim.nvim": { "branch": "master", "commit": "d0760a840ca2fe4958353dee567a90c2994e70a7" },
   "vim": { "branch": "main", "commit": "17c501c1f69d736f21959a66702cd6590f415a97" }
 }

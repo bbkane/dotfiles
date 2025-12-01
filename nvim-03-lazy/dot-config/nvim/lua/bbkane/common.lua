@@ -22,7 +22,7 @@ vim.o.clipboard = "unnamedplus"
 vim.o.hlsearch = false
 
 -- https://mil.ad/blog/2024/remote-clipboard.html
--- help :clipboard-osc52 (TODO: test in ssh)
+-- help :clipboard-osc52
 if in_ssh then
     vim.g.clipboard = 'osc52'
 end
@@ -179,7 +179,7 @@ vim.api.nvim_create_user_command(
 
 vim.api.nvim_create_user_command(
     "FullPath",
-    function (args)
+    function(args)
         print(vim.fn.expand("%:p"))
     end,
     { bang = true }

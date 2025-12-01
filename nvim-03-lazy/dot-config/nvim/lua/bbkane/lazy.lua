@@ -75,13 +75,25 @@ require("lazy").setup({
 
     -- end color schemes
 
-    -- https://github.com/cappyzawa/trim.nvim
+    -- 2025-11-30: I was using cappyzawa/trim.nvim but it caused an issue with markdown files. When I scroll down rapidly with 'j', the first character of the line turns dark.
+    -- this seems to work better.
+    -- https://github.com/nvim-mini/mini.trailspace
     {
-        "cappyzawa/trim.nvim",
-        opts = {
-            highlight = true,
-            trim_last_line = false,
-        },
+        'nvim-mini/mini.trailspace',
+        version = '*',
+        config = function()
+            require('mini.trailspace').setup()
+
+            vim.api.nvim_create_user_command(
+                "TrimWhitespace",
+                function(args)
+                    -- MiniTrailspace added by `require('mini.trailspace').setup()`
+                    ---@diagnostic disable-next-line: undefined-global
+                    MiniTrailspace.trim()
+                end,
+                { bang = true }
+            )
+        end,
     },
 
     {
