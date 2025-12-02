@@ -148,15 +148,18 @@ require("lazy").setup({
         end,
     },
 
-    -- TODO: can mini.git do this?
+    -- https://nvim-mini.org/mini.nvim/readmes/mini-diff
+    -- does a bit less than gitsigns (so hopefully faster) and part of mini ecosystem
     {
-        'lewis6991/gitsigns.nvim',
+        'nvim-mini/mini.diff',
+        version = '*' ,
+
         config = function()
-            require('gitsigns').setup()
+            require('mini.diff').setup()
         end,
     },
 
-    -- TODO: try https://github.com/nvim-mini/mini.indentscope
+    -- I tried mini.indentscope but I prefer the static lines to the dynamic animated ones
     -- https://github.com/lukas-reineke/indent-blankline.nvim?tab=readme-ov-file#install
     {
         "lukas-reineke/indent-blankline.nvim",
