@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+
+  "runtime": {
+    "version": "LuaJIT",
+    "path": [
+      "lua/?.lua",
+      "lua/?/init.lua"
+    ]
+  },
+
+  "diagnostics": {
+    "globals": ["vim"],
+    "disable": [
+      "missing-fields"
+    ]
+  },
+
+  "workspace": {
+    "library": [
+      "$VIMRUNTIME",
+      "${3rd}/luv/library"
+    ],
+    "checkThirdParty": false
+  },
+
+  "telemetry": {
+    "enable": false
+  },
+
+  "format": {
+    "enable": true,
+    "defaultConfig": {
+      "indent_style": "space",
+      "indent_size": "2",
+      "quote_style": "double",
+      "call_arg_parentheses": "remove"
+    }
+  }
+}
