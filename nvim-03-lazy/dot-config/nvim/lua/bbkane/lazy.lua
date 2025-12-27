@@ -152,7 +152,7 @@ require("lazy").setup({
     -- does a bit less than gitsigns (so hopefully faster) and part of mini ecosystem
     {
         'nvim-mini/mini.diff',
-        version = '*' ,
+        version = '*',
 
         config = function()
             require('mini.diff').setup()
@@ -183,6 +183,10 @@ require("lazy").setup({
         end
     },
 
+    -- https://github.com/neovim/nvim-lspconfig/tree/master
+    {
+        "neovim/nvim-lspconfig"
+    },
 })
 
 -- let's set the colorscheme here since I have two to chose from, and they come from plugins
@@ -193,3 +197,9 @@ vim.cmd 'colorscheme everforest'
 -- vim.cmd 'colorscheme rose-pine-moon'
 -- vim.cmd 'colorscheme tokyonight-moon'
 -- vim.cmd 'colorscheme moonfly'
+
+
+-- Fri 2025-12-26
+-- Putting LSP stuff here as this is the last file and it'll require plugins...
+
+vim.lsp.enable({ "lua_ls" })
