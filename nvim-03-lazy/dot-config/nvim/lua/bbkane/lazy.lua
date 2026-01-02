@@ -126,6 +126,15 @@ require("lazy").setup({
             })
         end,
     },
+    
+    -- Keeping this but need to figure out how to do non-local files (like ~/...)
+    { 
+        'nvim-mini/mini.pick', 
+        version = '*' ,
+        config = function()
+            require('mini.pick').setup()
+        end,
+    },
 
     -- 2025-11-30: I was using cappyzawa/trim.nvim but it caused an issue with markdown files. When I scroll down rapidly with 'j', the first character of the line turns dark.
     -- this seems to work better.
@@ -175,7 +184,7 @@ require("lazy").setup({
         config = function()
             local configs = require("nvim-treesitter.configs")
             configs.setup({
-                ensure_installed = { "bash", "go", "markdown", "python", "rust", "sql" },
+                ensure_installed = { "bash", "go", "markdown", "markdown_inline", "python", "rust", "sql", "yaml" },
                 sync_install = false,
                 highlight = { enable = true },
                 indent = { enable = true },
