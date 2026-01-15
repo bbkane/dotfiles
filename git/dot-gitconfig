@@ -80,7 +80,7 @@
 
 # if on home Linux
 [includeIf "gitdir/i:/home/bbkane/"]
-	path = ~/.config/gitconfig_Git-GH
+	path = ~/.config/gitconfig_home_linux
 
 # setting for repos in particular dirs
 [includeIf "gitdir/i:~/Git-GH/"]
