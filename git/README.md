@@ -22,7 +22,13 @@ MacOS:
 brew install --cask git-credential-manager-core
 ```
 
-Debian: follow [this](https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md#debian-package). Ensure `/usr/local/bin` is in the `PATH`.
+Debian: follow [this](https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md#debian-package).
+Ensure `/usr/local/bin` is in the `PATH`:
+
+```bash
+# git-credential-manager dpkg puts it here
+export PATH="$PATH:/usr/local/bin"
+```
 
 Symlink these files from the dotfiles repo root:
 
