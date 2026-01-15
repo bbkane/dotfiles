@@ -30,10 +30,10 @@ Symlink nvim config directory (from root `dotfiles` directory):
 fling link -s nvim-03-lazy -i .luarc.json -i README.md
 ```
 
-On Linux, `xsel` is needed for clipboard interaction:
+On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard interaction:
 
 ```bash
-sudo apt install xsel
+sudo apt install wl-clipboard  # or xsel
 ```
 
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
