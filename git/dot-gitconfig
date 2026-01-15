@@ -76,8 +76,13 @@
 [user]
 	name = Benjamin Kane
 
-# case insensitive include
-# personal GitHub
+# case insensitive include other settings
+
+# if on home Linux
+[includeIf "gitdir/i:/home/bbkane/"]
+	path = ~/.config/gitconfig_Git-GH
+
+# setting for repos in particular dirs
 [includeIf "gitdir/i:~/Git-GH/"]
 	path = ~/.config/gitconfig_Git-GH
 
