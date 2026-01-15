@@ -11,8 +11,19 @@ When I'm on my personal laptop, those files don't exist and my work config (thin
 My git config requires `git-credential-manager`, `git-delta` and `neovim`:
 
 ```bash
-brew install git-credential-manager git-delta neovim
+brew install git-delta neovim
 ```
+
+Install Git Credential Manager:
+
+MacOS:
+
+```bash
+brew install --cask git-credential-manager-core
+```
+
+Debian: follow [this](https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md#debian-package). Ensure `/usr/local/bin` is in the `PATH`.
+
 Symlink these files from the dotfiles repo root:
 
 ```bash

@@ -1,5 +1,4 @@
 [credential "https://github.com"]
-	helper = store
 	username = bkane-msft
 [user]
 	email = 92759008+bkane-msft@users.noreply.github.com

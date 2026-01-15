@@ -22,8 +22,12 @@
 	excludesfile = ~/.config/gitignore_global
 	longpaths = true
 	pager = delta
+# https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md
+# `git-credential-manager configure`
+[credential]
+	helper = 
+	helper = manager
 [credential "https://github.com"]
-	helper = store
 	username = bbkane
 [delta]
 	# minus-style = normal "#340001"
