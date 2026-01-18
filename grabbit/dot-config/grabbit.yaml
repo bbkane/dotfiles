@@ -1,4 +1,3 @@
-version: 2.0.0
 # make lumberjacklogger nil to not log to file
 lumberjacklogger:
   filename: ~/.config/grabbit.jsonl
@@ -9,34 +8,35 @@ destination: ~/Pictures/grabbit
 subreddits:
   - name: architectureporn
     timeframe: "week"
-    limit: 2
+    count: 2
   - name: churchporn
     timeframe: "week"
-    limit: 1
+    count: 1
   - name: cityporn
     timeframe: "week"
-    limit: 4
+    count: 4
   - name: earthporn
     timeframe: "week"
-    limit: 10
+    count: 10
   - name: futureporn
     timeframe: "week"
-    limit: 1
+    count: 1
   - name: imaginarycastles
     timeframe: "week"
-    limit: 3
+    count: 3
   # too many pics of young girls in rooms that, while SFW,
   # look odd as a work screensaver :/
   # - name: imaginaryinteriors
   #   destination: ~/Pictures/grabbit
   #   timeframe: "week"
-  #   limit: 3
+  #   count: 3
   - name: villageporn
     timeframe: "week"
-    limit: 2
+    count: 2
   - name: roomporn
     timeframe: "week"
-    limit: 1
+    count: 1
   - name: wallpapers
     timeframe: "week"
-    limit: 2
+    count: 2
+version: v5
