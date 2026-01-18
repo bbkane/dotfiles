@@ -5,29 +5,24 @@ lumberjacklogger:
   maxsize: 5  # megabytes
   maxbackups: 0
   maxage: 30  # days
+destination: ~/Pictures/grabbit
 subreddits:
   - name: architectureporn
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 2
   - name: churchporn
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 1
   - name: cityporn
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 4
   - name: earthporn
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 10
   - name: futureporn
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 1
   - name: imaginarycastles
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 3
   # too many pics of young girls in rooms that, while SFW,
@@ -37,14 +32,11 @@ subreddits:
   #   timeframe: "week"
   #   limit: 3
   - name: villageporn
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 2
   - name: roomporn
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 1
   - name: wallpapers
-    destination: ~/Pictures/grabbit
     timeframe: "week"
     limit: 2
