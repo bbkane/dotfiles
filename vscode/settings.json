@@ -146,7 +146,7 @@
             "tab.activeBorderTop": "#e6dcac3f"
         }
     },
-    "workbench.colorTheme": "@skeswa's Noctis Minimus",
+    "workbench.colorTheme": "Default Light+",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",

@@ -28,6 +28,12 @@ git status
 
 print_green "Current tags:"
 
+# needed so perl doesn't spit a locale warning
+# Source - https://stackoverflow.com/a/22455572
+# Posted by artemn, modified by community. See post 'Timeline' for change history
+# Retrieved 2026-01-17, License - CC BY-SA 4.0
+export LC_ALL=en_US.UTF-8
+
 # Some notes on this:
 # - I want the last 10 tags ordered by version
 # - can't use `git tag` because it doesn't have a --count option
