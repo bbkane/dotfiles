@@ -14,19 +14,19 @@ My git config requires `git-credential-manager`, `git-delta` and `neovim`:
 brew install git-delta neovim
 ```
 
-Install Git Credential Manager:
+Install [Git Credential Manager](https://github.com/git-ecosystem/git-credential-manager/tree/release):
 
 MacOS:
 
 ```bash
-brew install --cask git-credential-manager-core
+brew install --cask git-credential-manager
 ```
 
 Debian: follow [this](https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md#debian-package).
 Ensure `/usr/local/bin` is in the `PATH`:
 
 ```bash
-# git-credential-manager dpkg puts it here
+# dpkg puts git-credential-manager here
 export PATH="$PATH:/usr/local/bin"
 ```
 

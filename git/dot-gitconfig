@@ -98,3 +98,5 @@
 [includeIf "gitdir/i:~/Git-MS-AzDev/"]
 	path = ~/.config/gitconfig_Git-MS-AzDev
 
+[credential "https://dev.azure.com"]
+	useHttpPath = true
