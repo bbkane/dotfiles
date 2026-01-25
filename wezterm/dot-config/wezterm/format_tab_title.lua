@@ -127,9 +127,12 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 	-- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/get_pane.html
 	local pane = mux.get_pane(pane_info.pane_id)
 	-- https://wezfurlong.org/wezterm/config/lua/pane/get_foreground_process_info.html
+    local process_name = "<unknown>"
 	local process_info = pane:get_foreground_process_info()
-	local process_name = process_info.executable
-	process_name = basename(process_name)
+    if process_info ~= nil then
+	    process_name = process_info.executable
+	    process_name = basename(process_name)
+    end
 
 	-- for SSH, use the hostname as the title
 	if process_name == "ssh" and #process_info.argv == 2 then
