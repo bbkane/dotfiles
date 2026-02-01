@@ -87,10 +87,14 @@
     "gitlens.ai.vscode.model": "copilot:gpt-4.1",
     "go.autocompleteUnimportedPackages": true,
     "go.formatTool": "goimports",
+    "go.inlayHints.constantValues": true,
     "go.lintOnSave": "workspace",
-    "go.lintTool": "golangci-lint",
+    "go.lintTool": "golangci-lint-v2",
     "go.toolsManagement.autoUpdate": true,
     "go.useLanguageServer": true,
+    "gopls": {
+        "ui.navigation.symbolScope": "workspace"
+    },
     "indentRainbow.colors": [
         "#e2987013",
         "#89beba13",
