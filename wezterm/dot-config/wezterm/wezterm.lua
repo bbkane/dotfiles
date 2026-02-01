@@ -46,6 +46,20 @@ end
 -- https://github.com/wez/wezterm/issues/2669
 config.window_decorations = "TITLE|RESIZE|MACOS_FORCE_DISABLE_SHADOW"
 
+local window_frame_border_color <const> = "#484848"
+config.window_frame = {
+	-- Specify border thickness (e.g., '1px', '0.5cell')
+	border_left_width = '1px',
+	border_right_width = '1px',
+	border_bottom_height = '1px',
+	border_top_height = '1px',
+	-- Specify border colors
+	border_left_color = window_frame_border_color,
+	border_right_color = window_frame_border_color,
+	border_bottom_color = window_frame_border_color,
+	border_top_color = window_frame_border_color,
+}
+
 config.enable_scroll_bar = true
 
 -- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
@@ -73,7 +87,7 @@ wezterm.on("update-status", function(window, pane)
 	local dimensions = pane:get_dimensions()
 
 	overrides.enable_scroll_bar = dimensions.scrollback_rows > dimensions.viewport_rows and
-	not pane:is_alt_screen_active()
+		not pane:is_alt_screen_active()
 
 	window:set_config_overrides(overrides)
 end)
