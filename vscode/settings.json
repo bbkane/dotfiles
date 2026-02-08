@@ -32,11 +32,21 @@
         "editor.formatOnSave": true,
         "editor.formatOnType": true
     },
+    "accessibility.signalOptions.volume": 100,
+    "accessibility.signals.chatResponseReceived": {
+        "sound": "on"
+    },
+    "accessibility.signals.chatUserActionRequired": {
+        "sound": "on"
+    },
     "black-formatter.args": [
         "--line-length",
         "88"
     ],
     "chat.agent.enabled": true,
+    "chat.tools.terminal.autoApprove": {
+        "go": true
+    },
     "dart.previewFlutterUiGuides": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.acceptSuggestionOnEnter": "off",
