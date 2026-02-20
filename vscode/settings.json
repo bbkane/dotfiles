@@ -164,5 +164,6 @@
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
-    "yaml.format.singleQuote": true
+    "yaml.format.singleQuote": true,
+    "chat.viewSessions.orientation": "stacked"
 }
