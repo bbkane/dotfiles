@@ -7,7 +7,6 @@ davidnussio.vscode-jq-playground
 eamodio.gitlens
 editorconfig.editorconfig
 franciscobach.miramare
-github.copilot
 github.copilot-chat
 github.vscode-github-actions
 github.vscode-pull-request-github
@@ -42,6 +41,7 @@ ms-vscode-remote.remote-ssh-edit
 ms-vscode-remote.remote-wsl
 ms-vscode-remote.vscode-remote-extensionpack
 ms-vscode.cmake-tools
+ms-vscode.cpp-devtools
 ms-vscode.cpptools
 ms-vscode.cpptools-extension-pack
 ms-vscode.cpptools-themes
@@ -66,6 +66,4 @@ timonwong.shellcheck
 twxs.cmake
 tyriar.sort-lines
 usernamehw.errorlens
-visualstudioexptteam.intellicode-api-usage-examples
-visualstudioexptteam.vscodeintellicode
 zhuangtongfa.material-theme

@@ -47,6 +47,7 @@
     "chat.tools.terminal.autoApprove": {
         "go": true
     },
+    "chat.viewSessions.orientation": "stacked",
     "dart.previewFlutterUiGuides": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.acceptSuggestionOnEnter": "off",
@@ -70,6 +71,7 @@
     "git.confirmSync": false,
     "git.enableSmartCommit": true,
     "git.openRepositoryInParentFolders": "never",
+    "github.copilot.chat.agentCustomizationSkill.enabled": true,
     "github.copilot.enable": {
         "*": true,
         "markdown": false,
