@@ -1,4 +1,5 @@
 [alias]
+	branchtable = "!git for-each-ref --sort=-committerdate --format='%(color:yellow)%(committerdate:short)%(color:reset) %(color:cyan)%(align:30)%(refname:short)%(end)%(color:reset) %(color:green)%(contents:subject)%(color:reset)' refs/heads refs/remotes"
 	# using a function mostly so I can use `git lg` or `git lg --oneline`
 	lg = "!git log --graph --all --decorate --date=relative \"$@\""
 	ls = ls-files
