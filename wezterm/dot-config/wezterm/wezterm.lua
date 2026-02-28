@@ -62,6 +62,19 @@ config.window_frame = {
 
 config.enable_scroll_bar = true
 
+config.mouse_bindings = {
+	{
+		event = { Down = { streak = 1, button = { WheelUp = 1 } } },
+		mods = 'NONE',
+		action = wezterm.action.ScrollByLine(-5)
+	},
+	{
+		event = { Down = { streak = 1, button = { WheelDown = 1 } } },
+		mods = 'NONE',
+		action = wezterm.action.ScrollByLine(5)
+	}
+}
+
 -- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
 config.keys = {
 	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
