@@ -125,8 +125,11 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
 #ignore duplicates when searching
 setopt HIST_FIND_NO_DUPS
+
+# don't set this or it mean ctrl-p to get previous commands smooshes all lines together
 # removes blank lines from history
-setopt HIST_REDUCE_BLANKS
+# setopt HIST_REDUCE_BLANKS
+
 # when using !!, don't auto-hit enter
 setopt HIST_VERIFY
 
