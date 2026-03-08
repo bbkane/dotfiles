@@ -167,5 +167,7 @@
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
     "yaml.format.singleQuote": true,
-    "chat.viewSessions.orientation": "stacked"
+    "chat.viewSessions.orientation": "stacked",
+    "chat.notifyWindowOnResponseReceived": "always",
+    "chat.notifyWindowOnConfirmation": "always"
 }
