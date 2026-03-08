@@ -1,63 +1,118 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-# Print git status and current last 10 git tags, then prompt for a new git tag and push
+# Print git status and current last 10 git tags, then prompt for a new git tag and push.
+# The tag prompt pre-fills with the suggested next minor version; press Enter to accept.
 
-# exit the script on command errors or unset variables
-# http://redsymbol.net/articles/unofficial-bash-strict-mode/
-set -euo pipefail
-IFS=$'\n\t'
+import os
+import re
+import subprocess
+import sys
 
-make_print_color() {
-    color_name="$1"
-    color_code="$2"
-    color_reset="$(tput sgr0)"
-    if [ -t 1 ] ; then
-        eval "print_${color_name}() { printf \"${color_code}%s${color_reset}\\n\" \"\$1\"; }"
-    else  # Don't print colors on pipes
-        eval "print_${color_name}() { printf \"%s\\n\" \"\$1\"; }"
-    fi
-}
+try:
+    import readline
+    HAS_READLINE = True
+except ImportError:
+    HAS_READLINE = False
 
-make_print_color "red" "$(tput setaf 1)"
-make_print_color "green" "$(tput setaf 2)"
-make_print_color "yellow" "$(tput setaf 3)"
 
-print_green "Current status:"
+def _colorize(text: str, ansi_code: str) -> str:
+    if sys.stdout.isatty():
+        return f"{ansi_code}{text}\033[0m"
+    return text
 
-git status
 
-print_green "Current tags:"
+def print_green(text: str) -> None:
+    print(_colorize(text, "\033[32m"))
 
-# needed so perl doesn't spit a locale warning
-# Source - https://stackoverflow.com/a/22455572
-# Posted by artemn, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-01-17, License - CC BY-SA 4.0
-export LC_ALL=en_US.UTF-8
 
-# Some notes on this:
-# - I want the last 10 tags ordered by version
-# - can't use `git tag` because it doesn't have a --count option
-# - If I use --count directly on git for-each-ref, I get the first 10 tags and there's no --reverse option
-# - So reverse sort by version, ensure color=always, and pipe to perl for a cross platform reverse
-# format strings at https://git-scm.com/docs/git-for-each-ref#_field_names
-git for-each-ref refs/tags \
-    --count=10 \
-    --sort=-version:refname \
-    --color=always \
-    --format='%(align:width=10,position=right)%(color:blue)%(refname:short)%(end) %(color:cyan)%(*authordate:short) %(color:yellow)%(subject)' \
-| perl \
-    -e 'print reverse <>'
+def print_red(text: str) -> None:
+    print(_colorize(text, "\033[31m"))
 
-print_green "Create new tag and push!"
 
-read -r -p "New tag (Ex: v1.0.0): " new_tag
+def input_with_prefill(prompt: str, prefill: str = "") -> str:
+    """Prompt the user, pre-filling the input buffer with *prefill* via readline."""
+    if HAS_READLINE and prefill:
+        def _hook() -> None:
+            readline.insert_text(prefill)
+            readline.redisplay()
+        readline.set_pre_input_hook(_hook)
+    try:
+        return input(prompt)
+    finally:
+        if HAS_READLINE:
+            readline.set_pre_input_hook(None)
 
-if [[ ! "$new_tag" =~ ^v[0-9][0-9]?\.[0-9][0-9]?\.[0-9][0-9]? ]]; then
-    print_red "Tag must match version reges"
-    exit 1
-fi
 
-read -r -p "New message (Ex: 'new feature'): " new_message
+def get_latest_tag() -> str | None:
+    """Return the highest version tag, or None if there are no tags."""
+    result = subprocess.run(
+        [
+            "git", "for-each-ref", "refs/tags",
+            "--sort=-version:refname",
+            "--count=1",
+            "--format=%(refname:short)",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    tag = result.stdout.strip()
+    return tag or None
 
-git tag -a "${new_tag}" -m "${new_message}"
-git push origin "${new_tag}"
+
+def suggest_next_patch(latest_tag: str | None) -> str:
+    """Return the next patch version tag based on *latest_tag*."""
+    if latest_tag:
+        m = re.match(r"^(v?)(\d+)\.(\d+)\.(\d+)", latest_tag)
+        if m:
+            prefix, major, minor, patch = m.group(1), int(m.group(2)), int(m.group(3)), int(m.group(4))
+            return f"{prefix}{major}.{minor}.{patch + 1}"
+    return "v1.0.0"
+
+
+def main() -> None:
+    env = {**os.environ, "LC_ALL": "en_US.UTF-8"}
+
+    print_green("Current status:")
+    subprocess.run(["git", "status"], env=env)
+
+    print_green("Current tags:")
+    # Some notes on this:
+    # - I want the last 10 tags ordered by version
+    # - can't use `git tag` because it doesn't have a --count option
+    # - If I use --count directly on git for-each-ref, I get the first 10 tags and there's no --reverse option
+    # - So reverse sort by version and then reverse the output in Python
+    # format strings at https://git-scm.com/docs/git-for-each-ref#_field_names
+    result = subprocess.run(
+        [
+            "git", "for-each-ref", "refs/tags",
+            "--count=10",
+            "--sort=-version:refname",
+            "--color=always",
+            "--format=%(align:width=10,position=right)%(color:blue)%(refname:short)%(end)"
+            " %(color:cyan)%(*authordate:short) %(color:yellow)%(subject)",
+        ],
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    for line in reversed(result.stdout.splitlines()):
+        print(line)
+
+    print_green("Create new tag and push!")
+
+    latest_tag = get_latest_tag()
+    suggested = suggest_next_patch(latest_tag)
+    new_tag = input_with_prefill("New tag (Ex: v1.0.0): ", suggested)
+
+    if not re.match(r"^v\d{1,2}\.\d{1,2}\.\d{1,2}", new_tag):
+        print_red("Tag must match version regex")
+        sys.exit(1)
+
+    new_message = input("New message (Ex: 'new feature'): ")
+
+    subprocess.run(["git", "tag", "-a", new_tag, "-m", new_message], check=True)
+    subprocess.run(["git", "push", "origin", new_tag], check=True)
+
+
+if __name__ == "__main__":
+    main()
