@@ -44,6 +44,8 @@
         "88"
     ],
     "chat.agent.enabled": true,
+    "chat.notifyWindowOnConfirmation": "always",
+    "chat.notifyWindowOnResponseReceived": "always",
     "chat.tools.terminal.autoApprove": {
         "go": true
     },
@@ -140,7 +142,9 @@
     "rust-analyzer.inlayHints.typeHints.enable": false,
     "security.workspace.trust.untrustedFiles": "open",
     "swaggerViewer.previewInBrowser": true,
+    "terminal.integrated.enableImages": true,
     "terminal.integrated.fontSize": 15,
+    "terminal.integrated.windowsUseConptyDll": true,
     "vscode-default-keybindings.macOSKeybindings": true,
     "window.commandCenter": true,
     "window.zoomLevel": 1,
@@ -166,8 +170,5 @@
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
-    "yaml.format.singleQuote": true,
-    "chat.viewSessions.orientation": "stacked",
-    "chat.notifyWindowOnResponseReceived": "always",
-    "chat.notifyWindowOnConfirmation": "always"
+    "yaml.format.singleQuote": true
 }
