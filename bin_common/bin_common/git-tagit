@@ -29,18 +29,12 @@ def print_red(text: str) -> None:
     print(_colorize(text, "\033[31m"))
 
 
-def input_with_prefill(prompt: str, prefill: str = "") -> str:
+def input_tag(suggested_tag: str) -> str:
     """Prompt the user, pre-filling the input buffer with *prefill* via readline."""
-    if HAS_READLINE and prefill:
-        def _hook() -> None:
-            readline.insert_text(prefill)
-            readline.redisplay()
-        readline.set_pre_input_hook(_hook)
-    try:
-        return input(prompt)
-    finally:
-        if HAS_READLINE:
-            readline.set_pre_input_hook(None)
+    inputted_tag = input(f"New tag (default: {suggested_tag}): ")
+    if not inputted_tag:
+        return suggested_tag
+    return inputted_tag
 
 
 def get_latest_tag() -> str | None:
@@ -101,8 +95,8 @@ def main() -> None:
     print_green("Create new tag and push!")
 
     latest_tag = get_latest_tag()
-    suggested = suggest_next_patch(latest_tag)
-    new_tag = input_with_prefill("New tag (Ex: v1.0.0): ", suggested)
+    suggested_tag = suggest_next_patch(latest_tag)
+    new_tag = input_tag(suggested_tag)
 
     if not re.match(r"^v\d{1,2}\.\d{1,2}\.\d{1,2}", new_tag):
         print_red("Tag must match version regex")
