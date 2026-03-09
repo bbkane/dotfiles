@@ -47,6 +47,7 @@
     "chat.notifyWindowOnConfirmation": "always",
     "chat.notifyWindowOnResponseReceived": "always",
     "chat.tools.terminal.autoApprove": {
+        "WARG_TEST_UPDATE_GOLDEN=1 go test": true,
         "go": true
     },
     "chat.viewSessions.orientation": "stacked",
