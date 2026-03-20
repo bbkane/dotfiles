@@ -62,6 +62,27 @@ config.window_frame = {
 
 config.enable_scroll_bar = true
 
+-- Use the default hyperlink rules as a base
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+-- Rule to match absolute file paths starting with / (Linux/macOS)
+table.insert(config.hyperlink_rules, {
+	regex = [[(/[^\s:"\<\>|?*]+)]],
+	format = "file://$1",
+})
+
+-- Rule to match paths starting with ~ (home directory)
+table.insert(config.hyperlink_rules, {
+	regex = [[(~[^\s:"\<\>|?*]+)]],
+	format = "file://$1",
+})
+
+-- Rule to match relative file paths that look like a file reference (e.g., ./file.txt or ../dir/file.txt)
+table.insert(config.hyperlink_rules, {
+	regex = [[(\.\./[^\s:"\<\>|?*]+|\./[^\s:"\<\>|?*]+)]],
+	format = "file://$1",
+})
+
 config.mouse_bindings = {
 	{
 		event = { Down = { streak = 1, button = { WheelUp = 1 } } },
@@ -87,11 +108,11 @@ config.keys = {
 wezterm.on("format-tab-title", format_tab_title.format_tab_title)
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/open-uri.html?h=%27open+uri%27
-wezterm.on("open-uri", function(window, pane, uri)
-	-- Use Firefox instead of the default browser
-	wezterm.open_with(uri, 'firefox')
-	return false
-end)
+-- wezterm.on("open-uri", function(window, pane, uri)
+-- 	-- Use Firefox instead of the default browser
+-- 	wezterm.open_with(uri, 'firefox')
+-- 	return false
+-- end)
 
 -- https://news.ycombinator.com/item?id=45753978
 -- Hide the scrollbar when there is no scrollback or alternate screen is active
