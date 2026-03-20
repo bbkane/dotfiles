@@ -19,14 +19,22 @@ end
 local is_darwin <const> = wezterm.target_triple:find("darwin") ~= nil
 local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
 
+-- We use Neovim to open files
+local nvim_path = "nvim"
+if is_darwin then
+	nvim_path = "/opt/homebrew/bin/nvim"
+elseif is_linux then
+	nvim_path = "/home/linuxbrew/.linuxbrew/bin/nvim"
+end
+
 -- This is where you actually apply your config choices
 
 -- config.color_scheme = 'kanagawabones'
 -- config.color_scheme = 'OneHalfBlack (Gogh)'
 -- config.color_scheme = 'Scarlet Protocol'
-config.color_scheme = "Solarized Dark Higher Contrast"
+-- config.color_scheme = "Solarized Dark Higher Contrast"
 -- config.color_scheme = 'Modus-Vivendi'
-config.color_scheme = 'MaterialDarker'
+-- config.color_scheme = 'MaterialDarker'
 config.color_scheme = 'Nucolors (terminal.sexy)'
 
 if is_darwin then
@@ -62,6 +70,27 @@ config.window_frame = {
 
 config.enable_scroll_bar = true
 
+-- Use the default hyperlink rules as a base
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+-- Rule to match absolute file paths starting with / (Linux/macOS)
+table.insert(config.hyperlink_rules, {
+	regex = [[(/[^\s:"\<\>|?*]+)]],
+	format = "file://$1",
+})
+
+-- Rule to match paths starting with ~ (home directory)
+table.insert(config.hyperlink_rules, {
+	regex = [[~(/[^\s:"\<\>|?*]+)]],
+	format = "file://" .. wezterm.home_dir .. "$1",
+})
+
+-- Rule to match relative file paths that look like a file reference (e.g., ./file.txt or ../dir/file.txt)
+table.insert(config.hyperlink_rules, {
+	regex = [[(\.\./[^\s:"\<\>|?*]+|\./[^\s:"\<\>|?*]+)]],
+	format = "file://$1",
+})
+
 config.mouse_bindings = {
 	{
 		event = { Down = { streak = 1, button = { WheelUp = 1 } } },
@@ -72,7 +101,29 @@ config.mouse_bindings = {
 		event = { Down = { streak = 1, button = { WheelDown = 1 } } },
 		mods = 'NONE',
 		action = wezterm.action.ScrollByLine(5)
-	}
+	},
+
+	-- Disable the default behavior of opening links on simple click
+	{
+		event = { Up = { streak = 1, button = 'Left' } },
+		mods = 'NONE',
+		action = wezterm.action.DisableDefaultAssignment,
+	},
+
+	-- Use CMD-click (Command on macOS, Ctrl/Win on others) to open the link
+	{
+		event = { Up = { streak = 1, button = 'Left' } },
+		mods = 'CMD', -- Use 'CMD' for Command key on macOS/Super key elsewhere
+		action = wezterm.action.OpenLinkAtMouseCursor,
+	},
+
+	-- Optional: Disable the 'Down' event of the modifier-click to avoid
+	-- unexpected behavior in some programs
+	{
+		event = { Down = { streak = 1, button = 'Left' } },
+		mods = 'CMD',
+		action = wezterm.action.Nop,
+	},
 }
 
 -- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
@@ -88,9 +139,30 @@ wezterm.on("format-tab-title", format_tab_title.format_tab_title)
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/open-uri.html?h=%27open+uri%27
 wezterm.on("open-uri", function(window, pane, uri)
-	-- Use Firefox instead of the default browser
-	wezterm.open_with(uri, 'firefox')
-	return false
+	-- see these logs with ctrl + shift + l
+	wezterm.log_info("Opening URI: " .. uri)
+
+	if uri:match("^file://") then
+		local file_path = uri:gsub("^file://", "")
+		wezterm.log_info("Opening file: " .. file_path)
+
+		-- wezterm.open_with(file_path, 'code')
+		window:perform_action(
+			wezterm.action.SpawnCommandInNewWindow {
+				args = { nvim_path, file_path },
+			},
+			pane
+		)
+
+		return false
+	end
+
+	if uri:match("^https?://") then
+		-- Use Firefox instead of the default browser
+		wezterm.open_with(uri, 'firefox')
+		-- prevent the default option of opening the URI in the default browser
+		return false
+	end
 end)
 
 -- https://news.ycombinator.com/item?id=45753978
