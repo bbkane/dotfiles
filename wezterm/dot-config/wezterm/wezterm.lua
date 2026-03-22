@@ -110,10 +110,10 @@ config.mouse_bindings = {
 		action = wezterm.action.DisableDefaultAssignment,
 	},
 
-	-- Use CMD-click (Command on macOS, Ctrl/Win on others) to open the link
+	-- Use CTRL-Click to open the link
 	{
 		event = { Up = { streak = 1, button = 'Left' } },
-		mods = 'CMD', -- Use 'CMD' for Command key on macOS/Super key elsewhere
+		mods = 'CTRL', -- Use 'CMD' for Command key on macOS/Super key elsewhere
 		action = wezterm.action.OpenLinkAtMouseCursor,
 	},
 
@@ -121,7 +121,7 @@ config.mouse_bindings = {
 	-- unexpected behavior in some programs
 	{
 		event = { Down = { streak = 1, button = 'Left' } },
-		mods = 'CMD',
+		mods = 'CTRL',
 		action = wezterm.action.Nop,
 	},
 }
