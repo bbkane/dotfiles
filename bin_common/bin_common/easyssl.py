@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from typing import Optional
 import argparse
 import os
 import sys
+from typing import Optional
 
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
@@ -44,6 +44,7 @@ query = {
     "subject": " | openssl x509 -in /dev/stdin -noout -subject",
     "san": ' | openssl x509 -in /dev/stdin -text -noout | awk -F, -v OFS="\\n" \'/Subject: /{x=gsub(/.*CN=/, "  "); printf "Common Name:\\n"$x} /DNS:/{gsub(/ *DNS:/, "  "); $1=$1; printf "\\n\\nSAN Domains:\\n" $0"\\n"}\'',
     "text": " | openssl x509 -in /dev/stdin -noout -text",
+    "default": " | openssl x509 -noout -subject -ext subjectAltName -dates -fingerprint -md5"
 }
 
 
@@ -55,9 +56,11 @@ def parse_args(*args, **kwargs):
         help="filepath or host (www.example.com) to connect to. Appends :443 if no port supplied. Also used for SNI (override with --servername)",
     )
     parser.add_argument(
-        "query",
+        "--query",
+        "-q",
         choices=query.keys(),
-        help="filter to apply to cert. 'all' doesn't do any filtering",
+        default="default",
+        help="filter to apply to cert. 'all' doesn't do any filtering. 'default' is the default filter and shows the most commonly used info",
     )
     parser.add_argument(
         "--servername",
