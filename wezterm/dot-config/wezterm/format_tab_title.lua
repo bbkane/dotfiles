@@ -65,8 +65,6 @@ local hash_to_color = function(hash_int)
 	local hex = string.format("%x", hash_int)
 	hex = hex .. hex -- make it long enough
 	local truncated = string.sub(hex, 1, 6)
-	-- wezterm.log_info("Hash: " .. hash_int .. " Hex: " .. hex .. " Truncated: " .. truncated)
-
 	-- https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
 	local color = wezterm.color.parse("#" .. truncated)
 	color = color:saturate(0.2)
@@ -129,12 +127,12 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 	-- https://wezfurlong.org/wezterm/config/lua/wezterm.mux/get_pane.html
 	local pane = mux.get_pane(pane_info.pane_id)
 	-- https://wezfurlong.org/wezterm/config/lua/pane/get_foreground_process_info.html
-	local process_name = "<unknown>"
+    local process_name = "<unknown>"
 	local process_info = pane:get_foreground_process_info()
-	if process_info ~= nil then
-		process_name = process_info.executable
-		process_name = basename(process_name)
-	end
+    if process_info ~= nil then
+	    process_name = process_info.executable
+	    process_name = basename(process_name)
+    end
 
 	-- for SSH, use the hostname as the title
 	if process_name == "ssh" and #process_info.argv == 2 then
