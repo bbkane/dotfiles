@@ -43,13 +43,16 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--indent",
         type=int,
-        default=4,
-        help="indentation level (default: 4)",
+        default=2,
+        help="indentation level (default: 2)",
     )
     parser.add_argument(
         "--sort-keys",
-        action="store_true",
-        help="sort object keys",
+        type=lambda s: s.lower() not in ("false", "0", "no"),
+        default=True,
+        nargs="?",
+        const=True,
+        help="sort object keys (default: true). Use --sort-keys false to disable",
     )
 
     return parser
