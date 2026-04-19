@@ -47,7 +47,7 @@
     "chat.notifyWindowOnConfirmation": "always",
     "chat.notifyWindowOnResponseReceived": "always",
     "chat.tools.terminal.autoApprove": {
-        "WARG_TEST_UPDATE_GOLDEN=1 go test": true,
+        "./scripts/test_update_golden.sh": true,
         "go": true
     },
     "chat.viewSessions.orientation": "stacked",
@@ -167,7 +167,7 @@
             "tab.activeBorderTop": "#e6dcac3f"
         }
     },
-    "workbench.colorTheme": "Default Light+",
+    "workbench.colorTheme": "Light+",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
