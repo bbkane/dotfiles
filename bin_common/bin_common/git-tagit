@@ -8,12 +8,6 @@ import re
 import subprocess
 import sys
 
-try:
-    import readline
-    HAS_READLINE = True
-except ImportError:
-    HAS_READLINE = False
-
 
 def _colorize(text: str, ansi_code: str) -> str:
     if sys.stdout.isatty():
@@ -57,10 +51,13 @@ def suggest_next_patch(latest_tag: str | None) -> str:
     """Return the next patch version tag based on *latest_tag*."""
     if latest_tag:
         m = re.match(r"^(v?)(\d+)\.(\d+)\.(\d+)", latest_tag)
-        if m:
-            prefix, major, minor, patch = m.group(1), int(m.group(2)), int(m.group(3)), int(m.group(4))
-            return f"{prefix}{major}.{minor}.{patch + 1}"
-    return "v1.0.0"
+        if not m:
+            raise ValueError(f"Latest tag '{latest_tag}' does not match version regex")
+
+        prefix, major, minor, patch = m.group(1), int(m.group(2)), int(m.group(3)), int(m.group(4))
+        return f"{prefix}{major}.{minor}.{patch + 1}"
+
+    raise ValueError("No existing tags found; cannot suggest next patch version")
 
 
 def main() -> None:
