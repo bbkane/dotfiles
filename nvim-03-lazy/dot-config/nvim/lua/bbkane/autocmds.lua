@@ -31,3 +31,14 @@ vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
     pattern = "*.*",
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
 })
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--     group = bbkane_augroup,
+--     pattern = { "markdown" },
+--     callback = function(args)
+--         -- Neovim 0.12.x can throw node:range() errors on fenced code blocks in markdown.
+--         -- https://github.com/neovim/neovim/issues/39032
+--         -- https://github.com/nvim-treesitter/nvim-treesitter/issues/8618
+--         vim.treesitter.stop(args.buf)
+--     end,
+-- })

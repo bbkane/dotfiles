@@ -126,10 +126,10 @@ require("lazy").setup({
             })
         end,
     },
-    
+
     -- Keeping this but need to figure out how to do non-local files (like ~/...)
-    { 
-        'nvim-mini/mini.pick', 
+    {
+        'nvim-mini/mini.pick',
         version = '*' ,
         config = function()
             require('mini.pick').setup()
@@ -181,15 +181,17 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function()
-            local configs = require("nvim-treesitter.configs")
-            configs.setup({
-                ensure_installed = { "bash", "go", "markdown", "markdown_inline", "python", "rust", "sql", "yaml" },
-                sync_install = false,
-                highlight = { enable = true },
-                indent = { enable = true },
-            })
-        end
+        lazy = false,
+        branch = "main",
+        -- config = function()
+        --     local configs = require("nvim-treesitter")
+        --     configs.setup({
+        --         ensure_installed = { "bash", "go", "markdown", "markdown_inline", "python", "rust", "sql", "yaml" },
+        --         sync_install = false,
+        --         highlight = { enable = true },
+        --         indent = { enable = true },
+        --     })
+        -- end
     },
 
 })
