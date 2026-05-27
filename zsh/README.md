@@ -62,8 +62,11 @@ Add the following to `~/.zshrc`:
 
 ```bash
 # zsh-completions
-FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+# $HOMEBREW_PREFIX is set by `brew shellenv` in ~/.zprofile
+FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
 ```
+
+NOTE: prefer `$HOMEBREW_PREFIX` over `$(brew --prefix)`. The latter forks a subshell each call (~10ms each) which adds up during shell startup.
 
 If getting an `zsh compinit: insecure directories` warning, see the output of `brew info zsh-completions`.
 
@@ -71,7 +74,7 @@ If getting an `zsh compinit: insecure directories` warning, see the output of `b
 
 ```zsh
 # Add Homebrew completions not from zsh-completions
-FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
 # Add spot to put local completions
 FPATH="$HOME/fbin:$FPATH"
 ```
@@ -82,10 +85,19 @@ This needs to be done AFTER all modifications to `$FPATH`, but before some of th
 
 See https://stackoverflow.com/a/67161186/2958070 for more details
 
+`compinit` is by far the slowest part of zsh startup (~570ms on my machine — ~73% of the total). Most of that cost is the security audit (`compaudit`) and rewriting `~/.zcompdump`. Both are safe to skip if the dump is recent, so use this pattern to only do the full rebuild once per day:
+
 ```bash
-compinit
+# Only do the full audit + dump rebuild once per day; otherwise reuse the cached dump.
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
 bashcompinit
 ```
+
+The `(#qN.mh+24)` glob qualifier matches the file only if it's older than 24 hours; if no file matches, the condition is false and we take the `-C` (skip-check) fast path.
 
 ## `zsh` completions `~/.zshrc` summary
 
@@ -93,13 +105,19 @@ At the end, this part of `~/.zshrc` should look like this:
 
 ```zsh
 # zsh-completions
-FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+# $HOMEBREW_PREFIX is set by `brew shellenv` in ~/.zprofile
+FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
 # Add Homebrew completions not from zsh-completions
-FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+FPATH=$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
 # Add spot to put local completions
 FPATH="$HOME/fbin:$FPATH"
 
-compinit
+# Only do the full audit + dump rebuild once per day; otherwise reuse the cached dump.
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
 bashcompinit
 ```
 
@@ -270,7 +288,8 @@ Add to `~/.zshrc` (the docs say this should be done at the bottom of `~/zshrc`:
 
 ```zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# $HOMEBREW_PREFIX is set by `brew shellenv` in ~/.zprofile
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ```
 
 # Install [warhol.plugin.zsh](https://github.com/unixorn/warhol.plugin.zsh)
