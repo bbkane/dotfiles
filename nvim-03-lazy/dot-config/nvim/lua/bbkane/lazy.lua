@@ -183,15 +183,10 @@ require("lazy").setup({
         build = ":TSUpdate",
         lazy = false,
         branch = "main",
-        -- config = function()
-        --     local configs = require("nvim-treesitter")
-        --     configs.setup({
-        --         ensure_installed = { "bash", "go", "markdown", "markdown_inline", "python", "rust", "sql", "yaml" },
-        --         sync_install = false,
-        --         highlight = { enable = true },
-        --         indent = { enable = true },
-        --     })
-        -- end
+        config = function()
+            local configs = require("nvim-treesitter")
+            configs.install({ "bash", "go", "markdown", "markdown_inline", "python", "rust", "sql", "yaml" }):wait(300000)
+        end
     },
 
 })

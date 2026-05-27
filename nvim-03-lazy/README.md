@@ -38,6 +38,12 @@ On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard inter
 sudo apt install wl-clipboard  # or xsel
 ```
 
+For tree-sitter I need the `tree-sitter-cli` (see [here](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#requirements))
+
+```bash
+brew install tree-sitter-cli
+```
+
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
 
 # Edit config
