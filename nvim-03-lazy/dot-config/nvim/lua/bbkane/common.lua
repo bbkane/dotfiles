@@ -101,18 +101,6 @@ vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
 })
 
--- TODO: lua version not working...
--- " NOTE: add bottom one first to not mess up what's <line2>
--- command! -range=% -nargs=0 -bar AddCodeFence
---     \ :<line2>s:$:\r```:
---     \ | <line1>s:^:```\r:
--- vim.api.nvim_create_user_command(
---     "AddCodeFence",
---     [[:<line2>s:$:\r```:
---     \ | <line1>s:^:```\r:]],
---     { bang = true, bar = true, range = "%", nargs = 0 }
--- )
-
 -- https://unix.stackexchange.com/a/32003
 -- NOTE: i was using Ctrl+v,M to make ^M here but VS Code autoformatter doesn't like it. This seems to work
 vim.cmd [[
