@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "runtime": {
+    "version": "LuaJIT",
+    "pathStrict": true
+  },
+  "diagnostics": {
+    "globals": [
+      "vim"
+    ],
+    "disable": [
+      "missing-fields"
+    ]
+  },
+  "workspace": {
+    "checkThirdParty": false,
+    "library": [
+      "$VIMRUNTIME",
+      "$VIMRUNTIME/lua",
+      "${3rd}/luv/library",
+      "/home/linuxbrew/.linuxbrew/Cellar/neovim/0.12.1/share/nvim/runtime",
+      "/home/linuxbrew/.linuxbrew/Cellar/neovim/0.12.1/share/nvim/runtime/lua"
+    ]
+  },
+  "hint": {
+    "enable": false,
+    "setType": true
+  },
+  "format": {
+    "enable": false
+  }
+}

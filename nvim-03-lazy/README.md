@@ -6,6 +6,8 @@ Let's keep my NeoVim config focused on quick text edits and as stable as I can m
 
 As part of this, I'm not modifying standard vim locations.
 
+# Install
+
 How to back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
 
 ```bash
@@ -38,6 +40,20 @@ sudo apt install wl-clipboard  # or xsel
 
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
 
+# Edit config
+
+```bash
+code ./dot-config/nvim  # uses .luarc.json there
+```
+
+NOTE: need to expand `$VIMRUNTIME` to put `.luarc.json`  so VS Code can read it ($VIMRUNTIME is only set when Neovim is started, so not in VS Code process)
+
+```bash
+nvim --headless -u NONE -i NONE --clean +'echo $VIMRUNTIME' +q
+```
+
+
+
 # Colorschemes I like
 
 ## Built-in
@@ -60,6 +76,3 @@ See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top
 
 - tokyonight-night
 
-# Editing this config
-
-Uses `.luarc.json` in VS Code... See [nvim: improve LSP config · Issue #54 · bbkane/dotfiles](https://github.com/bbkane/dotfiles/issues/54) for improvement ideas
