@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+# List my open PRs across all repos with check status, pick one, wait for its
+# checks to finish, then fire a macOS notification.
+set -euo pipefail
+
+for tool in gh fzf jq; do
+  command -v "$tool" >/dev/null || { echo "pr-watch: $tool not installed" >&2; exit 1; }
+done
+
+# Roll a PR's check buckets up to a single glyph. Invoked in parallel via xargs.
+_pr_watch_status() {
+  local url=$1
+  local buckets
+  buckets=$(gh pr checks "$url" --json bucket 2>/dev/null \
+    | jq -r '[.[].bucket] | join(" ")') || buckets=""
+  local glyph
+  case " $buckets " in
+    "  ")             glyph="—" ;;
+    *" fail "*|*" cancel "*) glyph="✗" ;;
+    *" pending "*)    glyph="●" ;;
+    *)                glyph="✓" ;;
+  esac
+  printf '%s\t%s\n' "$url" "$glyph"
+}
+export -f _pr_watch_status
+
+preview_script=$(mktemp)
+trap 'rm -f "$preview_script"' EXIT
+cat >"$preview_script" <<'PREVIEW'
+#!/usr/bin/env bash
+# fzf preview: show only non-passing / non-skipping checks for the given PR URL.
+# Render the details URL as an OSC 8 hyperlink txted "URL". For checks that
+# publish a webhook/api endpoint (not human-browsable), fall back to a "PR"
+# hyperlink pointing at the PR page itself.
+url=$1
+json=$(gh pr checks "$url" --json name,bucket,state,link,workflow 2>/dev/null)
+hidden=$(jq '[.[] | select(.bucket == "pass" or .bucket == "skipping")] | length' <<<"$json")
+total=$(jq 'length' <<<"$json")
+echo "showing $((total - hidden)) of $total checks ($hidden pass/skipping hidden)"
+echo
+jq -r --arg pr "$url" '
+  def browsable(u): (u != null) and (u != "") and ((u | test("/api/|/webhooks/")) | not);
+  def link(u; txt): "]8;;\(u)\\\(txt)]8;;\\";
+  def L(u; fallback):
+    if   browsable(u)        then link(u; "URL")
+    elif fallback != ""      then link(fallback; "PR")
+    else                          "" end;
+  .[]
+  | select(.bucket != "pass" and .bucket != "skipping")
+  | "\(.state // "?")\t\(.name)\t\(L(.link; $pr))"
+' <<<"$json" | column -t -s $'\t'
+PREVIEW
+chmod +x "$preview_script"
+
+prs_json=$(gh search prs --author=@me --state=open --limit 50 \
+  --json number,title,url,repository)
+
+if [[ "$(jq 'length' <<<"$prs_json")" -eq 0 ]]; then
+  echo "no open PRs" >&2
+  exit 0
+fi
+
+prs_tsv=$(jq -r '.[] | "\(.url)\t\(.number)\t\(.repository.nameWithOwner)\t\(.title)"' <<<"$prs_json")
+
+statuses=$(printf '%s\n' "$prs_tsv" | cut -f1 \
+  | xargs -P 8 -I{} bash -c '_pr_watch_status "$1"' _ {})
+
+# Join glyph onto each PR row by URL. Row format for fzf:
+#   <url>\t<display>\t<number>\t<repo>\t<title>
+rows=$(awk -F'\t' -v OFS='\t' '
+  NR==FNR { g[$1]=$2; next }
+  { gl = ($1 in g) ? g[$1] : "?"
+    disp = gl " " $3 " #" $2 "  " $4
+    print $1, disp, $2, $3, $4 }
+' <(printf '%s\n' "$statuses") <(printf '%s\n' "$prs_tsv"))
+
+pick=$(printf '%s\n' "$rows" \
+  | fzf --with-nth=2 --delimiter=$'\t' \
+        --header="enter to watch, esc to cancel" \
+        --preview="$preview_script {1}" \
+        --preview-window=down:60%:wrap) || exit 130
+
+url=$(cut -f1 <<<"$pick")
+num=$(cut -f3 <<<"$pick")
+repo=$(cut -f4 <<<"$pick")
+title=$(cut -f5- <<<"$pick")
+
+# Roll our own poll loop so the PR URL stays visible across refreshes
+# (gh pr checks --watch clears the screen each tick and would erase it).
+while :; do
+  pending=$(gh pr checks "$url" --json bucket 2>/dev/null \
+    | jq '[.[] | select(.bucket == "pending")] | length')
+  clear
+  echo "watching $repo#$num — $title"
+  echo "$url"
+  echo
+  gh pr checks "$url" || true
+  [[ "${pending:-0}" -eq 0 ]] && break
+  echo
+  echo "refreshing in 10s — Ctrl-C to quit"
+  sleep 10
+done
+
+counts=$(gh pr checks "$url" --json bucket | jq -r '
+  reduce .[] as $c ({pass:0, fail:0, skip:0};
+    if   $c.bucket == "pass"     then .pass += 1
+    elif $c.bucket == "fail"     then .fail += 1
+    elif $c.bucket == "cancel"   then .fail += 1
+    elif $c.bucket == "skipping" then .skip += 1
+    else . end)
+  | "\(.pass) \(.fail) \(.skip)"
+')
+read -r pass fail skip <<<"$counts"
+
+if [[ "${fail:-0}" -gt 0 ]]; then
+  status="failed"; sound="Basso"
+else
+  status="passed"; sound="Glass"
+fi
+
+msg="${pass:-0} passed, ${fail:-0} failed, ${skip:-0} skipped"
+echo "$repo#$num $status — $msg"
+
+safe_title=${title//\"/\\\"}
+osascript -e "display notification \"$msg\" with title \"$repo#$num $status\" subtitle \"$safe_title\" sound name \"$sound\""
