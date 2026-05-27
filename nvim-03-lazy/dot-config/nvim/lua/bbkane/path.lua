@@ -10,7 +10,7 @@ end
 if M.is_windows and vim.o.shellslash then
     M.use_shellslash = true
 else
-    M.use_shallslash = false
+    M.use_shellslash = false
 end
 
 M.get_separator = function()

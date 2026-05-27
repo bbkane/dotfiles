@@ -55,7 +55,7 @@ vim.o.smartcase = true
 
 -- https://stackoverflow.com/a/65352148/2958070
 -- https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/?utm_source=share&utm_medium=web2x&context=3
-vim.opt.mouse = ''
+vim.o.mouse = ''
 
 -- https://stackoverflow.com/a/5774854
 -- this means I can put something like `# vim:set ft=zsh:` in a file

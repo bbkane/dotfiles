@@ -2,7 +2,7 @@ local bbkane_augroup = vim.api.nvim_create_augroup('bbkane_augroup', { clear = t
 
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     group = bbkane_augroup,
-    pattern = { ".gitconfig,", "gitconfig_*" },
+    pattern = { ".gitconfig", "gitconfig_*" },
     -- https://stackoverflow.com/a/1878992
     -- https://gist.github.com/LunarLambda/4c444238fb364509b72cfb891979f1dd#tabs-only
     command = "set filetype=gitconfig noexpandtab tabstop=8 shiftwidth=0 softtabstop=0 smarttab"
@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 -- augroup END
 vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
     group = bbkane_augroup,
-    pattern = "*.*",
+    pattern = { "*.py", "*.pl", "*.html", "*.sh" },
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
 })
 

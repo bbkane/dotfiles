@@ -37,13 +37,12 @@ command! -range=% -nargs=0 -bar MarkdownToJira
 -- https://github.com/richardmarbach/dotfiles/blob/7912ba284aac6cc005b9dfe35349bf1e5d50f1fe/config/nvim/lua/utils/file.lua#L5
 vim.api.nvim_create_user_command(
     "RenameFile",
-    function(args)
+    function(_)
         local old_name = vim.fn.expand("%")
         local new_name = vim.fn.input("New file name: ", old_name, "file")
         if new_name ~= '' and new_name ~= old_name then
             vim.api.nvim_command(' saveas ' .. new_name)
-            -- TODO: https://unix.stackexchange.com/a/562421/185953
-            vim.api.nvim_command(' silent !rm ' .. old_name)
+            vim.fn.delete(old_name)
             vim.cmd('redraw!')
         end
     end,
@@ -56,16 +55,16 @@ vim.api.nvim_create_user_command(
 --     \ substitute(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"), '\n\+$', '', '')
 vim.api.nvim_create_user_command(
     "InsertDate",
-    function(args)
+    function(_)
         local today = os.date('%a %b %d - %Y-%m-%d %H:%M:%S %Z')
-        vim.api.nvim_command('norm i ' .. today)
+        vim.api.nvim_command('norm i' .. today)
     end,
     { bang = true }
 )
 
 vim.api.nvim_create_user_command(
     "FullPath",
-    function(args)
+    function(_)
         print(vim.fn.expand("%:p"))
     end,
     { bang = true }

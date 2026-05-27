@@ -8,8 +8,7 @@ vim.api.nvim_create_user_command(
     { bang = true }
 )
 
----@diagnostic disable-next-line: undefined-field
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
     vim.fn.system({
         "git",
         "clone",
