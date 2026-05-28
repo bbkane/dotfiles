@@ -18,7 +18,6 @@ local augroup = vim.api.nvim_create_augroup("bbkane_lsp", { clear = true })
 -- Native completion (built in since 0.11, no completion plugin needed).
 -- On LSP attach omnifunc is auto-set, so <C-x><C-o> already works; this autocmd
 -- upgrades that to autotrigger - the menu pops automatically as you type.
--- Navigate with <C-n>/<C-p>, accept with <C-y>, dismiss with <C-e>.
 vim.api.nvim_create_autocmd("LspAttach", {
     group = augroup,
     callback = function(args)
@@ -31,6 +30,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
     end,
 })
+
+-- Completion menu UX: show the menu (even for a single match) and highlight the
+-- top match, but do NOT insert it into the buffer (noinsert) until accepted - so
+-- typing a trigger like "." opens the list with the best match highlighted, and
+-- the highlight follows as you keep typing to fuzzy-narrow. <Tab> accepts the
+-- highlighted match, <C-e> dismisses.
+vim.o.completeopt = "menu,menuone,noinsert,fuzzy"
+
+-- <C-Space>: open the completion menu, or - if it is already open - accept the
+-- highlighted match (selecting the top match first in the rare case none is
+-- highlighted). Also mapped to <C-@>, which is what some terminals send for it.
+local function complete_or_accept()
+    if vim.fn.pumvisible() == 0 then
+        return "<C-x><C-o>"
+    end
+    return vim.fn.complete_info({ "selected" }).selected == -1 and "<C-n><C-y>" or "<C-y>"
+end
+vim.keymap.set("i", "<C-Space>", complete_or_accept, { expr = true, desc = "Open/accept completion" })
+vim.keymap.set("i", "<C-@>", complete_or_accept, { expr = true, desc = "Open/accept completion" })
 
 -- CodeLens (gopls' actionable hints, e.g. "run go mod tidy" on go.mod, generate,
 -- govulncheck). Neovim 0.12's codelens is a self-refreshing capability (like
