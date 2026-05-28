@@ -23,11 +23,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
     group = augroup,
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if client and client:supports_method("textDocument/completion") then
+        if not client then
+            return
+        end
+        if client:supports_method("textDocument/completion") then
             vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
         end
     end,
 })
+
+-- CodeLens (gopls' actionable hints, e.g. "run go mod tidy" on go.mod, generate,
+-- govulncheck). Neovim 0.12's codelens is a self-refreshing capability (like
+-- inlay hints), so enabling it globally is enough - supporting clients attach
+-- automatically and it re-renders on buffer changes. Run the lens under the
+-- cursor with <leader>cl. (gopls' "run test" lens is opt-in via lsp/gopls.lua.)
+vim.lsp.codelens.enable(true)
 
 -- Run the `source.organizeImports` code action synchronously for every attached
 -- client that offers it (gopls and ruff both do). Source actions apply to the
@@ -71,6 +81,22 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 --   [d / ]d  prev/next diagnostic
 -- go-to-definition isn't a default, so add it:
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: go to definition" })
+
+-- Extra <leader> maps (mini.clue shows these under <leader>):
+--   <leader>e   full diagnostic message for the current line (float)
+--   <leader>d   project diagnostics, fuzzy (VS Code "Problems"-ish) via mini.extra
+--   <leader>s   workspace symbol search (VS Code Ctrl+T) via mini.extra
+--   <leader>cl  run the code lens under the cursor (e.g. gopls "run test")
+-- Note: project diagnostics only cover servers' loaded buffers, so it is not a
+-- full workspace scan like VS Code's Problems panel.
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "LSP: diagnostic float" })
+vim.keymap.set("n", "<leader>d", function()
+    require("mini.extra").pickers.diagnostic({ scope = "all" })
+end, { desc = "LSP: project diagnostics (picker)" })
+vim.keymap.set("n", "<leader>s", function()
+    require("mini.extra").pickers.lsp({ scope = "workspace_symbol" })
+end, { desc = "LSP: workspace symbols (picker)" })
+vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "LSP: run code lens" })
 
 vim.diagnostic.config({
     virtual_text = true,

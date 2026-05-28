@@ -57,6 +57,9 @@ brew install lua-language-server
 
 # gopls (Go)
 go install golang.org/x/tools/gopls@latest
+
+# Python (Astral): ruff = lint/format, ty = type check
+brew install ruff ty
 ```
 
 # Edit config

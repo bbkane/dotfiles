@@ -135,6 +135,17 @@ require("lazy").setup({
         end,
     },
 
+    -- Extra mini.pick pickers, incl. fuzzy LSP ones (workspace symbols, project
+    -- diagnostics, references, etc). Used for the <leader> LSP maps in lsp.lua.
+    -- https://github.com/nvim-mini/mini.extra
+    {
+        'nvim-mini/mini.extra',
+        version = '*',
+        config = function()
+            require('mini.extra').setup()
+        end,
+    },
+
     -- 2025-11-30: I was using cappyzawa/trim.nvim but it caused an issue with markdown files. When I scroll down rapidly with 'j', the first character of the line turns dark.
     -- this seems to work better.
     -- https://github.com/nvim-mini/mini.trailspace
