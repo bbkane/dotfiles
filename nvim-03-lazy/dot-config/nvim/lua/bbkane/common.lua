@@ -53,6 +53,11 @@ vim.o.inccommand = "split"
 
 vim.o.smartcase = true
 
+-- How long Neovim waits for a multi-key sequence to complete. mini.clue uses
+-- this as its popup delay, so the default 1000 (1s) makes the clue window feel
+-- sluggish; 300 makes it pop quickly. Also the window for chords like `jk`->Esc.
+vim.o.timeoutlen = 300
+
 -- https://stackoverflow.com/a/65352148/2958070
 -- https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/?utm_source=share&utm_medium=web2x&context=3
 vim.o.mouse = ''
