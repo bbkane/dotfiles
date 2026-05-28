@@ -96,22 +96,21 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 --   grn  rename            gra  code action        grr  references
 --   gri  implementation    grt  type definition    gO   document symbols
 --   K    hover             <C-s> signature help (insert mode)
---   [d / ]d  prev/next diagnostic
+--   [d / ]d  prev/next diagnostic    <C-w>d  show diagnostic float under cursor
 -- go-to-definition isn't a default, so add it:
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: go to definition" })
 
 -- Extra <leader> maps (mini.clue shows these under <leader>):
---   <leader>e   full diagnostic message for the current line (float)
 --   <leader>d   project diagnostics, fuzzy (VS Code "Problems"-ish) via mini.extra
---   <leader>s   workspace symbol search (VS Code Ctrl+T) via mini.extra
+--   <leader>ws  workspace symbol search (VS Code Ctrl+T) via mini.extra
 --   <leader>cl  run the code lens under the cursor (e.g. gopls "run test")
+-- (Diagnostic float is the built-in <C-w>d, so no <leader> map for it.)
 -- Note: project diagnostics only cover servers' loaded buffers, so it is not a
 -- full workspace scan like VS Code's Problems panel.
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "LSP: diagnostic float" })
 vim.keymap.set("n", "<leader>d", function()
     require("mini.extra").pickers.diagnostic({ scope = "all" })
 end, { desc = "LSP: project diagnostics (picker)" })
-vim.keymap.set("n", "<leader>s", function()
+vim.keymap.set("n", "<leader>ws", function()
     require("mini.extra").pickers.lsp({ scope = "workspace_symbol" })
 end, { desc = "LSP: workspace symbols (picker)" })
 vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "LSP: run code lens" })
