@@ -5,6 +5,8 @@ local wezterm = require("wezterm")
 
 local font = require("font")
 local format_tab_title = require("format_tab_title")
+-- ssh_domains.lua is symlinked from elsewhere and might not always be present
+local has_ssh_domains, ssh_domains = pcall(require, "ssh_domains")
 
 -- This table will hold the configuration.
 local config = {}
@@ -82,6 +84,10 @@ config.keys = {
 	-- Make Option-Right equivalent to Alt-f; forward-word
 	{ key = "RightArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bf" }) },
 }
+
+if has_ssh_domains then
+	config.ssh_domains = ssh_domains.ssh_domains()
+end
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 wezterm.on("format-tab-title", format_tab_title.format_tab_title)
