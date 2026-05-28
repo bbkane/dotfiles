@@ -9,7 +9,9 @@
 -- The server binaries are NOT installed here - install them yourself (see
 -- README.md "LSP Install"); this assumes they're on $PATH.
 
-vim.lsp.enable({ "lua_ls", "gopls" })
+-- Python is split across two Astral servers (https://docs.astral.sh/):
+--   ruff -> lint / format / code actions   ty -> type checking / hover / nav
+vim.lsp.enable({ "lua_ls", "gopls", "ruff", "ty" })
 
 local augroup = vim.api.nvim_create_augroup("bbkane_lsp", { clear = true })
 
@@ -27,13 +29,37 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
--- Format on save via LSP. Synchronous (no async = true) so the write includes
--- the formatted result. Only clients advertising textDocument/formatting run,
--- so this is a no-op for buffers with no formatting-capable server. (Lua format
--- style is configured under "format" in .luarc.json.)
+-- Run the `source.organizeImports` code action synchronously for every attached
+-- client that offers it (gopls and ruff both do). Source actions apply to the
+-- whole file regardless of the range, so a cursor-position range is fine.
+local function organize_imports(bufnr, timeout_ms)
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+        if client:supports_method("textDocument/codeAction") then
+            local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
+            params.context = { only = { "source.organizeImports" }, diagnostics = {} }
+            local resp = client:request_sync("textDocument/codeAction", params, timeout_ms, bufnr)
+            for _, action in pairs((resp or {}).result or {}) do
+                local edit = action.edit
+                -- Some servers defer the edit until codeAction/resolve.
+                if not edit and action.data then
+                    local resolved = client:request_sync("codeAction/resolve", action, timeout_ms, bufnr)
+                    edit = resolved and resolved.result and resolved.result.edit
+                end
+                if edit then
+                    vim.lsp.util.apply_workspace_edit(edit, client.offset_encoding)
+                end
+            end
+        end
+    end
+end
+
+-- On save: organize imports first, then format. Both run synchronously (no
+-- async = true) so the write includes the result, and both are no-ops when no
+-- attached server supports them. (Lua format style is set in .luarc.json.)
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = augroup,
     callback = function(args)
+        organize_imports(args.buf, 2000)
         vim.lsp.buf.format({ bufnr = args.buf, timeout_ms = 2000 })
     end,
 })
