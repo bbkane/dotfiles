@@ -86,7 +86,7 @@ config.keys = {
 }
 
 if has_ssh_domains then
-	config.ssh_domains = ssh_domains.ssh_domains()
+	config.unix_domains = ssh_domains.unix_domains()
 end
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
