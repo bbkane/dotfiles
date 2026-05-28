@@ -46,6 +46,19 @@ brew install tree-sitter-cli
 
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
 
+# LSP Install
+
+The `nvim-lspconfig` plugin installs automatically via `lazy.nvim`, but the
+language server binaries do not - install them yourself onto `$PATH`:
+
+```bash
+# lua_ls (Lua, incl. this config)
+brew install lua-language-server
+
+# gopls (Go)
+go install golang.org/x/tools/gopls@latest
+```
+
 # Edit config
 
 ```bash

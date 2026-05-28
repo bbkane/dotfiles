@@ -176,6 +176,17 @@ require("lazy").setup({
     },
 
 
+    -- Native LSP (Neovim 0.11+ vim.lsp.config/enable APIs). nvim-lspconfig only
+    -- ships the per-server lsp/<name>.lua data files; the actual enabling,
+    -- completion, and keymaps live in lua/bbkane/lsp.lua.
+    -- https://github.com/neovim/nvim-lspconfig
+    {
+        "neovim/nvim-lspconfig",
+        config = function()
+            require("bbkane.lsp")
+        end,
+    },
+
     -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#lazynvim
     {
         "nvim-treesitter/nvim-treesitter",
