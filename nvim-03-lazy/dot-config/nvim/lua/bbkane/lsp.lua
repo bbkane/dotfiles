@@ -11,17 +11,30 @@
 
 vim.lsp.enable({ "lua_ls", "gopls" })
 
+local augroup = vim.api.nvim_create_augroup("bbkane_lsp", { clear = true })
+
 -- Native completion (built in since 0.11, no completion plugin needed).
 -- On LSP attach omnifunc is auto-set, so <C-x><C-o> already works; this autocmd
 -- upgrades that to autotrigger - the menu pops automatically as you type.
 -- Navigate with <C-n>/<C-p>, accept with <C-y>, dismiss with <C-e>.
 vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("bbkane_lsp", { clear = true }),
+    group = augroup,
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         if client and client:supports_method("textDocument/completion") then
             vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
         end
+    end,
+})
+
+-- Format on save via LSP. Synchronous (no async = true) so the write includes
+-- the formatted result. Only clients advertising textDocument/formatting run,
+-- so this is a no-op for buffers with no formatting-capable server. (Lua format
+-- style is configured under "format" in .luarc.json.)
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = augroup,
+    callback = function(args)
+        vim.lsp.buf.format({ bufnr = args.buf, timeout_ms = 2000 })
     end,
 })
 
