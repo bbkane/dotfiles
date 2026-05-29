@@ -26,10 +26,10 @@
 # https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md
 # `git-credential-manager configure`
 [credential]
-	helper = 
+	helper =
 	helper = manager
-[credential "https://github.com"]
-	username = bbkane
+# NOTE: github.com username is scoped per-directory via includeIf
+# (e.g. gitconfig_Git-GH) so it isn't applied in non-personal contexts
 [delta]
 	# minus-style = normal "#340001"
 	# plus-style = syntax "#012800"
@@ -79,9 +79,15 @@
 
 # case insensitive include other settings
 
-# if on home Linux
+# Start with the default auth method (helper = manager) and override that for different linux envs
+
 [includeIf "gitdir/i:/home/bbkane/"]
-	path = ~/.config/gitconfig_home_linux
+	path = ~/.config/gitconfig_home_bbkane
+
+[includeIf "gitdir/i:/home/bkane/"]
+	path = ~/.config/gitconfig_home_bkane
+
+# Directory settings should have different users configured
 
 # setting for repos in particular dirs
 [includeIf "gitdir/i:~/Git-GH/"]
@@ -92,12 +98,3 @@
 
 [includeIf "gitdir/i:~/Git-LI-GH-Ent/"]
 	path = ~/.config/gitconfig_Git-LI-GH-Ent
-
-[includeIf "gitdir/i:~/Git-LI-AzDev/"]
-	path = ~/.config/gitconfig_Git-LI-AzDev
-
-[includeIf "gitdir/i:~/Git-MS-AzDev/"]
-	path = ~/.config/gitconfig_Git-MS-AzDev
-
-[credential "https://dev.azure.com"]
-	useHttpPath = true

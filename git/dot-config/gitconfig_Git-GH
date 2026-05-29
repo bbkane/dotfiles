@@ -1,2 +1,4 @@
 [user]
 	email = 6081085+bbkane@users.noreply.github.com
+[credential "https://github.com"]
+	username = bbkane
