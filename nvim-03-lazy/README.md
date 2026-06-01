@@ -70,6 +70,10 @@ NOTE: need to expand `$VIMRUNTIME` to put `.luarc.json`  so VS Code can read it 
 nvim --headless -u NONE -i NONE --clean +'echo $VIMRUNTIME' +q
 ```
 
+# Keybindings
+
+To see every mapping (fuzzy, searchable, with the definition location in the preview): `:Pick keymaps`. To find where a specific key was set: `:verbose nmap <key>` (e.g. `:verbose nmap <leader>d`).
+
 # Colorschemes I like
 
 ## Built-in

@@ -171,6 +171,18 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>",   { desc = "Find buffers" })
             vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>",      { desc = "Find help" })
             vim.keymap.set("n", "<leader>fr", "<cmd>Pick resume<cr>",    { desc = "Resume last picker" })
+
+            -- "Picker picker": list every registered picker (mini.pick builtins
+            -- + all mini.extra pickers, which auto-register into the registry)
+            -- and run the chosen one. Recipe from MiniPick's own docs.
+            MiniPick.registry.registry = function()
+                local items = vim.tbl_keys(MiniPick.registry)
+                table.sort(items)
+                local chosen = MiniPick.start({ source = { items = items, name = "Pickers", choose = function() end } })
+                if chosen == nil then return end
+                return MiniPick.registry[chosen]()
+            end
+            vim.keymap.set("n", "<leader>fp", "<cmd>Pick registry<cr>", { desc = "Find picker (registry)" })
         end,
     },
 
@@ -180,6 +192,10 @@ require("lazy").setup({
     {
         'nvim-mini/mini.extra',
         version = '*',
+        -- mini.extra registers its pickers into MiniPick.registry only if
+        -- mini.pick is already set up, so make that order explicit: lazy.nvim
+        -- loads dependencies (and runs their config) before this plugin's config.
+        dependencies = { 'nvim-mini/mini.pick' },
         config = function()
             require('mini.extra').setup()
         end,
@@ -232,6 +248,11 @@ require("lazy").setup({
     -- https://github.com/neovim/nvim-lspconfig
     {
         "neovim/nvim-lspconfig",
+        -- lua/bbkane/lsp.lua's <leader>d/<leader>D diagnostics maps call into
+        -- mini.pick / mini.extra (lazily, inside the keymap callbacks). Not
+        -- strictly required today since both are start plugins, but declaring it
+        -- documents the coupling and stays correct if these ever go lazy-loaded.
+        dependencies = { 'nvim-mini/mini.pick', 'nvim-mini/mini.extra' },
         config = function()
             require("bbkane.lsp")
         end,
