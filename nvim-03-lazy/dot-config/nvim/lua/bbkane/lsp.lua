@@ -11,7 +11,7 @@
 
 -- Python is split across two Astral servers (https://docs.astral.sh/):
 --   ruff -> lint / format / code actions   ty -> type checking / hover / nav
-vim.lsp.enable({ "lua_ls", "gopls", "ruff", "ty" })
+vim.lsp.enable({ "lua_ls", "gopls", "ruff", "ty", "rust_analyzer" })
 
 local augroup = vim.api.nvim_create_augroup("bbkane_lsp", { clear = true })
 
@@ -100,14 +100,60 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- go-to-definition isn't a default, so add it:
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: go to definition" })
 
+-- Custom current-buffer diagnostics picker. mini.extra's diagnostic picker
+-- always prefixes each row with the file path; for a single buffer that path is
+-- redundant and eats horizontal room, so this builds the items by hand and
+-- formats each row as just "severity | message". Choosing an item jumps to it
+-- (mini.pick's default_choose uses bufnr/lnum/col), and rows are tinted by
+-- severity to match mini.extra's look.
+local diag_ns = vim.api.nvim_create_namespace("bbkane_diag_picker")
+local diag_hl = {
+    [vim.diagnostic.severity.ERROR] = "DiagnosticFloatingError",
+    [vim.diagnostic.severity.WARN] = "DiagnosticFloatingWarn",
+    [vim.diagnostic.severity.INFO] = "DiagnosticFloatingInfo",
+    [vim.diagnostic.severity.HINT] = "DiagnosticFloatingHint",
+}
+local function buffer_diagnostics_picker()
+    local pick = require("mini.pick")
+    local items = {}
+    for _, d in ipairs(vim.diagnostic.get(0)) do
+        local sev = (vim.diagnostic.severity[d.severity] or " "):sub(1, 1)
+        table.insert(items, {
+            text = string.format("%s │ %d │ %s", sev, d.lnum + 1, d.message:gsub("\n", " ")),
+            bufnr = d.bufnr,
+            -- vim.diagnostic positions are 0-based; mini.pick wants 1-based.
+            lnum = d.lnum + 1,
+            col = d.col + 1,
+            severity = d.severity,
+        })
+    end
+    table.sort(items, function(a, b)
+        return (a.severity or 0) < (b.severity or 0) -- ERROR(1) first, HINT(4) last
+    end)
+    -- Tint each row by severity (line_hl_group covers the whole line, wrap-safe).
+    local show = function(buf_id, items_to_show, query)
+        pick.default_show(buf_id, items_to_show, query)
+        vim.api.nvim_buf_clear_namespace(buf_id, diag_ns, 0, -1)
+        for i, item in ipairs(items_to_show) do
+            local hl = diag_hl[item.severity]
+            if hl then
+                vim.api.nvim_buf_set_extmark(buf_id, diag_ns, i - 1, 0, { line_hl_group = hl })
+            end
+        end
+    end
+    pick.start({ source = { name = "Buffer diagnostics", items = items, show = show } })
+end
+
 -- Extra <leader> maps (mini.clue shows these under <leader>):
---   <leader>d   project diagnostics, fuzzy (VS Code "Problems"-ish) via mini.extra
+--   <leader>d   THIS buffer's diagnostics as "severity | message" (custom, above)
+--   <leader>D   project diagnostics (all loaded buffers), VS Code "Problems"-ish
 --   <leader>ws  workspace symbol search (VS Code Ctrl+T) via mini.extra
 --   <leader>cl  run the code lens under the cursor (e.g. gopls "run test")
--- (Diagnostic float is the built-in <C-w>d, so no <leader> map for it.)
--- Note: project diagnostics only cover servers' loaded buffers, so it is not a
--- full workspace scan like VS Code's Problems panel.
-vim.keymap.set("n", "<leader>d", function()
+-- (Diagnostic float for the line under the cursor is the built-in <C-w>d.)
+-- Note: project diagnostics only cover servers' loaded buffers, not a full
+-- workspace scan like VS Code's Problems panel.
+vim.keymap.set("n", "<leader>d", buffer_diagnostics_picker, { desc = "LSP: buffer diagnostics (picker)" })
+vim.keymap.set("n", "<leader>D", function()
     require("mini.extra").pickers.diagnostic({ scope = "all" })
 end, { desc = "LSP: project diagnostics (picker)" })
 vim.keymap.set("n", "<leader>ws", function()

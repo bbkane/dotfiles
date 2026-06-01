@@ -49,6 +49,9 @@ Install other dependencies:
 ```bash
 # LSPs and tree-sitter
 brew install gopls lua-language-server ruff tree-sitter-cli ty
+
+# rust-analyzer ships as a rustup component (needs https://rustup.rs)
+rustup component add rust-analyzer
 ```
 
 See other tree-sitter requirements [here](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#requirements) (most likely pre-installed)

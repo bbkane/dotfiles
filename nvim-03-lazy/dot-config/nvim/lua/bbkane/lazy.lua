@@ -114,7 +114,9 @@ require("lazy").setup({
                 },
 
                 clues = {
-                    -- Enhance this by adding descriptions for <Leader> mapping groups
+                    -- Descriptions for <Leader> mapping groups (the <leader>f
+                    -- find pickers live in the mini.pick config below).
+                    { mode = 'n', keys = '<Leader>f', desc = '+find' },
                     miniclue.gen_clues.builtin_completion(),
                     miniclue.gen_clues.g(),
                     miniclue.gen_clues.marks(),
@@ -131,7 +133,44 @@ require("lazy").setup({
         'nvim-mini/mini.pick',
         version = '*' ,
         config = function()
-            require('mini.pick').setup()
+            require('mini.pick').setup({
+                -- Big centered float (~90% of the editor) so long diagnostic
+                -- messages have room. window.config may be a function for
+                -- responsiveness; recomputed when the picker (re)opens.
+                window = {
+                    config = function()
+                        local height = math.floor(0.9 * vim.o.lines)
+                        local width = math.floor(0.9 * vim.o.columns)
+                        return {
+                            anchor = 'NW',
+                            height = height,
+                            width = width,
+                            row = math.floor(0.5 * (vim.o.lines - height)),
+                            col = math.floor(0.5 * (vim.o.columns - width)),
+                        }
+                    end,
+                },
+            })
+
+            -- Wrap long lines in the picker list so full messages are readable
+            -- (the diagnostic picker rows are "severity | path | message" and
+            -- would otherwise run off the right edge). MiniPickStart fires once
+            -- the list window exists; flip 'wrap' on it.
+            vim.api.nvim_create_autocmd('User', {
+                pattern = 'MiniPickStart',
+                callback = function()
+                    local win = require('mini.pick').get_picker_state().windows.main
+                    if win then vim.wo[win].wrap = true end
+                end,
+            })
+            -- Fuzzy-finder keymaps (leader is Space). mini.pick sets none by
+            -- default; these follow the Telescope/kickstart <leader>f convention
+            -- and show up under <leader>f via mini.clue.
+            vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>",     { desc = "Find files" })
+            vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<cr>", { desc = "Find by grep (live)" })
+            vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>",   { desc = "Find buffers" })
+            vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>",      { desc = "Find help" })
+            vim.keymap.set("n", "<leader>fr", "<cmd>Pick resume<cr>",    { desc = "Resume last picker" })
         end,
     },
 
