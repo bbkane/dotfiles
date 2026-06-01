@@ -19,7 +19,9 @@
       "$VIMRUNTIME/lua",
       "${3rd}/luv/library",
       "/home/linuxbrew/.linuxbrew/Cellar/neovim/0.12.1/share/nvim/runtime",
-      "/home/linuxbrew/.linuxbrew/Cellar/neovim/0.12.1/share/nvim/runtime/lua"
+      "/home/linuxbrew/.linuxbrew/Cellar/neovim/0.12.1/share/nvim/runtime/lua",
+      "/opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime",
+      "/opt/homebrew/Cellar/neovim/0.12.2/share/nvim/runtime/lua"
     ]
   },
   "hint": {

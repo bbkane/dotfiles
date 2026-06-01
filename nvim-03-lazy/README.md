@@ -8,6 +8,8 @@ As part of this, I'm not modifying standard vim locations.
 
 # Install
 
+## Backup
+
 How to back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
 
 ```bash
@@ -26,11 +28,15 @@ Or just delete them:
 rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 ```
 
+## Symlink
+
 Symlink nvim config directory (from root `dotfiles` directory):
 
 ```bash
-fling link -s nvim-03-lazy -i .luarc.json -i README.md
+fling link -s nvim-03-lazy -i README.md
 ```
+
+## Install dependencies
 
 On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard interaction:
 
@@ -38,29 +44,16 @@ On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard inter
 sudo apt install wl-clipboard  # or xsel
 ```
 
-For tree-sitter I need the `tree-sitter-cli` (see [here](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#requirements))
+Install other dependencies:
 
 ```bash
-brew install tree-sitter-cli
+# LSPs and tree-sitter
+brew install gopls lua-language-server ruff tree-sitter-cli ty
 ```
 
-Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git. Wait for that and then it'll all work out......
+See other tree-sitter requirements [here](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#requirements) (most likely pre-installed)
 
-# LSP Install
-
-The `nvim-lspconfig` plugin installs automatically via `lazy.nvim`, but the
-language server binaries do not - install them yourself onto `$PATH`:
-
-```bash
-# lua_ls (Lua, incl. this config)
-brew install lua-language-server
-
-# gopls (Go)
-go install golang.org/x/tools/gopls@latest
-
-# Python (Astral): ruff = lint/format, ty = type check
-brew install ruff ty
-```
+Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git and setting up treesitter. Wait for that and then it'll all work out......
 
 # Edit config
 
@@ -73,8 +66,6 @@ NOTE: need to expand `$VIMRUNTIME` to put `.luarc.json`  so VS Code can read it 
 ```bash
 nvim --headless -u NONE -i NONE --clean +'echo $VIMRUNTIME' +q
 ```
-
-
 
 # Colorschemes I like
 
