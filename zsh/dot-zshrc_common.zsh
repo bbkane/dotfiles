@@ -22,16 +22,20 @@ fi
 
 # -- Exports --
 
-# if EDITOR is not set (zsh > 5.3)
+# if EDITOR is not set (zsh > 5.3), fall back to something guaranteed to exist
+# (the nvim block above already handles the case where nvim is installed)
 if [[ ! -v EDITOR ]]; then
-    export EDITOR=nvim
+    export EDITOR=vi
 fi
 
 # groups | tr_space_to_newline
 alias tr_space_to_newline="tr ' ' '\n'"
 
-# interpret control codes with `less`
-export LESS="-R"
+# less options applied globally (so tools that read $LESS but invoke `less`
+# themselves pick them up, not just ones that honor $PAGER):
+# -F : quit if the output fits on one screen
+# -R : display ANSI color escape sequences in "raw" form
+export LESS="-FR"
 
 export MYPY_CACHE_DIR="$HOME/.mypy_cache"
 
@@ -68,10 +72,11 @@ bak() {
 }
 
 
-# `readlink -f` doesn't work on Mac
+# `readlink -f` doesn't work on Mac, so use zsh's built-in `:A` modifier
+# (resolves to an absolute path, following symlinks - no perl fork needed).
+# Default to '.' so `fullpath` with no args prints the current directory.
 fullpath() {
-    local dirname=$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1")
-    echo "$dirname"
+    print -r -- "${${1:-.}:A}"
 }
 
 git_commit_pull_push() {
@@ -113,12 +118,13 @@ bindkey "\e\e[C" forward-word
 
 # https://scriptingosx.com/2019/06/moving-to-zsh-part-3-shell-options/
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
-SAVEHIST=5000
-HISTSIZE=2000
+# Keep in-memory history >= on-disk history (HISTSIZE >= SAVEHIST)
+HISTSIZE=50000
+SAVEHIST=50000
 # share history across multiple zsh sessions
+# NOTE: SHARE_HISTORY already implies incremental append + cross-session read,
+# so APPEND_HISTORY would be redundant and is intentionally omitted
 setopt SHARE_HISTORY
-# append to history
-setopt APPEND_HISTORY
 # expire duplicates first
 setopt HIST_EXPIRE_DUPS_FIRST
 # do not store duplications
@@ -224,14 +230,6 @@ function clip-osc52() {
     printf "\033]52;c;%s\007" "$(base64 -w0 < /dev/stdin)"
 }
 
-
-# less options from https://litecli.com/output/
-# -X leaves file contents on the screen when less exits.
-# -F makes less quit if the entire output can be displayed on one screen.
-# -R displays ANSI color escape sequences in “raw” form.
-# -S disables line wrapping. Side-scroll to see long lines.
-# NOTE: for some reason this isn't working, but $PAGER does
-export PAGER="less -SRXF"
 
 # https://unix.stackexchange.com/a/691245/185953
 # --ignore : respect .gitignore

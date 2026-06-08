@@ -115,16 +115,19 @@ zp_git_precmd() {
         zp_git_precmd_var=':GIT_INFO_SKIPPED:'
         return
     fi
+    # GIT_OPTIONAL_LOCKS=0 keeps these prompt git calls from taking the index
+    # lock / refreshing the index, so the prompt stays fast and never contends
+    # with a foreground git command (see `man git`).
     # https://stackoverflow.com/a/56501750/2958070
     # git >= 2.21, doesn't work in detatched head mode
-    zp_git_precmd_var="$(git branch --show-current 2>/dev/null)"
+    zp_git_precmd_var="$(GIT_OPTIONAL_LOCKS=0 git branch --show-current 2>/dev/null)"
 
     local changes=''
     if [[ "$zp_git_precmd_var" != "" ]]; then
-        if ! git diff --no-ext-diff --quiet; then
+        if ! GIT_OPTIONAL_LOCKS=0 git diff --no-ext-diff --quiet; then
             changes='*'
         fi
-        if ! git diff --no-ext-diff --cached --quiet; then
+        if ! GIT_OPTIONAL_LOCKS=0 git diff --no-ext-diff --cached --quiet; then
             changes="${changes}+"
         fi
     fi
