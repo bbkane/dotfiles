@@ -120,9 +120,20 @@ end)
 -- https://news.ycombinator.com/item?id=45753978
 -- Hide the scrollbar when there is no scrollback or alternate screen is active
 wezterm.on("update-status", function(window, pane)
-	local overrides = window:get_config_overrides() or {}
-	local dimensions = pane:get_dimensions()
+	-- During workspace switches update-status can fire with a stale/missing
+	-- pane (e.g. "pane id 0 not found in mux"), so bail out defensively.
+	if pane == nil then
+		return
+	end
 
+	local ok, dimensions = pcall(function()
+		return pane:get_dimensions()
+	end)
+	if not ok or dimensions == nil then
+		return
+	end
+
+	local overrides = window:get_config_overrides() or {}
 	overrides.enable_scroll_bar = dimensions.scrollback_rows > dimensions.viewport_rows and
 		not pane:is_alt_screen_active()
 
