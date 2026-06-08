@@ -92,6 +92,24 @@ end
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
 wezterm.on("format-tab-title", format_tab_title.format_tab_title)
 
+-- Prepend the workspace name to the window title unless it's the default.
+-- https://wezfurlong.org/wezterm/config/lua/window-events/format-window-title.html
+wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
+	local index = ""
+	if #tabs > 1 then
+		index = string.format("[%d/%d] ", tab.tab_index + 1, #tabs)
+	end
+
+	local title = index .. tab.active_pane.title
+
+	local workspace = wezterm.mux.get_active_workspace()
+	if workspace and workspace ~= "" and workspace ~= "default" then
+		title = workspace .. ": " .. title
+	end
+
+	return title
+end)
+
 -- https://wezfurlong.org/wezterm/config/lua/window-events/open-uri.html?h=%27open+uri%27
 wezterm.on("open-uri", function(window, pane, uri)
 	-- Use Firefox instead of the default browser
