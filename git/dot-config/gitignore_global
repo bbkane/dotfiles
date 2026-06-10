@@ -10,3 +10,4 @@ tags
 tmp*
 
 **/.claude/settings.local.json
+**/.claude/logs/
