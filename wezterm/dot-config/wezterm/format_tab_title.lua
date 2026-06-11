@@ -63,7 +63,8 @@ local hash = ELFHash
 
 local hash_to_color = function(hash_int)
 	local hex = string.format("%x", hash_int)
-	hex = hex .. hex -- make it long enough
+	-- repeat then pad so even a short/zero hash yields a valid 6-digit hex
+	hex = string.rep(hex, 6)
 	local truncated = string.sub(hex, 1, 6)
 	-- https://wezfurlong.org/wezterm/config/lua/wezterm.color/parse.html
 	local color = wezterm.color.parse("#" .. truncated)

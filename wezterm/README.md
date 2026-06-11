@@ -19,8 +19,8 @@ Default keyboard shortcuts at https://wezfurlong.org/wezterm/config/default-keys
 | -------------------- | ---------------------- | ------------------------------------------------------------ |
 | Open Link            | Double click           | [Mouse Binding - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/config/mouse.html#default-mouse-assignments) |
 | Insert Unicode       | `CTRL` + `SHIFT` + `u` |                                                              |
-| Move forward word    | `OPT` + `RIGHT ARROW`  | Set in Lua config (send `Alt` + `b`)                         |
-| Move backward word   | `OPT` + `LEFT ARROW`   | Set in Lua config (send `Alt` + `f`)                         |
+| Move forward word    | `OPT` + `RIGHT ARROW`  | Set in Lua config (send `Alt` + `f`)                         |
+| Move backward word   | `OPT` + `LEFT ARROW`   | Set in Lua config (send `Alt` + `b`)                         |
 | Backspace word       | `CTRL` + `w`           | Standard Unix shortcut                                       |
 | Debug Overlay        | `Ctrl` + `Shift` + `L` | [Troubleshooting - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/troubleshooting.html) |
 | New Window           | `Ctrl` + `Shift` + `n` |                                                              |

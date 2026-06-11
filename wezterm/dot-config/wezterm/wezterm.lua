@@ -26,9 +26,9 @@ local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
 -- config.color_scheme = 'kanagawabones'
 -- config.color_scheme = 'OneHalfBlack (Gogh)'
 -- config.color_scheme = 'Scarlet Protocol'
-config.color_scheme = "Solarized Dark Higher Contrast"
+-- config.color_scheme = "Solarized Dark Higher Contrast"
 -- config.color_scheme = 'Modus-Vivendi'
-config.color_scheme = 'MaterialDarker'
+-- config.color_scheme = 'MaterialDarker'
 config.color_scheme = 'Nucolors (terminal.sexy)'
 
 if is_darwin then
@@ -38,10 +38,6 @@ if is_darwin then
 	-- config.freetype_load_target = "Light"
 	config.cell_width = 0.9
 	config.font = wezterm.font_with_fallback(font.font())
-	-- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
-	config.window_frame = {
-		font_size = 15.0,
-	}
 end
 
 -- stop lagging on "Mission Contro" zoom out
@@ -50,6 +46,9 @@ config.window_decorations = "TITLE|RESIZE|MACOS_FORCE_DISABLE_SHADOW"
 
 local window_frame_border_color <const> = "#484848"
 config.window_frame = {
+	-- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
+	-- nil on non-darwin so it falls back to the default frame font size
+	font_size = is_darwin and 15.0 or nil,
 	-- Specify border thickness (e.g., '1px', '0.5cell')
 	border_left_width = '1px',
 	border_right_width = '1px',
@@ -134,10 +133,15 @@ wezterm.on("update-status", function(window, pane)
 	end
 
 	local overrides = window:get_config_overrides() or {}
-	overrides.enable_scroll_bar = dimensions.scrollback_rows > dimensions.viewport_rows and
+	local desired = dimensions.scrollback_rows > dimensions.viewport_rows and
 		not pane:is_alt_screen_active()
 
-	window:set_config_overrides(overrides)
+	-- set_config_overrides triggers a window reconfigure, and update-status
+	-- fires frequently, so only write when the value actually changes.
+	if overrides.enable_scroll_bar ~= desired then
+		overrides.enable_scroll_bar = desired
+		window:set_config_overrides(overrides)
+	end
 end)
 
 -- and finally, return the configuration to wezterm
