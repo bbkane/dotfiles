@@ -32,6 +32,23 @@ Symlink these files from the dotfiles repo root:
 fling link -s ./git
 ```
 
+## Per-repo setup
+
+A couple of settings are global but only take full effect once enabled per-repo:
+
+- **Background maintenance.** `maintenance.auto = false` only disables ad-hoc
+  auto-runs. To get scheduled background optimization (commit-graph, gc, prune),
+  run `git maintenance start` inside each repo you care about (e.g. large
+  checkouts). It is not global.
+
+  ```bash
+  git maintenance start
+  ```
+
+- **fsmonitor.** `core.fsmonitor = true` uses Git's built-in fsmonitor daemon
+  (no Watchman needed on Git 2.54+). It spins up a `git-fsmonitor--daemon`
+  process per repo on the first `git status` — harmless, just expected.
+
 ## Architecture
 
 My Git setup is somewhat complicated, but the gist of it is:

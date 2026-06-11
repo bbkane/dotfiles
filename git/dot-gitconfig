@@ -19,10 +19,15 @@
 	ui = auto
 [commit]
 	template = ~/.config/git_commit-template.txt
+	# show the full diff below the template while writing the message
+	verbose = true
 [core]
 	excludesfile = ~/.config/gitignore_global
 	longpaths = true
 	pager = delta
+	# speed up `git status` etc. on large working trees
+	fsmonitor = true
+	untrackedCache = true
 # https://github.com/git-ecosystem/git-credential-manager/blob/release/docs/install.md
 # `git-credential-manager configure`
 [credential]
@@ -50,7 +55,11 @@
 	# NOTE: this blocks pulls if they would clobber existing tags, so commenting out
 	# ! [rejected]          tag_name -> tag_name  (would clobber existing tag)
 	# pruneTags = true
+	# NOTE: this fetches from ALL remotes on every fetch/pull. Fine with only
+	# `origin`, but surprising/slow once a fork or upstream remote is added.
 	all = true
+	# keep the commit-graph up to date on fetch for faster log/traversal
+	writeCommitGraph = true
 # Not sure why git lfs got installed but whatever...
 # https://mydeveloperplanet.com/2018/10/31/git-lfs-why-and-how-to-use/
 [filter "lfs"]
@@ -64,14 +73,23 @@
 	defaultBranch = master
 [interactive]
 	diffFilter = delta --color-only
+[maintenance]
+	# don't auto-trigger; run `git maintenance start` per-repo to schedule
+	# background commit-graph / gc / prune
+	auto = false
 [merge]
 	conflictstyle = zdiff3
 [pull]
 	rebase = false
+	# with rebase = false, refuse to auto-create a merge commit on divergence;
+	# make me choose merge vs rebase explicitly
+	ff = only
 [push]
 	autoSetupRemote = true
-	default = simple
 	followTags = true
+[rerere]
+	# remember & replay how I resolved a conflict next time the same one appears
+	enabled = true
 [tag]
 	sort = version:refname
 [user]
