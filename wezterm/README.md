@@ -21,6 +21,7 @@ Default keyboard shortcuts at https://wezfurlong.org/wezterm/config/default-keys
 | Insert Unicode       | `CTRL` + `SHIFT` + `u` |                                                              |
 | Move forward word    | `OPT` + `RIGHT ARROW`  | Set in Lua config (send `Alt` + `f`)                         |
 | Move backward word   | `OPT` + `LEFT ARROW`   | Set in Lua config (send `Alt` + `b`)                         |
+| Move tab             | `CTRL` + `LEFT/RIGHT ARROW` | Set in Lua config (`MoveTabRelative`)                    |
 | Backspace word       | `CTRL` + `w`           | Standard Unix shortcut                                       |
 | Debug Overlay        | `Ctrl` + `Shift` + `L` | [Troubleshooting - Wez's Terminal Emulator](https://wezfurlong.org/wezterm/troubleshooting.html) |
 | New Window           | `Ctrl` + `Shift` + `n` |                                                              |

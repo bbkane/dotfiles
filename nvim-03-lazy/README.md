@@ -60,10 +60,6 @@ Open `nvim` - note that it'll freeze for a tad the first time because it's cloni
 
 # Edit config
 
-```bash
-code ./dot-config/nvim  # uses .luarc.json there
-```
-
 NOTE: need to expand `$VIMRUNTIME` to put `.luarc.json`  so VS Code can read it ($VIMRUNTIME is only set when Neovim is started, so not in VS Code process)
 
 ```bash

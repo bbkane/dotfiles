@@ -79,9 +79,13 @@ config.mouse_bindings = {
 -- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
 config.keys = {
 	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
-	{ key = "LeftArrow",  mods = "OPT", action = wezterm.action({ SendString = "\x1bb" }) },
+	{ key = "LeftArrow",  mods = "OPT",  action = wezterm.action({ SendString = "\x1bb" }) },
 	-- Make Option-Right equivalent to Alt-f; forward-word
-	{ key = "RightArrow", mods = "OPT", action = wezterm.action({ SendString = "\x1bf" }) },
+	{ key = "RightArrow", mods = "OPT",  action = wezterm.action({ SendString = "\x1bf" }) },
+
+	-- move tabs with ctrl+arrow
+	{ key = "LeftArrow",  mods = "CTRL", action = wezterm.action.MoveTabRelative(-1) },
+	{ key = "RightArrow", mods = "CTRL", action = wezterm.action.MoveTabRelative(1) },
 }
 
 if has_ssh_domains then
