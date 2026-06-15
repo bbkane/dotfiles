@@ -167,3 +167,11 @@ vim.diagnostic.config({
     virtual_text = true,
     severity_sort = true,
 })
+
+-- Toggle ALL diagnostics (virtual text, underlines, signs) on/off globally.
+vim.api.nvim_create_user_command("DiagnosticEnable", function()
+    vim.diagnostic.enable(true)
+end, { desc = "Enable all diagnostics" })
+vim.api.nvim_create_user_command("DiagnosticDisable", function()
+    vim.diagnostic.enable(false)
+end, { desc = "Disable all diagnostics" })

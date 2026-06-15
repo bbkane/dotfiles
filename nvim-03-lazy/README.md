@@ -58,6 +58,24 @@ NOTE: need to expand `$VIMRUNTIME` to put `.luarc.json`  so VS Code can read it 
 nvim --headless -u NONE -i NONE --clean +'echo $VIMRUNTIME' +q
 ```
 
+# Config layout
+
+Neovim treats `~/.config/nvim` (this directory) as a "runtimepath" entry, and a few subfolder names are **special**: Neovim auto-loads files from them at specific moments. Everything else is only loaded if some Lua file explicitly `require`s it. Here's what this config uses and when each is loaded:
+
+| Path | Loaded when | Holds |
+| --- | --- | --- |
+| `init.lua` | First, at startup | Entry point. Just `require`s the `bbkane.*` modules in order: `common` → `autocmds` → `cmds` → `lazy` |
+| `lua/bbkane/*.lua` | On demand, when `require`d | The actual config modules. The `lua/` dir is on Lua's package path, so it is **not** auto-run — `init.lua` pulls these in explicitly, top to bottom |
+| `lsp/<name>.lua` | When that server is enabled (Neovim 0.11+) | Per-server LSP config (one file per server: `gopls.lua`, `ruff.lua`, …). Auto-read when `vim.lsp.enable("<name>")` runs |
+| `ftplugin/<filetype>.lua` | On the `FileType` event, every time a buffer's filetype is set | Buffer-local settings for that filetype (e.g. `ftplugin/gitconfig.lua` forces real tabs). Runs once per matching buffer |
+| `templates/` | Never auto-loaded | Skeleton files for new buffers. **Not** a special dir — the `BufNewFile` autocmd in `autocmds.lua` reads them by hand |
+| `.luarc.json` | Read by lua-language-server | Lua LSP settings for editing this config (not used by Neovim itself) |
+| `lazy-lock.json` | Read/written by lazy.nvim | Plugin version lockfile |
+
+Filetype **detection** (which extensions/filenames map to which filetype) is set in `lua/bbkane/autocmds.lua` via `vim.filetype.add()`; the per-filetype **settings** that detection triggers live in `ftplugin/`.
+
+Other special folders Neovim auto-loads but this config doesn't currently use: `plugin/` (run once at startup, after plugins), `ftdetect/` (older alternative to `vim.filetype.add`), `indent/`, `syntax/`, and `after/` (same names, sourced last to override).
+
 # Keybindings
 
 To see every mapping (fuzzy, searchable, with the definition location in the preview): `:Pick keymaps`. To find where a specific key was set: `:verbose nmap <key>` (e.g. `:verbose nmap <leader>d`).
@@ -160,3 +178,4 @@ See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top
 
 - tokyonight-night
 
+
