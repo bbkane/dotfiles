@@ -109,7 +109,7 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 | Go to implementation | `gri` | Built-in |
 | Go to type definition | `grt` | Built-in |
 | Document symbols | `gO` | Built-in |
-| Hover docs | `K` | Built-in |
+| Hover docs | `K` | Built-in. Hit K a second time to switch focus to the window for scrolling |
 | Signature help | `<C-s>` | Built-in; insert mode |
 | Previous / next diagnostic | `[d` / `]d` | Built-in |
 | Show diagnostic float under cursor | `<C-w>d` | Built-in |

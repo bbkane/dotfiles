@@ -228,6 +228,16 @@ require("lazy").setup({
         end,
     },
 
+    -- Auto-close brackets/quotes ( ) [ ] { } " ' ` as you type.
+    -- https://github.com/nvim-mini/mini.pairs
+    {
+        'nvim-mini/mini.pairs',
+        version = '*',
+        config = function()
+            require('mini.pairs').setup()
+        end,
+    },
+
     -- https://nvim-mini.org/mini.nvim/readmes/mini-diff
     -- does a bit less than gitsigns (so hopefully faster) and part of mini ecosystem
     {
