@@ -20,6 +20,12 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- nvim-tree recommends disabling netrw to avoid conflicts; must happen before
+-- any plugin loads (and before nvim-tree's setup). This means :Ex/:Explore
+-- (netrw) no longer work - use <leader>e (nvim-tree) to browse files instead.
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 require("lazy").setup({
     -- start color schemes
     -- https://vimcolorschemes.com/i/trending
@@ -268,6 +274,17 @@ require("lazy").setup({
             local configs = require("nvim-treesitter")
             configs.install({ "bash", "go", "markdown", "markdown_inline", "python", "rust", "sql", "yaml" }):wait(300000)
         end
+    },
+
+    -- File explorer tree sidebar (VS Code-style). netrw is disabled above so it
+    -- doesn't conflict. <leader>e toggles it; inside the tree, g? shows help.
+    -- https://github.com/nvim-tree/nvim-tree.lua
+    {
+        "nvim-tree/nvim-tree.lua",
+        config = function()
+            require("nvim-tree").setup()
+            vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "File explorer (nvim-tree)" })
+        end,
     },
 
 })

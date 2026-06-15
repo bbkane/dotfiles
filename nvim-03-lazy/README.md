@@ -71,6 +71,56 @@ nvim --headless -u NONE -i NONE --clean +'echo $VIMRUNTIME' +q
 
 To see every mapping (fuzzy, searchable, with the definition location in the preview): `:Pick keymaps`. To find where a specific key was set: `:verbose nmap <key>` (e.g. `:verbose nmap <leader>d`).
 
+`<leader>` is `<Space>`.
+
+## Pickers (mini.pick)
+
+| Action | Keybinding | Notes |
+| --- | --- | --- |
+| Find files | `<leader>ff` | |
+| Find by grep (live) | `<leader>fg` | |
+| Find buffers | `<leader>fb` | |
+| Find help | `<leader>fh` | |
+| Resume last picker | `<leader>fr` | |
+| Find picker (registry of all pickers) | `<leader>fp` | |
+| Buffer diagnostics | `<leader>d` | LSP picker |
+| Project diagnostics | `<leader>D` | LSP picker |
+| Workspace symbols | `<leader>ws` | LSP picker |
+
+## LSP
+
+"Built-in" = Neovim 0.11+ default active on attach; "Added" = defined in this config. (LSP pickers live in the Pickers table above.)
+
+| Action | Keybinding | Notes |
+| --- | --- | --- |
+| Go to definition | `gd` | Added |
+| Code action (incl. quickfix auto-fixes) | `gra` | Built-in |
+| Rename | `grn` | Built-in |
+| References | `grr` | Built-in |
+| Go to implementation | `gri` | Built-in |
+| Go to type definition | `grt` | Built-in |
+| Document symbols | `gO` | Built-in |
+| Hover docs | `K` | Built-in |
+| Signature help | `<C-s>` | Built-in; insert mode |
+| Previous / next diagnostic | `[d` / `]d` | Built-in |
+| Show diagnostic float under cursor | `<C-w>d` | Built-in |
+| Open / accept completion | `<C-Space>` / `<C-@>` | Added; insert mode |
+| Run code lens under cursor | `<leader>cl` | Added |
+
+## Other
+
+Equivalents in *this* config. A few actions have no dedicated binding here — marked accordingly.
+
+| Action | Keybinding | Notes |
+| --- | --- | --- |
+| Complete from strings in file | `<C-x><C-n>` | Insert mode. Built-in buffer-keyword completion; `<C-Space>` does LSP completion |
+| Format file | n/a | On `:w` — auto-formats on save via the `BufWritePre` autocmd; no manual keymap |
+| Go back / forward | `<C-o>` / `<C-i>` | Jumplist (built-in) |
+| Navigate symbols in current file | `gO` | Document symbols (built-in) |
+| Split window | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in) |
+| Move between splits | `<C-w>h` / `<C-w>j` / `<C-w>k` / `<C-w>l` | Built-in |
+| Toggle file explorer (tree) | `<leader>e` | Added; nvim-tree. `g?` for help inside the tree |
+
 # Colorschemes I like
 
 ## Built-in
