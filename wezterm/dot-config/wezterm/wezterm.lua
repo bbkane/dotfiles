@@ -14,7 +14,7 @@ local config = {}
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
 if wezterm.config_builder then
-	config = wezterm.config_builder()
+    config = wezterm.config_builder()
 end
 
 -- https://github.com/wez/wezterm/discussions/4728
@@ -32,12 +32,12 @@ local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
 config.color_scheme = 'Nucolors (terminal.sexy)'
 
 if is_darwin then
-	config.font_size = 18.0
-	-- config.freetype_load_flags = 'NO_HINTING'
-	-- config.freetype_render_target = "HorizontalLcd"
-	-- config.freetype_load_target = "Light"
-	config.cell_width = 0.9
-	config.font = wezterm.font_with_fallback(font.font())
+    config.font_size = 18.0
+    -- config.freetype_load_flags = 'NO_HINTING'
+    -- config.freetype_render_target = "HorizontalLcd"
+    -- config.freetype_load_target = "Light"
+    config.cell_width = 0.9
+    config.font = wezterm.font_with_fallback(font.font())
 end
 
 -- stop lagging on "Mission Contro" zoom out
@@ -46,50 +46,49 @@ config.window_decorations = "TITLE|RESIZE|MACOS_FORCE_DISABLE_SHADOW"
 
 local window_frame_border_color <const> = "#484848"
 config.window_frame = {
-	-- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
-	-- nil on non-darwin so it falls back to the default frame font size
-	font_size = is_darwin and 15.0 or nil,
-	-- Specify border thickness (e.g., '1px', '0.5cell')
-	border_left_width = '1px',
-	border_right_width = '1px',
-	border_bottom_height = '1px',
-	border_top_height = '1px',
-	-- Specify border colors
-	border_left_color = window_frame_border_color,
-	border_right_color = window_frame_border_color,
-	border_bottom_color = window_frame_border_color,
-	border_top_color = window_frame_border_color,
+    -- https://wezfurlong.org/wezterm/config/appearance.html?h=tab#tab-bar-appearance-colors
+    -- nil on non-darwin so it falls back to the default frame font size
+    font_size = is_darwin and 15.0 or nil,
+    -- Specify border thickness (e.g., '1px', '0.5cell')
+    border_left_width = '1px',
+    border_right_width = '1px',
+    border_bottom_height = '1px',
+    border_top_height = '1px',
+    -- Specify border colors
+    border_left_color = window_frame_border_color,
+    border_right_color = window_frame_border_color,
+    border_bottom_color = window_frame_border_color,
+    border_top_color = window_frame_border_color,
 }
 
 config.enable_scroll_bar = true
 
 config.mouse_bindings = {
-	{
-		event = { Down = { streak = 1, button = { WheelUp = 1 } } },
-		mods = 'NONE',
-		action = wezterm.action.ScrollByLine(-5)
-	},
-	{
-		event = { Down = { streak = 1, button = { WheelDown = 1 } } },
-		mods = 'NONE',
-		action = wezterm.action.ScrollByLine(5)
-	}
+    {
+        event = { Down = { streak = 1, button = { WheelUp = 1 } } },
+        mods = 'NONE',
+        action = wezterm.action.ScrollByLine(-5)
+    },
+    {
+        event = { Down = { streak = 1, button = { WheelDown = 1 } } },
+        mods = 'NONE',
+        action = wezterm.action.ScrollByLine(5)
+    }
 }
 
 -- https://github.com/wez/wezterm/issues/253#issuecomment-672007120
 config.keys = {
-	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
-	{ key = "LeftArrow",  mods = "OPT",  action = wezterm.action({ SendString = "\x1bb" }) },
-	-- Make Option-Right equivalent to Alt-f; forward-word
-	{ key = "RightArrow", mods = "OPT",  action = wezterm.action({ SendString = "\x1bf" }) },
+    -- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
+    { key = "LeftArrow",  mods = "OPT",        action = wezterm.action({ SendString = "\x1bb" }) },
+    -- Make Option-Right equivalent to Alt-f; forward-word
+    { key = "RightArrow", mods = "OPT",        action = wezterm.action({ SendString = "\x1bf" }) },
 
-	-- move tabs with ctrl+arrow
-	{ key = "LeftArrow",  mods = "CTRL", action = wezterm.action.MoveTabRelative(-1) },
-	{ key = "RightArrow", mods = "CTRL", action = wezterm.action.MoveTabRelative(1) },
+    { key = "LeftArrow",  mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(-1) },
+    { key = "RightArrow", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(1) },
 }
 
 if has_ssh_domains then
-	config.unix_domains = ssh_domains.unix_domains()
+    config.unix_domains = ssh_domains.unix_domains()
 end
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-tab-title.html
@@ -98,54 +97,54 @@ wezterm.on("format-tab-title", format_tab_title.format_tab_title)
 -- Prepend the workspace name to the window title unless it's the default.
 -- https://wezfurlong.org/wezterm/config/lua/window-events/format-window-title.html
 wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
-	local index = ""
-	if #tabs > 1 then
-		index = string.format("[%d/%d] ", tab.tab_index + 1, #tabs)
-	end
+    local index = ""
+    if #tabs > 1 then
+        index = string.format("[%d/%d] ", tab.tab_index + 1, #tabs)
+    end
 
-	local title = index .. tab.active_pane.title
+    local title = index .. tab.active_pane.title
 
-	local workspace = wezterm.mux.get_active_workspace()
-	if workspace and workspace ~= "" and workspace ~= "default" then
-		title = workspace .. ": " .. title
-	end
+    local workspace = wezterm.mux.get_active_workspace()
+    if workspace and workspace ~= "" and workspace ~= "default" then
+        title = workspace .. ": " .. title
+    end
 
-	return title
+    return title
 end)
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/open-uri.html?h=%27open+uri%27
 wezterm.on("open-uri", function(window, pane, uri)
-	-- Use Firefox instead of the default browser
-	wezterm.open_with(uri, 'firefox')
-	return false
+    -- Use Firefox instead of the default browser
+    wezterm.open_with(uri, 'firefox')
+    return false
 end)
 
 -- https://news.ycombinator.com/item?id=45753978
 -- Hide the scrollbar when there is no scrollback or alternate screen is active
 wezterm.on("update-status", function(window, pane)
-	-- During workspace switches update-status can fire with a stale/missing
-	-- pane (e.g. "pane id 0 not found in mux"), so bail out defensively.
-	if pane == nil then
-		return
-	end
+    -- During workspace switches update-status can fire with a stale/missing
+    -- pane (e.g. "pane id 0 not found in mux"), so bail out defensively.
+    if pane == nil then
+        return
+    end
 
-	local ok, dimensions = pcall(function()
-		return pane:get_dimensions()
-	end)
-	if not ok or dimensions == nil then
-		return
-	end
+    local ok, dimensions = pcall(function()
+        return pane:get_dimensions()
+    end)
+    if not ok or dimensions == nil then
+        return
+    end
 
-	local overrides = window:get_config_overrides() or {}
-	local desired = dimensions.scrollback_rows > dimensions.viewport_rows and
-		not pane:is_alt_screen_active()
+    local overrides = window:get_config_overrides() or {}
+    local desired = dimensions.scrollback_rows > dimensions.viewport_rows and
+        not pane:is_alt_screen_active()
 
-	-- set_config_overrides triggers a window reconfigure, and update-status
-	-- fires frequently, so only write when the value actually changes.
-	if overrides.enable_scroll_bar ~= desired then
-		overrides.enable_scroll_bar = desired
-		window:set_config_overrides(overrides)
-	end
+    -- set_config_overrides triggers a window reconfigure, and update-status
+    -- fires frequently, so only write when the value actually changes.
+    if overrides.enable_scroll_bar ~= desired then
+        overrides.enable_scroll_bar = desired
+        window:set_config_overrides(overrides)
+    end
 end)
 
 -- and finally, return the configuration to wezterm
