@@ -144,8 +144,9 @@ First-time auth: open `nvim` and run `:Copilot auth` — it shows a one-time cod
 
 | Action | Keybinding | Notes |
 | --- | --- | --- |
-| Accept suggestion | `<C-j>` | Insert mode (bound off `<Tab>`; `<C-j>`'s default newline is still on `<Enter>`) |
-| Next / previous suggestion | `<M-]>` / `<M-[>` | Insert mode |
+| Accept suggestion | `<C-l>` | Insert mode. No default insert behavior shadowed |
+| Next suggestion | `<C-j>` | Insert mode. Shadows newline (still on `<Enter>`) |
+| Previous suggestion | `<C-k>` | Insert mode. Shadows digraph entry (`<C-k>e'` → `é`) |
 | Dismiss suggestion | `<C-]>` | Insert mode |
 
 # Colorschemes I like
