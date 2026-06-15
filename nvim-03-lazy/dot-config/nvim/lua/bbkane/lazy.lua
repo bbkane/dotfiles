@@ -287,6 +287,34 @@ require("lazy").setup({
         end,
     },
 
+    -- GitHub Copilot inline (ghost-text) suggestions. Needs Node.js on $PATH and
+    -- a one-time `:Copilot auth` to sign in. Accept is bound to <C-j> instead of
+    -- the default <Tab> so it doesn't fight Tab indentation; <C-j> only shadows
+    -- the insert-mode newline, which <CR>/<Enter> still does.
+    -- https://github.com/zbirenbaum/copilot.lua
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({
+                suggestion = {
+                    enabled = true,
+                    auto_trigger = true, -- show suggestions as you type
+                    keymap = {
+                        accept = "<C-j>",
+                        next = "<M-]>",
+                        prev = "<M-[>",
+                        dismiss = "<C-]>",
+                    },
+                },
+                -- Ghost text only; the separate multi-suggestion panel adds UI
+                -- surface we don't need.
+                panel = { enabled = false },
+            })
+        end,
+    },
+
 })
 
 -- let's set the colorscheme here since I have two to chose from, and they come from plugins

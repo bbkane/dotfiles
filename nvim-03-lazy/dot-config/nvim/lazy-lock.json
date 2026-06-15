@@ -1,4 +1,5 @@
 {
+  "copilot.lua": { "branch": "master", "commit": "b54c05349d406f7af11b150824efa8e4f90015c6" },
   "everforest": { "branch": "master", "commit": "aeef62ee97872d2557d25904d160ec93a4a355f8" },
   "gruvbox-material": { "branch": "master", "commit": "11d779b26a9ab2b3db8c22c6ac9fb6e8ed4fea79" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03" },

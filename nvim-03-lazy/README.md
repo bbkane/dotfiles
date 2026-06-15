@@ -136,6 +136,18 @@ In-tree mappings (open with `<leader>e`; press `g?` inside for the full list). F
 | Open file | `<CR>` / `o` | |
 | Show all mappings (help) | `g?` | |
 
+## Copilot (copilot.lua)
+
+Inline ghost-text suggestions in insert mode (auto-triggered as you type). Requires Node.js on `$PATH`.
+
+First-time auth: open `nvim` and run `:Copilot auth` — it shows a one-time code and opens GitHub in your browser; paste the code there to sign in. Check status anytime with `:Copilot status`.
+
+| Action | Keybinding | Notes |
+| --- | --- | --- |
+| Accept suggestion | `<C-j>` | Insert mode (bound off `<Tab>`; `<C-j>`'s default newline is still on `<Enter>`) |
+| Next / previous suggestion | `<M-]>` / `<M-[>` | Insert mode |
+| Dismiss suggestion | `<C-]>` | Insert mode |
+
 # Colorschemes I like
 
 ## Built-in
