@@ -134,6 +134,18 @@ require("lazy").setup({
         end,
     },
 
+    -- Icon provider (file/LSP-kind/etc. glyphs). mini.pick / mini.extra
+    -- auto-detect it, and the <leader>ws symbol picker in lsp.lua uses
+    -- MiniIcons.get('lsp', kind) for the kind-icon column.
+    -- https://github.com/nvim-mini/mini.icons
+    {
+        'nvim-mini/mini.icons',
+        version = '*',
+        config = function()
+            require('mini.icons').setup()
+        end,
+    },
+
     -- Keeping this but need to figure out how to do non-local files (like ~/...)
     {
         'nvim-mini/mini.pick',
