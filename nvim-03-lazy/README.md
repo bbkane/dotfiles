@@ -48,7 +48,7 @@ Install other dependencies:
 
 ```bash
 # LSPs and tree-sitter
-# bash-language-server auto-uses shellcheck (diagnostics) + shfmt (formatting) if on $PATH
+# bash-language-server auto-uses shellcheck + shfmt
 brew install bash-language-server gopls lua-language-server ruff shellcheck shfmt tree-sitter-cli ty
 
 # rust-analyzer ships as a rustup component (needs https://rustup.rs)
@@ -120,6 +120,21 @@ Equivalents in *this* config. A few actions have no dedicated binding here — m
 | Split window | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in) |
 | Move between splits | `<C-w>h` / `<C-w>j` / `<C-w>k` / `<C-w>l` | Built-in |
 | Toggle file explorer (tree) | `<leader>e` | Added; nvim-tree. `g?` for help inside the tree |
+
+## File explorer (nvim-tree)
+
+In-tree mappings (open with `<leader>e`; press `g?` inside for the full list). File ops act relative to the directory under the cursor.
+
+| Action | Keybinding | Notes |
+| --- | --- | --- |
+| Add file / directory | `a` | End name with `/` for a directory; `foo/bar/baz.lua` creates intermediate dirs |
+| Rename | `r` | |
+| Delete | `d` | |
+| Cut | `x` | |
+| Copy | `c` | |
+| Paste | `p` | Into the selected directory |
+| Open file | `<CR>` / `o` | |
+| Show all mappings (help) | `g?` | |
 
 # Colorschemes I like
 
