@@ -132,15 +132,28 @@ local function buffer_diagnostics_picker()
     table.sort(items, function(a, b)
         return (a.severity or 0) < (b.severity or 0) -- ERROR(1) first, HINT(4) last
     end)
-    -- Tint each row by severity (line_hl_group covers the whole line, wrap-safe).
+    -- Tint each row by severity (line_hl_group covers the whole line, wrap-safe),
+    -- and show the offending source line as a virtual line below each row.
+    -- (Below, not above: Neovim won't render virt_lines above the first buffer
+    -- line, so the top row would silently lose its source line.)
     local show = function(buf_id, items_to_show, query)
         pick.default_show(buf_id, items_to_show, query)
         vim.api.nvim_buf_clear_namespace(buf_id, diag_ns, 0, -1)
+        local win = vim.fn.bufwinid(buf_id)
+        local width = win ~= -1 and vim.api.nvim_win_get_width(win) or 80
+        local sep = string.rep("─", width)
         for i, item in ipairs(items_to_show) do
-            local hl = diag_hl[item.severity]
-            if hl then
-                vim.api.nvim_buf_set_extmark(buf_id, diag_ns, i - 1, 0, { line_hl_group = hl })
+            local opts = { line_hl_group = diag_hl[item.severity] }
+            if item.bufnr and item.lnum then
+                local src = vim.api.nvim_buf_get_lines(item.bufnr, item.lnum - 1, item.lnum, false)[1]
+                if src then
+                    opts.virt_lines = {
+                        { { vim.trim(src), "Comment" } },
+                        { { sep, "NonText" } },
+                    }
+                end
             end
+            vim.api.nvim_buf_set_extmark(buf_id, diag_ns, i - 1, 0, opts)
         end
     end
     pick.start({ source = { name = "Buffer diagnostics", items = items, show = show } })
@@ -164,7 +177,8 @@ end, { desc = "LSP: workspace symbols (picker)" })
 vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "LSP: run code lens" })
 
 vim.diagnostic.config({
-    virtual_text = true,
+    -- virtual_text = true,
+    virtual_lines = true,
     severity_sort = true,
 })
 

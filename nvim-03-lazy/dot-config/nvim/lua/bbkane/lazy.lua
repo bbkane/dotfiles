@@ -264,6 +264,11 @@ require("lazy").setup({
         end,
     },
 
+    -- https://github.com/tpope/vim-rsi
+    {
+        "tpope/vim-rsi",
+    },
+
     -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#lazynvim
     {
         "nvim-treesitter/nvim-treesitter",
