@@ -84,6 +84,8 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 
 ## Pickers (mini.pick)
 
+Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in the LSP section below.
+
 | Description | Action | Notes |
 | --- | --- | --- |
 | Find files | `<leader>ff` | |
@@ -91,14 +93,11 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 | Find buffers | `<leader>fb` | |
 | Find help | `<leader>fh` | |
 | Resume last picker | `<leader>fr` | |
-| Find picker (registry of all pickers) | `<leader>fp` | |
-| Buffer diagnostics | `<leader>d` | LSP picker |
-| Project diagnostics | `<leader>D` | LSP picker |
-| Workspace symbols | `<leader>ws` | LSP picker |
+| Find picker (registry of all pickers) | `<leader>fp` | Custom; `:Pick registry` |
 
 ## LSP
 
-"Built-in" = Neovim 0.11+ default active on attach; "Added" = defined in this config. (LSP pickers live in the Pickers table above.)
+"Built-in" = Neovim 0.11+ default active on attach; "Added" = defined in this config; picker rows ("Custom" / "mini.extra") run through mini.pick. The generic file/grep/buffer finders are in the Pickers table above.
 
 | Description | Action | Notes |
 | --- | --- | --- |
@@ -108,12 +107,16 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 | References | `grr` | Built-in |
 | Go to implementation | `gri` | Built-in |
 | Go to type definition | `grt` | Built-in |
-| Document symbols | `gO` | Built-in |
+| Document symbols | `gO` | Built-in (loclist) |
+| Outline / symbols (picker) | `<leader>o` | Custom; LSP document symbols, or Treesitter markdown headings when no LSP. `:Pick outline` |
+| Workspace symbols (picker) | `<leader>ws` | mini.extra |
 | Hover docs | `K` | Built-in. Hit K a second time to switch focus to the window for scrolling |
 | Signature help | `<C-s>` | Built-in; insert mode |
 | Previous / next diagnostic | `[d` / `]d` | Built-in |
 | Show diagnostic float under cursor | `<C-w>d` | Built-in |
 | Set diagnostic display mode | `:Diagnostics` | Added; tab-completes `virtual_lines` / `virtual_text` / `current_line` / `no_text` / `disabled` |
+| Buffer diagnostics (picker) | `<leader>d` | Custom; this buffer. `:Pick buffer_diagnostics` |
+| Project diagnostics (picker) | `<leader>D` | mini.extra; all loaded buffers |
 | Open / accept completion | `<C-Space>` / `<C-@>` | Added; insert mode |
 | Run code lens under cursor | `<leader>cl` | Added |
 
@@ -124,7 +127,6 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 | Complete from strings in file | `<C-x><C-n>` | Insert mode. Built-in buffer-keyword completion; `<C-Space>` does LSP completion |
 | Format file | n/a | On `:w` — auto-formats on save via the `BufWritePre` autocmd; no manual keymap |
 | Go back / forward | `<C-o>` / `<C-i>` | Jumplist (built-in) |
-| Navigate symbols in current file | `gO` | Document symbols (built-in) |
 | Split window | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in) |
 | Move between splits | `<C-w>h` / `<C-w>j` / `<C-w>k` / `<C-w>l` | Built-in |
 | Toggle file explorer (tree) | `<leader>e` | Added; nvim-tree. `g?` for help inside the tree |

@@ -27,3 +27,4 @@ vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
 })
 
+

@@ -138,57 +138,9 @@ require("lazy").setup({
     {
         'nvim-mini/mini.pick',
         version = '*' ,
+        -- Setup, finder keymaps, and custom pickers live in lua/bbkane/pickers.lua.
         config = function()
-            require('mini.pick').setup({
-                -- Big centered float (~90% of the editor) so long diagnostic
-                -- messages have room. window.config may be a function for
-                -- responsiveness; recomputed when the picker (re)opens.
-                window = {
-                    config = function()
-                        local height = math.floor(0.9 * vim.o.lines)
-                        local width = math.floor(0.9 * vim.o.columns)
-                        return {
-                            anchor = 'NW',
-                            height = height,
-                            width = width,
-                            row = math.floor(0.5 * (vim.o.lines - height)),
-                            col = math.floor(0.5 * (vim.o.columns - width)),
-                        }
-                    end,
-                },
-            })
-
-            -- Wrap long lines in the picker list so full messages are readable
-            -- (the diagnostic picker rows are "severity | path | message" and
-            -- would otherwise run off the right edge). MiniPickStart fires once
-            -- the list window exists; flip 'wrap' on it.
-            vim.api.nvim_create_autocmd('User', {
-                pattern = 'MiniPickStart',
-                callback = function()
-                    local win = require('mini.pick').get_picker_state().windows.main
-                    if win then vim.wo[win].wrap = true end
-                end,
-            })
-            -- Fuzzy-finder keymaps (leader is Space). mini.pick sets none by
-            -- default; these follow the Telescope/kickstart <leader>f convention
-            -- and show up under <leader>f via mini.clue.
-            vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>",     { desc = "Find files" })
-            vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<cr>", { desc = "Find by grep (live)" })
-            vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>",   { desc = "Find buffers" })
-            vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>",      { desc = "Find help" })
-            vim.keymap.set("n", "<leader>fr", "<cmd>Pick resume<cr>",    { desc = "Resume last picker" })
-
-            -- "Picker picker": list every registered picker (mini.pick builtins
-            -- + all mini.extra pickers, which auto-register into the registry)
-            -- and run the chosen one. Recipe from MiniPick's own docs.
-            MiniPick.registry.registry = function()
-                local items = vim.tbl_keys(MiniPick.registry)
-                table.sort(items)
-                local chosen = MiniPick.start({ source = { items = items, name = "Pickers", choose = function() end } })
-                if chosen == nil then return end
-                return MiniPick.registry[chosen]()
-            end
-            vim.keymap.set("n", "<leader>fp", "<cmd>Pick registry<cr>", { desc = "Find picker (registry)" })
+            require("bbkane.pickers")
         end,
     },
 
