@@ -11,7 +11,9 @@
 
 -- Python is split across two Astral servers (https://docs.astral.sh/):
 --   ruff -> lint / format / code actions   ty -> type checking / hover / nav
-vim.lsp.enable({ "lua_ls", "gopls", "ruff", "ty", "rust_analyzer" })
+-- bashls -> completion / hover; auto-discovers shellcheck (diagnostics) and
+--           shfmt (formatting) on $PATH. Per-server shfmt opts in lsp/bashls.lua.
+vim.lsp.enable({ "bashls", "gopls", "lua_ls", "ruff", "rust_analyzer", "ty" })
 
 local augroup = vim.api.nvim_create_augroup("bbkane_lsp", { clear = true })
 

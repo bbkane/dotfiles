@@ -48,7 +48,8 @@ Install other dependencies:
 
 ```bash
 # LSPs and tree-sitter
-brew install gopls lua-language-server ruff tree-sitter-cli ty
+# bash-language-server auto-uses shellcheck (diagnostics) + shfmt (formatting) if on $PATH
+brew install bash-language-server gopls lua-language-server ruff shellcheck shfmt tree-sitter-cli ty
 
 # rust-analyzer ships as a rustup component (needs https://rustup.rs)
 rustup component add rust-analyzer

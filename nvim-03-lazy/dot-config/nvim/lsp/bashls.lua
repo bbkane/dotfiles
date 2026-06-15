@@ -1,0 +1,14 @@
+-- bashls overrides. Deep-merged over nvim-lspconfig's base lsp/bashls.lua
+-- (cmd = { "bash-language-server", "start" }, filetypes = sh/bash, root_markers).
+--
+-- bashls needs no real config here: it auto-discovers shellcheck (diagnostics)
+-- and shfmt (formatting) on $PATH. The BufWritePre autocmd in bbkane/lsp.lua
+-- calls vim.lsp.buf.format, which bashls serves via shfmt; shfmt's indent comes
+-- from the buffer (shiftwidth=4, expandtab - set globally in bbkane/common.lua),
+-- so formatted scripts get 4-space indent with no shfmt setting needed.
+--
+-- This file exists only to document that. To tune shfmt style later, add e.g.
+--   settings = { bashIde = { shfmt = { binaryNextLine = true } } }
+-- (binaryNextLine = shfmt's `-bn`: put && / || / | at the start of a wrapped
+-- line instead of the end). See https://github.com/bash-lsp/bash-language-server
+return {}
