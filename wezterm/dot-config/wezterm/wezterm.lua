@@ -1,7 +1,7 @@
 -- https://wezfurlong.org/wezterm/troubleshooting.html#debug-overlay
 
 -- Pull in the wezterm API
-local wezterm = require("wezterm")
+local wezterm = require("wezterm") ---@type Wezterm
 
 local font = require("font")
 local format_tab_title = require("format_tab_title")
@@ -11,11 +11,8 @@ local has_ssh_domains, ssh_domains = pcall(require, "ssh_domains")
 -- This table will hold the configuration.
 local config = {}
 
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
-if wezterm.config_builder then
-    config = wezterm.config_builder()
-end
+config = wezterm.config_builder() ---@type Config
+
 
 -- https://github.com/wez/wezterm/discussions/4728
 local is_darwin <const> = wezterm.target_triple:find("darwin") ~= nil

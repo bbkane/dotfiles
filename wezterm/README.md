@@ -11,6 +11,18 @@ brew install font-fira-code
 brew install font-ia-writer-mono
 ```
 
+## LSP type definitions
+
+`.luarc.json` points `workspace.library` at `$HOME/Git-GH/wezterm-types/types` so
+lua-language-server can offer completion and type-checking for the `wezterm` API.
+Clone the repo there to enable it:
+
+```bash
+git clone https://github.com/justinsgithub/wezterm-types "$HOME/Git-GH/wezterm-types"
+```
+
+Then restart lua-language-server.
+
 ## Keyboard Shortcuts
 
 Default keyboard shortcuts at https://wezfurlong.org/wezterm/config/default-keys.html

@@ -14,6 +14,8 @@
   "workspace": {
     "checkThirdParty": false,
     "library": [
+      "$HOME/Git-GH/wezterm-types",
+      "$HOME/Git-LI-GH/wezterm-types"
     ]
   },
   "hint": {
