@@ -109,7 +109,7 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Go to type definition | `grt` | Built-in |
 | Document symbols | `gO` | Built-in (loclist) |
 | Outline / symbols (picker) | `<leader>o` | Custom; LSP document symbols, or Treesitter markdown headings when no LSP. `:Pick outline` |
-| Workspace symbols (picker) | `<leader>ws` | mini.extra |
+| Workspace symbols (picker) | `<leader>ws` | mini.extra; shows all symbols to filter down, except gopls (live — type to search, since it returns nothing for an empty query) |
 | Hover docs | `K` | Built-in. Hit K a second time to switch focus to the window for scrolling |
 | Signature help | `<C-s>` | Built-in; insert mode |
 | Previous / next diagnostic | `[d` / `]d` | Built-in |

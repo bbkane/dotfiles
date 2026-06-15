@@ -8,6 +8,11 @@ return {
         ["rust-analyzer"] = {
             -- Use clippy (not just `cargo check`) for on-save diagnostics.
             check = { command = "clippy" },
+            -- Workspace symbol search (<leader>ws): default `kind` is
+            -- "only_types" (structs/enums/traits only); "all_symbols" also
+            -- includes functions/consts/etc. (Scope already defaults to
+            -- "workspace" = this crate's code, not dependencies.)
+            workspace = { symbol = { search = { kind = "all_symbols" } } },
         },
     },
 }

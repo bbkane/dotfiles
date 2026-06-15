@@ -7,6 +7,10 @@ return {
         gopls = {
             analyses = { unusedparams = true },
             staticcheck = true,
+            -- Limit workspace/symbol (<leader>ws) to this module's own code
+            -- instead of all dependencies/stdlib, so the live search is faster
+            -- and less noisy. ("all" is the gopls default.)
+            symbolScope = "workspace",
         },
     },
 }

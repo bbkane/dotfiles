@@ -113,8 +113,20 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: go to definitio
 vim.keymap.set("n", "<leader>D", function()
     require("mini.extra").pickers.diagnostic({ scope = "all" })
 end, { desc = "LSP: project diagnostics (picker)" })
+-- Workspace symbols. The plain "workspace_symbol" scope sends an empty query:
+-- lua_ls (and most servers) answer with ALL symbols, so you get the full list to
+-- filter down in the picker - which is what we want. gopls is the exception: it
+-- needs a non-empty query to match and returns nothing for an empty one, so for
+-- gopls fall back to "workspace_symbol_live" (sends your typed text as you go).
 vim.keymap.set("n", "<leader>ws", function()
-    require("mini.extra").pickers.lsp({ scope = "workspace_symbol" })
+    local scope = "workspace_symbol"
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+        if client.name == "gopls" then
+            scope = "workspace_symbol_live"
+            break
+        end
+    end
+    require("mini.extra").pickers.lsp({ scope = scope })
 end, { desc = "LSP: workspace symbols (picker)" })
 vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "LSP: run code lens" })
 
