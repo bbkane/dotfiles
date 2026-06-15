@@ -76,15 +76,15 @@ Filetype **detection** (which extensions/filenames map to which filetype) is set
 
 Other special folders Neovim auto-loads but this config doesn't currently use: `plugin/` (run once at startup, after plugins), `ftdetect/` (older alternative to `vim.filetype.add`), `indent/`, `syntax/`, and `after/` (same names, sourced last to override).
 
-# Keybindings
+# Actions
 
-To see every mapping (fuzzy, searchable, with the definition location in the preview): `:Pick keymaps`. To find where a specific key was set: `:verbose nmap <key>` (e.g. `:verbose nmap <leader>d`).
+To see every mapping (fuzzy, searchable, with the definition location in the preview): `:Pick keymaps`. To find where a specific key was set: `:verbose nmap <key>` (e.g. `:verbose nmap <leader>d`). To list every user-defined command: `:command` (or `:command Diagnostics` for one).
 
 `<leader>` is `<Space>`.
 
 ## Pickers (mini.pick)
 
-| Action | Keybinding | Notes |
+| Description | Action | Notes |
 | --- | --- | --- |
 | Find files | `<leader>ff` | |
 | Find by grep (live) | `<leader>fg` | |
@@ -100,7 +100,7 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 
 "Built-in" = Neovim 0.11+ default active on attach; "Added" = defined in this config. (LSP pickers live in the Pickers table above.)
 
-| Action | Keybinding | Notes |
+| Description | Action | Notes |
 | --- | --- | --- |
 | Go to definition | `gd` | Added |
 | Code action (incl. quickfix auto-fixes) | `gra` | Built-in |
@@ -113,12 +113,13 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 | Signature help | `<C-s>` | Built-in; insert mode |
 | Previous / next diagnostic | `[d` / `]d` | Built-in |
 | Show diagnostic float under cursor | `<C-w>d` | Built-in |
+| Set diagnostic display mode | `:Diagnostics` | Added; tab-completes `virtual_lines` / `virtual_text` / `current_line` / `no_text` / `disabled` |
 | Open / accept completion | `<C-Space>` / `<C-@>` | Added; insert mode |
 | Run code lens under cursor | `<leader>cl` | Added |
 
 ## Other
 
-| Action | Keybinding | Notes |
+| Description | Action | Notes |
 | --- | --- | --- |
 | Complete from strings in file | `<C-x><C-n>` | Insert mode. Built-in buffer-keyword completion; `<C-Space>` does LSP completion |
 | Format file | n/a | On `:w` — auto-formats on save via the `BufWritePre` autocmd; no manual keymap |
@@ -127,12 +128,21 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 | Split window | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in) |
 | Move between splits | `<C-w>h` / `<C-w>j` / `<C-w>k` / `<C-w>l` | Built-in |
 | Toggle file explorer (tree) | `<leader>e` | Added; nvim-tree. `g?` for help inside the tree |
+| Trim trailing whitespace | `:TrimWhitespace` | Added; mini.trailspace |
+| Rename the current file | `:RenameFile` | Added; prompts for the new name |
+| Print full path of current file | `:FullPath` | Added |
+| Insert current date/time at cursor | `:InsertDate` | Added |
+| Strip carriage returns (`\r`) | `:Dos2Unix` | Added; range, defaults to whole file |
+| Wrap selection in a code fence | `:AddCodeFence` | Added; range |
+| Convert Markdown to Jira markup | `:MarkdownToJira` | Added; range, defaults to whole file |
+| Format shell command in range | `:FormatShellCmd` | Added; range, pipes through `format_shell_cmd.py` |
+| Print lazy.nvim install path | `:LazyPath` | Added |
 
 ## File explorer (nvim-tree)
 
 In-tree mappings (open with `<leader>e`; press `g?` inside for the full list). File ops act relative to the directory under the cursor.
 
-| Action | Keybinding | Notes |
+| Description | Action | Notes |
 | --- | --- | --- |
 | Add file / directory | `a` | End name with `/` for a directory; `foo/bar/baz.lua` creates intermediate dirs |
 | Rename | `r` | |
@@ -149,7 +159,7 @@ Inline ghost-text suggestions in insert mode (auto-triggered as you type). Requi
 
 First-time auth: open `nvim` and run `:Copilot auth` — it shows a one-time code and opens GitHub in your browser; paste the code there to sign in. Check status anytime with `:Copilot status`.
 
-| Action | Keybinding | Notes |
+| Description | Action | Notes |
 | --- | --- | --- |
 | Accept suggestion | `<C-l>` | Insert mode. No default insert behavior shadowed |
 | Next suggestion | `<C-j>` | Insert mode. Shadows newline (still on `<Enter>`) |

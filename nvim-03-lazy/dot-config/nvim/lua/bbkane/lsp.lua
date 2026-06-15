@@ -182,10 +182,47 @@ vim.diagnostic.config({
     severity_sort = true,
 })
 
--- Toggle ALL diagnostics (virtual text, underlines, signs) on/off globally.
-vim.api.nvim_create_user_command("DiagnosticEnable", function()
+-- :Diagnostics <mode> switches how diagnostics are shown (tab-completes):
+--   virtual_lines  full messages on their own wrapped line(s) below the code
+--   virtual_text   short message inline, to the right of the code
+--   current_line   virtual_lines, but only for the line under the cursor
+--   no_text        squiggles/underlines + signs only, no inline message
+--   disabled       turn diagnostics off entirely
+-- Underlines, signs, and severity_sort stay on for every display mode.
+local diagnostic_modes = {
+    virtual_lines = { virtual_lines = true, virtual_text = false },
+    virtual_text  = { virtual_lines = false, virtual_text = true },
+    current_line  = { virtual_lines = { current_line = true }, virtual_text = false },
+    no_text       = { virtual_lines = false, virtual_text = false },
+}
+local function set_diagnostic_mode(mode)
+    if mode == "disabled" then
+        vim.diagnostic.enable(false)
+        vim.notify("Diagnostics: disabled")
+        return
+    end
+    local opts = diagnostic_modes[mode]
+    if not opts then
+        vim.notify("Unknown diagnostic mode: " .. mode, vim.log.levels.ERROR)
+        return
+    end
     vim.diagnostic.enable(true)
-end, { desc = "Enable all diagnostics" })
-vim.api.nvim_create_user_command("DiagnosticDisable", function()
-    vim.diagnostic.enable(false)
-end, { desc = "Disable all diagnostics" })
+    vim.diagnostic.config(vim.tbl_extend("force", {
+        severity_sort = true,
+        underline = true,
+        signs = true,
+    }, opts))
+    vim.notify("Diagnostics: " .. mode)
+end
+vim.api.nvim_create_user_command("Diagnostics", function(args)
+    set_diagnostic_mode(args.args)
+end, {
+    nargs = 1,
+    complete = function(arg_lead)
+        local names = vim.tbl_keys(diagnostic_modes)
+        table.insert(names, "disabled")
+        table.sort(names)
+        return vim.tbl_filter(function(m) return m:find(arg_lead, 1, true) == 1 end, names)
+    end,
+    desc = "Set diagnostic display mode",
+})
