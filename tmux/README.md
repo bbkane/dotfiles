@@ -12,6 +12,8 @@ Note: this config is made by Claude and I haven't tested it
 
 ## Keyboard shortcuts
 
+NOTE: in Wezterm, holding shift means I can select things as well as click links!
+
 | Action | Shortcut |
 | --- | --- |
 | Detach | `Ctrl+b`, `d` |
