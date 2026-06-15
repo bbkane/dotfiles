@@ -123,9 +123,7 @@ end, { desc = "LSP: project diagnostics (picker)" })
 -- filtering by name (or path) is unchanged.
 local ws_symbol_ns = vim.api.nvim_create_namespace("bbkane_ws_symbols")
 local function workspace_symbol_show(buf_id, items, _query)
-    -- Fall back to a "[Kind]" text glyph if mini.icons isn't loaded.
-    local icon_get = _G.MiniIcons ~= nil and MiniIcons.get
-        or function(_, kind) return "[" .. kind .. "]", nil end
+    local MiniIcons = require("mini.icons")
 
     local rows, base_w, lnum_w = {}, 0, 0
     for i, item in ipairs(items) do
@@ -136,7 +134,7 @@ local function workspace_symbol_show(buf_id, items, _query)
         local name = sym:gsub("^%[.-%]%s*", "")
         local base = item.path and vim.fn.fnamemodify(item.path, ":t") or ""
         local lnum = tostring(item.lnum or 1)
-        local icon, icon_hl = icon_get("lsp", kind)
+        local icon, icon_hl = MiniIcons.get("lsp", kind)
         rows[i] = { base = base, lnum = lnum, icon = icon or "", icon_hl = icon_hl, name = name }
         base_w = math.max(base_w, vim.fn.strdisplaywidth(base))
         lnum_w = math.max(lnum_w, #lnum)

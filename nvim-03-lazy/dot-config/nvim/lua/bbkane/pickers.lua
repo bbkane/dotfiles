@@ -1,10 +1,12 @@
 -- mini.pick setup + custom pickers. Required from the mini.pick `config` in
--- lua/bbkane/lazy.lua, so mini.pick is already loaded when this runs (and the
--- `MiniPick` global is set by the setup() call below). Holds the picker window
--- config, list line-wrap, the <leader>f finder keymaps, and the custom
--- `registry` (pick-a-picker) and `outline` (symbols/headings) pickers.
+-- lua/bbkane/lazy.lua, so mini.pick is already loaded when this runs. Holds the
+-- picker window config, list line-wrap, the <leader>f finder keymaps, and the
+-- custom `registry` (pick-a-picker) and `outline` (symbols/headings) pickers.
+-- Use the required module (not the MiniPick global) so lua_ls doesn't flag an
+-- undefined global - and can resolve the types if mini.pick is on its library.
+local MiniPick = require('mini.pick')
 
-require('mini.pick').setup({
+MiniPick.setup({
     -- Big centered float (~90% of the editor) so long diagnostic
     -- messages have room. window.config may be a function for
     -- responsiveness; recomputed when the picker (re)opens.
@@ -30,7 +32,7 @@ require('mini.pick').setup({
 vim.api.nvim_create_autocmd('User', {
     pattern = 'MiniPickStart',
     callback = function()
-        local win = require('mini.pick').get_picker_state().windows.main
+        local win = MiniPick.get_picker_state().windows.main
         if win then vim.wo[win].wrap = true end
     end,
 })
@@ -72,7 +74,7 @@ local diag_hl = {
     [vim.diagnostic.severity.HINT] = "DiagnosticFloatingHint",
 }
 MiniPick.registry.buffer_diagnostics = function()
-    local pick = require("mini.pick")
+    local pick = MiniPick
     local items = {}
     for _, d in ipairs(vim.diagnostic.get(0)) do
         local sev = (vim.diagnostic.severity[d.severity] or " "):sub(1, 1)
