@@ -1,10 +1,4 @@
-I'm tired of things breaking and constant updating, so I'm giving up on smart stuff - formatters, LSPs, Treesitter...
-
-If I need to edit any of that, I'm just going to use VS Code - including for nvim configs, which need formatting, etc...
-
-Let's keep my NeoVim config focused on quick text edits and as stable as I can make it.
-
-As part of this, I'm not modifying standard vim locations.
+I'm trying to keep this config deliberately small so things break less over time, but I'm also using Claude to get the things I miss from VS Code into NeoVim.
 
 # Install
 
@@ -13,10 +7,7 @@ As part of this, I'm not modifying standard vim locations.
 How to back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
 
 ```bash
-# required
 mv ~/.config/nvim{,.bak}
-
-# optional but recommended
 mv ~/.local/share/nvim{,.bak}
 mv ~/.local/state/nvim{,.bak}
 mv ~/.cache/nvim{,.bak}
@@ -108,8 +99,6 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 | Run code lens under cursor | `<leader>cl` | Added |
 
 ## Other
-
-Equivalents in *this* config. A few actions have no dedicated binding here — marked accordingly.
 
 | Action | Keybinding | Notes |
 | --- | --- | --- |
