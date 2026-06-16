@@ -100,6 +100,12 @@ if vim.g.neovide then
     vim.g.neovide_hide_mouse_when_typing = true
     vim.g.neovide_confirm_quit = true
 
+    vim.g.neovide_cursor_animation_length = 0 -- the cursor "smear"
+    vim.g.neovide_scroll_animation_length = 0 -- smooth scrolling
+    vim.g.neovide_cursor_vfx_mode = ""        -- particle trail: "railgun"/"torpedo"/"pixiedust"/… ("" = off)
+    vim.g.neovide_position_animation_length = 0 -- window/split move animation
+
+
     -- Zoom the whole UI with Ctrl-= / Ctrl-- (Ctrl-+ too, for the shifted key).
     local function change_scale(delta)
         vim.g.neovide_scale_factor = math.max(0.3, vim.g.neovide_scale_factor + delta)

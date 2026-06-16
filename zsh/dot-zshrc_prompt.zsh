@@ -9,9 +9,11 @@
 # - subsecond timestamp and timezone
 # - only ASCII characters (paste into non-unicode-friendly apps like JIRA)
 # - hostname and directory in format ready to copy for SSH or SCP
+#
 # Requires:
 # - zsh --version > 1.7.1 (if hex color codes desired - not tested on lower versions - 8bit might work)
 # - git --version >= 2.2.1 (for showing branch easily)
+#
 # Usage:
 #   zp_prompt  # default 8bit colors
 #   zp_prompt "$(zp_gen_colors_printf_random)"
@@ -20,6 +22,11 @@
 #   # Use pastel for prettier colors: https://github.com/sharkdp/pastel
 #   zp_prompt "$(pastel gradient -n 7 dodgerblue lightgreen | pastel format hex)"
 #   zp_prompt "$(pastel random -n 7 | pastel format hex)"
+#
+# Note:
+#   if git commands are being slow, it'll slow the prompt down
+#   export zp_skip_git=1
+
 
 # -- Functions  --
 

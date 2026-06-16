@@ -159,12 +159,24 @@ Inline ghost-text suggestions in insert mode (auto-triggered as you type). Requi
 
 First-time auth: open `nvim` and run `:Copilot auth` — it shows a one-time code and opens GitHub in your browser; paste the code there to sign in. Check status anytime with `:Copilot status`.
 
+copilot.lua's Alt-based defaults (these work because left-Option sends `<M-…>` in WezTerm):
+
 | Description | Action | Notes |
 | --- | --- | --- |
-| Accept suggestion | `<C-l>` | Insert mode. No default insert behavior shadowed |
-| Next suggestion | `<C-j>` | Insert mode. Shadows newline (still on `<Enter>`) |
-| Previous suggestion | `<C-k>` | Insert mode. Shadows digraph entry (`<C-k>e'` → `é`) |
+| Accept suggestion | `<M-l>` | Insert mode |
+| Next suggestion | `<M-]>` | Insert mode |
+| Previous suggestion | `<M-[>` | Insert mode |
 | Dismiss suggestion | `<C-]>` | Insert mode |
+
+## Markdown
+
+Buffer-local to markdown (`ftplugin/markdown.lua`). Tables auto-align as you type (vim-table-mode).
+
+| Description | Action | Notes |
+| --- | --- | --- |
+| Insert link from clipboard | `<C-k>` | Insert mode. `[](url)`, or wraps the word under the cursor; url comes from the clipboard if it's a URL |
+| Wrap selection in a link | `<C-k>` | Visual mode. `[selection](url)` |
+| Realign table | `:TableModeRealign` | vim-table-mode |
 
 # Colorschemes I like
 
