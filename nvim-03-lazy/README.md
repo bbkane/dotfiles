@@ -2,8 +2,6 @@ I'm trying to keep this config deliberately small so things break less over time
 
 # Install
 
-## Backup
-
 How to back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
 
 ```bash

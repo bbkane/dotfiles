@@ -29,54 +29,54 @@ vim.g.loaded_netrwPlugin = 1
 require("lazy").setup({
     -- start color schemes
     -- https://vimcolorschemes.com/i/trending
-    {
-        "bluz71/vim-moonfly-colors",
-        lazy = false,
-        name = "moonfly",
-        priority = 1000,
-    },
-    {
-        "embark-theme/vim",
-        lazy = false,
-        priority = 1000,
-    },
-    {
-        "folke/tokyonight.nvim",
-        lazy = false,
-        opts = {},
-        priority = 1000,
-    },
-    {
-        "rebelot/kanagawa.nvim",
-        lazy = false,
-        priority = 1000,
-    },
-    {
-        "rose-pine/neovim",
-        lazy = false,
-        priority = 1000,
-    },
-    {
-        "sainnhe/everforest",
-        config = function()
-            -- https://github.com/sainnhe/everforest/blob/master/doc/everforest.txt
-            vim.g.everforest_background = 'hard'
-        end,
-        lazy = false,
-        priority = 1000,
-    },
-    {
-        "sainnhe/gruvbox-material",
-        config = function()
-            -- Optionally configure and load the colorscheme
-            -- directly inside the plugin declaration.
-            vim.g.gruvbox_material_enable_italic = true
-            vim.g.gruvbox_material_background = 'medium' -- 'hard', 'medium', 'soft'
-            vim.g.gruvbox_material_foreground = 'mix'    -- 'material', 'mix', 'original'
-        end,
-        lazy = false,
-        priority = 1000,
-    },
+    -- {
+    --     "bluz71/vim-moonfly-colors",
+    --     lazy = false,
+    --     name = "moonfly",
+    --     priority = 1000,
+    -- },
+    -- {
+    --     "embark-theme/vim",
+    --     lazy = false,
+    --     priority = 1000,
+    -- },
+    -- {
+    --     "folke/tokyonight.nvim",
+    --     lazy = false,
+    --     opts = {},
+    --     priority = 1000,
+    -- },
+    -- {
+    --     "rebelot/kanagawa.nvim",
+    --     lazy = false,
+    --     priority = 1000,
+    -- },
+    -- {
+    --     "rose-pine/neovim",
+    --     lazy = false,
+    --     priority = 1000,
+    -- },
+    -- {
+    --     "sainnhe/everforest",
+    --     config = function()
+    --         -- https://github.com/sainnhe/everforest/blob/master/doc/everforest.txt
+    --         vim.g.everforest_background = 'hard'
+    --     end,
+    --     lazy = false,
+    --     priority = 1000,
+    -- },
+    -- {
+    --     "sainnhe/gruvbox-material",
+    --     config = function()
+    --         -- Optionally configure and load the colorscheme
+    --         -- directly inside the plugin declaration.
+    --         vim.g.gruvbox_material_enable_italic = true
+    --         vim.g.gruvbox_material_background = 'medium' -- 'hard', 'medium', 'soft'
+    --         vim.g.gruvbox_material_foreground = 'mix'    -- 'material', 'mix', 'original'
+    --     end,
+    --     lazy = false,
+    --     priority = 1000,
+    -- },
 
     -- end color schemes
 
@@ -149,7 +149,7 @@ require("lazy").setup({
     -- Keeping this but need to figure out how to do non-local files (like ~/...)
     {
         'nvim-mini/mini.pick',
-        version = '*' ,
+        version = '*',
         -- Setup, finder keymaps, and custom pickers live in lua/bbkane/pickers.lua.
         config = function()
             require("bbkane.pickers")
@@ -206,7 +206,7 @@ require("lazy").setup({
     -- does a bit less than gitsigns (so hopefully faster) and part of mini ecosystem
     {
         'nvim-mini/mini.diff',
-        version = '*' ,
+        version = '*',
 
         config = function()
             require('mini.diff').setup()
@@ -251,7 +251,8 @@ require("lazy").setup({
         branch = "main",
         config = function()
             local configs = require("nvim-treesitter")
-            configs.install({ "bash", "go", "markdown", "markdown_inline", "python", "rust", "sql", "yaml" }):wait(300000)
+            configs.install({ "bash", "diff", "gitcommit", "go", "markdown", "markdown_inline", "python", "rust", "sql",
+                "yaml" }):wait(300000)
         end
     },
 
@@ -299,9 +300,12 @@ require("lazy").setup({
 
 })
 
--- let's set the colorscheme here since I have two to chose from, and they come from plugins
+-- Using the built-in default colorscheme (no `:colorscheme` call), so the
+-- markdown heading highlight overrides in common.lua aren't reset. Re-enable one
+-- of these to switch themes (but then move those overrides to a ColorScheme
+-- autocmd, since loading a colorscheme resets highlights).
 -- vim.cmd 'colorscheme embark'
-vim.cmd 'colorscheme everforest'
+-- vim.cmd 'colorscheme everforest'
 -- vim.cmd 'colorscheme kanagawa'
 -- vim.cmd 'colorscheme gruvbox-material'
 -- vim.cmd 'colorscheme rose-pine-moon'
