@@ -202,6 +202,29 @@ require("lazy").setup({
         end,
     },
 
+    -- Auto-align Markdown tables as you type (and :TableModeRealign to fix an
+    -- existing one). Loaded only for markdown; table_mode_corner = '|' makes the
+    -- separator row markdown-style (|---|---| instead of the default |---+---|).
+    -- https://github.com/dhruvasagar/vim-table-mode
+    {
+        "dhruvasagar/vim-table-mode",
+        ft = "markdown",
+        init = function()
+            vim.g.table_mode_corner = "|"
+        end,
+        config = function()
+            -- Enable for future markdown buffers...
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "markdown",
+                command = "TableModeEnable",
+            })
+            -- ...plus the buffer that triggered this load (its FileType already
+            -- fired before the autocmd existed). Guaranteed markdown here, since
+            -- `ft = "markdown"` is the only thing that runs this config.
+            vim.cmd("TableModeEnable")
+        end,
+    },
+
     -- https://nvim-mini.org/mini.nvim/readmes/mini-diff
     -- does a bit less than gitsigns (so hopefully faster) and part of mini ecosystem
     {

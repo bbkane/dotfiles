@@ -116,6 +116,79 @@ MiniPick.registry.buffer_diagnostics = function()
 end
 vim.keymap.set("n", "<leader>d", "<cmd>Pick buffer_diagnostics<cr>", { desc = "LSP: buffer diagnostics (picker)" })
 
+-- Project diagnostics across all loaded buffers (VS Code "Problems"-ish). Note:
+-- only covers servers' loaded buffers, not a full workspace scan.
+vim.keymap.set("n", "<leader>D", function()
+    require("mini.extra").pickers.diagnostic({ scope = "all" })
+end, { desc = "LSP: project diagnostics (picker)" })
+
+-- Compact 3-column display for the workspace-symbol picker. mini.extra prepends
+-- the full absolute path to every row ("path│lnum│col│ [Kind] name"), which is
+-- very noisy. This custom `show` (passed via opts, which mini.extra merges over
+-- its defaults) re-renders each row as aligned columns:
+--     basename │ line │ <kind icon> name
+-- The basename/line columns are dimmed (Comment) and the kind icon is colored
+-- with its mini.icons highlight. Matching still runs on the full item.text, so
+-- filtering by name (or path) is unchanged.
+local ws_symbol_ns = vim.api.nvim_create_namespace("bbkane_ws_symbols")
+local function workspace_symbol_show(buf_id, items, _query)
+    local MiniIcons = require("mini.icons")
+
+    local rows, base_w, lnum_w = {}, 0, 0
+    for i, item in ipairs(items) do
+        -- Only the symbol suffix uses "│ " (pipe + space); position separators
+        -- are bare "│", so this grabs "[Kind] name in Container (deprecated)".
+        local sym = item.text:match("│ (.-)$") or item.text
+        local kind = sym:match("^%[(.-)%]") or "Unknown"
+        local name = sym:gsub("^%[.-%]%s*", "")
+        local base = item.path and vim.fn.fnamemodify(item.path, ":t") or ""
+        local lnum = tostring(item.lnum or 1)
+        local icon, icon_hl = MiniIcons.get("lsp", kind)
+        rows[i] = { base = base, lnum = lnum, icon = icon or "", icon_hl = icon_hl, name = name }
+        base_w = math.max(base_w, vim.fn.strdisplaywidth(base))
+        lnum_w = math.max(lnum_w, #lnum)
+    end
+
+    local sep = " │ "
+    local lines, marks = {}, {}
+    for i, r in ipairs(rows) do
+        local base_field = r.base .. string.rep(" ", base_w - vim.fn.strdisplaywidth(r.base))
+        local lnum_field = string.rep(" ", lnum_w - #r.lnum) .. r.lnum
+        local prefix = base_field .. sep .. lnum_field .. sep
+        lines[i] = prefix .. r.icon .. " " .. r.name
+        marks[i] = { prefix_end = #prefix, icon_len = #r.icon, icon_hl = r.icon_hl }
+    end
+    vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
+
+    vim.api.nvim_buf_clear_namespace(buf_id, ws_symbol_ns, 0, -1)
+    for i, m in ipairs(marks) do
+        -- Dim the basename + line columns so the symbol name stands out.
+        vim.api.nvim_buf_set_extmark(buf_id, ws_symbol_ns, i - 1, 0,
+            { end_col = m.prefix_end, hl_group = "Comment" })
+        -- Color the kind icon with its mini.icons highlight.
+        if m.icon_hl and m.icon_len > 0 then
+            vim.api.nvim_buf_set_extmark(buf_id, ws_symbol_ns, i - 1, m.prefix_end,
+                { end_col = m.prefix_end + m.icon_len, hl_group = m.icon_hl })
+        end
+    end
+end
+
+-- Workspace symbols. The plain "workspace_symbol" scope sends an empty query:
+-- lua_ls (and most servers) answer with ALL symbols, so you get the full list to
+-- filter down in the picker - which is what we want. gopls is the exception: it
+-- needs a non-empty query to match and returns nothing for an empty one, so for
+-- gopls fall back to "workspace_symbol_live" (sends your typed text as you go).
+vim.keymap.set("n", "<leader>ws", function()
+    local scope = "workspace_symbol"
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+        if client.name == "gopls" then
+            scope = "workspace_symbol_live"
+            break
+        end
+    end
+    require("mini.extra").pickers.lsp({ scope = scope }, { source = { show = workspace_symbol_show } })
+end, { desc = "LSP: workspace symbols (picker)" })
+
 -- Treesitter markdown-headings source, used as the fallback for the
 -- `outline` picker below when no LSP document symbols are available.
 -- Queries the `markdown` parser for ATX (`#`-style) heading markers -
