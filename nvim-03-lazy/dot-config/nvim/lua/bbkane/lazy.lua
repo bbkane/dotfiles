@@ -2,7 +2,7 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 vim.api.nvim_create_user_command(
     "LazyPath",
-    function(args)
+    function(_)
         print(lazypath)
     end,
     { bang = true }
@@ -182,7 +182,7 @@ require("lazy").setup({
 
             vim.api.nvim_create_user_command(
                 "TrimWhitespace",
-                function(args)
+                function(_)
                     -- MiniTrailspace added by `require('mini.trailspace').setup()`
                     ---@diagnostic disable-next-line: undefined-global
                     MiniTrailspace.trim()
@@ -291,12 +291,12 @@ require("lazy").setup({
     },
 
     -- GitHub Copilot inline (ghost-text) suggestions. Needs Node.js on $PATH and
-    -- a one-time `:Copilot auth` to sign in. Insert-mode keys (chosen to avoid the
-    -- <M-]> Option-key trouble in macOS terminals):
-    --   <C-j>/<C-k> next/prev   <C-l> accept   <C-]> dismiss
-    -- Tradeoffs of shadowing the insert-mode defaults: <C-j> = newline (still on
-    -- <CR>/<Enter>); <C-k> = digraph entry (lost - the <C-k>e' -> e accent trick);
-    -- <C-l> has no default insert behavior.
+    -- a one-time `:Copilot auth` to sign in. Insert-mode keys = copilot's
+    -- Alt-based defaults, which work now that left-Option sends <M-...> in WezTerm:
+    --   <M-]>/<M-[> next/prev   <M-l> accept   <C-]> dismiss
+    -- Set explicitly so they stay put if the plugin's defaults ever change, and so
+    -- the Ctrl cluster (incl. <C-k> for the markdown link in ftplugin/markdown.lua)
+    -- stays free.
     -- https://github.com/zbirenbaum/copilot.lua
     {
         "zbirenbaum/copilot.lua",
@@ -308,9 +308,9 @@ require("lazy").setup({
                     enabled = true,
                     auto_trigger = true, -- show suggestions as you type
                     keymap = {
-                        accept = "<C-l>",
-                        next = "<C-j>",
-                        prev = "<C-k>",
+                        accept = "<M-l>",
+                        next = "<M-]>",
+                        prev = "<M-[>",
                         dismiss = "<C-]>",
                     },
                 },
