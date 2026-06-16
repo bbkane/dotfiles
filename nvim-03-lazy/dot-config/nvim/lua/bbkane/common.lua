@@ -48,6 +48,13 @@ vim.o.expandtab = true
 
 vim.o.termguicolors = true
 
+-- Pin the dark variant of the default colorscheme. Neovim 0.10+ otherwise
+-- auto-detects the terminal's background (via an OSC 11 query) and would switch
+-- to the light palette under a light-background terminal. Setting it explicitly
+-- both selects the dark palette and stops Neovim from following the terminal.
+-- (The markdown heading colors below are the dark palette's Diagnostic colors.)
+vim.o.background = "dark"
+
 -- Make markdown headings stand out: the default colorscheme colors every heading
 -- level like body text (just bold). Give each level its own hue (the default
 -- theme's Diagnostic colors). Set directly since this config uses the default
@@ -100,4 +107,16 @@ if vim.g.neovide then
     vim.keymap.set("n", "<C-=>", function() change_scale(0.1) end, { desc = "Neovide: zoom in" })
     vim.keymap.set("n", "<C-+>", function() change_scale(0.1) end, { desc = "Neovide: zoom in" })
     vim.keymap.set("n", "<C-->", function() change_scale(-0.1) end, { desc = "Neovide: zoom out" })
+
+    -- Open in my notes dir when launched bare from the Dock/Spotlight (no file
+    -- args, cwd is "/" or home - the app bundle starts at home on this machine).
+    -- The guard leaves `neovide path/` and terminal launches in a project alone.
+    vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+            local cwd = vim.fn.getcwd()
+            if vim.fn.argc() == 0 and (cwd == "/" or cwd == vim.fn.expand("~")) then
+                vim.cmd.cd(vim.fn.expand("~/Git-LI-GH-Ent/bkane_notes"))
+            end
+        end,
+    })
 end
