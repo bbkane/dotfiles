@@ -77,3 +77,27 @@ vim.o.mouse = ''
 -- It's also a security risk - arbitrary commands can be run on file open...
 -- vim.o.modeline = true
 -- vim.o.modelines = 5
+
+-- Neovide (GUI) settings. `vim.g.neovide` is set only when running under Neovide;
+-- terminal Neovim ignores guifont and the neovide_* globals. https://neovide.dev
+if vim.g.neovide then
+    vim.o.guifont = "Hack:h18" -- match the WezTerm font (Hack, size 18)
+
+    -- Left Option sends <M-...>, so the Alt-based Copilot keys (lazy.lua) work -
+    -- the Neovide equivalent of the WezTerm send_composed setup.
+    vim.g.neovide_input_macos_option_key_is_meta = "only_left"
+
+    -- Zoom / window
+    vim.g.neovide_scale_factor = 1.0
+    vim.g.neovide_remember_window_size = true
+    vim.g.neovide_hide_mouse_when_typing = true
+    vim.g.neovide_confirm_quit = true
+
+    -- Zoom the whole UI with Ctrl-= / Ctrl-- (Ctrl-+ too, for the shifted key).
+    local function change_scale(delta)
+        vim.g.neovide_scale_factor = math.max(0.3, vim.g.neovide_scale_factor + delta)
+    end
+    vim.keymap.set("n", "<C-=>", function() change_scale(0.1) end, { desc = "Neovide: zoom in" })
+    vim.keymap.set("n", "<C-+>", function() change_scale(0.1) end, { desc = "Neovide: zoom in" })
+    vim.keymap.set("n", "<C-->", function() change_scale(-0.1) end, { desc = "Neovide: zoom out" })
+end
