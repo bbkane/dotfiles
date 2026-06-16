@@ -213,15 +213,15 @@ require("lazy").setup({
             vim.g.table_mode_corner = "|"
         end,
         config = function()
-            -- Enable for future markdown buffers...
+            -- Enable table mode for every markdown buffer. lazy re-fires FileType
+            -- after loading an `ft` plugin, so this also catches the buffer that
+            -- triggered the load - no separate immediate enable needed (doing both
+            -- enabled it twice, and the doubled "Table Mode Enabled" echo caused a
+            -- press-ENTER prompt on open). `silent` suppresses that echo.
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "markdown",
-                command = "TableModeEnable",
+                command = "silent TableModeEnable",
             })
-            -- ...plus the buffer that triggered this load (its FileType already
-            -- fired before the autocmd existed). Guaranteed markdown here, since
-            -- `ft = "markdown"` is the only thing that runs this config.
-            vim.cmd("TableModeEnable")
         end,
     },
 
