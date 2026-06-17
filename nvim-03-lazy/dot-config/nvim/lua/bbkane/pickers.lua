@@ -122,53 +122,90 @@ vim.keymap.set("n", "<leader>D", function()
     require("mini.extra").pickers.diagnostic({ scope = "all" })
 end, { desc = "LSP: project diagnostics (picker)" })
 
--- Compact 3-column display for the workspace-symbol picker. mini.extra prepends
--- the full absolute path to every row ("path│lnum│col│ [Kind] name"), which is
--- very noisy. This custom `show` (passed via opts, which mini.extra merges over
--- its defaults) re-renders each row as aligned columns:
---     basename │ line │ <kind icon> name
--- The basename/line columns are dimmed (Comment) and the kind icon is colored
--- with its mini.icons highlight. Matching still runs on the full item.text, so
--- filtering by name (or path) is unchanged.
+-- Two-column display for the workspace-symbol picker. mini.extra prepends the
+-- full absolute path to every row ("path│lnum│col│ [Kind] name"); this custom
+-- `show` re-renders each row as:
+--     <kind icon> name                  shortened/path.lua:line
+-- Left: kind-colored icon + symbol name, shown in full (only clipped if a name
+-- would reach the path). Right: the path made relative to the LSP workspace root
+-- (or ~-relative when outside it) plus the line number, left-truncated and dimmed,
+-- pinned to the window's right edge so paths line up. Matching still runs on the
+-- full item.text, so filtering by name (or path) is unchanged.
+local path_mod = require("bbkane.path")
 local ws_symbol_ns = vim.api.nvim_create_namespace("bbkane_ws_symbols")
-local function workspace_symbol_show(buf_id, items, _query)
-    local MiniIcons = require("mini.icons")
 
-    local rows, base_w, lnum_w = {}, 0, 0
-    for i, item in ipairs(items) do
-        -- Only the symbol suffix uses "│ " (pipe + space); position separators
-        -- are bare "│", so this grabs "[Kind] name in Container (deprecated)".
-        local sym = item.text:match("│ (.-)$") or item.text
-        local kind = sym:match("^%[(.-)%]") or "Unknown"
-        local name = sym:gsub("^%[.-%]%s*", "")
-        local base = item.path and vim.fn.fnamemodify(item.path, ":t") or ""
-        local lnum = tostring(item.lnum or 1)
-        local icon, icon_hl = MiniIcons.get("lsp", kind)
-        rows[i] = { base = base, lnum = lnum, icon = icon or "", icon_hl = icon_hl, name = name }
-        base_w = math.max(base_w, vim.fn.strdisplaywidth(base))
-        lnum_w = math.max(lnum_w, #lnum)
+-- Right-truncate to `width` display cells with a trailing "…".
+local function truncate_right(s, width)
+    if width <= 0 then
+        return ""
     end
-
-    local sep = " │ "
-    local lines, marks = {}, {}
-    for i, r in ipairs(rows) do
-        local base_field = r.base .. string.rep(" ", base_w - vim.fn.strdisplaywidth(r.base))
-        local lnum_field = string.rep(" ", lnum_w - #r.lnum) .. r.lnum
-        local prefix = base_field .. sep .. lnum_field .. sep
-        lines[i] = prefix .. r.icon .. " " .. r.name
-        marks[i] = { prefix_end = #prefix, icon_len = #r.icon, icon_hl = r.icon_hl }
+    if vim.fn.strdisplaywidth(s) <= width then
+        return s
     end
-    vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
+    local out, used = {}, 0
+    for _, ch in ipairs(vim.fn.split(s, "\\zs")) do
+        local w = vim.fn.strdisplaywidth(ch)
+        if used + w > width - 1 then
+            break
+        end
+        used = used + w
+        out[#out + 1] = ch
+    end
+    return table.concat(out) .. "…"
+end
 
-    vim.api.nvim_buf_clear_namespace(buf_id, ws_symbol_ns, 0, -1)
-    for i, m in ipairs(marks) do
-        -- Dim the basename + line columns so the symbol name stands out.
-        vim.api.nvim_buf_set_extmark(buf_id, ws_symbol_ns, i - 1, 0,
-            { end_col = m.prefix_end, hl_group = "Comment" })
-        -- Color the kind icon with its mini.icons highlight.
-        if m.icon_hl and m.icon_len > 0 then
-            vim.api.nvim_buf_set_extmark(buf_id, ws_symbol_ns, i - 1, m.prefix_end,
-                { end_col = m.prefix_end + m.icon_len, hl_group = m.icon_hl })
+-- `root` (LSP workspace root, captured when the picker opens) is closed over so
+-- paths can be shown relative to it.
+local function make_workspace_symbol_show(root)
+    return function(buf_id, items, _query)
+        local MiniIcons = require("mini.icons")
+        local win = vim.fn.bufwinid(buf_id)
+        local width = win ~= -1 and vim.api.nvim_win_get_width(win) or 80
+        local gap = 2
+
+        -- First pass: build each row's "<icon> name" and shortened "path:line",
+        -- tracking the widest of each so BOTH columns can be content-sized.
+        local rows, max_name, max_path = {}, 0, 0
+        for i, item in ipairs(items) do
+            local sym = item.text:match("│ (.-)$") or item.text -- "[Kind] name ..."
+            local kind = sym:match("^%[(.-)%]") or "Unknown"
+            local name = sym:gsub("^%[.-%]%s*", "")
+            local icon, icon_hl = MiniIcons.get("lsp", kind)
+            local left = (icon or "") .. " " .. name
+            local p = item.path or ""
+            local disp = path_mod.relative_to(p, root) or vim.fn.fnamemodify(p, ":~")
+            disp = disp .. ":" .. (item.lnum or 1)
+            rows[i] = { left = left, icon_len = #(icon or ""), icon_hl = icon_hl, disp = disp }
+            max_name = math.max(max_name, vim.fn.strdisplaywidth(left))
+            max_path = math.max(max_path, vim.fn.strdisplaywidth(disp))
+        end
+        -- Names win: the name column is the widest name (capped so a giant name
+        -- still leaves the path some room), and the path takes the rest, pinned to
+        -- the window's right edge (left-truncated only when long, e.g. the lua
+        -- stdlib paths). So names are shown in full and paths line up on the right.
+        local name_w = math.min(max_name, math.max(10, width - gap - 9))
+        local path_w = math.max(8, width - name_w - gap - 1)
+
+        local lines, marks = {}, {}
+        for i, r in ipairs(rows) do
+            local left = truncate_right(r.left, name_w)
+            local left_field = left .. string.rep(" ", name_w - vim.fn.strdisplaywidth(left))
+            local disp = path_mod.truncate_left(r.disp, path_w)
+            local path_field = string.rep(" ", path_w - vim.fn.strdisplaywidth(disp)) .. disp
+            lines[i] = left_field .. string.rep(" ", gap) .. path_field
+            marks[i] = { icon_len = r.icon_len, icon_hl = r.icon_hl, path_start = #left_field + gap }
+        end
+        vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
+
+        vim.api.nvim_buf_clear_namespace(buf_id, ws_symbol_ns, 0, -1)
+        for i, m in ipairs(marks) do
+            if m.icon_hl and m.icon_len > 0 then -- color the kind icon
+                vim.api.nvim_buf_set_extmark(buf_id, ws_symbol_ns, i - 1, 0,
+                    { end_col = m.icon_len, hl_group = m.icon_hl })
+            end
+            -- dim the path column
+            vim.api.nvim_buf_set_extmark(buf_id, ws_symbol_ns, i - 1, m.path_start,
+                { end_col = #lines[i], hl_group = "Comment" })
         end
     end
 end
@@ -179,14 +216,14 @@ end
 -- needs a non-empty query to match and returns nothing for an empty one, so for
 -- gopls fall back to "workspace_symbol_live" (sends your typed text as you go).
 vim.keymap.set("n", "<leader>ws", function()
-    local scope = "workspace_symbol"
+    local scope, root = "workspace_symbol", nil
     for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
         if client.name == "gopls" then
             scope = "workspace_symbol_live"
-            break
         end
+        root = root or client.root_dir or (client.config and client.config.root_dir)
     end
-    require("mini.extra").pickers.lsp({ scope = scope }, { source = { show = workspace_symbol_show } })
+    require("mini.extra").pickers.lsp({ scope = scope }, { source = { show = make_workspace_symbol_show(root) } })
 end, { desc = "LSP: workspace symbols (picker)" })
 
 -- Treesitter markdown-headings source, used as the fallback for the
