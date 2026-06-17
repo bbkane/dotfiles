@@ -295,5 +295,17 @@ grabbit_audit() {
     find ~/Pictures/grabbit \( -name 'wallpapers_*' -o -name 'futureporn_*' -o -name 'roomporn_*' \) -ctime -14 -print -exec open {} \;
 }
 
+# Disable any lingering mouse-tracking modes a crashed TUI left enabled.
+# Stops the terminal from "auto-typing" mouse-coordinate escape sequences.
+# Each '\033[?<n>l' sends DECRST (reset/disable) for private mode <n>.
+unmouse() {
+  printf '\033[?1000l'   # 1000: disable "send mouse X/Y on button press & release"
+  printf '\033[?1002l'   # 1002: disable "report mouse motion while a button is held (drag)"
+  printf '\033[?1003l'   # 1003: disable "report ALL mouse motion" (the usual auto-typing culprit)
+  printf '\033[?1005l'   # 1005: disable UTF-8 extended mouse coordinate encoding
+  printf '\033[?1006l'   # 1006: disable SGR extended mouse encoding (the ';...M' reports you saw)
+  printf '\033[?1015l'   # 1015: disable urxvt extended mouse encoding
+}
+
 # Use pure Go builds!!
 # export CGO_ENABLED=0
