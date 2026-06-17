@@ -16,13 +16,15 @@ EOF
 
 # List of scripts
 
-As of 2026-04-13. See the comments or `-h/--help` in each script for more details
+As of 2026-06-17. See the comments or `-h/--help` in each script for more details
 
 - [blog.py](./bin_common/blog.py) - Create a blog post for www.bbkane.com
 
 - [check_sync_log.py](./bin_common/check_sync_log.py) - Check the log for rclone sync --dry-run --combined
 
 - [color_exceptions.py](./bin_common/color_exceptions.py) - highlight exceptions in log files
+
+- [copy_and_format_for_gdocs.py](./bin_common/copy_and_format_for_gdocs.py) - Restyle the clipboard's rich text so pasting into Google Docs keeps lists/links but matches the doc's font/style
 
 - [copy_as_rtf.py](./bin_common/copy_as_rtf.py) - Copy CSV file as rich text
 
