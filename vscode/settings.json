@@ -132,7 +132,6 @@
     "python.analysis.inlayHints.functionReturnTypes": false,
     "python.analysis.inlayHints.variableTypes": false,
     "python.analysis.typeCheckingMode": "standard",
-    "python.defaultInterpreterPath": "/usr/local/bin/python3",
     "python.formatting.provider": "none",
     "python.languageServer": "Pylance",
     "python.linting.enabled": false,

@@ -8,7 +8,6 @@ eamodio.gitlens
 editorconfig.editorconfig
 franciscobach.miramare
 github.copilot-chat
-github.vscode-github-actions
 github.vscode-pull-request-github
 golang.go
 grapecity.gc-excelviewer

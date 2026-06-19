@@ -1,5 +1,5 @@
 {
-  "copilot.lua": { "branch": "master", "commit": "b54c05349d406f7af11b150824efa8e4f90015c6" },
+  "copilot.lua": { "branch": "master", "commit": "7df55b20b5b653941f0bcff87e559cabb6fafeb0" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "mini.clue": { "branch": "main", "commit": "d96fef9db8fcb38c058f2edb2eeb69cb8b2d462a" },
@@ -9,7 +9,7 @@
   "mini.pairs": { "branch": "main", "commit": "d5a29b6254dad07757832db505ea5aeab9aad43a" },
   "mini.pick": { "branch": "main", "commit": "6b7974543b17cf2e294993fc3d8545a342258232" },
   "mini.trailspace": { "branch": "main", "commit": "f8083ca969e1b2098480c10f3c3c4d2ce3586680" },
-  "nvim-lspconfig": { "branch": "master", "commit": "a683e0ddf0cf64c6cd689e18ffb480ade3c162b7" },
+  "nvim-lspconfig": { "branch": "master", "commit": "fef8b117ad5fb73943913f444f22065c4b834a60" },
   "nvim-tree.lua": { "branch": "master", "commit": "fb343438d49fba8c35ecc4829d66fca7a1f0ed3d" },
   "nvim-treesitter": { "branch": "main", "commit": "4916d6592ede8c07973490d9322f187e07dfefac" },
   "vim-rsi": { "branch": "master", "commit": "45540637ead22f011e8215f1c90142e49d946a54" },
