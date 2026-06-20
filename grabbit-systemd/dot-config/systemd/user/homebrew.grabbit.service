@@ -1,0 +1,6 @@
+[Unit]
+Description=Run grabbit
+
+[Service]
+Type=oneshot
+ExecStart=/home/linuxbrew/.linuxbrew/bin/grabbit grab
