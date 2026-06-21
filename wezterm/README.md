@@ -1,5 +1,13 @@
 # Wezterm
 
+## Features
+
+- Custom tab titles show process and directory (with SSH host-aware labeling)
+- Per-tab color accents derived from process/cwd for quick visual scanning
+- Better navigation keys (`Opt+Left/Right` for word jumps, `Ctrl+Shift+Left/Right` to move tabs)
+- Dynamic scrollbar behavior (auto-hide when not needed)
+- `open-uri` handler opens links in Firefox
+
 ## Install
 
 ```bash
@@ -85,7 +93,7 @@ For some reason, iTerm2 has much better font rendering to me. See https://github
 
 Also see https://github.com/wez/wezterm/issues/3774 - maybe I should try kitty again? Fixed with config
 
-### FIXED - Lag 
+### FIXED - Lag
 
 It lags when I do my three-finger-up swipe to zoom out...
 

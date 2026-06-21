@@ -1,5 +1,25 @@
 I'm trying to keep this config deliberately small so things break less over time, but I'm also using Claude to get the things I miss from VS Code into NeoVim.
 
+# Features
+
+- **[lazy.nvim](https://github.com/folke/lazy.nvim)** plugin manager
+- **[mini.nvim](https://github.com/nvim-mini/mini.nvim)** suite: clue (which-key), icons, pick (fuzzy finder), extra pickers, diff (git signs), pairs (auto-brackets), trailspace (trim on save)
+- **Custom pickers** (all under `<leader>f` / `<leader>d` / `<leader>o`):
+  - `<leader>ff` — files, `<leader>fg` — live grep, `<leader>fb` — buffers, `<leader>fh` — help, `<leader>fr` — resume
+  - `<leader>fp` — picker registry (pick a picker)
+  - `<leader>d` — buffer diagnostics (severity-colored rows + source-line previews)
+  - `<leader>D` — project-wide diagnostics (all loaded buffers)
+  - `<leader>ws` — workspace symbols (two-column: kind icon + name / path:line)
+  - `<leader>o` — outline (LSP document symbols, falls back to Treesitter headings in Markdown)
+- **LSP** via nvim-lspconfig: bash, Go, Lua, Python (ruff/ty), Rust (rust-analyzer)
+- **Treesitter** syntax highlighting for bash, Go, Markdown, Python, Rust, SQL, YAML, and more
+- **[nvim-tree](https://github.com/nvim-tree/nvim-tree.lua)** file explorer (`<leader>e`)
+- **[GitHub Copilot](https://github.com/zbirenbaum/copilot.lua)** inline ghost-text suggestions
+- **[vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)** auto-aligns Markdown tables as you type
+- **[indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim)** indent guides
+- **[vim-rsi](https://github.com/tpope/vim-rsi)** Readline keybindings in insert/command mode
+- **OSC52 clipboard** support (works over SSH / WezTerm remote mux)
+
 # Install
 
 How to back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
