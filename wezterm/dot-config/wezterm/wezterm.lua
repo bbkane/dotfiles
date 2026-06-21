@@ -39,7 +39,7 @@ end
 
 -- stop lagging on "Mission Contro" zoom out
 -- https://github.com/wez/wezterm/issues/2669
-config.window_decorations = "TITLE|RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
+config.window_decorations = "RESIZE|MACOS_FORCE_DISABLE_SHADOW|INTEGRATED_BUTTONS"
 
 local window_frame_border_color <const> = "#484848"
 config.window_frame = {
