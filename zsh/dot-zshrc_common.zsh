@@ -57,6 +57,11 @@ export LOGDY_CONFIG="$HOME/.config/logdy.json"
 # export RCLONE_PROGRESS=1
 # export RCLONE_USE_JSON_LOG=1
 
+# Remove '/' from punctuation zsh considers to be part of a word - This means
+# path/to/file now counts as 3 words and Ctrl+w (delete word backwords) doesn't
+# delete the whole thing
+export WORDCHARS="${WORDCHARS//\//}"
+
 # -- Functions --
 
 bak() {
