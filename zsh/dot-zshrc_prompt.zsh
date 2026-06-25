@@ -134,27 +134,34 @@ zp_git_precmd() {
 		zp_git_precmd_var=':GIT_INFO_SKIPPED:'
 		return
 	fi
-	# GIT_OPTIONAL_LOCKS=0 keeps these prompt git calls from taking the index
-	# lock / refreshing the index, so the prompt stays fast and never contends
-	# with a foreground git command (see `man git`).
+	# A single `git status` instead of `git branch` + two `git diff` calls:
+	# fewer forks, and (unlike `git diff --quiet`) it self-heals a stat-dirty
+	# index via fsmonitor instead of re-hashing the worktree on every prompt.
+	# GIT_OPTIONAL_LOCKS=0 keeps it from contending for index.lock with a
+	# foreground git command; fsmonitor keeps it fast without the index writeback.
 	# https://stackoverflow.com/a/56501750/2958070
-	# git >= 2.21, doesn't work in detatched head mode
-	zp_git_precmd_var="$(GIT_OPTIONAL_LOCKS=0 git branch --show-current 2>/dev/null)"
+	# git >= 2.21. Matches old behavior: shows nothing in detached HEAD.
+	zp_git_precmd_var=''
+	local line branch='' staged='' unstaged=''
+	while IFS= read -r line; do
+		case "$line" in
+			"# branch.head "*) branch="${line#"# branch.head "}" ;;
+			# porcelain v2 `1`/`2` lines: char 3 = staged status, char 4 =
+			# unstaged status ('.' means unmodified); `u` lines are conflicts.
+			'1 '*|'2 '*)
+				[[ "${line[3]}" != '.' ]] && staged='+'
+				[[ "${line[4]}" != '.' ]] && unstaged='*'
+				;;
+			'u '*) unstaged='*' ;;
+		esac
+	done < <(GIT_OPTIONAL_LOCKS=0 git status --porcelain=v2 --branch 2>/dev/null)
 
-	local changes=''
-	if [[ "$zp_git_precmd_var" != "" ]]; then
-		if ! GIT_OPTIONAL_LOCKS=0 git diff --no-ext-diff --quiet; then
-			changes='*'
-		fi
-		if ! GIT_OPTIONAL_LOCKS=0 git diff --no-ext-diff --cached --quiet; then
-			changes="${changes}+"
-		fi
-	fi
-	if [[ "$changes" != "" ]]; then
-		zp_git_precmd_var="$zp_git_precmd_var:$changes"
-	fi
-	# Add right-padding if needed
-	if [[ "$zp_git_precmd_var" != "" ]]; then
+	[[ "$branch" == '(detached)' ]] && branch=''
+	if [[ -n "$branch" ]]; then
+		zp_git_precmd_var="$branch"
+		local changes="${unstaged}${staged}"
+		[[ -n "$changes" ]] && zp_git_precmd_var="$zp_git_precmd_var:$changes"
+		# right-padding
 		zp_git_precmd_var="$zp_git_precmd_var "
 	fi
 }
