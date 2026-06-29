@@ -48,6 +48,12 @@ KEEP = {
     "table", "thead", "tbody", "tr", "td", "th", "caption",
 }
 VOID = {"br", "hr"}
+# Headings get one explicit style: font-weight:normal. Google Docs sizes a
+# pasted <hN> like its named Heading style but, because HTML headings are
+# semantically bold, leaves them bold -- unlike a heading you type in the doc.
+# Forcing normal weight makes pasted headings match native ones while staying
+# real headings (still in the outline).
+HEADINGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
 # Container tags whose entire subtree we discard (the <style> block is where
 # textutil hides its class-based font definitions).
 DROP_TREE = {"script", "style", "head", "title"}
@@ -82,6 +88,8 @@ class StyleStripper(HTMLParser):
                     self.out.append(f'<a href="{html.escape(href, quote=True)}">')
                 else:
                     self.out.append("<a>")
+            elif tag in HEADINGS:
+                self.out.append(f'<{tag} style="font-weight: normal;">')
             else:
                 self.out.append(f"<{tag}>")
         # otherwise: unwrap -- emit nothing, children still flow through
