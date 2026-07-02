@@ -81,6 +81,15 @@ local basename = function(s)
     return string.gsub(s, "(.*[/\\])(.*)", "%2")
 end
 
+-- Remove suffix from the end of s if present. Uses a plain (non-pattern)
+-- match so magic characters in suffix are treated literally.
+local strip_suffix = function(s, suffix)
+    if #suffix > 0 and s:sub(-#suffix) == suffix then
+        return s:sub(1, -#suffix - 1)
+    end
+    return s
+end
+
 ---@param process string
 ---@param cwd string
 ---@param is_active boolean
@@ -151,16 +160,25 @@ function module.format_tab_title(tab, tabs, panes, config, hover, max_width)
 
     cwd = basename(cwd.file_path)
 
+    -- Prefer an explicitly-set OSC title when one is available.
+    --
+    -- wezterm exposes the OSC 1/2 (icon/window) title as pane_info.title. When
+    -- nothing sets a title, wezterm defaults a local pane's title to the
+    -- basename of the foreground process (e.g. "zsh"), so a pane title that
+    -- differs from process_name means an application actually set it via OSC.
+    -- Show that title (like we already do for SSH tabs), and otherwise fall
+    -- back to the process name.
+    --
     -- For wezterm SSH/mux domains the foreground process runs remotely, so
     -- get_foreground_process_info() returns nil and process_name stays
-    -- "<unknown>". The remote shell still sets the pane title via OSC
-    -- escapes (which is what the window title shows), so fall back to that
-    -- so the tab reflects the remote process too.
-    if process_info == nil then
-        local pane_title = pane_info.title
-        if pane_title and #pane_title > 0 then
-            return build_title(pane_title, cwd, tab.is_active)
-        end
+    -- "<unknown>"; the remote shell's OSC title still differs from that, so the
+    -- same check keeps SSH tabs reflecting the remote title.
+    local pane_title = pane_info.title
+    if pane_title and #pane_title > 0 and pane_title ~= process_name then
+        -- Copilot CLI and friends append " - GitHub Copilot"; drop it so the
+        -- tab shows just the meaningful part of the title.
+        pane_title = strip_suffix(pane_title, " - GitHub Copilot")
+        return build_title(pane_title, cwd, tab.is_active)
     end
 
     return build_title(process_name, cwd, tab.is_active)
