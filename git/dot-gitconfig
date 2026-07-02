@@ -98,13 +98,16 @@
 
 # case insensitive include other settings
 
-# Start with the default auth method (helper = manager) and override that for different linux envs
+# Start with the default auth method (helper = manager) and override that for different computers
 
 [includeIf "gitdir/i:/home/bbkane/"]
 	path = ~/.config/gitconfig_home_bbkane
 
 [includeIf "gitdir/i:/home/bkane/"]
 	path = ~/.config/gitconfig_home_bkane
+
+[includeIf "gitdir/i:/Users/bkane/"]
+	path = ~/.config/gitconfig_Users_bkane
 
 # Directory settings should have different users configured
 
