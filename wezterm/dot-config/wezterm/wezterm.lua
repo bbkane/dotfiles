@@ -8,15 +8,19 @@ local format_tab_title = require("format_tab_title")
 -- ssh_domains.lua is symlinked from elsewhere and might not always be present
 local has_ssh_domains, ssh_domains = pcall(require, "ssh_domains")
 
+-- https://github.com/wez/wezterm/discussions/4728
+local is_darwin <const> = wezterm.target_triple:find("darwin") ~= nil
+local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
+
 -- This table will hold the configuration.
 local config = {}
 
 config = wezterm.config_builder() ---@type Config
 
-
--- https://github.com/wez/wezterm/discussions/4728
-local is_darwin <const> = wezterm.target_triple:find("darwin") ~= nil
-local is_linux <const> = wezterm.target_triple:find("linux") ~= nil
+-- Use wezterm's own terminfo so neovim sets scroll regions correctly
+-- (works around a wezterm bug exposed by xterm-256color's smglr capability).
+-- See https://github.com/neovim/neovim/issues/35133
+config.term = 'wezterm'
 
 -- This is where you actually apply your config choices
 
