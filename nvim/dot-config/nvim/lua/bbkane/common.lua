@@ -100,9 +100,9 @@ if vim.g.neovide then
     vim.g.neovide_hide_mouse_when_typing = true
     vim.g.neovide_confirm_quit = true
 
-    vim.g.neovide_cursor_animation_length = 0 -- the cursor "smear"
-    vim.g.neovide_scroll_animation_length = 0 -- smooth scrolling
-    vim.g.neovide_cursor_vfx_mode = ""        -- particle trail: "railgun"/"torpedo"/"pixiedust"/… ("" = off)
+    vim.g.neovide_cursor_animation_length = 0   -- the cursor "smear"
+    vim.g.neovide_scroll_animation_length = 0   -- smooth scrolling
+    vim.g.neovide_cursor_vfx_mode = ""          -- particle trail: "railgun"/"torpedo"/"pixiedust"/… ("" = off)
     vim.g.neovide_position_animation_length = 0 -- window/split move animation
 
 

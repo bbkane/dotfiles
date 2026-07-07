@@ -80,6 +80,32 @@ require("lazy").setup({
 
     -- end color schemes
 
+    -- https://github.com/MeanderingProgrammer/render-markdown.nvim
+    -- Makes reading super convenient, but can disturb editong. Disable if needed with :RenderMarkdown disable
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' }, -- if you use standalone mini plugins
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {
+            completions = {
+                lsp = {
+                    enabled = true,
+                },
+            },
+            anti_conceal = {
+                enabled = false,
+            },
+            code = {
+                width = 'block',
+            },
+            heading = {
+                width = 'block',
+            },
+        },
+
+    },
+
     -- https://github.com/nvim-mini/mini.clue
     {
         'nvim-mini/mini.clue',
