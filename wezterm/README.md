@@ -19,6 +19,19 @@ brew install font-fira-code
 brew install font-ia-writer-mono
 ```
 
+[Install terminfo](https://wezterm.org/config/lua/config/term.html) so `config.term = 'wezterm'` works properly and Neovim [scrolls properly](https://github.com/neovim/neovim/issues/35133). This was needed on MacOS.
+
+```bash
+# check if I need to install
+infocmp wezterm
+
+# if needed, install
+tempfile=$(mktemp) \
+  && curl -o $tempfile https://raw.githubusercontent.com/wezterm/wezterm/main/termwiz/data/wezterm.terminfo \
+  && tic -x -o ~/.terminfo $tempfile \
+  && rm $tempfile
+```
+
 ## LSP type definitions
 
 `.luarc.json` points `workspace.library` at `$HOME/Git-GH/wezterm-types/types` so
