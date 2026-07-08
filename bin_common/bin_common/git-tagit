@@ -7,7 +7,7 @@ import os
 import re
 import subprocess
 import sys
-from typing import List, Mapping, NamedTuple, NoReturn, Optional, Tuple
+from typing import Callable, List, Mapping, NamedTuple, NoReturn, Optional, Tuple
 
 try:
     import tomllib
@@ -18,6 +18,11 @@ except ModuleNotFoundError:
 GIT_VERSION_TAG_REGEX = r"^v\d+\.\d+\.\d+$"
 CARGO_VERSION_REGEX = r"^(\d+)\.(\d+)\.(\d+)$"
 FIRST_GO_GIT_VERSION_TAG = "v0.0.1"
+
+
+class Step(NamedTuple):
+    description: str
+    action: Callable[[], object]
 
 
 class CargoSemverTag(NamedTuple):
@@ -152,10 +157,35 @@ def require_clean_and_pushed_master(env: dict[str, str]) -> None:
         fail("Local master has commits not pushed to origin/master. Push first.")
 
 
+def get_last_commit_message() -> Optional[str]:
+    result = run_optional(
+        ["git", "log", "-1", "--format=%s"],
+        capture_output=True,
+    )
+    msg = result.stdout.strip()
+    return msg or None
+
+
+def confirm_and_run_plan(steps: List[Step]) -> None:
+    print_green("\nPlan:")
+    for step in steps:
+        print(f"  \u2022 {step.description}")
+    print()
+    answer = input("Type 'yes' to confirm: ").strip()
+    if answer != "yes":
+        fail("Aborted.")
+    for step in steps:
+        step.action()
+
+
 def prompt_and_validate_git_version_tag(suggested_git_version_tag: str) -> Tuple[str, str]:
     new_git_version_tag = input_git_version_tag(suggested_git_version_tag)
 
-    new_message = input("New message (Ex: 'new feature'): ")
+    suggested_message = get_last_commit_message()
+    if suggested_message:
+        new_message = input(f"Tag message (default: {suggested_message}): ").strip() or suggested_message
+    else:
+        new_message = input("Tag message (Ex: 'new feature'): ").strip()
     return new_git_version_tag, new_message
 
 
@@ -234,10 +264,8 @@ def ensure_cargo_version_matches_git_version_tag(
         fail(f"Cargo.toml version ({cargo_package_version}) and latest tag ({latest_git_version_tag}) are not in sync.")
 
 
-def commit_rust_release(new_git_version_tag: str, new_message: str, env: dict[str, str]) -> None:
+def commit_rust_release(new_git_version_tag: str, env: dict[str, str]) -> None:
     commit_message = f"release: {new_git_version_tag}"
-    if new_message.strip():
-        commit_message = f"{commit_message} - {new_message.strip()}"
 
     run_checked(["git", "add", "Cargo.toml", "Cargo.lock"], env=env)
     has_staged = run_optional(["git", "diff", "--cached", "--quiet"], env=env)
@@ -264,7 +292,12 @@ def main_go(env: dict[str, str]) -> None:
     if latest_git_version_tag is not None:
         require_git_version_tag_increment(latest_git_version_tag, new_git_version_tag)
 
-    create_and_push_git_version_tag(new_git_version_tag, new_message, env)
+    confirm_and_run_plan([
+        Step(
+            f'create_and_push_git_version_tag: {new_git_version_tag=} {new_message=}',
+            lambda: create_and_push_git_version_tag(new_git_version_tag, new_message, env),
+        ),
+    ])
 
 
 def main_rust_initial_release(
@@ -274,12 +307,6 @@ def main_rust_initial_release(
     print_green(f"No existing tags found. Suggesting Cargo.toml version {cargo_package_version} for initial release.")
     suggested_git_version_tag = f"v{cargo_package_version}"
     new_git_version_tag, new_message = prompt_and_validate_git_version_tag(suggested_git_version_tag)
-
-    requested_cargo_version = git_version_tag_to_version(new_git_version_tag)
-    # Avoid rewriting Cargo.toml when the requested release version is unchanged.
-    # This prevents unnecessary file churn and preserves existing formatting/comments.
-    if requested_cargo_version != cargo_package_version:
-        write_cargo_version(cargo_toml_path, requested_cargo_version)
 
     return new_git_version_tag, new_message
 
@@ -296,9 +323,6 @@ def main_rust_normal_release(
     new_git_version_tag, new_message = prompt_and_validate_git_version_tag(suggested_git_version_tag)
 
     require_git_version_tag_increment(latest_git_version_tag, new_git_version_tag)
-
-    requested_cargo_version = git_version_tag_to_version(new_git_version_tag)
-    write_cargo_version(cargo_toml_path, requested_cargo_version)
 
     return new_git_version_tag, new_message
 
@@ -326,10 +350,35 @@ def main_rust(env: dict[str, str]) -> None:
             latest_git_version_tag,
         )
 
-    run_checked(["cargo", "update", "-p", cargo_package_name], env=env)
-    commit_rust_release(new_git_version_tag, new_message, env)
-    create_and_push_git_version_tag(new_git_version_tag, new_message, env)
-    run_checked(["git", "push", "origin", "master"], env=env)
+    new_version = git_version_tag_to_version(new_git_version_tag)
+    cargo_version_changed = new_version != cargo_package_version
+    version_change_commit_message = f"Update version to {new_version}"
+
+    steps: List[Step] = []
+    if cargo_version_changed:
+        steps.append(Step(
+            f'write_cargo_version: {cargo_toml_path=} {new_version=}',
+            lambda: write_cargo_version(cargo_toml_path, new_version),
+        ))
+    steps.extend([
+        Step(
+            f'cargo update: {cargo_package_name=}',
+            lambda: run_checked(["cargo", "update", "-p", cargo_package_name], env=env),
+        ),
+        Step(
+            f'commit_rust_release: {version_change_commit_message=}',
+            lambda: commit_rust_release(version_change_commit_message, env),
+        ),
+        Step(
+            f'create_and_push_git_version_tag: {new_git_version_tag=} {new_message=}',
+            lambda: create_and_push_git_version_tag(new_git_version_tag, new_message, env),
+        ),
+        Step(
+            "git push origin master",
+            lambda: run_checked(["git", "push", "origin", "master"], env=env),
+        ),
+    ])
+    confirm_and_run_plan(steps)
 
 
 def main() -> None:
