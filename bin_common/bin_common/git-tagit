@@ -1,12 +1,43 @@
 #!/usr/bin/env python3
 
 # Print git status and current last 10 git tags, then prompt for a new git tag and push.
-# The tag prompt pre-fills with the suggested next minor version; press Enter to accept.
+# The tag prompt pre-fills with the suggested next patch version; press Enter to accept.
 
 import os
 import re
 import subprocess
 import sys
+from typing import List, Mapping, NamedTuple, NoReturn, Optional, Tuple
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    raise SystemExit("git-tagit requires Python 3.11+ (tomllib not available).")
+
+# Keep these separate: Git tags require a leading 'v', Cargo versions do not.
+GIT_VERSION_TAG_REGEX = r"^v\d+\.\d+\.\d+$"
+CARGO_VERSION_REGEX = r"^(\d+)\.(\d+)\.(\d+)$"
+FIRST_GO_GIT_VERSION_TAG = "v0.0.1"
+
+
+class CargoSemverTag(NamedTuple):
+    """Does not include the leading "v" that is present in Git tags."""
+    major: int
+    minor: int
+    patch: int
+
+    @classmethod
+    def from_text(cls, cargo_version_text: str) -> "CargoSemverTag":
+        m = re.match(CARGO_VERSION_REGEX, cargo_version_text)
+        if not m:
+            raise ValueError(f"Value '{cargo_version_text}' does not match cargo version regex")
+        return cls(major=int(m.group(1)), minor=int(m.group(2)), patch=int(m.group(3)))
+
+    def version_tuple(self) -> Tuple[int, int, int]:
+        return (self.major, self.minor, self.patch)
+
+    def is_strictly_newer_than(self, other: "CargoSemverTag") -> bool:
+        return self.version_tuple() > other.version_tuple()
 
 
 def _colorize(text: str, ansi_code: str) -> str:
@@ -23,59 +54,72 @@ def print_red(text: str) -> None:
     print(_colorize(text, "\033[31m"))
 
 
-def input_tag(suggested_tag: str) -> str:
-    """Prompt the user, pre-filling the input buffer with *prefill* via readline."""
-    inputted_tag = input(f"New tag (default: {suggested_tag}): ")
-    if not inputted_tag:
-        return suggested_tag
-    return inputted_tag
+def fail(message: str, exit_code: int = 1) -> NoReturn:
+    print_red(message)
+    raise SystemExit(exit_code)
 
 
-def get_latest_tag() -> str | None:
-    """Return the highest version tag, or None if there are no tags."""
-    result = subprocess.run(
+def run_checked(
+    args: List[str],
+    env: Optional[dict[str, str]] = None,
+    capture_output: bool = False,
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(args, check=True, text=True, env=env, capture_output=capture_output)
+
+
+def run_optional(
+    args: List[str],
+    env: Optional[dict[str, str]] = None,
+    capture_output: bool = False,
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(args, check=False, text=True, env=env, capture_output=capture_output)
+
+
+def input_git_version_tag(suggested_git_version_tag: str) -> str:
+    new_git_version_tag = input(f"New tag (default: {suggested_git_version_tag}): ")
+    if not new_git_version_tag:
+        new_git_version_tag = suggested_git_version_tag
+
+    if not re.match(GIT_VERSION_TAG_REGEX, new_git_version_tag):
+        fail("Tag must match vMAJOR.MINOR.PATCH (for example v1.2.3).")
+
+    return new_git_version_tag
+
+
+def get_latest_git_version_tag() -> Optional[str]:
+    result = run_optional(
         [
-            "git", "for-each-ref", "refs/tags",
+            "git",
+            "for-each-ref",
+            "refs/tags",
             "--sort=-version:refname",
             "--count=1",
             "--format=%(refname:short)",
         ],
         capture_output=True,
-        text=True,
     )
-    tag = result.stdout.strip()
-    return tag or None
+    git_version_tag = result.stdout.strip()
+    return git_version_tag or None
 
 
-def suggest_next_patch(latest_tag: str | None) -> str:
-    """Return the next patch version tag based on *latest_tag*."""
-    if latest_tag:
-        m = re.match(r"^(v?)(\d+)\.(\d+)\.(\d+)", latest_tag)
-        if not m:
-            raise ValueError(f"Latest tag '{latest_tag}' does not match version regex")
-
-        prefix, major, minor, patch = m.group(1), int(m.group(2)), int(m.group(3)), int(m.group(4))
-        return f"{prefix}{major}.{minor}.{patch + 1}"
-
-    raise ValueError("No existing tags found; cannot suggest next patch version")
+def suggest_next_patch_git_version_tag(latest_git_version_tag: str) -> str:
+    latest_cargo_version = git_version_tag_to_version(latest_git_version_tag)
+    current_version = CargoSemverTag.from_text(latest_cargo_version)
+    return f"v{current_version.major}.{current_version.minor}.{current_version.patch + 1}"
 
 
-def main() -> None:
-    env = {**os.environ, "LC_ALL": "en_US.UTF-8"}
-
+def print_git_status(env: dict[str, str]) -> None:
     print_green("Current status:")
-    subprocess.run(["git", "status"], env=env)
+    run_optional(["git", "status"], env=env)
 
+
+def print_recent_tags(env: dict[str, str]) -> None:
     print_green("Current tags:")
-    # Some notes on this:
-    # - I want the last 10 tags ordered by version
-    # - can't use `git tag` because it doesn't have a --count option
-    # - If I use --count directly on git for-each-ref, I get the first 10 tags and there's no --reverse option
-    # - So reverse sort by version and then reverse the output in Python
-    # format strings at https://git-scm.com/docs/git-for-each-ref#_field_names
-    result = subprocess.run(
+    result = run_optional(
         [
-            "git", "for-each-ref", "refs/tags",
+            "git",
+            "for-each-ref",
+            "refs/tags",
             "--count=10",
             "--sort=-version:refname",
             "--color=always",
@@ -83,26 +127,226 @@ def main() -> None:
             " %(color:cyan)%(*authordate:short) %(color:yellow)%(subject)",
         ],
         capture_output=True,
-        text=True,
         env=env,
     )
     for line in reversed(result.stdout.splitlines()):
         print(line)
 
-    print_green("Create new tag and push!")
 
-    latest_tag = get_latest_tag()
-    suggested_tag = suggest_next_patch(latest_tag)
-    new_tag = input_tag(suggested_tag)
+def require_clean_and_pushed_master(env: dict[str, str]) -> None:
+    status = run_checked(["git", "status", "--porcelain"], env=env, capture_output=True).stdout.strip()
+    if status:
+        fail("Working tree is not clean. Commit or stash changes before releasing.")
 
-    if not re.match(r"^v\d{1,2}\.\d{1,2}\.\d{1,2}", new_tag):
-        print_red("Tag must match version regex")
-        sys.exit(1)
+    branch = run_checked(["git", "rev-parse", "--abbrev-ref", "HEAD"], env=env, capture_output=True).stdout.strip()
+    if branch != "master":
+        fail(f"Release must be made from master. Current branch is '{branch}'.")
+
+    run_checked(["git", "fetch", "origin", "master"], env=env)
+    behind = run_checked(["git", "rev-list", "--count", "HEAD..origin/master"], env=env, capture_output=True).stdout.strip()
+    ahead = run_checked(["git", "rev-list", "--count", "origin/master..HEAD"], env=env, capture_output=True).stdout.strip()
+
+    if behind != "0":
+        fail("Local master is behind origin/master. Pull first.")
+    if ahead != "0":
+        fail("Local master has commits not pushed to origin/master. Push first.")
+
+
+def prompt_and_validate_git_version_tag(suggested_git_version_tag: str) -> Tuple[str, str]:
+    new_git_version_tag = input_git_version_tag(suggested_git_version_tag)
 
     new_message = input("New message (Ex: 'new feature'): ")
+    return new_git_version_tag, new_message
 
-    subprocess.run(["git", "tag", "-a", new_tag, "-m", new_message], check=True)
-    subprocess.run(["git", "push", "origin", new_tag], check=True)
+
+def create_and_push_git_version_tag(new_git_version_tag: str, new_message: str, env: dict[str, str]) -> None:
+    run_checked(["git", "tag", "-a", new_git_version_tag, "-m", new_message], env=env)
+    run_checked(["git", "push", "origin", new_git_version_tag], env=env)
+
+
+def git_version_tag_to_version(git_version_tag: str) -> str:
+    """Removes the leading 'v' from a Git version tag to produce a Cargo version string."""
+    return git_version_tag[1:] if git_version_tag.startswith("v") else git_version_tag
+
+
+def read_cargo_package_field(cargo_toml_path: str, field_name: str) -> str:
+    with open(cargo_toml_path, "rb") as f:
+        cargo_data = tomllib.load(f)
+
+    package = cargo_data.get("package")
+    if not isinstance(package, Mapping):
+        raise ValueError("Could not find [package] table in Cargo.toml")
+
+    field_value = package.get(field_name)
+    if not isinstance(field_value, str) or not field_value:
+        raise ValueError(f"Could not find [package].{field_name} in Cargo.toml")
+
+    return field_value
+
+
+def require_git_version_tag_increment(latest_git_version_tag: str, new_git_version_tag: str) -> None:
+    current = CargoSemverTag.from_text(git_version_tag_to_version(latest_git_version_tag))
+    candidate = CargoSemverTag.from_text(git_version_tag_to_version(new_git_version_tag))
+
+    if not candidate.is_strictly_newer_than(current):
+        fail(f"New tag '{new_git_version_tag}' must be greater than current tag '{latest_git_version_tag}'.")
+
+
+def write_cargo_version(cargo_toml_path: str, new_version: str) -> None:
+    in_package_section = False
+    replaced = False
+    updated_lines: List[str] = []
+
+    with open(cargo_toml_path, "r", encoding="utf-8") as f:
+        for raw_line in f:
+            line = raw_line.rstrip("\n")
+            stripped = line.strip()
+
+            if stripped.startswith("[") and stripped.endswith("]"):
+                in_package_section = stripped == "[package]"
+                updated_lines.append(raw_line)
+                continue
+
+            if in_package_section and not replaced and re.match(r"^version\s*=", stripped):
+                indent_match = re.match(r"^\s*", line)
+                if indent_match is None:
+                    fail("Failed to compute indentation while updating Cargo.toml")
+                indent = indent_match.group(0)
+                updated_lines.append(f'{indent}version = "{new_version}"\n')
+                replaced = True
+                continue
+
+            updated_lines.append(raw_line)
+
+    if not replaced:
+        raise ValueError("Could not update [package].version in Cargo.toml")
+
+    with open(cargo_toml_path, "w", encoding="utf-8") as f:
+        f.writelines(updated_lines)
+
+
+def ensure_cargo_version_matches_git_version_tag(
+    cargo_package_version: str,
+    latest_git_version_tag: str,
+) -> None:
+    latest_tag_version = git_version_tag_to_version(latest_git_version_tag)
+    if cargo_package_version != latest_tag_version:
+        fail(f"Cargo.toml version ({cargo_package_version}) and latest tag ({latest_git_version_tag}) are not in sync.")
+
+
+def commit_rust_release(new_git_version_tag: str, new_message: str, env: dict[str, str]) -> None:
+    commit_message = f"release: {new_git_version_tag}"
+    if new_message.strip():
+        commit_message = f"{commit_message} - {new_message.strip()}"
+
+    run_checked(["git", "add", "Cargo.toml", "Cargo.lock"], env=env)
+    has_staged = run_optional(["git", "diff", "--cached", "--quiet"], env=env)
+    if has_staged.returncode == 0:
+        print_green("No Cargo.toml/Cargo.lock changes to commit; tagging current HEAD.")
+        return
+    run_checked(["git", "commit", "-m", commit_message], env=env)
+
+
+def main_go(env: dict[str, str]) -> None:
+    require_clean_and_pushed_master(env)
+    print_git_status(env)
+    print_recent_tags(env)
+    print_green("Create new tag and push!")
+
+    latest_git_version_tag = get_latest_git_version_tag()
+    suggested_git_version_tag = (
+        FIRST_GO_GIT_VERSION_TAG
+        if latest_git_version_tag is None
+        else suggest_next_patch_git_version_tag(latest_git_version_tag)
+    )
+    new_git_version_tag, new_message = prompt_and_validate_git_version_tag(suggested_git_version_tag)
+
+    if latest_git_version_tag is not None:
+        require_git_version_tag_increment(latest_git_version_tag, new_git_version_tag)
+
+    create_and_push_git_version_tag(new_git_version_tag, new_message, env)
+
+
+def main_rust_initial_release(
+    cargo_toml_path: str,
+    cargo_package_version: str,
+) -> Tuple[str, str]:
+    print_green(f"No existing tags found. Suggesting Cargo.toml version {cargo_package_version} for initial release.")
+    suggested_git_version_tag = f"v{cargo_package_version}"
+    new_git_version_tag, new_message = prompt_and_validate_git_version_tag(suggested_git_version_tag)
+
+    requested_cargo_version = git_version_tag_to_version(new_git_version_tag)
+    # Avoid rewriting Cargo.toml when the requested release version is unchanged.
+    # This prevents unnecessary file churn and preserves existing formatting/comments.
+    if requested_cargo_version != cargo_package_version:
+        write_cargo_version(cargo_toml_path, requested_cargo_version)
+
+    return new_git_version_tag, new_message
+
+
+def main_rust_normal_release(
+    cargo_toml_path: str,
+    cargo_package_version: str,
+    latest_git_version_tag: str,
+) -> Tuple[str, str]:
+    ensure_cargo_version_matches_git_version_tag(cargo_package_version, latest_git_version_tag)
+    print_green(f"Current Cargo.toml version and latest tag are in sync: {cargo_package_version}")
+
+    suggested_git_version_tag = suggest_next_patch_git_version_tag(latest_git_version_tag)
+    new_git_version_tag, new_message = prompt_and_validate_git_version_tag(suggested_git_version_tag)
+
+    require_git_version_tag_increment(latest_git_version_tag, new_git_version_tag)
+
+    requested_cargo_version = git_version_tag_to_version(new_git_version_tag)
+    write_cargo_version(cargo_toml_path, requested_cargo_version)
+
+    return new_git_version_tag, new_message
+
+
+def main_rust(env: dict[str, str]) -> None:
+    require_clean_and_pushed_master(env)
+    print_git_status(env)
+    print_recent_tags(env)
+
+    cargo_toml_path = "Cargo.toml"
+    latest_git_version_tag = get_latest_git_version_tag()
+
+    cargo_package_version = read_cargo_package_field(cargo_toml_path, "version")
+    cargo_package_name = read_cargo_package_field(cargo_toml_path, "name")
+
+    if latest_git_version_tag is None:
+        new_git_version_tag, new_message = main_rust_initial_release(
+            cargo_toml_path,
+            cargo_package_version,
+        )
+    else:
+        new_git_version_tag, new_message = main_rust_normal_release(
+            cargo_toml_path,
+            cargo_package_version,
+            latest_git_version_tag,
+        )
+
+    run_checked(["cargo", "update", "-p", cargo_package_name], env=env)
+    commit_rust_release(new_git_version_tag, new_message, env)
+    create_and_push_git_version_tag(new_git_version_tag, new_message, env)
+    run_checked(["git", "push", "origin", "master"], env=env)
+
+
+def main() -> None:
+    env = {**os.environ, "LC_ALL": "en_US.UTF-8"}
+
+    has_go = os.path.exists("go.mod")
+    has_rust = os.path.exists("Cargo.toml")
+
+    if has_go and has_rust:
+        fail("Both go.mod and Cargo.toml are present; cannot choose project type.")
+    if not has_go and not has_rust:
+        fail("Neither go.mod nor Cargo.toml found. Run this from a Go or Rust project root.")
+
+    if has_go:
+        main_go(env)
+    else:
+        main_rust(env)
 
 
 if __name__ == "__main__":
