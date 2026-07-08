@@ -1,5 +1,4 @@
 {
-  "copilot.lua": { "branch": "master", "commit": "7df55b20b5b653941f0bcff87e559cabb6fafeb0" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "mini.clue": { "branch": "main", "commit": "d96fef9db8fcb38c058f2edb2eeb69cb8b2d462a" },
