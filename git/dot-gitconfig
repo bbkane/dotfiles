@@ -5,6 +5,7 @@
 	ls = ls-files
 	erase-remote-branch = push -d origin
 	numlineschanged = diff --stat
+	tags = "!git for-each-ref refs/tags --count=10 --sort=-version:refname --color=always '--format=%(align:width=10,position=right)%(color:blue)%(refname:short)%(end) %(color:cyan)%(*authordate:short) %(color:yellow)%(subject)' | python3 -c 'import sys; sys.stdout.writelines(reversed(sys.stdin.readlines()))'"
 	# if nvim isn't installed, use:
 	#   git difftool --no-prompt --extcmd 'vim -d "+colorscheme morning"'
 	# already have gruvbox plugin as a really good diffing colorscheme

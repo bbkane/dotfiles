@@ -232,7 +232,9 @@ def main():
     require_synced_master(src_dir)
     dest_dir = src_dir.parent / name
     logger.info("Copying: %s to %s", src_dir, dest_dir)
-    shutil.copytree(src_dir, dest_dir)
+    shutil.copytree(
+        src_dir, dest_dir, ignore=shutil.ignore_patterns("fsmonitor--daemon.ipc")
+    )
 
     logger.info("Changing working directory to: %s", dest_dir)
     os.chdir(dest_dir)
