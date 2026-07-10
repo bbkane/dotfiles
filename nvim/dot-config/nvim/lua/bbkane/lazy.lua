@@ -90,7 +90,8 @@ require("lazy").setup({
         opts = {
             completions = {
                 lsp = {
-                    enabled = true,
+                    -- 2026-07-26 - this throws a stacktrace when enabled
+                    enabled = false,
                 },
             },
             anti_conceal = {
@@ -224,7 +225,11 @@ require("lazy").setup({
         'nvim-mini/mini.pairs',
         version = '*',
         config = function()
-            require('mini.pairs').setup()
+            require('mini.pairs').setup({
+                mappings = {
+                    ["`"] = false,
+                }
+            })
         end,
     },
 
