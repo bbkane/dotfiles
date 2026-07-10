@@ -122,13 +122,15 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def run_cmd(*args: str):
-    logger.info(f"Running command: {shlex.join(args)}")
+def run_cmd(*args: str, cwd: Path | None = None):
+    cwd_msg = f" (cwd={cwd})" if cwd else ""
+    logger.info(f"Running command{cwd_msg}: {shlex.join(args)}")
     res = subprocess.run(
         args,
         encoding="utf-8",
         capture_output=True,
         text=True,
+        cwd=str(cwd) if cwd else None,
     )
     level = logging.DEBUG
     if res.returncode != 0:
@@ -146,6 +148,46 @@ def run_cmd(*args: str):
 
     if res.returncode != 0:
         sys.exit(res.returncode)
+
+    return res
+
+
+def require_synced_master(repo_dir: Path):
+    if not (repo_dir / ".git").exists():
+        logger.error("Example repo is not a git repository: %s", repo_dir)
+        sys.exit(1)
+
+    branch = run_cmd("git", "branch", "--show-current", cwd=repo_dir).stdout.strip()
+    if branch != "master":
+        logger.error(
+            "Example repo must be on master. Current branch is '%s' in %s",
+            branch,
+            repo_dir,
+        )
+        sys.exit(1)
+
+    run_cmd("git", "fetch", "origin", "master", cwd=repo_dir)
+    behind = run_cmd(
+        "git", "rev-list", "--count", "HEAD..origin/master", cwd=repo_dir
+    ).stdout.strip()
+    ahead = run_cmd(
+        "git", "rev-list", "--count", "origin/master..HEAD", cwd=repo_dir
+    ).stdout.strip()
+
+    if behind != "0":
+        logger.error(
+            "Example repo is behind origin/master by %s commit(s). Pull first: %s",
+            behind,
+            repo_dir,
+        )
+        sys.exit(1)
+    if ahead != "0":
+        logger.error(
+            "Example repo is ahead of origin/master by %s commit(s). Push first: %s",
+            ahead,
+            repo_dir,
+        )
+        sys.exit(1)
 
 
 def main():
@@ -187,6 +229,7 @@ def main():
 
     # copy the selected example project directory to the new name
     src_dir = settings.src_dir
+    require_synced_master(src_dir)
     dest_dir = src_dir.parent / name
     logger.info("Copying: %s to %s", src_dir, dest_dir)
     shutil.copytree(src_dir, dest_dir)
