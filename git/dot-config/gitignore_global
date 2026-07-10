@@ -1,13 +1,13 @@
+**/.claude/logs/
+**/.claude/settings.local.json
 *.bak
 .DS_Store
 
 # Produced when debugging Go in VS Code
 __debug_bin*
 
+__pycache__/
 go.work
 go.work.sum
 tags
 tmp*
-
-**/.claude/settings.local.json
-**/.claude/logs/
