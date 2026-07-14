@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+
+# Print the GitHub web URL for a file tracked in the current git repository.
+# By default the URL points at the file on the current branch. Pass --permalink
+# to pin the URL to the current commit SHA instead of the branch name.
+
+import argparse
+import os
+import re
+import subprocess
+import sys
+from typing import List, NoReturn, Optional
+
+
+def _colorize(text: str, ansi_code: str) -> str:
+    if sys.stderr.isatty():
+        return f"{ansi_code}{text}\033[0m"
+    return text
+
+
+def print_red(text: str) -> None:
+    print(_colorize(text, "\033[31m"), file=sys.stderr)
+
+
+def fail(message: str, exit_code: int = 1) -> NoReturn:
+    print_red(message)
+    raise SystemExit(exit_code)
+
+
+def run(args: List[str], capture_output: bool = True) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(args, check=False, text=True, capture_output=capture_output)
+
+
+def run_git(args: List[str]) -> str:
+    result = run(["git", *args])
+    if result.returncode != 0:
+        fail(result.stderr.strip() or f"git {' '.join(args)} failed.")
+    return result.stdout.strip()
+
+
+def remote_url_to_web_base(remote_url: str) -> str:
+    """Convert a git remote URL into an https://host/owner/repo web base URL."""
+    url = remote_url.strip()
+    if url.endswith(".git"):
+        url = url[:-len(".git")]
+
+    # scp-like syntax: git@github.com:owner/repo
+    scp_match = re.match(r"^[^@/]+@([^:/]+):(.+)$", url)
+    if scp_match:
+        host, path = scp_match.group(1), scp_match.group(2)
+        return f"https://{host}/{path}"
+
+    # ssh://git@host/owner/repo or https://host/owner/repo
+    proto_match = re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*://(?:[^@/]+@)?([^:/]+)(?::\d+)?/(.+)$", url)
+    if proto_match:
+        host, path = proto_match.group(1), proto_match.group(2)
+        return f"https://{host}/{path}"
+
+    fail(f"Could not parse remote URL: {remote_url}")
+
+
+def get_web_base() -> str:
+    remotes = run_git(["remote"]).splitlines()
+    if not remotes:
+        fail("No git remotes configured for this repository.")
+    remote = "origin" if "origin" in remotes else remotes[0]
+    remote_url = run_git(["remote", "get-url", remote])
+    return remote_url_to_web_base(remote_url)
+
+
+def get_ref(permalink: bool) -> str:
+    if permalink:
+        return run_git(["rev-parse", "HEAD"])
+    branch = run_git(["rev-parse", "--abbrev-ref", "HEAD"])
+    if branch == "HEAD":
+        # Detached HEAD; fall back to the commit SHA.
+        return run_git(["rev-parse", "HEAD"])
+    return branch
+
+
+def get_repo_relative_path(file_path: str) -> str:
+    abs_path = os.path.abspath(file_path)
+    if not os.path.exists(abs_path):
+        fail(f"File does not exist: {file_path}")
+
+    repo_root = run_git(["rev-parse", "--show-toplevel"])
+    rel_path = os.path.relpath(abs_path, repo_root)
+    if rel_path.startswith(".."):
+        fail(f"File is outside the git repository: {file_path}")
+    return rel_path.replace(os.sep, "/")
+
+
+def build_url(web_base: str, ref: str, rel_path: str) -> str:
+    return f"{web_base}/blob/{ref}/{rel_path}"
+
+
+def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Print the GitHub web URL for a file in the current git repository.",
+    )
+    parser.add_argument("file", help="Path to the file within the git repository.")
+    parser.add_argument(
+        "--permalink",
+        action="store_true",
+        help="Pin the URL to the current commit SHA instead of the branch name.",
+    )
+    return parser.parse_args(argv)
+
+
+def main() -> None:
+    args = parse_args()
+    rel_path = get_repo_relative_path(args.file)
+    web_base = get_web_base()
+    ref = get_ref(args.permalink)
+    print(build_url(web_base, ref, rel_path))
+
+
+if __name__ == "__main__":
+    main()
