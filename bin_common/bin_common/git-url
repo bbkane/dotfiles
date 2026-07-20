@@ -9,7 +9,7 @@ import os
 import re
 import subprocess
 import sys
-from typing import List, NoReturn, Optional
+from typing import List, NoReturn, Optional, Tuple
 
 
 def _colorize(text: str, ansi_code: str) -> str:
@@ -20,6 +20,11 @@ def _colorize(text: str, ansi_code: str) -> str:
 
 def print_red(text: str) -> None:
     print(_colorize(text, "\033[31m"), file=sys.stderr)
+
+
+def warn(message: str) -> None:
+    prefix = _colorize("warning:", "\033[33m")
+    print(f"{prefix} {message}", file=sys.stderr)
 
 
 def fail(message: str, exit_code: int = 1) -> NoReturn:
@@ -38,6 +43,10 @@ def run_git(args: List[str]) -> str:
     if result.returncode != 0:
         fail(result.stderr.strip() or f"git {' '.join(args)} failed.")
     return result.stdout.strip()
+
+
+def git_succeeds(args: List[str]) -> bool:
+    return run(["git", *args]).returncode == 0
 
 
 def remote_url_to_web_base(remote_url: str) -> str:
@@ -63,13 +72,13 @@ def remote_url_to_web_base(remote_url: str) -> str:
     fail(f"Could not parse remote URL: {remote_url}")
 
 
-def get_web_base() -> str:
+def get_remote() -> Tuple[str, str]:
     remotes = run_git(["remote"]).splitlines()
     if not remotes:
         fail("No git remotes configured for this repository.")
     remote = "origin" if "origin" in remotes else remotes[0]
     remote_url = run_git(["remote", "get-url", remote])
-    return remote_url_to_web_base(remote_url)
+    return remote, remote_url_to_web_base(remote_url)
 
 
 def get_ref(permalink: bool) -> str:
@@ -98,6 +107,48 @@ def build_url(web_base: str, ref: str, rel_path: str) -> str:
     return f"{web_base}/blob/{ref}/{rel_path}"
 
 
+def warn_if_not_on_remote(
+    remote: str, ref: str, rel_path: str, permalink: bool
+) -> None:
+    if permalink or ref == run_git(["rev-parse", "HEAD"]):
+        containing_refs = run_git(
+            [
+                "for-each-ref",
+                f"--contains={ref}",
+                "--format=%(refname)",
+                f"refs/remotes/{remote}",
+            ]
+        )
+        if not containing_refs:
+            warn(f"commit {ref[:12]} has not been pushed to remote '{remote}'.")
+            return
+        source_ref = ref
+    else:
+        source_ref = f"refs/remotes/{remote}/{ref}"
+        if not git_succeeds(["show-ref", "--verify", "--quiet", source_ref]):
+            warn(f"branch '{ref}' has not been pushed to remote '{remote}'.")
+            return
+
+    remote_object = run(["git", "rev-parse", f"{source_ref}:{rel_path}"])
+    if remote_object.returncode != 0:
+        warn(f"'{rel_path}' does not exist on remote '{remote}' at '{ref}'.")
+        return
+
+    repo_root = run_git(["rev-parse", "--show-toplevel"])
+    local_object = run(
+        [
+            "git",
+            "hash-object",
+            f"--path={rel_path}",
+            os.path.join(repo_root, rel_path),
+        ]
+    )
+    if local_object.returncode != 0:
+        warn(f"could not compare '{rel_path}' with remote '{remote}'.")
+    elif local_object.stdout.strip() != remote_object.stdout.strip():
+        warn(f"local changes to '{rel_path}' have not been pushed to remote '{remote}'.")
+
+
 def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Print the GitHub web URL for a file in the current git repository.",
@@ -115,8 +166,9 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     rel_path = get_repo_relative_path(args.file)
-    web_base = get_web_base()
+    remote, web_base = get_remote()
     ref = get_ref(args.permalink)
+    warn_if_not_on_remote(remote, ref, rel_path, args.permalink)
     print(build_url(web_base, ref, rel_path))
 
 
