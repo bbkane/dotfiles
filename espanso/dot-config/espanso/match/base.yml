@@ -39,6 +39,15 @@ matches:
       - name: mydate
         type: date
         params:
+          format: "%Y-%m-%d"
+
+  # https://docs.rs/chrono/latest/chrono/format/strftime/index.html
+  - trigger: ";day"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
           format: "%a %Y-%m-%d"
 
   # Print the output of a shell command
