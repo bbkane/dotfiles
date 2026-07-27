@@ -49,18 +49,19 @@ vim.api.nvim_create_user_command(
     { bang = true }
 )
 
--- " https://askubuntu.com/a/686806/483521
--- " :lua =os.date('%Y/%m/%d %H:%M:%S')
--- command! InsertDate :execute 'norm i' .
---     \ substitute(system("date '+%a %b %d - %Y-%m-%d %H:%M:%S %Z'"), '\n\+$', '', '')
-vim.api.nvim_create_user_command(
-    "InsertDate",
-    function(_)
-        local today = os.date('%a %b %d - %Y-%m-%d %H:%M:%S %Z')
-        vim.api.nvim_command('norm i' .. today)
-    end,
-    { bang = true }
-)
+local function create_date_command(name, format)
+    vim.api.nvim_create_user_command(
+        name,
+        function(_)
+            vim.api.nvim_command('norm i' .. os.date(format))
+        end,
+        { bang = true }
+    )
+end
+
+create_date_command("Date", '%Y-%m-%d')
+create_date_command("Day", '%a %Y-%m-%d')
+create_date_command("Time", '%H:%M')
 
 vim.api.nvim_create_user_command(
     "FullPath",
