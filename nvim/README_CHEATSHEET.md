@@ -1,4 +1,5 @@
-TODO: Mon 2026-06-22: Claude generated; review and refine the working with projects notes; also pick a session picker
+NOTE: hit `C-o` to go back if opening with `<leader>?`
+
 # Actions
 
 To see every mapping (fuzzy, searchable, with the definition location in the preview): `:Pick keymaps`. To find where a specific key was set: `:verbose nmap <key>` (e.g. `:verbose nmap <leader>d`). To list every user-defined command: `:command` (or `:command Diagnostics` for one).
@@ -9,92 +10,79 @@ To see every mapping (fuzzy, searchable, with the definition location in the pre
 
 Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in the LSP section below.
 
-| Description | Action | Notes |
-| --- | --- | --- |
-| Find files | `<leader>ff` | |
-| Find by grep (live) | `<leader>fg` | |
-| Find buffers | `<leader>fb` | |
-| Find help | `<leader>fh` | |
-| Resume last picker | `<leader>fr` | |
+| Description             | Action       | Notes                                                       |
+| ---                     | ---          | ---                                                         |
+| Find files              | `<leader>ff` |                                                             |
+| Find by grep (live)     | `<leader>fg` |                                                             |
+| Find buffers            | `<leader>fb` |                                                             |
+| Find help               | `<leader>fh` |                                                             |
+| Find keymaps            | `<leader>fk` |                                                             |
+| Resume last picker      | `<leader>fr` |                                                             |
+| Open cheatsheet         | `<leader>?`  |                                                             |
 | Find directory (zoxide) | `<leader>fz` | Frecency-sorted; updates score on selection. `:Pick zoxide` |
-| Find picker (registry of all pickers) | `<leader>fp` | Custom; `:Pick registry` |
+| Find picker             | `<leader>fp` | Custom; `:Pick registry`                                    |
 
 ## LSP
 
 "Built-in" = Neovim 0.11+ default active on attach; "Added" = defined in this config; picker rows ("Custom" / "mini.extra") run through mini.pick. The generic file/grep/buffer finders are in the Pickers table above.
 
-| Description | Action | Notes |
-| --- | --- | --- |
-| Go to definition | `gd` | Added |
-| Code action (incl. quickfix auto-fixes) | `gra` | Built-in |
-| Rename | `grn` | Built-in |
-| References | `grr` | Built-in |
-| Go to implementation | `gri` | Built-in |
-| Go to type definition | `grt` | Built-in |
-| Document symbols | `gO` | Built-in (loclist) |
-| Outline / symbols (picker) | `<leader>o` | Custom; LSP document symbols, or Treesitter markdown headings when no LSP. `:Pick outline` |
-| Workspace symbols (picker) | `<leader>ws` | mini.extra; shows all symbols to filter down, except gopls (live — type to search, since it returns nothing for an empty query) |
-| Hover docs | `K` | Built-in. Hit K a second time to switch focus to the window for scrolling |
-| Signature help | `<C-s>` | Built-in; insert mode |
-| Previous / next diagnostic | `[d` / `]d` | Built-in |
-| Show diagnostic float under cursor | `<C-w>d` | Built-in |
-| Set diagnostic display mode | `:Diagnostics` | Added; tab-completes `virtual_lines` / `virtual_text` / `current_line` / `no_text` / `disabled` |
-| Buffer diagnostics (picker) | `<leader>d` | Custom; this buffer. `:Pick buffer_diagnostics` |
-| Project diagnostics (picker) | `<leader>D` | mini.extra; all loaded buffers |
-| Open / accept completion | `<C-Space>` / `<C-@>` | Added; insert mode |
-| Run code lens under cursor | `<leader>cl` | Added |
+| Description                             | Action                | Notes                             |
+| ---                                     | ---                   | ---                               |
+| Go to definition                        | `gd`                  | Added                             |
+| Code action (incl. quickfix auto-fixes) | `gra`                 | Built-in                          |
+| Rename                                  | `grn`                 | Built-in                          |
+| References                              | `grr`                 | Built-in                          |
+| Go to implementation                    | `gri`                 | Built-in                          |
+| Go to type definition                   | `grt`                 | Built-in                          |
+| Document symbols                        | `gO`                  | Built-in (loclist)                |
+| Outline / symbols (picker)              | `<leader>o`           | Added                             |
+| Workspace symbols (picker)              | `<leader>ws`          | mini.extra (`gopls` needs typing) |
+| Hover docs                              | `K`                   | Built-in. Hit K again to scroll   |
+| Signature help                          | `<C-s>`               | Built-in; insert mode             |
+| Previous / next diagnostic              | `[d` / `]d`           | Built-in                          |
+| Show diagnostic float under cursor      | `<C-w>d`              | Built-in                          |
+| Set diagnostic display mode             | `:Diagnostics`        | Added                             |
+| Buffer diagnostics (picker)             | `<leader>d`           | Added                             |
+| Project diagnostics (picker)            | `<leader>D`           | mini.extra; all loaded buffers    |
+| Open / accept completion                | `<C-Space>` / `<C-@>` | Added; insert mode                |
+| Run code lens under cursor              | `<leader>cl`          | Added                             |
 
 ## Other
 
-| Description | Action | Notes |
-| --- | --- | --- |
-| Complete from strings in file | `<C-x><C-n>` | Insert mode. Built-in buffer-keyword completion; `<C-Space>` does LSP completion |
-| Jump to end of file | `<C-End>` | Insert mode; Added |
-| Jump to start of file | `<C-Home>` | Insert mode; Added |
-| Format file | n/a | On `:w` — auto-formats on save via the `BufWritePre` autocmd; no manual keymap |
-| Go back / forward | `<C-o>` / `<C-i>` | Jumplist (built-in) |
-| Split window | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in) |
-| Move between splits | `<C-w>h` / `<C-w>j` / `<C-w>k` / `<C-w>l` | Built-in |
-| Toggle file explorer (tree) | `<leader>e` | Added; nvim-tree. `g?` for help inside the tree |
-| Trim trailing whitespace | `:TrimWhitespace` | Added; mini.trailspace |
-| Rename the current file | `:RenameFile` | Added; prompts for the new name |
-| Print full path of current file | `:FullPath` | Added |
-| Insert current date/time at cursor | `:InsertDate` | Added |
-| Strip carriage returns (`\r`) | `:Dos2Unix` | Added; range, defaults to whole file |
-| Wrap selection in a code fence | `:AddCodeFence` | Added; range |
-| Convert Markdown to Jira markup | `:MarkdownToJira` | Added; range, defaults to whole file |
-| Format shell command in range | `:FormatShellCmd` | Added; range, pipes through `format_shell_cmd.py` |
-| Print lazy.nvim install path | `:LazyPath` | Added |
+| Description                        | Action              | Notes                                           |
+| ---                                | ---                 | ---                                             |
+| Complete from strings in file      | `<C-x><C-n>`        | Insert mode.                                    |
+| Jump to end of file                | `<C-End>`           | Insert mode; Added                              |
+| Jump to start of file              | `<C-Home>`          | Insert mode; Added                              |
+| Go back / forward                  | `<C-o>` / `<C-i>`   | Jumplist (built-in)                             |
+| Split window                       | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in)                |
+| Move between splits                | `<C-w>h` (or `jkl`) | Built-in                                        |
+| Toggle file explorer (tree)        | `<leader>e`         | Added; nvim-tree. `g?` for help inside the tree |
+| Trim trailing whitespace           | `:TrimWhitespace`   | Added; mini.trailspace                          |
+| Rename the current file            | `:RenameFile`       | Added; prompts for the new name                 |
+| Print full path of current file    | `:FullPath`         | Added                                           |
+| Insert current date/time at cursor | `:InsertDate`       | Added                                           |
+| Strip carriage returns (`\r`)      | `:Dos2Unix`         | Added; range, defaults to whole file            |
+| Wrap selection in a code fence     | `:AddCodeFence`     | Added; range                                    |
+| Convert Markdown to Jira markup    | `:MarkdownToJira`   | Added; range, defaults to whole file            |
+| Format shell command in range      | `:FormatShellCmd`   | Added; range                                    |
+| Print lazy.nvim install path       | `:LazyPath`         | Added                                           |
 
 ## File explorer (nvim-tree)
 
 In-tree mappings (open with `<leader>e`; press `g?` inside for the full list). File ops act relative to the directory under the cursor.
 
-| Description | Action | Notes |
-| --- | --- | --- |
-| Add file / directory | `a` | End name with `/` for a directory; `foo/bar/baz.lua` creates intermediate dirs |
-| Rename | `r` | |
-| Delete | `d` | |
-| Cut | `x` | |
-| Copy | `c` | |
-| Paste | `p` | Into the selected directory |
-| Open file | `<CR>` / `o` | |
-| Show all mappings (help) | `g?` | |
+| Description              | Action       | Notes                                                                          |
+| ---                      | ---          | ---                                                                            |
+| Add file / directory     | `a`          | End name with `/` for a directory; `foo/bar/baz.lua` creates intermediate dirs |
+| Rename                   | `r`          |                                                                                |
+| Delete                   | `d`          |                                                                                |
+| Cut                      | `x`          |                                                                                |
+| Copy                     | `c`          |                                                                                |
+| Paste                    | `p`          | Into the selected directory                                                    |
+| Open file                | `<CR>` / `o` |                                                                                |
+| Show all mappings (help) | `g?`         |                                                                                |
 
-## Copilot (copilot.lua)
-
-Inline ghost-text suggestions in insert mode (auto-triggered as you type). Requires Node.js on `$PATH`.
-
-First-time auth: open `nvim` and run `:Copilot auth` — it shows a one-time code and opens GitHub in your browser; paste the code there to sign in. Check status anytime with `:Copilot status`.
-
-copilot.lua's Alt-based defaults (these work because left-Option sends `<M-…>` in WezTerm):
-
-| Description | Action | Notes |
-| --- | --- | --- |
-| Accept suggestion | `<M-l>` | Insert mode |
-| Next suggestion | `<M-]>` | Insert mode |
-| Previous suggestion | `<M-[>` | Insert mode |
-| Dismiss suggestion | `<C-]>` | Insert mode |
 
 ## Markdown
 

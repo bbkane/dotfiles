@@ -44,7 +44,9 @@ vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", { desc = "Find files" }
 vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<cr>", { desc = "Find by grep (live)" })
 vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>", { desc = "Find buffers" })
 vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", { desc = "Find help" })
+vim.keymap.set("n", "<leader>fk", "<cmd>Pick keymaps<cr>", { desc = "Find keymaps" })
 vim.keymap.set("n", "<leader>fr", "<cmd>Pick resume<cr>", { desc = "Resume last picker" })
+vim.keymap.set("n", "<leader>?", "<cmd>edit ~/.config/nvim/README_CHEATSHEET.md<cr>", { desc = "Open cheatsheet" })
 
 -- "Picker picker": list every registered picker (mini.pick builtins
 -- + all mini.extra pickers, which auto-register into the registry)
