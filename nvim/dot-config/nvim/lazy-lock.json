@@ -1,4 +1,5 @@
 {
+  "image.nvim": { "branch": "master", "commit": "88351f1f7d9dbae286e671ce3690a49660dd8a5c" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "markdown-table-wrap.nvim": { "branch": "master", "commit": "ae74fb9a74a52d62966611d2cfb3e25f17a583ee" },

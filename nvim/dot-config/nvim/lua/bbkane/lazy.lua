@@ -149,6 +149,43 @@ require("lazy").setup({
         },
     },
 
+    -- Inline images via Kitty's graphics protocol. Needs kitty (see the kitty/
+    -- package) or Ghostty - WezTerm isn't supported - plus `brew install
+    -- imagemagick`. Doesn't render inside tmux without `allow-passthrough on`.
+    -- https://github.com/3rd/image.nvim
+    {
+        "3rd/image.nvim",
+        -- markdown links are found with the treesitter markdown parser
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        -- Don't build the rockspec (hererocks + Lua 5.1 toolchain); magick_cli
+        -- shells out to ImageMagick instead.
+        -- https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
+        build = false,
+        opts = {
+            backend = "kitty",
+            processor = "magick_cli",
+            integrations = {
+                markdown = {
+                    enabled = true,
+                    only_render_image_at_cursor = false,
+                    -- images otherwise sit on top of the line being edited
+                    clear_in_insert_mode = true,
+                    -- false keeps Neovim off the network (breaks http image links)
+                    download_remote_images = true,
+                },
+                html = { enabled = true },
+                css = { enabled = false },
+            },
+            max_width_window_percentage = 80,
+            max_height_window_percentage = 50,
+            -- the terminal, not Neovim, draws images, so they'd otherwise cover
+            -- overlapping windows (mini.pick, nvim-tree) and unfocused editors
+            window_overlap_clear_enabled = true,
+            editor_only_render_when_focused = true,
+            tmux_show_only_in_active_window = true,
+        },
+    },
+
     -- https://github.com/nvim-mini/mini.clue
     {
         'nvim-mini/mini.clue',
