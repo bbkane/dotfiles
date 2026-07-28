@@ -49,6 +49,8 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Description | Action | Notes |
 | --- | --- | --- |
 | Complete from strings in file | `<C-x><C-n>` | Insert mode. Built-in buffer-keyword completion; `<C-Space>` does LSP completion |
+| Jump to end of file | `<C-End>` | Insert mode; Added |
+| Jump to start of file | `<C-Home>` | Insert mode; Added |
 | Format file | n/a | On `:w` — auto-formats on save via the `BufWritePre` autocmd; no manual keymap |
 | Go back / forward | `<C-o>` / `<C-i>` | Jumplist (built-in) |
 | Split window | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in) |

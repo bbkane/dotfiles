@@ -6,6 +6,10 @@ vim.g.maplocalleader = "\\" -- Same for `maplocalleader`
 -- inoremap jk <Esc>
 vim.keymap.set('i', 'jk', '<Esc>')
 
+-- Insert mode: jump to end/start of file
+vim.keymap.set('i', '<C-End>', '<Esc>G$a', { noremap = true })
+vim.keymap.set('i', '<C-Home>', '<Esc>gga', { noremap = true })
+
 -- map j to gj and k to gk, so line navigation ignores line wrap
 -- nnoremap j gj
 -- nnoremap k gk
@@ -77,7 +81,7 @@ vim.o.timeoutlen = 300
 
 -- https://stackoverflow.com/a/65352148/2958070
 -- https://www.reddit.com/r/neovim/comments/w1ujir/mouse_enabled_by_default_in_git_master/?utm_source=share&utm_medium=web2x&context=3
-vim.o.mouse = ''
+-- vim.o.mouse = ''
 
 -- https://stackoverflow.com/a/5774854
 -- this means I can put something like `# vim:set ft=zsh:` in a file
@@ -113,16 +117,4 @@ if vim.g.neovide then
     vim.keymap.set("n", "<C-=>", function() change_scale(0.1) end, { desc = "Neovide: zoom in" })
     vim.keymap.set("n", "<C-+>", function() change_scale(0.1) end, { desc = "Neovide: zoom in" })
     vim.keymap.set("n", "<C-->", function() change_scale(-0.1) end, { desc = "Neovide: zoom out" })
-
-    -- Open in my notes dir when launched bare from the Dock/Spotlight (no file
-    -- args, cwd is "/" or home - the app bundle starts at home on this machine).
-    -- The guard leaves `neovide path/` and terminal launches in a project alone.
-    vim.api.nvim_create_autocmd("VimEnter", {
-        callback = function()
-            local cwd = vim.fn.getcwd()
-            if vim.fn.argc() == 0 and (cwd == "/" or cwd == vim.fn.expand("~")) then
-                vim.cmd.cd(vim.fn.expand("~/Git-LI-GH-Ent/bkane_notes"))
-            end
-        end,
-    })
 end

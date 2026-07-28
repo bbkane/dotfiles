@@ -329,7 +329,11 @@ require("lazy").setup({
     {
         "nvim-tree/nvim-tree.lua",
         config = function()
-            require("nvim-tree").setup()
+            require("nvim-tree").setup({
+                view = {
+                    side = "right",
+                },
+            })
             vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "File explorer (nvim-tree)" })
         end,
     },
