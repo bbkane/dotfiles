@@ -7,6 +7,7 @@ I'm trying to keep this config deliberately small so things break less over time
 - **Custom pickers** (all under `<leader>f` / `<leader>d` / `<leader>o`):
   - `<leader>ff` — files, `<leader>fg` — live grep, `<leader>fb` — buffers, `<leader>fh` — help, `<leader>fr` — resume
   - `<leader>fp` — picker registry (pick a picker)
+  - `<leader>fz` — zoxide directories (frecency-sorted, updates score on selection)
   - `<leader>d` — buffer diagnostics (severity-colored rows + source-line previews)
   - `<leader>D` — project-wide diagnostics (all loaded buffers)
   - `<leader>ws` — workspace symbols (two-column: kind icon + name / path:line)

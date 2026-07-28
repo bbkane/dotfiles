@@ -40,11 +40,11 @@ vim.api.nvim_create_autocmd('User', {
 -- Fuzzy-finder keymaps (leader is Space). mini.pick sets none by
 -- default; these follow the Telescope/kickstart <leader>f convention
 -- and show up under <leader>f via mini.clue.
-vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>",     { desc = "Find files" })
+vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<cr>", { desc = "Find files" })
 vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<cr>", { desc = "Find by grep (live)" })
-vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>",   { desc = "Find buffers" })
-vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>",      { desc = "Find help" })
-vim.keymap.set("n", "<leader>fr", "<cmd>Pick resume<cr>",    { desc = "Resume last picker" })
+vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<cr>", { desc = "Find buffers" })
+vim.keymap.set("n", "<leader>fh", "<cmd>Pick help<cr>", { desc = "Find help" })
+vim.keymap.set("n", "<leader>fr", "<cmd>Pick resume<cr>", { desc = "Resume last picker" })
 
 -- "Picker picker": list every registered picker (mini.pick builtins
 -- + all mini.extra pickers, which auto-register into the registry)
@@ -303,3 +303,49 @@ MiniPick.registry.outline = function()
     return MiniPick.start({ source = { name = "Outline", items = items } })
 end
 vim.keymap.set("n", "<leader>o", "<cmd>Pick outline<cr>", { desc = "Outline (LSP symbols / md headings)" })
+
+-- Zoxide directory picker: queries zoxide for frecent directories with scores,
+-- allows fuzzy-finding, and changes the cwd on selection.
+MiniPick.registry.zoxide = function()
+    local handle = io.popen('zoxide query -l -s')
+    if not handle then
+        vim.notify("zoxide not found or failed to execute", vim.log.levels.ERROR)
+        return
+    end
+    local result = handle:read("*a")
+    handle:close()
+
+    local items = {}
+    for line in result:gmatch("[^\n]+") do
+        if line ~= "" then
+            local score, path = line:match("^%s*(%S+)%s+(.*)")
+            if score and path then
+                table.insert(items, { text = line, path = path })
+            end
+        end
+    end
+
+    if vim.tbl_isempty(items) then
+        vim.notify("No zoxide directories found", vim.log.levels.INFO)
+        return
+    end
+
+    -- Choose function to change cwd to selected directory
+    local function choose(item)
+        if item then
+            -- Increment zoxide score for this directory
+            os.execute('zoxide add "' .. item.path:gsub('"', '\\"') .. '"')
+            vim.fn.chdir(item.path)
+            vim.notify("Changed directory to: " .. item.path, vim.log.levels.INFO)
+        end
+    end
+
+    MiniPick.start({
+        source = {
+            name = "Zoxide",
+            items = items,
+            choose = choose,
+        }
+    })
+end
+vim.keymap.set("n", "<leader>fz", "<cmd>Pick zoxide<cr>", { desc = "Find directory (zoxide)" })

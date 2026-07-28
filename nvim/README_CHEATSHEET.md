@@ -16,6 +16,7 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Find buffers | `<leader>fb` | |
 | Find help | `<leader>fh` | |
 | Resume last picker | `<leader>fr` | |
+| Find directory (zoxide) | `<leader>fz` | Frecency-sorted; updates score on selection. `:Pick zoxide` |
 | Find picker (registry of all pickers) | `<leader>fp` | Custom; `:Pick registry` |
 
 ## LSP
