@@ -110,7 +110,9 @@ require("lazy").setup({
             bullet = { enabled = true },
             checkbox = { enabled = true },
             quote = { enabled = true },
-            pipe_table = { enabled = true },
+            -- Rendered pipe-table borders do not support true cell wrapping.
+            -- Keep raw markdown tables so normal line wrapping stays readable.
+            pipe_table = { enabled = false },
             link = { enabled = true },
             sign = { enabled = false },
             inline_highlight = { enabled = false },
@@ -118,6 +120,33 @@ require("lazy").setup({
             yaml = { enabled = false },
         },
 
+    },
+
+    -- https://github.com/ice345/markdown-table-wrap.nvim
+    -- Wraps long markdown table cell content while preserving rendered table UX.
+    {
+        'ice345/markdown-table-wrap.nvim',
+        ft = { 'markdown', 'md', 'quarto', 'rmarkdown' },
+        opts = {
+            -- Keep a render-markdown-like in-buffer experience.
+            preview_mode = 'inline',
+            auto_preview = true,
+            render_all = true,
+            -- Avoid source line leakage under overlays on wrapped terminals.
+            inline_wrap_scope = 'always',
+            inline_disable_wrap = true,
+            inline_viewport_scrolling = false,
+            fit_to_window = true,
+            dim_source = false,
+            highlight_preset = 'auto',
+        },
+        keys = {
+            { '<leader>mt', '<cmd>MarkdownTableTogglePreview<CR>', desc = 'Toggle markdown table preview' },
+            { '<leader>mr', '<cmd>MarkdownTableToggleReader<CR>', desc = 'Toggle markdown table reader/source' },
+            { '<leader>mi', '<cmd>MarkdownTableToggleInline<CR>', desc = 'Toggle markdown table inline view' },
+            { '<leader>me', '<cmd>MarkdownTableEditSource<CR>', desc = 'Edit markdown source' },
+            { '<leader>mq', '<cmd>MarkdownTableToggleInlineViewport<CR>', desc = 'Toggle table inline viewport' },
+        },
     },
 
     -- https://github.com/nvim-mini/mini.clue
