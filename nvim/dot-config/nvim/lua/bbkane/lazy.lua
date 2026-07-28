@@ -149,6 +149,36 @@ require("lazy").setup({
         },
     },
 
+    -- Save an image from the system clipboard next to the current file and
+    -- insert a link to it: notes.md -> notes.assets/2026-07-28-14-30-00.png
+    -- Markdown only: loaded by filetype, and the <M-v> keymap is buffer-local in
+    -- ftplugin/markdown.lua.
+    -- Needs pngpaste (macOS), wl-clipboard (Wayland) or xclip (X11); the plugin
+    -- picks the right one. `:checkhealth img-clip` verifies it.
+    -- https://github.com/HakonHarnes/img-clip.nvim
+    {
+        "HakonHarnes/img-clip.nvim",
+        ft = "markdown",
+        opts = {
+            default = {
+                dir_path = function()
+                    return vim.fn.expand("%:t:r") .. ".assets"
+                end,
+                -- .assets goes next to the file, not the cwd
+                relative_to_current_file = true,
+                file_name = "%Y-%m-%d-%H-%M-%S",
+                prompt_for_file_name = false,
+                -- extension is only used for raw clipboard image data; copied
+                -- files and drag-and-drop keep their own extension
+                extension = "png",
+                -- copy pasted file paths into .assets too, instead of linking
+                -- to wherever the original happens to live
+                copy_images = true,
+                drag_and_drop = { insert_mode = true },
+            },
+        },
+    },
+
     -- Inline images via Kitty's graphics protocol. Needs kitty (see the kitty/
     -- package) or Ghostty - WezTerm isn't supported - plus `brew install
     -- imagemagick`. Doesn't render inside tmux without `allow-passthrough on`.

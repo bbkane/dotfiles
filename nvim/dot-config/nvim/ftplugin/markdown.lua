@@ -69,3 +69,8 @@ end
 -- under the cursor; visual mode wraps the selection.
 vim.keymap.set("i", "<C-k>", insert_link, { buffer = true, desc = "Insert markdown link from clipboard" })
 vim.keymap.set("x", "<C-k>", visual_link, { buffer = true, desc = "Wrap selection in a markdown link" })
+
+-- Save the clipboard image to <file>.assets/<timestamp>.<ext> and link it
+-- (img-clip.nvim in lazy.lua, loaded for markdown). <C-v> is Vim's
+-- literal-insert, so use Alt-v; left Option sends <M-...> in kitty and WezTerm.
+vim.keymap.set("i", "<M-v>", "<cmd>PasteImage<cr>", { buffer = true, desc = "Paste image from clipboard" })

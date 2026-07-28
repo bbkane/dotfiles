@@ -20,6 +20,7 @@ I'm trying to keep this config deliberately small so things break less over time
 - **[indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim)** indent guides
 - **[vim-rsi](https://github.com/tpope/vim-rsi)** Readline keybindings in insert/command mode
 - **[image.nvim](https://github.com/3rd/image.nvim)** inline images in Markdown/HTML buffers (and when opening an image file directly). Needs a terminal that speaks the Kitty graphics protocol — see [Inline images](#inline-images)
+- **[img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim)** paste an image from the clipboard into a file's `.assets/` dir and insert a link — see [Pasting images](#pasting-images)
 - **OSC52 clipboard** support (works over SSH / WezTerm remote mux)
 
 # Install
@@ -49,7 +50,8 @@ fling link -s nvim-03-lazy -i README.md
 
 ## Install dependencies
 
-On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard interaction:
+On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard interaction
+(pasting images additionally needs `xclip` on X11 — see [Pasting images](#pasting-images)):
 
 ```bash
 sudo apt install wl-clipboard  # or xsel
@@ -67,6 +69,10 @@ rustup component add rust-analyzer
 
 # image.nvim needs ImageMagick to scale/crop images (see "Inline images" below)
 brew install imagemagick
+
+# img-clip.nvim needs pngpaste to read images off the clipboard (macOS only;
+# on Linux it uses wl-clipboard/xclip - see "Pasting images" below)
+brew install pngpaste
 ```
 
 See other tree-sitter requirements [here](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#requirements) (most likely pre-installed)
@@ -104,6 +110,41 @@ magick -size 240x120 gradient:blue-orange test.png
 printf '# Image test\n\n![a test image](test.png)\n' > test.md
 kitty nvim test.md   # or open test.md in Ghostty
 ```
+
+# Pasting images
+
+[img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim) saves whatever image is on
+the clipboard next to the current file and inserts a link to it:
+
+```
+notes.md
+notes.assets/2026-07-28-14-28-14.png
+```
+```markdown
+![](notes.assets/2026-07-28-14-28-14.png)
+```
+
+Trigger it with `:PasteImage`, or `<M-v>` (Alt-v) in insert mode — `<C-v>` is Vim's
+literal-insert, so it's left alone. image.nvim then renders the pasted image right away.
+
+It handles three kinds of clipboard content:
+
+| Clipboard holds | Result |
+|---|---|
+| Raw image data (a screenshot) | saved as `<timestamp>.png` |
+| A file path (copied file, drag and drop) | copied in, keeping its own extension |
+| An image URL | downloaded |
+
+Requirements, by platform — the plugin picks the right one automatically:
+
+| Platform | Needs |
+|---|---|
+| macOS | `brew install pngpaste` |
+| Linux (Wayland) | `wl-clipboard` (uses `wl-paste`; needs `$WAYLAND_DISPLAY` set) |
+| Linux (X11) | `xclip` (note: `xsel` is *not* enough — that's only for Neovim's own clipboard) |
+
+Verify with `:checkhealth img-clip`. The plugin is lazy-loaded, so run `:Lazy load
+img-clip.nvim` first or the healthcheck reports as missing.
 
 # Edit config
 
