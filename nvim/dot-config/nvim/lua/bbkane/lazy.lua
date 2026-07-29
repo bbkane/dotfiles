@@ -288,7 +288,12 @@ require("lazy").setup({
                 clues = {
                     -- Descriptions for <Leader> mapping groups (the <leader>f
                     -- find pickers live in the mini.pick config below).
+                    { mode = 'n', keys = '<Leader>c', desc = '+code' },
+                    { mode = 'n', keys = '<Leader>d', desc = '+diagnostics (buffer)' },
+                    { mode = 'n', keys = '<Leader>D', desc = '+diagnostics (project)' },
                     { mode = 'n', keys = '<Leader>f', desc = '+find' },
+                    { mode = 'n', keys = '<Leader>m', desc = '+markdown' },
+                    { mode = 'n', keys = '<Leader>w', desc = '+window' },
                     miniclue.gen_clues.builtin_completion(),
                     miniclue.gen_clues.g(),
                     miniclue.gen_clues.marks(),
