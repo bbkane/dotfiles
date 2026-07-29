@@ -1,0 +1,7 @@
+[include]
+	path = ~/.config/gitconfig_common
+
+[credential]
+	helper =
+	helper = manager
+	credentialStore = secretservice

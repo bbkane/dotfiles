@@ -1,0 +1,99 @@
+[alias]
+	bt = "!git for-each-ref --sort=-committerdate --format='%(color:yellow)%(committerdate:short)%(color:reset) %(objectname:short) %(color:cyan)%(align:30)%(refname:short)%(end)%(color:reset) %(color:green)%(contents:subject)%(color:reset)' refs/heads refs/remotes"
+	# using a function mostly so I can use `git lg` or `git lg --oneline`
+	lg = "!git log --graph --all --decorate --date=relative \"$@\""
+	ls = ls-files
+	erase-remote-branch = push -d origin
+	numlineschanged = diff --stat
+	tags = "!git for-each-ref refs/tags --count=10 --sort=-version:refname --color=always '--format=%(align:width=10,position=right)%(color:blue)%(refname:short)%(end) %(color:cyan)%(*authordate:short) %(color:yellow)%(subject)' | python3 -c 'import sys; sys.stdout.writelines(reversed(sys.stdin.readlines()))'"
+	# if nvim isn't installed, use:
+	#   git difftool --no-prompt --extcmd 'vim -d "+colorscheme morning"'
+	# already have gruvbox plugin as a really good diffing colorscheme
+	vimdiff = difftool --no-prompt --extcmd 'nvim -d'
+[branch]
+	# https://blog.gitbutler.com/git-tips-2-new-stuff-in-git/#some-git-branch-stuff
+	sort = -committerdate
+[color]
+	ui = true
+[column]
+	# show `git branch` output as columns if available
+	ui = auto
+[commit]
+	template = ~/.config/git_commit-template.txt
+	# show the full diff below the template while writing the message
+	verbose = true
+[core]
+	excludesfile = ~/.config/gitignore_global
+	longpaths = true
+	pager = delta
+	# speed up `git status` etc. on large working trees
+	fsmonitor = true
+	untrackedCache = true
+[delta]
+	# minus-style = normal "#340001"
+	# plus-style = syntax "#012800"
+	# syntax-theme = zenburn
+	navigate = true  # use n and N to move between diff sections
+	dark = true      # or light = true, or omit for auto-detection
+[diff]
+	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+	algorithm = histogram
+	# "moved from" is purple and "moved to" is blue. I wish it had an arrow or something
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[fetch]
+	# keep remote refs as close as possible to remote
+	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
+	prune = true
+	# NOTE: this blocks pulls if they would clobber existing tags, so commenting out
+	# ! [rejected]          tag_name -> tag_name  (would clobber existing tag)
+	# pruneTags = true
+	# NOTE: this fetches from ALL remotes on every fetch/pull. Fine with only
+	# `origin`, but surprising/slow once a fork or upstream remote is added.
+	all = true
+	# keep the commit-graph up to date on fetch for faster log/traversal
+	writeCommitGraph = true
+# Not sure why git lfs got installed but whatever...
+# https://mydeveloperplanet.com/2018/10/31/git-lfs-why-and-how-to-use/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[help]
+	autocorrect = prompt
+[init]
+	defaultBranch = master
+[interactive]
+	diffFilter = delta --color-only
+[maintenance]
+	# don't auto-trigger; run `git maintenance start` per-repo to schedule
+	# background commit-graph / gc / prune
+	auto = false
+[merge]
+	conflictstyle = zdiff3
+[pull]
+	rebase = false
+	# with rebase = false, refuse to auto-create a merge commit on divergence;
+	# make me choose merge vs rebase explicitly
+	ff = only
+[push]
+	autoSetupRemote = true
+	followTags = true
+[rerere]
+	# remember & replay how I resolved a conflict next time the same one appears
+	enabled = true
+[tag]
+	sort = version:refname
+[user]
+	name = Benjamin Kane
+	useConfigOnly = true
+
+# Directory-specific identities also select the github.com credential username.
+
+[includeIf "gitdir/i:~/Git-GH/"]
+	path = ~/.config/gitconfig_Git-GH
+
+[includeIf "gitdir/i:~/Git-LI-GH/"]
+	path = ~/.config/gitconfig_Git-LI-GH
