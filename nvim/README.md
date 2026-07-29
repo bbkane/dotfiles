@@ -45,7 +45,7 @@ rm -rf ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 Symlink nvim config directory (from root `dotfiles` directory):
 
 ```bash
-fling link -s nvim-03-lazy -i README.md
+fling link -s nvim
 ```
 
 ## Install dependencies
