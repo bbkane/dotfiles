@@ -288,12 +288,16 @@ require("lazy").setup({
                 clues = {
                     -- Descriptions for <Leader> mapping groups (the <leader>f
                     -- find pickers live in the mini.pick config below).
-                    { mode = 'n', keys = '<Leader>c', desc = '+code' },
-                    { mode = 'n', keys = '<Leader>d', desc = '+diagnostics (buffer)' },
-                    { mode = 'n', keys = '<Leader>D', desc = '+diagnostics (project)' },
-                    { mode = 'n', keys = '<Leader>f', desc = '+find' },
-                    { mode = 'n', keys = '<Leader>m', desc = '+markdown' },
-                    { mode = 'n', keys = '<Leader>w', desc = '+window' },
+                    { mode = 'n', keys = '<Leader>c',  desc = '+code' },
+                    { mode = 'n', keys = '<Leader>d',  desc = '+diagnostics (buffer)' },
+                    { mode = 'n', keys = '<Leader>D',  desc = '+diagnostics (project)' },
+                    { mode = 'n', keys = '<Leader>f',  desc = '+find' },
+                    { mode = 'n', keys = '<Leader>m',  desc = '+markdown' },
+                    { mode = 'n', keys = '<Leader>t',  desc = '+table (vim-table-mode)' },
+                    { mode = 'n', keys = '<Leader>td', desc = '+delete (row/col)' },
+                    { mode = 'n', keys = '<Leader>tf', desc = '+formula (add/eval)' },
+                    { mode = 'n', keys = '<Leader>ti', desc = '+insert (column)' },
+                    { mode = 'n', keys = '<Leader>w',  desc = '+window' },
                     miniclue.gen_clues.builtin_completion(),
                     miniclue.gen_clues.g(),
                     miniclue.gen_clues.marks(),
@@ -386,17 +390,33 @@ require("lazy").setup({
         ft = "markdown",
         init = function()
             vim.g.table_mode_corner = "|"
+            vim.g.table_mode_disable_mappings = 1
+            vim.g.table_mode_disable_tableize_mappings = 1
         end,
         config = function()
-            -- Enable table mode for every markdown buffer. lazy re-fires FileType
-            -- after loading an `ft` plugin, so this also catches the buffer that
-            -- triggered the load - no separate immediate enable needed (doing both
-            -- enabled it twice, and the doubled "Table Mode Enabled" echo caused a
-            -- press-ENTER prompt on open). `silent` suppresses that echo.
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "markdown",
                 command = "silent TableModeEnable",
             })
+
+            -- Create mappings with descriptions (since vim-table-mode's are disabled)
+            vim.keymap.set('n', '<leader>tm', '<cmd>call tablemode#Toggle()<CR>', { desc = 'Toggle table mode' })
+            vim.keymap.set('n', '<leader>tr', '<cmd>call tablemode#table#Realign(".")<CR>', { desc = 'Realign table' })
+            vim.keymap.set('n', '<leader>ts', '<cmd>TableSort<CR>', { desc = 'Sort table' })
+            vim.keymap.set('n', '<leader>tt', '<cmd>Tableize<CR>', { desc = 'Tableize' })
+            vim.keymap.set('x', '<leader>tt', ':<C-u>Tableize<CR>', { desc = 'Tableize' })
+            vim.keymap.set('n', '<leader>tfa', '<cmd>TableAddFormula<CR>', { desc = 'Add formula' })
+            vim.keymap.set('n', '<leader>tfe', '<cmd>TableEvalFormulaLine<CR>', { desc = 'Eval formula' })
+            vim.keymap.set('n', '<leader>tdc', '<cmd>call tablemode#spreadsheet#cell#DeleteColumn()<CR>',
+                { desc = 'Delete column' })
+            vim.keymap.set('n', '<leader>tdd', '<cmd>call tablemode#spreadsheet#cell#DeleteRow()<CR>',
+                { desc = 'Delete row' })
+            vim.keymap.set('n', '<leader>tic', '<cmd>call tablemode#spreadsheet#cell#InsertColumn(1)<CR>',
+                { desc = 'Insert column after' })
+            vim.keymap.set('n', '<leader>tiC', '<cmd>call tablemode#spreadsheet#cell#InsertColumn(0)<CR>',
+                { desc = 'Insert column before' })
+            vim.keymap.set('n', '<leader>t?', '<cmd>call tablemode#spreadsheet#cell#EchoCell()<CR>',
+                { desc = 'Echo cell' })
         end,
     },
 
