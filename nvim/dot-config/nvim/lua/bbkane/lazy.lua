@@ -141,10 +141,10 @@ require("lazy").setup({
             highlight_preset = 'auto',
         },
         keys = {
-            { '<leader>mt', '<cmd>MarkdownTableTogglePreview<CR>', desc = 'Toggle markdown table preview' },
-            { '<leader>mr', '<cmd>MarkdownTableToggleReader<CR>', desc = 'Toggle markdown table reader/source' },
-            { '<leader>mi', '<cmd>MarkdownTableToggleInline<CR>', desc = 'Toggle markdown table inline view' },
-            { '<leader>me', '<cmd>MarkdownTableEditSource<CR>', desc = 'Edit markdown source' },
+            { '<leader>mt', '<cmd>MarkdownTableTogglePreview<CR>',        desc = 'Toggle markdown table preview' },
+            { '<leader>mr', '<cmd>MarkdownTableToggleReader<CR>',         desc = 'Toggle markdown table reader/source' },
+            { '<leader>mi', '<cmd>MarkdownTableToggleInline<CR>',         desc = 'Toggle markdown table inline view' },
+            { '<leader>me', '<cmd>MarkdownTableEditSource<CR>',           desc = 'Edit markdown source' },
             { '<leader>mq', '<cmd>MarkdownTableToggleInlineViewport<CR>', desc = 'Toggle table inline viewport' },
         },
     },
@@ -223,6 +223,36 @@ require("lazy").setup({
         config = function()
             local miniclue = require('mini.clue')
             miniclue.setup({
+                window = {
+                    config = function(buf_id)
+                        -- Get all lines currently populated inside the clue buffer
+                        local lines = vim.api.nvim_buf_get_lines(buf_id, 0, -1, false)
+
+                        -- Calculate the exact column length of the longest line
+                        local max_width = 0
+                        for _, line in ipairs(lines) do
+                            -- Use strdisplaywidth to accurately count multi-byte or tab characters
+                            local line_width = vim.fn.strdisplaywidth(line)
+                            if line_width > max_width then
+                                max_width = line_width
+                            end
+                        end
+
+                        -- Enforce a minimum window width of 15 and account for text borders
+                        local final_width = math.max(15, max_width + 2)
+
+                        return {
+                            -- 'editor' anchors it relative to the global workspace
+                            relative = 'editor',
+                            -- Adjust width dynamically to match your longest text line
+                            width = final_width,
+                            -- Keep standard positioning values (adjust row/col coordinates if preferred)
+                            row = vim.o.lines - 2,
+                            col = vim.o.columns,
+                            anchor = 'SE',
+                        }
+                    end,
+                },
                 triggers = {
                     -- Leader triggers
                     { mode = 'n', keys = '<Leader>' },

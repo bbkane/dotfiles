@@ -187,6 +187,10 @@
     "chat.tools.urls.autoApprove": {
         "https://code.visualstudio.com": true,
         "https://github.com/microsoft/vscode/wiki/*": true,
-        "https://sw.kovidgoyal.net": true
+        "https://sw.kovidgoyal.net": true,
+        "https://github.com": {
+            "approveRequest": false,
+            "approveResponse": true
+        }
     }
 }
