@@ -183,5 +183,10 @@
     "workbench.sideBar.location": "right",
     "yaml.format.singleQuote": true,
     "chat.assistedPermissions.enabled": true,
-    "yaml.disableSchemaDetection": []
+    "yaml.disableSchemaDetection": [],
+    "chat.tools.urls.autoApprove": {
+        "https://code.visualstudio.com": true,
+        "https://github.com/microsoft/vscode/wiki/*": true,
+        "https://sw.kovidgoyal.net": true
+    }
 }
