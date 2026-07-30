@@ -1,7 +1,7 @@
 # Git common configuration
 
-This package contains settings and personal directory identities shared by all
-machines. Link it together with exactly one machine profile, which owns
+This package contains settings and the `Git-GH` identity shared by personal and
+work machines. Link it together with exactly one machine profile, which owns
 `~/.gitconfig`.
 
 Personal macOS:

@@ -90,10 +90,7 @@
 	name = Benjamin Kane
 	useConfigOnly = true
 
-# Directory-specific identities also select the github.com credential username.
+# The directory-specific identity also selects the github.com credential username.
 
 [includeIf "gitdir/i:~/Git-GH/"]
 	path = ~/.config/gitconfig_Git-GH
-
-[includeIf "gitdir/i:~/Git-LI-GH/"]
-	path = ~/.config/gitconfig_Git-LI-GH
