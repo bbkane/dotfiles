@@ -24,9 +24,11 @@ As of 2026-07-27. See the comments or `-h/--help` in each script for more detail
 
 - [color_exceptions.py](./bin_common/color_exceptions.py) - highlight exceptions in log files
 
-- [copy_and_format_for_gdocs.py](./bin_common/copy_and_format_for_gdocs.py) - Restyle the clipboard's rich text so pasting into Google Docs keeps lists/links but matches the doc's font/style
+- [copy_typora_for_gdoc.py](./bin_common/copy_typora_for_gdoc.py) - Restyle the clipboard's rich text so pasting into Google Docs keeps lists/links but matches the doc's font/style
 
-- [copy_as_rtf.py](./bin_common/copy_as_rtf.py) - Copy CSV file as rich text
+- [copy_csv_as_rtf.py](./bin_common/copy_csv_as_rtf.py) - Copy CSV file as rich text
+
+- [copy_markdown_as_rtf.py](./bin_common/copy_markdown_as_rtf.py) - Convert clipboard Markdown to rich text for pasting into Slack
 
 - [dashcam_audio.py](./bin_common/dashcam_audio.py) - Extract and concatenate audio from dashcam video files
 
