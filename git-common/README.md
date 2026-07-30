@@ -1,8 +1,9 @@
 # Git common configuration
 
-This package contains settings and the `Git-GH` identity shared by personal and
-work machines. Link it together with exactly one machine profile, which owns
-`~/.gitconfig`.
+This package contains settings shared by personal and work machines. Personal
+machine profiles set the `bbkane` identity globally; work profiles provide
+their own identities. Link this package together with exactly one machine
+profile, which owns `~/.gitconfig`.
 
 Personal macOS:
 
