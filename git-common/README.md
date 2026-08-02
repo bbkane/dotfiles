@@ -9,14 +9,14 @@ Personal macOS:
 
 ```bash
 mkdir -p ~/.config
-fling -i 'README.*' link -s ./git-common -s ./git-mac-personal
+fling link -s ./git-common -s ./git-mac-personal
 ```
 
 Personal Debian with a GUI:
 
 ```bash
 mkdir -p ~/.config
-fling -i 'README.*' link -s ./git-common -s ./git-linux-gui-personal
+fling link -s ./git-common -s ./git-linux-gui-personal
 ```
 
 The legacy `git` package and these packages target some of the same paths.

@@ -13,13 +13,13 @@ WezTerm's support is partial and doesn't work with image.nvim.
 ```bash
 brew install --cask kitty
 brew install imagemagick   # required by image.nvim's magick_cli processor
-fling --ignore 'README.*' --src-dir kitty link
+fling --src-dir kitty link
 ```
 
 ## Uninstall
 
 ```bash
-fling --ignore 'README.*' --src-dir kitty unlink
+fling --src-dir kitty unlink
 ```
 
 ## Notes

@@ -23,7 +23,7 @@ targets it.
 ## Install/Symlink
 
 ```bash
-fling --ignore 'README.*' --src-dir agents link
+fling --src-dir agents link
 ```
 
 Then, in a Copilot CLI session, run `/skills reload` (or `copilot skill list` from a

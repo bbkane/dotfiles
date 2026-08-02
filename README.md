@@ -5,7 +5,7 @@ My personal dotfiles! I use [`fling`](https://github.com/bbkane/fling/) to manag
 ## Install/Symlink
 
 ```bash
-fling --ignore 'README.*' --src-dir <dirname> link
+fling --src-dir <dirname> link
 ```
 
 fling will prompt before symlinking
@@ -13,7 +13,7 @@ fling will prompt before symlinking
 ## Uninstall/Unlink
 
 ```bash
-fling --ignore 'README.*' --src-dir <dirname> unlink
+fling --src-dir <dirname> unlink
 ```
 
 fling will prompt before unlinking
