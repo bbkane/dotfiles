@@ -22,6 +22,8 @@ vim.o.clipboard = "unnamedplus"
 
 -- set nohlsearch
 vim.o.hlsearch = false
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
 -- https://mil.ad/blog/2024/remote-clipboard.html
 -- help :clipboard-osc52
@@ -71,8 +73,6 @@ vim.api.nvim_set_hl(0, '@markup.heading.5.markdown', { fg = '#fce094', bold = tr
 vim.api.nvim_set_hl(0, '@markup.heading.6.markdown', { fg = '#9b9ea4', bold = true }) -- gray
 
 vim.o.inccommand = "split"
-
-vim.o.smartcase = true
 
 -- How long Neovim waits for a multi-key sequence to complete. mini.clue uses
 -- this as its popup delay, so the default 1000 (1s) makes the clue window feel
