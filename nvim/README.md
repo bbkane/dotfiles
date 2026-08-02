@@ -19,7 +19,6 @@ I'm trying to keep this config deliberately small so things break less over time
 - **[vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)** auto-aligns Markdown tables as you type
 - **[indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim)** indent guides
 - **[vim-rsi](https://github.com/tpope/vim-rsi)** Readline keybindings in insert/command mode
-- **[image.nvim](https://github.com/3rd/image.nvim)** inline images in Markdown/HTML buffers (and when opening an image file directly). Needs a terminal that speaks the Kitty graphics protocol — see [Inline images](#inline-images)
 - **[img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim)** paste an image from the clipboard into a file's `.assets/` dir and insert a link — see [Pasting images](#pasting-images)
 - **OSC52 clipboard** support (works over SSH / WezTerm remote mux)
 
@@ -67,9 +66,6 @@ brew install bash-language-server gopls lua-language-server ruff shellcheck shfm
 # rust-analyzer ships as a rustup component (needs https://rustup.rs)
 rustup component add rust-analyzer
 
-# image.nvim needs ImageMagick to scale/crop images (see "Inline images" below)
-brew install imagemagick
-
 # img-clip.nvim needs pngpaste to read images off the clipboard (macOS only;
 # on Linux it uses wl-clipboard/xclip - see "Pasting images" below)
 brew install pngpaste
@@ -78,38 +74,6 @@ brew install pngpaste
 See other tree-sitter requirements [here](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#requirements) (most likely pre-installed)
 
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git and setting up treesitter. Wait for that and then it'll all work out......
-
-# Inline images
-
-[image.nvim](https://github.com/3rd/image.nvim) draws Markdown/HTML images in the buffer
-(and renders `.png`/`.jpg`/`.gif`/`.webp` files as images when opened directly).
-
-Requirements:
-
-1. **A terminal that implements the [Kitty graphics
-   protocol](https://sw.kovidgoyal.net/kitty/graphics-protocol/)** — kitty (see the
-   `kitty/` package in this repo) or Ghostty. WezTerm's implementation is partial and
-   isn't supported by image.nvim, so images won't show there.
-2. **ImageMagick** — `brew install imagemagick`. The config uses the `magick_cli`
-   processor, which shells out to the `magick` binary, so no LuaRocks setup is needed.
-
-Gotchas:
-
-- **tmux**: images don't render unless tmux sets `allow-passthrough on`. That's
-  intentionally not in `tmux/dot-tmux.conf`, so run Neovim outside tmux for images.
-- Images are hidden while in insert mode, when another window overlaps them, and when
-  the editor loses focus — the terminal draws them over Neovim's UI otherwise.
-- The plugin spec sets `build = false` so lazy.nvim doesn't build image.nvim's rockspec
-  (which would drag in hererocks and a Lua 5.1 toolchain we don't need).
-
-Quick check that it works:
-
-```bash
-mkdir -p /tmp/imgtest && cd /tmp/imgtest
-magick -size 240x120 gradient:blue-orange test.png
-printf '# Image test\n\n![a test image](test.png)\n' > test.md
-kitty nvim test.md   # or open test.md in Ghostty
-```
 
 # Pasting images
 
@@ -125,7 +89,7 @@ notes.assets/2026-07-28-14-28-14.png
 ```
 
 Trigger it with `:PasteImage`, or `<M-v>` (Alt-v) in insert mode — `<C-v>` is Vim's
-literal-insert, so it's left alone. image.nvim then renders the pasted image right away.
+literal-insert, so it's left alone.
 
 It handles three kinds of clipboard content:
 
