@@ -1,5 +1,9 @@
 # git
 
+> This package is being replaced by `git-common` plus a machine-specific
+profile. See the [git-common README](../git-common/README.md) for shared
+installation and configuration instructions.
+
 See [Learn Git | Ben's Corner](https://www.bbkane.com/blog/learn-git/#move-a-git-tag) for notes on using git.
 
 ## Install

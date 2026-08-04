@@ -1,6 +1,7 @@
 **/.claude/logs/
 **/.claude/settings.local.json
 *.bak
+*.log
 .DS_Store
 
 # Produced when debugging Go in VS Code
