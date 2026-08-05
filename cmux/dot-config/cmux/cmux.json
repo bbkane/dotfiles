@@ -1,0 +1,42 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+  "shortcuts": {
+    "bindings": {
+      "findInDirectory": {
+        "first": {
+          "command": false,
+          "control": false,
+          "key": "",
+          "option": false,
+          "shift": false
+        }
+      },
+      "globalSearch": {
+        "first": {
+          "command": false,
+          "control": false,
+          "key": "",
+          "option": false,
+          "shift": false
+        }
+      }
+    }
+  },
+  "sidebar": {
+    "showNotificationMessage": true
+  },
+  "notifications": {
+    "hooks": [
+      {
+        "id": "copilot-sidebar-only",
+        "command": "jq 'if ((.notification.title // \"\") == \"Copilot\") then .effects.record = true | .effects.markUnread = true | .effects.reorderWorkspace = false | .effects.desktop = false | .effects.sound = false | .effects.command = false | .effects.paneFlash = false else . end'",
+        "timeoutSeconds": 2,
+        "enabled": true
+      }
+    ]
+  },
+  "app": {
+    "reorderOnNotification": false
+  }
+}
