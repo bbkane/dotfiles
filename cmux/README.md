@@ -144,7 +144,7 @@ To confirm the sleep-prevention assertion is active:
 pmset -g assertions
 ```
 
-Look for `PreventUserIdleSystemSleep` owned by KeepingYouAwake or `caffeinate`.
+Look for `PreventUserIdleSystemSleep` owned by [KeepingYouAwake](https://formulae.brew.sh/cask/keepingyouawake#default) or `caffeinate`.
 
 # Install cmux skills manually
 
@@ -224,7 +224,7 @@ cmux docs settings        # docs URL, schema, cmux.json locations, reload cmd
 cmux reload-config        # reload cmux.json + Ghostty config live (no restart)
 ```
 
-`shortcuts.bindings.findInDirectory` and `shortcuts.bindings.globalSearch` have empty key definitions, disabling both shortcuts so they do not conflict Rectangle shortcuts
+`shortcuts.bindings.findInDirectory` and `shortcuts.bindings.globalSearch` have empty key definitions, disabling both shortcuts so they do not conflict [Rectangle](https://formulae.brew.sh/cask/rectangle) shortcuts
 
 # macOS UI preferences
 
