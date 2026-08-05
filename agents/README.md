@@ -52,3 +52,21 @@ Instructions for the agent...
 
 Keep skills generic: no employer-internal tools, hostnames, or links, since this repo is
 public.
+
+# crit
+
+Installs some skills here.
+
+```bash
+brew install crit
+```
+
+https://crit.md/integrations/github-copilot
+
+```
+$ cd ~ && crit install github-copilot
+  Installed: /Users/bkane/.agents/skills/crit/SKILL.md
+  Installed: /Users/bkane/.agents/skills/crit-cli/SKILL.md
+  Run /crit in GitHub Copilot to start a review loop
+  The crit-cli skill is available to GitHub Copilot agents when needed
+```
