@@ -4,15 +4,15 @@
 
 Install: https://cmux.com/docs/getting-started
 
-```
+```bash
 brew tap manaflow-ai/cmux
 brew install --cask cmux
 
 # From the dotfiles repository root. Ignore cmux documentation files.
-fling link -i '.*\.md' -s cmux
+fling link -s cmux
 ```
 
-## Copilot CLI notifications
+# Copilot CLI notifications
 
 Copy this script to `~/.copilot/hooks/notify-cmux.py` rather than symlinking it.
 Copilot CLI file edits can replace symlinks with regular files.
@@ -116,7 +116,20 @@ the same events:
 
 Restart Copilot CLI after changing hook configuration.
 
-## Keep cmux and Copilot running while the screen is locked
+Open Issues:
+
+
+- [notification for copilot cli agent · Issue #2523 · manaflow-ai/cmux](https://github.com/manaflow-ai/cmux/issues/2523)
+  - [Feature Request: Add awaitingUserInput hook type · Issue #1128 · github/copilot-cli](https://github.com/github/copilot-cli/issues/1128)
+    - These track native support for notifying specifically when Copilot needs user input.
+- [[copilot] PreToolUse feed hook hangs for 120s and never gates tool execution · Issue #6574 · manaflow-ai/cmux](https://github.com/manaflow-ai/cmux/issues/6574)
+  - Avoid the affected feed-hook path if hook execution stalls.
+- [cmux hooks copilot install: hooks get wiped by Copilot CLI on next session start · Issue #4374 · manaflow-ai/cmux](https://github.com/manaflow-ai/cmux/issues/4374)
+  - The manual `settings.json` integration above avoids this installer issue.
+
+All four issues were still open on 2026-08-05.
+
+# Continue running CMUX/Copilot when screen is locked
 
 1. Plug in the MacBook and keep the lid open.
 2. Activate KeepingYouAwake from the menu bar.
@@ -133,22 +146,10 @@ pmset -g assertions
 
 Look for `PreventUserIdleSystemSleep` owned by KeepingYouAwake or `caffeinate`.
 
-## Copilot integration issues
-
-- [notification for copilot cli agent · Issue #2523 · manaflow-ai/cmux](https://github.com/manaflow-ai/cmux/issues/2523)
-  - [Feature Request: Add awaitingUserInput hook type · Issue #1128 · github/copilot-cli](https://github.com/github/copilot-cli/issues/1128)
-    - This is why I'm not getting consistent prompts for copilot
-- [[copilot] PreToolUse feed hook hangs for 120s and never gates tool execution · Issue #6574 · manaflow-ai/cmux](https://github.com/manaflow-ai/cmux/issues/6574)
-  - This is why it's taking so long
-- [cmux hooks copilot install: hooks get wiped by Copilot CLI on next session start · Issue #4374 · manaflow-ai/cmux](https://github.com/manaflow-ai/cmux/issues/4374)
-  - this refers to the JSONC issue and the fact that `cmux hooks setup` works with `config.json` instead of `settings.json`
-
-As of Fri 2026-07-24 I've got another hook thing going, we'll see how reliable that is.
-
-## Install skills manually for auditing
+# Install cmux skills manually
 
 ```bash
-cd ~/.copilot/skills   # or: cd .../bkane_dotfiles/copilot-cli/dot-copilot/skills
+cd ~/.copilot/skills
 raw="https://raw.githubusercontent.com/manaflow-ai/cmux/main/skills"
 
 # --- cmux (core) ---
@@ -204,7 +205,7 @@ curl -fsSL "$raw/cmux-browser/templates/form-automation.sh"      -o cmux-browser
 chmod +x cmux-settings/scripts/cmux-settings cmux-diagnostics/scripts/cmux-diagnostics cmux-browser/templates/*.sh
 ```
 
-Did this on Mon 2026-07-13 - :crossed_fingers: they don't change often.
+These paths were verified against the upstream `main` branch on 2026-08-05.
 
 # Settings Locations
 
@@ -217,33 +218,37 @@ Did this on Mon 2026-07-13 - :crossed_fingers: they don't change often.
 Also: `~/.config/ghostty/config` — terminal rendering, symlinked from
 `cmux/dot-config/ghostty/config` by `fling`.
 
-```ini
-# Copy terminal selections to the clipboard automatically.
-copy-on-select = true
-```
-
 ```bash
 cmux settings path        # print the active cmux.json path
 cmux docs settings        # docs URL, schema, cmux.json locations, reload cmd
 cmux reload-config        # reload cmux.json + Ghostty config live (no restart)
 ```
 
-`~/Library/Preferences/com.cmuxterm.app.plist`
+`shortcuts.bindings.findInDirectory` and `shortcuts.bindings.globalSearch` have empty key definitions, disabling both shortcuts so they do not conflict Rectangle shortcuts
+
+# macOS UI preferences
+
+Some settings changed through the cmux UI are stored in
+`~/Library/Preferences/com.cmuxterm.app.plist` instead of `cmux.json`. These
+commands reproduce the current values:
 
 ```bash
-defaults read com.cmuxterm.app                                          # dump all keys
-defaults read com.cmuxterm.app appearanceMode                          # read one key
-defaults write com.cmuxterm.app globalFontMagnificationPercent -int 130 # set UI zoom to 130%
+defaults write com.cmuxterm.app appearanceMode -string dark
+defaults write com.cmuxterm.app globalFontMagnificationPercent -int 130
 defaults write com.cmuxterm.app browserOpenTerminalLinksInCmuxBrowser -bool false
 defaults write com.cmuxterm.app browserInterceptTerminalOpenCommandInCmuxBrowser -bool false
 ```
 
-And restart cmux
+Read them back with:
 
+```bash
+defaults read com.cmuxterm.app # dump all keys
+defaults read com.cmuxterm.app appearanceMode
+defaults read com.cmuxterm.app globalFontMagnificationPercent
+defaults read com.cmuxterm.app browserOpenTerminalLinksInCmuxBrowser
+defaults read com.cmuxterm.app browserInterceptTerminalOpenCommandInCmuxBrowser
+```
 
+Restart cmux after changing plist-backed UI preferences.
 
-# Settings tweaks
-
-- Set zoom to 130% in preferences (total UI zoom)
-- Unset Cmd + Shift + F (directory search) since rectangle uses it for fullscreen
-- Using dark theme
+`~/Library/Preferences/com.cmuxterm.app.plist`

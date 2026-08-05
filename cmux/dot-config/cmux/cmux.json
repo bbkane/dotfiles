@@ -24,7 +24,16 @@
     }
   },
   "sidebar": {
-    "showNotificationMessage": true
+    "showNotificationMessage": false,
+    "hideAllDetails": false,
+    "showWorkspaceDescription": false,
+    "showBranchDirectory": true,
+    "showPullRequests": false,
+    "showSSH": false,
+    "showPorts": false,
+    "showLog": false,
+    "showProgress": false,
+    "showCustomMetadata": false
   },
   "notifications": {
     "hooks": [
