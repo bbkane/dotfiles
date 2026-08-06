@@ -57,6 +57,11 @@ local function create_date_command(name, format)
         end,
         { bang = true }
     )
+
+    -- ;Date is not a valid abbreviation, so expand Date only when preceded by ;.
+    local expansion = ([[getline('.')[col('.') - %d] ==# ';' ? "\<BS>" . strftime('%s') : '%s']])
+        :format(#name + 2, format, name)
+    vim.cmd(("inoreabbrev <expr> %s %s"):format(name, expansion))
 end
 
 create_date_command("Date", '%Y-%m-%d')

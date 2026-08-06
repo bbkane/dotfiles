@@ -20,7 +20,11 @@
           "option": false,
           "shift": false
         }
-      }
+      },
+      "focusLeft": "cmd+ctrl+h",
+      "focusDown": "cmd+ctrl+j",
+      "focusUp": "cmd+ctrl+k",
+      "focusRight": "cmd+ctrl+l"
     }
   },
   "sidebar": {
