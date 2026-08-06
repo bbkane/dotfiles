@@ -146,66 +146,10 @@ pmset -g assertions
 
 Look for `PreventUserIdleSystemSleep` owned by [KeepingYouAwake](https://formulae.brew.sh/cask/keepingyouawake#default) or `caffeinate`.
 
-# Install cmux skills manually
+# Copilot CLI skills
 
-```bash
-cd ~/.copilot/skills
-raw="https://raw.githubusercontent.com/manaflow-ai/cmux/main/skills"
-
-# --- cmux (core) ---
-mkdir -p cmux/references
-curl -fsSL "$raw/cmux/SKILL.md"                               -o cmux/SKILL.md
-curl -fsSL "$raw/cmux/references/handles-and-identify.md"     -o cmux/references/handles-and-identify.md
-curl -fsSL "$raw/cmux/references/panes-surfaces.md"           -o cmux/references/panes-surfaces.md
-curl -fsSL "$raw/cmux/references/trigger-flash-and-health.md" -o cmux/references/trigger-flash-and-health.md
-curl -fsSL "$raw/cmux/references/windows-workspaces.md"       -o cmux/references/windows-workspaces.md
-
-# --- cmux-workspace ---
-mkdir -p cmux-workspace/references
-curl -fsSL "$raw/cmux-workspace/SKILL.md"              -o cmux-workspace/SKILL.md
-curl -fsSL "$raw/cmux-workspace/references/commands.md" -o cmux-workspace/references/commands.md
-
-# --- cmux-customization ---
-mkdir -p cmux-customization/references
-curl -fsSL "$raw/cmux-customization/SKILL.md"              -o cmux-customization/SKILL.md
-curl -fsSL "$raw/cmux-customization/references/examples.md" -o cmux-customization/references/examples.md
-
-# --- cmux-markdown ---
-mkdir -p cmux-markdown/references
-curl -fsSL "$raw/cmux-markdown/SKILL.md"                 -o cmux-markdown/SKILL.md
-curl -fsSL "$raw/cmux-markdown/references/commands.md"   -o cmux-markdown/references/commands.md
-curl -fsSL "$raw/cmux-markdown/references/live-reload.md" -o cmux-markdown/references/live-reload.md
-
-# --- cmux-settings (has script) ---
-mkdir -p cmux-settings/references cmux-settings/scripts
-curl -fsSL "$raw/cmux-settings/SKILL.md"                     -o cmux-settings/SKILL.md
-curl -fsSL "$raw/cmux-settings/references/all-keys.md"       -o cmux-settings/references/all-keys.md
-curl -fsSL "$raw/cmux-settings/references/shortcut-actions.md" -o cmux-settings/references/shortcut-actions.md
-curl -fsSL "$raw/cmux-settings/scripts/cmux-settings"        -o cmux-settings/scripts/cmux-settings
-
-# --- cmux-diagnostics (has script) ---
-mkdir -p cmux-diagnostics/scripts
-curl -fsSL "$raw/cmux-diagnostics/SKILL.md"              -o cmux-diagnostics/SKILL.md
-curl -fsSL "$raw/cmux-diagnostics/scripts/cmux-diagnostics" -o cmux-diagnostics/scripts/cmux-diagnostics
-
-# --- cmux-browser (has templates) ---
-mkdir -p cmux-browser/references cmux-browser/templates
-curl -fsSL "$raw/cmux-browser/SKILL.md"                          -o cmux-browser/SKILL.md
-curl -fsSL "$raw/cmux-browser/references/authentication.md"      -o cmux-browser/references/authentication.md
-curl -fsSL "$raw/cmux-browser/references/commands.md"            -o cmux-browser/references/commands.md
-curl -fsSL "$raw/cmux-browser/references/proxy-support.md"       -o cmux-browser/references/proxy-support.md
-curl -fsSL "$raw/cmux-browser/references/session-management.md"  -o cmux-browser/references/session-management.md
-curl -fsSL "$raw/cmux-browser/references/snapshot-refs.md"       -o cmux-browser/references/snapshot-refs.md
-curl -fsSL "$raw/cmux-browser/references/video-recording.md"     -o cmux-browser/references/video-recording.md
-curl -fsSL "$raw/cmux-browser/templates/authenticated-session.sh" -o cmux-browser/templates/authenticated-session.sh
-curl -fsSL "$raw/cmux-browser/templates/capture-workflow.sh"     -o cmux-browser/templates/capture-workflow.sh
-curl -fsSL "$raw/cmux-browser/templates/form-automation.sh"      -o cmux-browser/templates/form-automation.sh
-
-# make scripts/templates executable
-chmod +x cmux-settings/scripts/cmux-settings cmux-diagnostics/scripts/cmux-diagnostics cmux-browser/templates/*.sh
-```
-
-These paths were verified against the upstream `main` branch on 2026-08-05.
+The reviewed CMUX skills and their install instructions live in the
+[agents package](../agents/README.md#cmux-skills).
 
 # Settings Locations
 

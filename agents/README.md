@@ -6,7 +6,7 @@ for CLI coding agents, kept in one central place so multiple harnesses pick them
 Skills live in `dot-agents/skills/<skill-name>/SKILL.md` (plus any helper scripts in
 that same folder), which flings to `~/.agents/skills/`.
 
-## Which directories get picked up
+# Where Copilot gets skills
 
 GitHub Copilot CLI discovers skills from:
 
@@ -20,7 +20,7 @@ GitHub Copilot CLI discovers skills from:
 `~/.agents/skills/` is the harness-neutral personal location, which is why this package
 targets it.
 
-## Install/Symlink
+# Install/Symlink
 
 ```bash
 fling --src-dir agents link
@@ -29,29 +29,36 @@ fling --src-dir agents link
 Then, in a Copilot CLI session, run `/skills reload` (or `copilot skill list` from a
 shell) to confirm the skills are found.
 
-## Skills
+# Personal Skills
 
 - `transcript-export` — export a Copilot CLI session to a single self-contained HTML file.
 
-## Adding a skill
 
-Create `dot-agents/skills/<name>/SKILL.md` with YAML frontmatter:
+# CMUX skills
 
-```markdown
----
-name: my-skill
-description: >
-  What it does and when the agent should use it. This text is what the agent
-  matches against, so mention the triggering phrasings.
----
+The reviewed CMUX skill bundle is checked in under `dot-agents/skills/cmux*` and is
+installed by the same `fling --src-dir agents link` command above. No separate
+download or internet-hosted install script is required.
 
-# My Skill
+Included skills:
 
-Instructions for the agent...
+- `cmux` — core topology and routing controls.
+- `cmux-browser` — browser automation in cmux webviews.
+- `cmux-customization` — actions, commands, layouts, and shortcuts.
+- `cmux-diagnostics` — health checks and support-safe diagnostics.
+- `cmux-markdown` — formatted Markdown panels with live reload.
+- `cmux-settings` — safe cmux configuration management.
+- `cmux-workspace` — current-workspace and pane automation.
+
+## Update from upstream
+
+Clone https://github.com/manaflow-ai/cmux-skills/blob/main/README.md
+
+```bash
+git clone https://github.com/manaflow-ai/cmux-skills.git
 ```
 
-Keep skills generic: no employer-internal tools, hostnames, or links, since this repo is
-public.
+Copy the inside the skills directory into ~/.agents/skills/
 
 # crit
 
