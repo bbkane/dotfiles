@@ -29,6 +29,18 @@ vim.g.loaded_netrwPlugin = 1
 require("lazy").setup({
     -- start color schemes
     -- https://vimcolorschemes.com/i/trending
+    -- https://github.com/Aejkatappaja/cendre
+    {
+        "Aejkatappaja/cendre",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require("cendre").setup({
+                background = "hard", -- "hard" | "medium" | "soft"
+                italic_virtual_text = false,
+            })
+        end,
+    },
     -- {
     --     "bluz71/vim-moonfly-colors",
     --     lazy = false,
@@ -496,3 +508,4 @@ require("lazy").setup({
 -- vim.cmd 'colorscheme rose-pine-moon'
 -- vim.cmd 'colorscheme tokyonight-moon'
 -- vim.cmd 'colorscheme moonfly'
+vim.cmd 'colorscheme cendre'
