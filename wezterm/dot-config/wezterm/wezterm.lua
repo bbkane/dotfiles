@@ -99,11 +99,13 @@ end
 wezterm.on("format-tab-title", format_tab_title.format_tab_title)
 
 -- https://wezfurlong.org/wezterm/config/lua/window-events/open-uri.html?h=%27open+uri%27
-wezterm.on("open-uri", function(window, pane, uri)
-    -- Use Firefox instead of the default browser
-    wezterm.open_with(uri, 'firefox')
-    return false
-end)
+local wezterm_browser = os.getenv("WEZTERM_BROWSER")
+if wezterm_browser then
+    wezterm.on("open-uri", function(window, pane, uri)
+        wezterm.open_with(uri, wezterm_browser)
+        return false
+    end)
+end
 
 -- https://news.ycombinator.com/item?id=45753978
 -- Hide the scrollbar when there is no scrollback or alternate screen is active
