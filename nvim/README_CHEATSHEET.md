@@ -35,8 +35,8 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Go to implementation                    | `gri`                 | Built-in                          |
 | Go to type definition                   | `grt`                 | Built-in                          |
 | Document symbols                        | `gO`                  | Built-in (loclist)                |
-| Outline / symbols (picker)              | `<leader>o`           | Added                             |
-| Workspace symbols (picker)              | `<leader>ws`          | mini.extra (`gopls` needs typing) |
+| Outline / symbols (picker)              | `<leader>co`          | Added                             |
+| Workspace symbols (picker)              | `<leader>cs`          | mini.extra (`gopls` needs typing) |
 | Hover docs                              | `K`                   | Built-in. Hit K again to scroll   |
 | Signature help                          | `<C-s>`               | Built-in; insert mode             |
 | Previous / next diagnostic              | `[d` / `]d`           | Built-in                          |
@@ -58,6 +58,7 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Split window                       | `<C-w>s` / `<C-w>v` | Horizontal / vertical (built-in)                |
 | Move between splits                | `<C-w>h` (or `jkl`) | Built-in                                        |
 | Toggle file explorer (tree)        | `<leader>e`         | Added; nvim-tree. `g?` for help inside the tree |
+| Run current file                   | `<leader>r`         | Added                                           |
 | Trim trailing whitespace           | `:TrimWhitespace`   | Added; mini.trailspace                          |
 | Rename the current file            | `:RenameFile`       | Added; prompts for the new name                 |
 | Print full path of current file    | `:FullPath`         | Added                                           |

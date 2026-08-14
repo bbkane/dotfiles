@@ -272,7 +272,6 @@ require("lazy").setup({
                     { mode = 'n', keys = '<Leader>td', desc = '+delete (row/col)' },
                     { mode = 'n', keys = '<Leader>tf', desc = '+formula (add/eval)' },
                     { mode = 'n', keys = '<Leader>ti', desc = '+insert (column)' },
-                    { mode = 'n', keys = '<Leader>w',  desc = '+window' },
                     miniclue.gen_clues.builtin_completion(),
                     miniclue.gen_clues.g(),
                     miniclue.gen_clues.marks(),
@@ -285,7 +284,7 @@ require("lazy").setup({
     },
 
     -- Icon provider (file/LSP-kind/etc. glyphs). mini.pick / mini.extra
-    -- auto-detect it, and the <leader>ws symbol picker in lsp.lua uses
+    -- auto-detect it, and the <leader>cs symbol picker in lsp.lua uses
     -- MiniIcons.get('lsp', kind) for the kind-icon column.
     -- https://github.com/nvim-mini/mini.icons
     {

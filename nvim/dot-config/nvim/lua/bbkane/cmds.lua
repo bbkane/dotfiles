@@ -85,4 +85,4 @@ vim.api.nvim_create_user_command(
     { bang = true }
 )
 
-vim.keymap.set("n", "<leader>cr", "<cmd>RunCurrentFile<cr>", { desc = "Run current file" })
+vim.keymap.set("n", "<leader>r", "<cmd>RunCurrentFile<cr>", { desc = "Run current file" })

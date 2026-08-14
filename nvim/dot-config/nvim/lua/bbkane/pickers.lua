@@ -217,7 +217,7 @@ end
 -- filter down in the picker - which is what we want. gopls is the exception: it
 -- needs a non-empty query to match and returns nothing for an empty one, so for
 -- gopls fall back to "workspace_symbol_live" (sends your typed text as you go).
-vim.keymap.set("n", "<leader>ws", function()
+vim.keymap.set("n", "<leader>cs", function()
     local scope, root = "workspace_symbol", nil
     for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
         if client.name == "gopls" then
@@ -286,7 +286,7 @@ local function markdown_headings(bufnr)
     return items
 end
 
--- `:Pick outline` (and <leader>o): a document outline that works
+-- `:Pick outline` (and <leader>co): a document outline that works
 -- everywhere. Prefers LSP document symbols (classes / functions /
 -- methods / ... in code, via mini.extra) and falls back to the
 -- Treesitter markdown headings above when the buffer has no
@@ -304,7 +304,7 @@ MiniPick.registry.outline = function()
     end
     return MiniPick.start({ source = { name = "Outline", items = items } })
 end
-vim.keymap.set("n", "<leader>o", "<cmd>Pick outline<cr>", { desc = "Outline (LSP symbols / md headings)" })
+vim.keymap.set("n", "<leader>co", "<cmd>Pick outline<cr>", { desc = "Outline (LSP symbols / md headings)" })
 
 -- Zoxide directory picker: queries zoxide for frecent directories with scores,
 -- allows fuzzy-finding, and changes the cwd on selection.

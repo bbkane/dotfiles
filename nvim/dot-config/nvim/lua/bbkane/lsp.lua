@@ -105,7 +105,7 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: go to definitio
 -- Extra <leader> maps (mini.clue shows these under <leader>):
 --   <leader>cl  run the code lens under the cursor (e.g. gopls "run test")
 -- (Diagnostic float for the line under the cursor is the built-in <C-w>d.)
--- (The diagnostics/symbol pickers - <leader>d, <leader>D, <leader>ws, <leader>o
+-- (The diagnostics/symbol pickers - <leader>d, <leader>D, <leader>cs, <leader>co
 --  - all live in lua/bbkane/pickers.lua.)
 vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "LSP: run code lens" })
 
