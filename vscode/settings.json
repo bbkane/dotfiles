@@ -44,11 +44,21 @@
         "88"
     ],
     "chat.agent.enabled": true,
+    "chat.assistedPermissions.enabled": true,
     "chat.notifyWindowOnConfirmation": "always",
     "chat.notifyWindowOnResponseReceived": "always",
     "chat.tools.terminal.autoApprove": {
         "./scripts/test_update_golden.sh": true,
         "go": true
+    },
+    "chat.tools.urls.autoApprove": {
+        "https://code.visualstudio.com": true,
+        "https://github.com": {
+            "approveRequest": false,
+            "approveResponse": true
+        },
+        "https://github.com/microsoft/vscode/wiki/*": true,
+        "https://sw.kovidgoyal.net": true
     },
     "chat.viewSessions.orientation": "stacked",
     "dart.previewFlutterUiGuides": true,
@@ -98,8 +108,6 @@
             "query": "state:open repo:${owner}/${repository} sort:updated-desc"
         }
     ],
-    "gitlens.ai.model": "vscode",
-    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
     "go.autocompleteUnimportedPackages": true,
     "go.formatTool": "goimports",
     "go.inlayHints.constantValues": true,
@@ -181,16 +189,6 @@
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
-    "yaml.format.singleQuote": true,
-    "chat.assistedPermissions.enabled": true,
     "yaml.disableSchemaDetection": [],
-    "chat.tools.urls.autoApprove": {
-        "https://code.visualstudio.com": true,
-        "https://github.com/microsoft/vscode/wiki/*": true,
-        "https://sw.kovidgoyal.net": true,
-        "https://github.com": {
-            "approveRequest": false,
-            "approveResponse": true
-        }
-    }
+    "yaml.format.singleQuote": true
 }
