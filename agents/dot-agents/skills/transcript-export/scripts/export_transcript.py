@@ -998,7 +998,7 @@ def main(argv=None):
     ap.add_argument("--all", action="store_true", help="export every session (use with --since)")
     ap.add_argument("--since", help="only sessions updated within e.g. 24h, 7d, 2w")
     ap.add_argument("--output", "-o", help="output file (or directory) for a single export")
-    ap.add_argument("--out-dir", default=".", help="output directory (default: current dir)")
+    ap.add_argument("--out-dir", default="/Users/bkane/transcripts", help="output directory (default: ~/transcripts)")
     ap.add_argument("--max-output-chars", type=int, default=DEFAULT_MAX_OUTPUT,
                     help="truncate each tool output/argument blob (default: %d)" % DEFAULT_MAX_OUTPUT)
     ap.add_argument("--full", action="store_true", help="never truncate tool output")
