@@ -1,3 +1,0 @@
-[credential]
-	# requires GUI environment
-	credentialStore = secretservice
