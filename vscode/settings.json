@@ -53,6 +53,8 @@
     },
     "chat.tools.urls.autoApprove": {
         "https://code.visualstudio.com": true,
+        "https://docs.rs": true,
+        "https://docs.syntaqlite.com": true,
         "https://github.com": {
             "approveRequest": false,
             "approveResponse": true
@@ -185,10 +187,17 @@
             "tab.activeBorderTop": "#e6dcac3f"
         }
     },
-    "workbench.colorTheme": "Light+",
+    "workbench.colorTheme": "One Dark Pro Night Flat",
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.externalBrowser": "firefox",
     "workbench.sideBar.location": "right",
-    "yaml.disableSchemaDetection": [],
+    "yaml.disableSchemaDetection": [
+        "**/.github/workflows/*.yml",
+        "**/.github/workflows/*.yaml",
+        "**/.gitea/workflows/*.yml",
+        "**/.gitea/workflows/*.yaml",
+        "**/.forgejo/workflows/*.yml",
+        "**/.forgejo/workflows/*.yaml"
+    ],
     "yaml.format.singleQuote": true
 }
