@@ -193,7 +193,9 @@ def require_synced_master(repo_dir: Path):
 
 def require_gh_auth():
     if shutil.which("gh") is None:
-        logger.error("GitHub CLI not found. Install gh before creating a remote repository.")
+        logger.error(
+            "GitHub CLI not found. Install gh before creating a remote repository."
+        )
         sys.exit(1)
     run_cmd("gh", "auth", "status")
 
@@ -282,11 +284,11 @@ def main():
 
     if args.lang == "rust":
         cargo_toml = dest_dir / "Cargo.toml"
-        logger.info("Setting Cargo.toml package version to 0.0.0: %s", cargo_toml)
+        logger.info("Setting Cargo.toml package version to 0.0.1: %s", cargo_toml)
         cargo_toml_text = cargo_toml.read_text(encoding="utf-8")
         cargo_toml_text, replacements = re.subn(
             r'(?m)^version\s*=\s*"[^"]+"\s*$',
-            'version = "0.0.0"',
+            'version = "0.0.1"',
             cargo_toml_text,
             count=1,
         )

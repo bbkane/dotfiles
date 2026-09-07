@@ -3,6 +3,7 @@
 # Print git status and current last 10 git tags, then prompt for a new git tag and push.
 # The tag prompt pre-fills with the suggested next patch version; press Enter to accept.
 
+import argparse
 import os
 import re
 import subprocess
@@ -18,6 +19,19 @@ except ModuleNotFoundError:
 GIT_VERSION_TAG_REGEX = r"^v\d+\.\d+\.\d+$"
 CARGO_VERSION_REGEX = r"^(\d+)\.(\d+)\.(\d+)$"
 FIRST_GO_GIT_VERSION_TAG = "v0.0.1"
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Create and push a release tag for a Go or Rust project.",
+    )
+    parser.add_argument(
+        "--lang",
+        "-l",
+        choices=["go", "rust"],
+        help="project language (default: infer from go.mod or Cargo.toml)",
+    )
+    return parser
 
 
 class Step(NamedTuple):
@@ -382,7 +396,15 @@ def main_rust(env: dict[str, str]) -> None:
 
 
 def main() -> None:
+    args = build_parser().parse_args()
     env = {**os.environ, "LC_ALL": "en_US.UTF-8"}
+
+    if args.lang == "go":
+        main_go(env)
+        return
+    if args.lang == "rust":
+        main_rust(env)
+        return
 
     has_go = os.path.exists("go.mod")
     has_rust = os.path.exists("Cargo.toml")
