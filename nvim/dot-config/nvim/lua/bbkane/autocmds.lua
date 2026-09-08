@@ -27,6 +27,31 @@ vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
     command = "silent! execute '0r ~/.config/nvim/templates/skeleton.'.expand('<afile>:e')"
 })
 
+-- Record opened files in the `frecency` CLI database (see the `frecency` picker
+-- in lua/bbkane/pickers.lua, <leader>fR). BufReadPost fires for files read off
+-- disk and BufWritePost catches brand-new files once they exist. Skip
+-- unnamed/scratch buffers, non-`file` buffers (help, terminals, fugitive, oil,
+-- ...) and anything that isn't a readable real file so the db only ever holds
+-- paths worth reopening. `frecency add` bumps the score of an existing key, so
+-- repeats are fine. Run detached (vim.system, no :wait) to keep opening files
+-- fast.
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
+    group = bbkane_augroup,
+    callback = function(ev)
+        if vim.bo[ev.buf].buftype ~= '' then
+            return
+        end
+        local path = vim.fn.fnamemodify(ev.file or '', ':p')
+        if path == '' or vim.fn.filereadable(path) ~= 1 then
+            return
+        end
+        if vim.fn.executable('frecency') ~= 1 then
+            return
+        end
+        vim.system({ 'frecency', 'add', '--key', path })
+    end,
+})
+
 -- Surface LSP progress so I can tell when a server is done loading/indexing
 -- (gopls "Loading packages", rust_analyzer "Indexing", ...). The $/progress
 -- value has kind = begin | report | end. Only "begin"/"end" are notified - the

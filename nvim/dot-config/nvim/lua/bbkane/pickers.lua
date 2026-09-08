@@ -351,3 +351,58 @@ MiniPick.registry.zoxide = function()
     })
 end
 vim.keymap.set("n", "<leader>fz", "<cmd>Pick zoxide<cr>", { desc = "Find directory (zoxide)" })
+
+-- Frecency file picker: recently/frequently opened files, tracked by the
+-- BufReadPost/BufWritePost `frecency add` autocmd in lua/bbkane/autocmds.lua.
+-- Modelled on the zoxide picker above: rows are "<score> <path>" (already sorted
+-- best-first by `frecency query`), fuzzy-filterable, and choosing one edits the
+-- file. Files that have since been deleted are dropped from the list and pruned
+-- from the db so it self-cleans.
+MiniPick.registry.frecency = function()
+    if vim.fn.executable("frecency") ~= 1 then
+        vim.notify("frecency not found on PATH", vim.log.levels.ERROR)
+        return
+    end
+    local out = vim.system({ "frecency", "query", "--sep", "\t" }):wait()
+    if out.code ~= 0 then
+        vim.notify("frecency query failed: " .. (out.stderr or ""), vim.log.levels.ERROR)
+        return
+    end
+
+    local items = {}
+    for line in (out.stdout or ""):gmatch("[^\n]+") do
+        local score, path = line:match("^(.-)\t(.*)$")
+        if score and path and path ~= "" then
+            if vim.fn.filereadable(path) == 1 then
+                -- Scores come back as long floats (0.9998809665516011); two
+                -- decimals in a fixed-width column is plenty and keeps the paths
+                -- aligned. Paths are shown ~-relative for compactness.
+                local n = tonumber(score)
+                table.insert(items, {
+                    text = string.format("%6s  %s", n and string.format("%.2f", n) or score,
+                        vim.fn.fnamemodify(path, ":~")),
+                    path = path,
+                })
+            else
+                vim.system({ "frecency", "delete", "--key", path })
+            end
+        end
+    end
+
+    if vim.tbl_isempty(items) then
+        vim.notify("No frecency files found", vim.log.levels.INFO)
+        return
+    end
+
+    MiniPick.start({
+        source = {
+            name = "Frecency",
+            items = items,
+            -- No custom `choose`/`preview`: mini.pick's defaults already open
+            -- item.path (honoring <C-s>/<C-v>/<C-t> splits) and preview its
+            -- contents. Opening it then re-fires the `frecency add` autocmd, so
+            -- the score bump is handled there.
+        },
+    })
+end
+vim.keymap.set("n", "<leader>fR", "<cmd>Pick frecency<cr>", { desc = "Find recent file (frecency)" })
