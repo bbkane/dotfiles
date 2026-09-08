@@ -34,6 +34,9 @@ python3 "$S" --all --since 7d --out-dir ~/transcripts
 `--session` accepts `current`, `latest`, a full id, an unambiguous id prefix, or a path
 to a session directory / `events.jsonl`.
 
+Exports default to the shared `~/transcripts` directory. Use `--output` or `--out-dir`
+only when a different destination is intentional.
+
 ## Choosing the session
 
 1. If the user says "this session" / "our conversation", use `--session current`.
@@ -49,7 +52,7 @@ Always report the written path back to the user, and mention the file is self-co
 | Flag | Effect |
 |---|---|
 | `-o, --output PATH` | Exact output file (or a directory) |
-| `--out-dir DIR` | Directory for generated names (default: cwd) |
+| `--out-dir DIR` | Directory for generated names (default: `~/transcripts`) |
 | `--full` | Never truncate tool output |
 | `--compact` | Truncate tool output hard (1200 chars) for a small file |
 | `--max-output-chars N` | Custom truncation (default 20000) |
