@@ -49,11 +49,18 @@
     "chat.notifyWindowOnResponseReceived": "always",
     "chat.tools.terminal.autoApprove": {
         "./scripts/test_update_golden.sh": true,
+        "cargo check": true,
+        "cargo clippy": true,
+        "cargo fmt": true,
+        "cargo insta": true,
+        "cargo run": true,
+        "cargo test": true,
         "go": true
     },
     "chat.tools.urls.autoApprove": {
         "https://code.visualstudio.com": true,
         "https://docs.rs": true,
+        "https://docs.sqlc.dev": true,
         "https://docs.syntaqlite.com": true,
         "https://github.com": {
             "approveRequest": false,
@@ -88,10 +95,10 @@
     "git.openRepositoryInParentFolders": "never",
     "github.copilot.chat.agentCustomizationSkill.enabled": true,
     "github.copilot.enable": {
-        "*": true,
+        "*": false,
         "markdown": false,
         "plaintext": false,
-        "rust": true,
+        "rust": false,
         "scminput": false
     },
     "github.copilot.nextEditSuggestions.enabled": false,
