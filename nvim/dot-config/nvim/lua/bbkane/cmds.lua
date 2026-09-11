@@ -77,6 +77,14 @@ vim.api.nvim_create_user_command(
 )
 
 vim.api.nvim_create_user_command(
+    "ChmodX",
+    function(_)
+        vim.cmd("!chmod +x " .. vim.fn.shellescape(vim.fn.expand("%:p")))
+    end,
+    { bang = true }
+)
+
+vim.api.nvim_create_user_command(
     "RunCurrentFile",
     function(_)
         -- Run the current file directly; works for executable scripts with a shebang.
