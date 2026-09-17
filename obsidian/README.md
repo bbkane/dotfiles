@@ -44,6 +44,8 @@ TODO: https://community.obsidian.md/plugins/update-time looks like it adds creat
 
 Theme: using Primary theme - https://github.com/primary-theme/obsidian
 
+To paste code blocks in, need to use Cmd+Shift+V
+
 ## 2026-09-13 Migration
 
 Copy files to new repo, append a banner to the bottom of each note saying it's moved.
