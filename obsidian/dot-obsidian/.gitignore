@@ -1,0 +1,9 @@
+workspace.json
+workspace-mobile.json
+.trash/
+
+/themes/
+
+# exclude plugins/ but keep the data.json files in order to sync plugin settings
+/plugins/*/*
+!/plugins/*/data.json
