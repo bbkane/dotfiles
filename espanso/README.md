@@ -1,17 +1,44 @@
 # [espanso](https://espanso.org/)
 
-# MacOS Accessibility issues
-
-This used to work (2026-09-13):
+# macOS setup
 
 ```bash
-espanso start --unmanaged
+brew install espanso
 ```
 
-But now I have to:
+When updating, `espanso` can be stuck in the Accessibility screen. How to fix:
 
-- Remove `Espanso` from the Accessibility list (highlight it, click remove at the bottom)
+Remove `Espanso` from the Accessibility list:
+
+- System Settings app -> Privacy And Security on the left -> Accessibility`
+- highlight it, click remove at the bottom
 - completely close system settings
-- `pkill -f espanso`
-- `espanso service register` (and toggle it on)
-- `espanso start` (if necessary)
+
+Terminal commands to start espanso
+
+```bash
+pkill -f espanso
+espanso service register  # Follow prompts to open settings and toggle on
+espanso start  # if necessary
+```
+
+# Debian setup
+
+TODO: explain this better (from minipc notes)
+
+https://espanso.org/docs/install/linux/#deb-wayland
+
+```bash
+curl -L -f -o espanso-debian-wayland-amd64.deb \
+  https://github.com/espanso/espanso/releases/latest/download/espanso-debian-wayland-amd64.deb
+  
+sudo apt install ./espanso-debian-wayland-amd64.deb
+
+sudo setcap "cap_dac_override+p" $(which espanso)
+```
+
+```bash
+# link dotfiles first: 
+espanso register
+espanso start --unmanaged  # TODO: did I not set this up as a service?
+```
