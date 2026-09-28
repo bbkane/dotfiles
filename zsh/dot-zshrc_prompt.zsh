@@ -153,6 +153,7 @@ zp_git_precmd() {
 				[[ "${line[4]}" != '.' ]] && unstaged='*'
 				;;
 			'u '*) unstaged='*' ;;
+			'? '*) unstaged='*' ;;
 		esac
 	done < <(GIT_OPTIONAL_LOCKS=0 git status --porcelain=v2 --branch 2>/dev/null)
 
