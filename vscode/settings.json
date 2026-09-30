@@ -1,210 +1,191 @@
 {
-    "[html]": {
-        "editor.formatOnPaste": true,
-        "editor.formatOnSave": true
-    },
-    "[json]": {
-        "editor.formatOnPaste": false,
-        "editor.formatOnSave": false,
-        "editor.quickSuggestions": {
-            "strings": "on"
-        },
-        "editor.suggest.insertMode": "replace"
-    },
-    "[markdown]": {
-        "editor._comment": "https://code.visualstudio.com/docs/editor/intellisense , https://stackoverflow.com/a/41324717/2958070",
-        "editor.formatOnPaste": false,
-        "editor.formatOnSave": false,
-        "editor.quickSuggestions": {
-            "comments": "on",
-            "other": "on",
-            "strings": "on"
-        },
-        "editor.suggest.insertMode": "replace",
-        "editor.suggest.localityBonus": true,
-        "editor.suggestSelection": "recentlyUsed"
-    },
-    "[python]": {
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
-        },
-        "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.formatOnSave": true,
-        "editor.formatOnType": true
-    },
-    "accessibility.signalOptions.volume": 100,
-    "accessibility.signals.chatResponseReceived": {
-        "sound": "on"
-    },
-    "accessibility.signals.chatUserActionRequired": {
-        "sound": "on"
-    },
-    "black-formatter.args": [
-        "--line-length",
-        "88"
-    ],
-    "chat.agent.enabled": true,
-    "chat.assistedPermissions.enabled": true,
-    "chat.notifyWindowOnConfirmation": "always",
-    "chat.notifyWindowOnResponseReceived": "always",
-    "chat.tools.terminal.autoApprove": {
-        "./scripts/test_update_golden.sh": true,
-        "cargo check": true,
-        "cargo clippy": true,
-        "cargo fmt": true,
-        "cargo insta": true,
-        "cargo run": true,
-        "cargo test": true,
-        "go": true
-    },
-    "chat.tools.urls.autoApprove": {
-        "https://code.visualstudio.com": true,
-        "https://docs.rs": true,
-        "https://docs.sqlc.dev": true,
-        "https://docs.syntaqlite.com": true,
-        "https://github.com": {
-            "approveRequest": false,
-            "approveResponse": true
-        },
-        "https://github.com/microsoft/vscode/wiki/*": true,
-        "https://sw.kovidgoyal.net": true
-    },
-    "chat.viewSessions.orientation": "stacked",
-    "dart.previewFlutterUiGuides": true,
-    "diffEditor.ignoreTrimWhitespace": false,
-    "editor.acceptSuggestionOnEnter": "off",
-    "editor.fontSize": 14,
+  "[html]": {
+    "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
-    "editor.guides.bracketPairs": true,
-    "editor.minimap.enabled": false,
-    "editor.renderWhitespace": "none",
-    "editor.tokenColorCustomizations": {
-        "[Miramare]": {
-            "comments": "#c0c0c0"
-        }
+  },
+  "[json]": {
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.quickSuggestions": {
+      "strings": "on",
     },
-    "editor.wordBasedSuggestions": "matchingDocuments",
-    "editor.wordWrap": "on",
-    "files.eol": "\n",
-    "files.trimTrailingWhitespace": true,
-    "flake8.args": [
-        "--max-line-length=150"
-    ],
-    "git.confirmSync": false,
-    "git.enableSmartCommit": true,
-    "git.openRepositoryInParentFolders": "never",
-    "github.copilot.chat.agentCustomizationSkill.enabled": true,
-    "github.copilot.enable": {
-        "*": false,
-        "markdown": false,
-        "plaintext": false,
-        "rust": false,
-        "scminput": false
+    "editor.suggest.insertMode": "replace",
+  },
+  "[markdown]": {
+    "editor._comment": "https://code.visualstudio.com/docs/editor/intellisense , https://stackoverflow.com/a/41324717/2958070",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "other": "on",
+      "strings": "on",
     },
-    "github.copilot.nextEditSuggestions.enabled": false,
-    "github.copilot.preferredAccount": "bkane-msft",
-    "githubIssues.queries": [
-        {
-            "label": "My Issues",
-            "query": "default"
-        },
-        {
-            "label": "Created Issues",
-            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
-        },
-        {
-            "label": "Recent Issues",
-            "query": "state:open repo:${owner}/${repository} sort:updated-desc"
-        }
-    ],
-    "go.autocompleteUnimportedPackages": true,
-    "go.formatTool": "goimports",
-    "go.inlayHints.constantValues": true,
-    "go.lintOnSave": "workspace",
-    "go.lintTool": "golangci-lint-v2",
-    "go.toolsManagement.autoUpdate": true,
-    "go.useLanguageServer": true,
-    "gopls": {
-        "ui.navigation.symbolScope": "workspace"
+    "editor.suggest.insertMode": "replace",
+    "editor.suggest.localityBonus": true,
+    "editor.suggestSelection": "recentlyUsed",
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
     },
-    "indentRainbow.colors": [
-        "#e2987013",
-        "#89beba13",
-        "#87af8713",
-        "#c0c0c013"
-    ],
-    "indentRainbow.excludedLanguages": [
-        "go",
-        "json",
-        "jsonc",
-        "plaintext"
-    ],
-    "isort.args": [
-        "--profile",
-        "black"
-    ],
-    "json.schemaDownload.trustedDomains": {
-        "https://developer.microsoft.com/json-schemas/": true,
-        "https://json-schema.org/": true,
-        "https://json.schemastore.org/": true,
-        "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json": true,
-        "https://raw.githubusercontent.com/devcontainers/spec/": true,
-        "https://raw.githubusercontent.com/microsoft/vscode/": true,
-        "https://schemastore.azurewebsites.net/": true,
-        "https://www.schemastore.org/": true
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+  },
+  "accessibility.signalOptions.volume": 100,
+  "accessibility.signals.chatResponseReceived": {
+    "sound": "on",
+  },
+  "accessibility.signals.chatUserActionRequired": {
+    "sound": "on",
+  },
+  "black-formatter.args": ["--line-length", "88"],
+  "chat.agent.enabled": true,
+  "chat.notifyWindowOnConfirmation": "always",
+  "chat.notifyWindowOnResponseReceived": "always",
+  "chat.tools.terminal.autoApprove": {
+    "./scripts/test_update_golden.sh": true,
+    "cargo check": true,
+    "cargo clippy": true,
+    "cargo fmt": true,
+    "cargo insta": true,
+    "cargo run": true,
+    "cargo test": true,
+    "go": true,
+  },
+  "chat.tools.urls.autoApprove": {
+    "https://code.visualstudio.com": true,
+    "https://docs.rs": true,
+    "https://docs.sqlc.dev": true,
+    "https://docs.syntaqlite.com": true,
+    "https://github.com": {
+      "approveRequest": false,
+      "approveResponse": true,
     },
-    "outline.showVariables": false,
-    "problems.defaultViewMode": "table",
-    "python-envs.defaultEnvManager": "ms-python.python:system",
-    "python._comment": "brew install python3",
-    "python.analysis.inlayHints.functionReturnTypes": false,
-    "python.analysis.inlayHints.variableTypes": false,
-    "python.analysis.typeCheckingMode": "standard",
-    "python.formatting.provider": "none",
-    "python.languageServer": "Pylance",
-    "python.linting.enabled": false,
-    "redhat.telemetry.enabled": true,
-    "rust-analyzer.inlayHints.chainingHints.enable": false,
-    "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
-    "rust-analyzer.inlayHints.parameterHints.enable": false,
-    "rust-analyzer.inlayHints.typeHints.enable": false,
-    "security.workspace.trust.untrustedFiles": "open",
-    "swaggerViewer.previewInBrowser": true,
-    "terminal.integrated.enableImages": true,
-    "terminal.integrated.fontSize": 15,
-    "terminal.integrated.windowsUseConptyDll": true,
-    "vscode-default-keybindings.macOSKeybindings": true,
-    "window.commandCenter": true,
-    "window.zoomLevel": 1,
-    "workbench.colorCustomizations": {
-        "[Miramare]": {
-            "activityBar.border": "#e6dcac3f",
-            "activityBar.foreground": "#87af87",
-            "activityBar.inactiveForeground": "#e6dcac",
-            "editor.findMatchHighlightBackground": "#87af877f",
-            "editor.findRangeHighlightBackground._comment": "https://code.visualstudio.com/api/references/theme-color#editor-colors",
-            "editorGroup.border": "#e6dcac3f",
-            "editorLineNumber.foreground": "#c0c0c09f",
-            "panel.border": "#e6dcac3f",
-            "panelTitle.activeForeground": "#87af87",
-            "panelTitle.inactiveForeground": "#e6dcac",
-            "scrollbarSlider.background": "#928374",
-            "sideBar.border": "#e6dcac3f",
-            "sideBarSectionHeader.border": "#e6dcac3f",
-            "tab.activeBorderTop": "#e6dcac3f"
-        }
+    "https://github.com/microsoft/vscode/wiki/*": true,
+    "https://sw.kovidgoyal.net": true,
+  },
+  "chat.viewSessions.orientation": "stacked",
+  "dart.previewFlutterUiGuides": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.fontSize": 14,
+  "editor.formatOnSave": true,
+  "editor.guides.bracketPairs": true,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.tokenColorCustomizations": {
+    "[Miramare]": {
+      "comments": "#c0c0c0",
     },
-    "workbench.colorTheme": "One Dark Pro Night Flat",
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.externalBrowser": "firefox",
-    "workbench.sideBar.location": "right",
-    "yaml.disableSchemaDetection": [
-        "**/.github/workflows/*.yml",
-        "**/.github/workflows/*.yaml",
-        "**/.gitea/workflows/*.yml",
-        "**/.gitea/workflows/*.yaml",
-        "**/.forgejo/workflows/*.yml",
-        "**/.forgejo/workflows/*.yaml"
-    ],
-    "yaml.format.singleQuote": true
+  },
+  "editor.wordBasedSuggestions": "matchingDocuments",
+  "editor.wordWrap": "on",
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "flake8.args": ["--max-line-length=150"],
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.openRepositoryInParentFolders": "never",
+  "github.copilot.chat.agentCustomizationSkill.enabled": true,
+  "github.copilot.enable": {
+    "*": false,
+    "markdown": false,
+    "plaintext": false,
+    "rust": false,
+    "scminput": false,
+  },
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "github.copilot.preferredAccount": "bkane-msft",
+  "githubIssues.queries": [
+    {
+      "label": "My Issues",
+      "query": "default",
+    },
+    {
+      "label": "Created Issues",
+      "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc",
+    },
+    {
+      "label": "Recent Issues",
+      "query": "state:open repo:${owner}/${repository} sort:updated-desc",
+    },
+  ],
+  "go.autocompleteUnimportedPackages": true,
+  "go.formatTool": "goimports",
+  "go.inlayHints.constantValues": true,
+  "go.lintOnSave": "workspace",
+  "go.lintTool": "golangci-lint-v2",
+  "go.toolsManagement.autoUpdate": true,
+  "go.useLanguageServer": true,
+  "gopls": {
+    "ui.navigation.symbolScope": "workspace",
+  },
+  "indentRainbow.colors": ["#e2987013", "#89beba13", "#87af8713", "#c0c0c013"],
+  "indentRainbow.excludedLanguages": ["go", "json", "jsonc", "plaintext"],
+  "isort.args": ["--profile", "black"],
+  "json.schemaDownload.trustedDomains": {
+    "https://developer.microsoft.com/json-schemas/": true,
+    "https://json-schema.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json": true,
+    "https://raw.githubusercontent.com/devcontainers/spec/": true,
+    "https://raw.githubusercontent.com/microsoft/vscode/": true,
+    "https://schemastore.azurewebsites.net/": true,
+    "https://www.schemastore.org/": true,
+  },
+  "outline.showVariables": false,
+  "problems.defaultViewMode": "table",
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python._comment": "brew install python3",
+  "python.analysis.inlayHints.functionReturnTypes": false,
+  "python.analysis.inlayHints.variableTypes": false,
+  "python.analysis.typeCheckingMode": "standard",
+  "python.formatting.provider": "none",
+  "python.languageServer": "Pylance",
+  "python.linting.enabled": false,
+  "redhat.telemetry.enabled": true,
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "swaggerViewer.previewInBrowser": true,
+  "terminal.integrated.enableImages": true,
+  "terminal.integrated.fontSize": 15,
+  "terminal.integrated.windowsUseConptyDll": true,
+  "vscode-default-keybindings.macOSKeybindings": true,
+  "window.commandCenter": true,
+  "window.zoomLevel": 1,
+  "workbench.colorCustomizations": {
+    "[Miramare]": {
+      "activityBar.border": "#e6dcac3f",
+      "activityBar.foreground": "#87af87",
+      "activityBar.inactiveForeground": "#e6dcac",
+      "editor.findMatchHighlightBackground": "#87af877f",
+      "editor.findRangeHighlightBackground._comment": "https://code.visualstudio.com/api/references/theme-color#editor-colors",
+      "editorGroup.border": "#e6dcac3f",
+      "editorLineNumber.foreground": "#c0c0c09f",
+      "panel.border": "#e6dcac3f",
+      "panelTitle.activeForeground": "#87af87",
+      "panelTitle.inactiveForeground": "#e6dcac",
+      "scrollbarSlider.background": "#928374",
+      "sideBar.border": "#e6dcac3f",
+      "sideBarSectionHeader.border": "#e6dcac3f",
+      "tab.activeBorderTop": "#e6dcac3f",
+    },
+  },
+  "workbench.colorTheme": "One Dark Pro Night Flat",
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.externalBrowser": "firefox",
+  "workbench.sideBar.location": "right",
+  "yaml.disableSchemaDetection": [
+    "**/.github/workflows/*.yml",
+    "**/.github/workflows/*.yaml",
+    "**/.gitea/workflows/*.yml",
+    "**/.gitea/workflows/*.yaml",
+    "**/.forgejo/workflows/*.yml",
+    "**/.forgejo/workflows/*.yaml",
+  ],
+  "yaml.format.singleQuote": true,
 }
