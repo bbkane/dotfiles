@@ -226,8 +226,17 @@ fi
 if [[ "$OSTYPE" == darwin* ]]; then
     clip() { [ -t 0 ] && pbpaste || pbcopy }
 else # assume linux if not macos
-    # using xsel as I also need it for NeoVim
-    clip() { [ -t 0 ] && xsel --clipboard --output || xsel --clipboard --input }
+    if command -v wl-copy >/dev/null 2>&1 && command -v wl-paste >/dev/null 2>&1; then
+        clip() { [ -t 0 ] && wl-paste || wl-copy }
+    elif command -v xsel >/dev/null 2>&1; then
+        # using xsel as I also need it for NeoVim
+        clip() { [ -t 0 ] && xsel --clipboard --output || xsel --clipboard --input }
+    else
+        clip() {
+            printf '%s\n' 'Error: no clipboard utility found. Install wl-clipboard or xsel.' >&2
+            return 1
+        }
+    fi
 fi
 
 # https://mil.ad/blog/2024/remote-clipboard.html
