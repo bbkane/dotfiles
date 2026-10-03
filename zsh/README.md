@@ -16,7 +16,7 @@ The shared configuration is split by responsibility:
 
 | Repository file | Installed path | Responsibility |
 | --- | --- | --- |
-| [`dot-zshrc_common.zsh`](./dot-zshrc_common.zsh) | `~/.zshrc_common.zsh` | Entry point that declares autoloads and sources the other shared modules in order |
+| [`dot-zshrc_entry.zsh`](./dot-zshrc_entry.zsh) | `~/.zshrc_entry.zsh` | Entry point that declares autoloads and sources the other shared modules in order |
 | [`dot-zshrc_core.zsh`](./dot-zshrc_core.zsh) | `~/.zshrc_core.zsh` | Aliases, exports, helper functions, key bindings, history, and shell options |
 | [`dot-zshrc_completion.zsh`](./dot-zshrc_completion.zsh) | `~/.zshrc_completion.zsh` | Native zsh completion paths, initialization, caching, and generic completion behavior |
 | [`dot-zshrc_plugins.zsh`](./dot-zshrc_plugins.zsh) | `~/.zshrc_plugins.zsh` | Third-party plugin activation and every setting owned by those plugins |
@@ -71,7 +71,7 @@ They can also be downloaded directly:
 
 ```bash
 base_url=https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh
-curl -Lo ~/.zshrc_common.zsh "$base_url/dot-zshrc_common.zsh"
+curl -Lo ~/.zshrc_entry.zsh "$base_url/dot-zshrc_entry.zsh"
 curl -Lo ~/.zshrc_core.zsh "$base_url/dot-zshrc_core.zsh"
 curl -Lo ~/.zshrc_completion.zsh "$base_url/dot-zshrc_completion.zsh"
 curl -Lo ~/.zshrc_plugins.zsh "$base_url/dot-zshrc_plugins.zsh"
@@ -90,7 +90,7 @@ remains a separate opt-in:
 # Machine-specific setup may go above this.
 
 export GIT_PLUGIN_DIR="$HOME/Git-GH"
-source "${ZDOTDIR:-$HOME}/.zshrc_common.zsh"
+source "${ZDOTDIR:-$HOME}/.zshrc_entry.zsh"
 # Optional prompt.
 zp_prompt_pastel dodgerblue lightgreen
 
