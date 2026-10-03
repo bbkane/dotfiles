@@ -21,9 +21,17 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#737373'
 # zoxide
 eval "$(zoxide init zsh)"
 
-# warhol.plugin.zsh
-export warhol_ignore_ls=1
-source "$GIT_PLUGIN_DIR/warhol.plugin.zsh/warhol.plugin.zsh"
+# grc command colorization
+source "$HOMEBREW_PREFIX/etc/grc.zsh"
+# Keep native ls colors instead of grc's wrapper.
+if (( $+functions[ls] )); then
+    unfunction ls
+fi
+
+# Leave kubectl unwrapped so interactive sessions retain their terminal streams.
+if (( $+functions[kubectl] )); then
+    unfunction kubectl
+fi
 
 # zsh-syntax-highlighting must be the last plugin that wraps ZLE widgets.
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)

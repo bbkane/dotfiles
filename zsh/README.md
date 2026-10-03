@@ -42,20 +42,11 @@ brew install \
     fzf \
     fzf-tab \
     grc \
+    pastel \
     zoxide \
     zsh-autosuggestions \
     zsh-completions \
     zsh-syntax-highlighting
-
-# Optional, but highly recommended for the prompt.
-brew install pastel
-```
-
-Clone the plugin that is not installed by Homebrew:
-
-```bash
-export GIT_PLUGIN_DIR="$HOME/Git-GH"
-git clone https://github.com/unixorn/warhol.plugin.zsh.git "$GIT_PLUGIN_DIR/warhol.plugin.zsh"
 ```
 
 If `compinit` reports insecure directories after installing
@@ -67,19 +58,9 @@ I install these dotfiles by cloning this repository and using
 [`fling`](https://github.com/bbkane/fling/) to create symlinks at the installed
 paths shown above.
 
-They can also be downloaded directly:
-
 ```bash
-base_url=https://raw.githubusercontent.com/bbkane/dotfiles/master/zsh
-curl -Lo ~/.zshrc_entry.zsh "$base_url/dot-zshrc_entry.zsh"
-curl -Lo ~/.zshrc_core.zsh "$base_url/dot-zshrc_core.zsh"
-curl -Lo ~/.zshrc_completion.zsh "$base_url/dot-zshrc_completion.zsh"
-curl -Lo ~/.zshrc_plugins.zsh "$base_url/dot-zshrc_plugins.zsh"
-curl -Lo ~/.zshrc_prompt.zsh "$base_url/dot-zshrc_prompt.zsh"
+fling link --src-dir .
 ```
-
-The shared modules honor `$ZDOTDIR` when locating one another. Install all five
-modules together under `${ZDOTDIR:-$HOME}`, even if you do not enable the prompt.
 
 ## Configure `~/.zshrc`
 
@@ -89,7 +70,6 @@ remains a separate opt-in:
 ```zsh
 # Machine-specific setup may go above this.
 
-export GIT_PLUGIN_DIR="$HOME/Git-GH"
 source "${ZDOTDIR:-$HOME}/.zshrc_entry.zsh"
 # Optional prompt.
 zp_prompt_pastel dodgerblue lightgreen
@@ -237,20 +217,19 @@ eval "$(zoxide init zsh)"
 Also see the upstream
 [`compinit` notes](https://github.com/ajeetdsouza/zoxide).
 
-### [warhol.plugin.zsh](https://github.com/unixorn/warhol.plugin.zsh)
+### [`grc`](https://github.com/garabik/grc)
 
-> Last updated: 2024-04-02
+> Last updated: 2026-10-03
 
-Colorizes command output using `grc` and `lscolors`.
+Colorizes supported command output using the zsh integration bundled with
+Homebrew's `grc` forumula.
 
-![warhol.plugin.zsh](./README_img/warhol.plugin.zsh.png)
+![Command colorization](./README_img/warhol.plugin.zsh.png)
 
-Warhol does not color the configured `ls` alias reliably, so the plugin module
-keeps both the exception and plugin activation together:
+The plugin module loads the packaged integration:
 
 ```zsh
-export warhol_ignore_ls=1
-source "$HOME/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh"
+source "$HOMEBREW_PREFIX/etc/grc.zsh"
 ```
 
 ### [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting)
