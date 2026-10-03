@@ -12,7 +12,7 @@
     "editor.suggest.insertMode": "replace",
   },
   "[markdown]": {
-    "editor._comment": "https://code.visualstudio.com/docs/editor/intellisense , https://stackoverflow.com/a/41324717/2958070",
+    // https://code.visualstudio.com/docs/editor/intellisense , https://stackoverflow.com/a/41324717/2958070
     "editor.formatOnPaste": false,
     "editor.formatOnSave": false,
     "editor.quickSuggestions": {
@@ -28,7 +28,7 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
     },
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "ms-python.black-formatter", // TODO: use ruff
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
   },
@@ -39,7 +39,10 @@
   "accessibility.signals.chatUserActionRequired": {
     "sound": "on",
   },
-  "black-formatter.args": ["--line-length", "88"],
+  "black-formatter.args": [
+    "--line-length",
+    "88",
+  ],
   "chat.agent.enabled": true,
   "chat.notifyWindowOnConfirmation": "always",
   "chat.notifyWindowOnResponseReceived": "always",
@@ -83,7 +86,9 @@
   "editor.wordWrap": "on",
   "files.eol": "\n",
   "files.trimTrailingWhitespace": true,
-  "flake8.args": ["--max-line-length=150"],
+  "flake8.args": [
+    "--max-line-length=150",
+  ],
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
@@ -121,9 +126,22 @@
   "gopls": {
     "ui.navigation.symbolScope": "workspace",
   },
-  "indentRainbow.colors": ["#e2987013", "#89beba13", "#87af8713", "#c0c0c013"],
-  "indentRainbow.excludedLanguages": ["go", "json", "jsonc", "plaintext"],
-  "isort.args": ["--profile", "black"],
+  "indentRainbow.colors": [
+    "#e2987013",
+    "#89beba13",
+    "#87af8713",
+    "#c0c0c013",
+  ],
+  "indentRainbow.excludedLanguages": [
+    "go",
+    "json",
+    "jsonc",
+    "plaintext",
+  ],
+  "isort.args": [
+    "--profile",
+    "black",
+  ],
   "json.schemaDownload.trustedDomains": {
     "https://developer.microsoft.com/json-schemas/": true,
     "https://json-schema.org/": true,
