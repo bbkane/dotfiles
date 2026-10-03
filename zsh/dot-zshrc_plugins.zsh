@@ -5,7 +5,7 @@
 eval "$(fzf --zsh)"
 
 # fzf-tab must load after compinit and before plugins that wrap ZLE widgets.
-source "$HOME/Git-GH/fzf-tab/fzf-tab.plugin.zsh"
+source "$GIT_PLUGIN_DIR/fzf-tab/fzf-tab.plugin.zsh"
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -23,7 +23,7 @@ eval "$(zoxide init zsh)"
 
 # warhol.plugin.zsh
 export warhol_ignore_ls=1
-source "$HOME/Git-GH/warhol.plugin.zsh/warhol.plugin.zsh"
+source "$GIT_PLUGIN_DIR/warhol.plugin.zsh/warhol.plugin.zsh"
 
 # zsh-syntax-highlighting must be the last plugin that wraps ZLE widgets.
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)

@@ -22,7 +22,7 @@ The shared configuration is split by responsibility:
 | [`dot-zshrc_plugins.zsh`](./dot-zshrc_plugins.zsh) | `~/.zshrc_plugins.zsh` | Third-party plugin activation and every setting owned by those plugins |
 | [`dot-zshrc_prompt.zsh`](./dot-zshrc_prompt.zsh) | `~/.zshrc_prompt.zsh` | Optional prompt implementation |
 
-The common entry point loads `core`, `completion`, and `plugins` in that order.
+The common entry point loads `core`, `completion`, `plugins`, and `prompt` in that order.
 This ensures completion paths are configured before `compinit`, and plugins
 that use completion are loaded afterward.
 
@@ -53,8 +53,9 @@ brew install pastel
 Clone the plugins that are not installed by Homebrew:
 
 ```bash
-git clone https://github.com/Aloxaf/fzf-tab "$HOME/Git-GH/fzf-tab"
-git clone https://github.com/unixorn/warhol.plugin.zsh.git "$HOME/Git-GH/warhol.plugin.zsh"
+export GIT_PLUGIN_DIR="$HOME/Git-GH"
+git clone https://github.com/Aloxaf/fzf-tab "$GIT_PLUGIN_DIR/fzf-tab"
+git clone https://github.com/unixorn/warhol.plugin.zsh.git "$GIT_PLUGIN_DIR/warhol.plugin.zsh"
 ```
 
 If `compinit` reports insecure directories after installing
@@ -77,8 +78,8 @@ curl -Lo ~/.zshrc_plugins.zsh "$base_url/dot-zshrc_plugins.zsh"
 curl -Lo ~/.zshrc_prompt.zsh "$base_url/dot-zshrc_prompt.zsh"
 ```
 
-The shared modules honor `$ZDOTDIR` when locating one another. Install all four
-non-prompt modules together under `${ZDOTDIR:-$HOME}`.
+The shared modules honor `$ZDOTDIR` when locating one another. Install all five
+modules together under `${ZDOTDIR:-$HOME}`, even if you do not enable the prompt.
 
 ## Configure `~/.zshrc`
 
@@ -87,10 +88,10 @@ remains a separate opt-in:
 
 ```zsh
 # Machine-specific setup may go above this.
-source "${ZDOTDIR:-$HOME}/.zshrc_common.zsh"
 
+export GIT_PLUGIN_DIR="$HOME/Git-GH"
+source "${ZDOTDIR:-$HOME}/.zshrc_common.zsh"
 # Optional prompt.
-source "${ZDOTDIR:-$HOME}/.zshrc_prompt.zsh"
 zp_prompt_pastel dodgerblue lightgreen
 
 # Machine-specific setup that must run last may go below this.
@@ -272,8 +273,12 @@ This is deliberately the last plugin loaded because it wraps ZLE widgets.
 
 ## Prompt
 
-[`dot-zshrc_prompt.zsh`](./dot-zshrc_prompt.zsh) remains independent from the
-common configuration.
+[`dot-zshrc_prompt.zsh`](./dot-zshrc_prompt.zsh) is loaded by the common
+configuration, but sourcing it only defines functions. The first call to
+`zp_prompt` (including through `zp_prompt_pastel`) registers the prompt hooks,
+enables `prompt_subst`, and disables virtualenv's built-in prompt formatting.
+Initialization runs once per shell; changing colors does not repeat it.
+Without either call, the prompt hooks and global settings remain untouched.
 
 ![zp_prompt](./README_img/zp_prompt.png)
 

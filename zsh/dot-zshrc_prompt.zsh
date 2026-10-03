@@ -46,6 +46,8 @@ zp_gen_colors_printf_random() {
 
 # create and assign to PROMPT
 zp_prompt() {
+	[[ -v zp_prompt_initialized ]] || zp_prompt_init
+
 	# must be a newline delimited string of colors with 7 elements
 	local zsh_prompt_colors_str="$1"
 
@@ -170,13 +172,16 @@ zp_git_precmd() {
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html
 # https://stackoverflow.com/q/30840651/2958070
 # see loaded precmds with `add-zsh-hook -L`
-# requires: autoload -Uz add-zsh-hook
-add-zsh-hook precmd zp_git_precmd
-add-zsh-hook precmd zp_venv_precmd
-add-zsh-hook precmd zp_lefthook_uninstalled_precmd
+zp_prompt_init() {
+	autoload -Uz add-zsh-hook
+	add-zsh-hook precmd zp_git_precmd
+	add-zsh-hook precmd zp_venv_precmd
+	add-zsh-hook precmd zp_lefthook_uninstalled_precmd
 
-# https://unix.stackexchange.com/a/40646/185953
-setopt prompt_subst
+	# https://unix.stackexchange.com/a/40646/185953
+	setopt prompt_subst
 
-# tell venv we want to do our own formatting
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+	# tell venv we want to do our own formatting
+	export VIRTUAL_ENV_DISABLE_PROMPT=1
+	typeset -g zp_prompt_initialized=1
+}
