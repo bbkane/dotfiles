@@ -5,7 +5,7 @@
 eval "$(fzf --zsh)"
 
 # fzf-tab must load after compinit and before plugins that wrap ZLE widgets.
-source "$GIT_PLUGIN_DIR/fzf-tab/fzf-tab.plugin.zsh"
+source "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}

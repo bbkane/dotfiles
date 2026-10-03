@@ -40,6 +40,7 @@ during shell startup.
 brew install \
     eza \
     fzf \
+    fzf-tab \
     grc \
     zoxide \
     zsh-autosuggestions \
@@ -50,11 +51,10 @@ brew install \
 brew install pastel
 ```
 
-Clone the plugins that are not installed by Homebrew:
+Clone the plugin that is not installed by Homebrew:
 
 ```bash
 export GIT_PLUGIN_DIR="$HOME/Git-GH"
-git clone https://github.com/Aloxaf/fzf-tab "$GIT_PLUGIN_DIR/fzf-tab"
 git clone https://github.com/unixorn/warhol.plugin.zsh.git "$GIT_PLUGIN_DIR/warhol.plugin.zsh"
 ```
 
@@ -179,7 +179,7 @@ orchestrator enforces that order.
 The plugin and all of its settings stay together:
 
 ```zsh
-source "$HOME/Git-GH/fzf-tab/fzf-tab.plugin.zsh"
+source "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
 
 # Do not sort branches when completing `git checkout`.
 zstyle ':completion:*:git-checkout:*' sort false
