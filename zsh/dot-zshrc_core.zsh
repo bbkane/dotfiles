@@ -135,6 +135,10 @@ setopt HIST_IGNORE_DUPS
 #ignore duplicates when searching
 setopt HIST_FIND_NO_DUPS
 
+# Save execution timestamps and command duration to the history file (useful for AI summaries)
+setopt EXTENDED_HISTORY
+
+
 # don't set this or it mean ctrl-p to get previous commands smooshes all lines together
 # removes blank lines from history
 # setopt HIST_REDUCE_BLANKS
