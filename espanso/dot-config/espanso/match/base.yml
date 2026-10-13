@@ -8,7 +8,7 @@
 # Matches are substitution rules: when you type the "trigger" string
 # it gets replaced by the "replace" string.
 matches:
-  # Simple text replacement
+  # Using these for notes (and actually I'm not using them these days...)
   - trigger: ";asked"
     replace: ":question: ASKED-"
 
@@ -21,18 +21,17 @@ matches:
   - trigger: ";todo"
     replace: ":memo: TODO-"
 
-  # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
+    # Trying this for AI in code / markdown
+  - trigger: ";td"
+    replace: "TODO:"
 
-  # https://docs.rs/chrono/latest/chrono/format/strftime/index.html
-  - trigger: ";time"
-    replace: "{{mydate}}"
-    vars:
-      - name: mydate
-        type: date
-        params:
-          format: "%H:%M"
+  - trigger: "#td"
+    replace: "# TODO:"
 
-  # https://docs.rs/chrono/latest/chrono/format/strftime/index.html
+  - trigger: "/td"
+    replace: "// TODO:"
+
+  # Times and dates: https://docs.rs/chrono/latest/chrono/format/strftime/index.html
   - trigger: ";date"
     replace: "{{mydate}}"
     vars:
@@ -41,7 +40,6 @@ matches:
         params:
           format: "%Y-%m-%d"
 
-  # https://docs.rs/chrono/latest/chrono/format/strftime/index.html
   - trigger: ";day"
     replace: "{{mydate}}"
     vars:
@@ -50,13 +48,11 @@ matches:
         params:
           format: "%a %Y-%m-%d"
 
-  # Print the output of a shell command
-  - trigger: ":shell"
-    replace: "{{output}}"
+  - trigger: ";time"
+    replace: "{{mydate}}"
     vars:
-      - name: output
-        type: shell
+      - name: mydate
+        type: date
         params:
-          cmd: "echo 'Hello from your shell'"
+          format: "%H:%M"
 
-  # And much more! For more information, visit the docs: https://espanso.org/docs/
