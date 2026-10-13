@@ -12,8 +12,8 @@ NOTE: I'm ignoring code but keeping any `data.json` files as those have settings
 
 - [bkane-msft/obsidian-git-gutter: Fork of obsidian-git with just the local gutter](https://github.com/bkane-msft/obsidian-git-gutter) - fork that just keeps the gitgutter; follow install instructions there.
 - [Custom Attachment Location - Obsidian Plugin](https://community.obsidian.md/plugins/obsidian-custom-attachment-location) - `./${noteFileName}.assets` as my attachment folder
-
 - [Advanced Rename and Delete Handler - Obsidian Plugin](https://community.obsidian.md/plugins/advanced-rename-and-delete-handler) - auto installed by previous
+- [Emoji Autocomplete - Obsidian Plugin](https://community.obsidian.md/plugins/emoji-autocomplete)
 - [Primary - Obsidian Theme](https://community.obsidian.md/themes/primary) - color theme
 
 # Notes
