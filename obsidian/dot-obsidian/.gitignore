@@ -7,3 +7,6 @@ workspace-mobile.json
 # exclude plugins/ but keep the data.json files in order to sync plugin settings
 /plugins/*/*
 !/plugins/*/data.json
+
+# this one keeps history and such so ignore it
+/plugins/emoji-autocomplete/data.json
