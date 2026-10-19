@@ -70,7 +70,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     # settings symlink
     symlink_cmd = settings_subcommands.add_parser(
-        "symlink", help="Symlink settings.json from --root into VS Code's config dir"
+        "symlink",
+        help="Symlink settings.json (and mcp.json, snippets/, keybindings_linux.json if present) from --root into VS Code's User dir",
     )
     symlink_cmd.add_argument(
         "--ask",
@@ -144,25 +145,28 @@ def list_installed_extensions() -> list[str]:
     return run_code("--list-extensions").stdout.split()
 
 
-def symlink_file(src_file: Path, dst_file: Path, ask: bool):
-    if not src_file.exists():
-        raise SystemExit(f"Source file does not exist: {src_file}")
-    if dst_file.exists() and not dst_file.is_symlink():
-        raise SystemExit(f"Non-symlink already exists: {dst_file}")
+def symlink_paths(links: list[tuple[Path, Path]], ask: bool):
+    """Validate all (src, dst) links first so a conflict doesn't leave a partial install"""
+    for src, dst in links:
+        if not src.exists():
+            raise SystemExit(f"Source does not exist: {src}")
+        if dst.exists() and not dst.is_symlink():
+            raise SystemExit(f"Non-symlink already exists: {dst}")
 
-    logger.info(f"About to symlink: {src_file} -> {dst_file}")
+    logger.info(
+        "About to symlink:\n" + "\n".join(f"  {src} -> {dst}" for src, dst in links)
+    )
     if ask and not confirm("Create dirs and symlinks?"):
         logger.info("Skipping")
         return
 
-    dst_file.parent.mkdir(parents=True, exist_ok=True)
-    dst_file.unlink(missing_ok=True)
-    dst_file.symlink_to(src_file)
+    for src, dst in links:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.unlink(missing_ok=True)
+        dst.symlink_to(src)
 
 
 def settings_symlink(root: Path, plat: str, ask: bool):
-    settings_src_file = root / "settings.json"
-
     match plat:
         case "Windows":
             settings_dst_dir = Path(os.path.expandvars(r"%APPDATA%\Code\User"))
@@ -175,16 +179,21 @@ def settings_symlink(root: Path, plat: str, ask: bool):
         case _:
             raise SystemExit(f"No platform support for {plat!r}")
 
-    symlink_file(settings_src_file, settings_dst_dir / "settings.json", ask)
+    links = [(root / "settings.json", settings_dst_dir / "settings.json")]
 
+    # (src name in root, dst name in VS Code User dir), linked only if src exists
+    optional = [("mcp.json", "mcp.json"), ("snippets", "snippets")]
     if plat == "Linux":
-        keybindings_src_file = root / "keybindings_linux.json"
-        if keybindings_src_file.exists():
-            symlink_file(
-                keybindings_src_file, settings_dst_dir / "keybindings.json", ask
-            )
+        optional.append(("keybindings_linux.json", "keybindings.json"))
+
+    for src_name, dst_name in optional:
+        src = root / src_name
+        if src.exists():
+            links.append((src, settings_dst_dir / dst_name))
         else:
-            logger.warning(f"Skipping keybindings, not found: {keybindings_src_file}")
+            logger.info(f"Skipping, not found: {src}")
+
+    symlink_paths(links, ask)
 
 
 def extensions_install(root: Path):
