@@ -297,6 +297,42 @@ grabbit_audit() {
     find ~/Pictures/grabbit \( -name 'wallpapers_*' -o -name 'futureporn_*' -o -name 'roomporn_*' \) -ctime -14 -print -exec open {} \;
 }
 
+# git-wt: cd to a git worktree. `wt` = fzf picker (most recently used first), `wt <branch>` = jump directly
+git-wt() {
+    zmodload -F zsh/stat b:zstat
+    zmodload zsh/datetime
+    local line d b h g s a sel w=6
+    local -a rows mt out
+    for line in "${(@f)$(command git worktree list --porcelain)}" ''; do
+        case $line in
+            'worktree '*) d=${line#worktree }; b=; h= ;;
+            'HEAD '*)     h=${line[6,12]} ;;
+            'branch '*)   b=${line#branch refs/heads/} ;;
+            '')
+                [[ -n $d ]] || continue
+                if [[ -f $d/.git ]]; then read -r g < $d/.git; g=${g#gitdir: }; [[ $g == /* ]] || g=$d/$g
+                else g=$d/.git; fi
+                zstat -A mt +mtime -- $g/index 2>/dev/null || zstat -A mt +mtime -- $g/HEAD 2>/dev/null || { d=; continue; }
+                [[ -n $1 && $b == "$1" ]] && { cd "$d"; return; }
+                b=${b:-(detached $h)}; (( ${#b} > w )) && w=${#b}
+                    rows+=("$mt[1]"$'\t'"$b"$'\t'"$d"); d= ;;
+            esac
+        done
+        [[ -n $1 ]] && { echo "wt: no worktree for $1" >&2; return 1; }
+        printf -v line '\t%-9s  %-*s  %s' 'LAST USED' $w BRANCH PATH; out=("$line")
+        for line in ${(On)rows}; do
+            s=$(( EPOCHSECONDS - ${line%%$'\t'*} ))
+            if (( s < 3600 )); then a="$((s/60))m"; elif (( s < 86400 )); then a="$((s/3600))h"; else a="$((s/86400))d"; fi
+            line=${line#*$'\t'}
+            # hidden field 1 = real path (returned to us); field 2 = what fzf displays
+            printf -v line '%s\t%-9s  %-*s  %s' "${line#*$'\t'}" "$a ago" $w "${line%%$'\t'*}" "${${line#*$'\t'}/#$HOME/~}"
+            out+=("$line")
+        done
+        sel=$(print -rl -- $out | fzf --height 40% --reverse --header-lines=1 --delimiter='\t' --with-nth=2)
+        sel=${sel%%$'\n'*}; sel=${sel%%$'\t'*}
+        [[ -n $sel ]] && cd "$sel"
+}
+
 # Disable any lingering mouse-tracking modes a crashed TUI left enabled.
 # Stops the terminal from "auto-typing" mouse-coordinate escape sequences.
 # Each '\033[?<n>l' sends DECRST (reset/disable) for private mode <n>.
