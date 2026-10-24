@@ -41,6 +41,15 @@ require("lazy").setup({
             })
         end,
     },
+    {
+        "Mofiqul/vscode.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {
+            italic_comments = false,
+            italic_inlayhints = false,
+        },
+    },
     -- {
     --     "bluz71/vim-moonfly-colors",
     --     lazy = false,
@@ -437,15 +446,7 @@ require("lazy").setup({
 
 })
 
--- Using the built-in default colorscheme (no `:colorscheme` call), so the
--- markdown heading highlight overrides in common.lua aren't reset. Re-enable one
--- of these to switch themes (but then move those overrides to a ColorScheme
--- autocmd, since loading a colorscheme resets highlights).
--- vim.cmd 'colorscheme embark'
--- vim.cmd 'colorscheme everforest'
--- vim.cmd 'colorscheme kanagawa'
--- vim.cmd 'colorscheme gruvbox-material'
--- vim.cmd 'colorscheme rose-pine-moon'
--- vim.cmd 'colorscheme tokyonight-moon'
--- vim.cmd 'colorscheme moonfly'
-vim.cmd 'colorscheme cendre'
+-- Use Neovim's startup detection; pin it rather than waiting for late replies.
+local background = vim.g.neovide and "dark" or vim.o.background
+vim.o.background = background
+vim.cmd.colorscheme(background == "light" and "vscode" or "cendre")

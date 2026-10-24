@@ -173,6 +173,7 @@
   "terminal.integrated.fontSize": 15,
   "terminal.integrated.windowsUseConptyDll": true,
   "vscode-default-keybindings.macOSKeybindings": true,
+  "window.autoDetectColorScheme": true,
   "window.commandCenter": true,
   "window.zoomLevel": 1,
   "workbench.colorCustomizations": {
@@ -196,6 +197,8 @@
   "workbench.colorTheme": "One Dark Pro Night Flat",
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.externalBrowser": "firefox",
+  "workbench.preferredDarkColorTheme": "One Dark Pro Night Flat",
+  "workbench.preferredLightColorTheme": "Light Modern",
   "workbench.sideBar.location": "right",
   "yaml.disableSchemaDetection": [
     "**/.github/workflows/*.yml",

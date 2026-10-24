@@ -2,6 +2,7 @@ I'm trying to keep this config deliberately small so things break less over time
 
 # Features
 
+- **Colorschemes**: Cendre for dark terminals, vscode.nvim without italics for light terminals (selected at startup).
 - **[lazy.nvim](https://github.com/folke/lazy.nvim)** plugin manager
 - **[mini.nvim](https://github.com/nvim-mini/mini.nvim)** suite: clue (which-key), icons, pick (fuzzy finder), extra pickers, diff (git signs), pairs (auto-brackets), trailspace (trim on save)
 - **Custom pickers** (under `<leader>f`, `<leader>c`, and diagnostics keys):
@@ -157,4 +158,3 @@ stopped here...
 See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top)
 
 - tokyonight-night
-

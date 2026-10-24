@@ -54,12 +54,6 @@ vim.o.expandtab = true
 
 vim.o.termguicolors = true
 
--- Pin the dark variant of the default colorscheme. Neovim 0.10+ otherwise
--- auto-detects the terminal's background (via an OSC 11 query) and would switch
--- to the light palette under a light-background terminal. Setting it explicitly
--- both selects the dark palette and stops Neovim from following the terminal.
-vim.o.background = "dark"
-
 vim.o.inccommand = "split"
 
 -- How long Neovim waits for a multi-key sequence to complete. mini.clue uses

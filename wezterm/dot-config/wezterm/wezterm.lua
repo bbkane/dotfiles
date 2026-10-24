@@ -33,7 +33,9 @@ config.term = 'xterm-256color'
 -- config.color_scheme = "Solarized Dark Higher Contrast"
 -- config.color_scheme = 'Modus-Vivendi'
 -- config.color_scheme = 'MaterialDarker'
-config.color_scheme = 'Nucolors (terminal.sexy)'
+local appearance = wezterm.gui and wezterm.gui.get_appearance() or "Dark"
+config.color_scheme = appearance:find("Dark") and
+    'Nucolors (terminal.sexy)' or 'Builtin Solarized Light'
 
 if is_darwin then
     config.font_size = 18.0
