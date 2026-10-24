@@ -38,7 +38,9 @@ export LESS="-FR"
 export MYPY_CACHE_DIR="$HOME/.mypy_cache"
 
 # https://github.com/sharkdp/bat#highlighting-theme
-export BAT_THEME="1337"
+export BAT_THEME="auto"
+export BAT_THEME_DARK="1337"
+export BAT_THEME_LIGHT="GitHub"
 export BAT_STYLE='plain,header,grid'
 
 # for viewing OTEL traces with logdy (logdy.dev)

@@ -25,7 +25,7 @@
 [core]
 	excludesfile = ~/.config/gitignore_global
 	longpaths = true
-	pager = delta
+	pager = env -u BAT_THEME delta
 	# speed up `git status` etc. on large working trees
 	fsmonitor = true
 	untrackedCache = true
@@ -34,7 +34,6 @@
 	# plus-style = syntax "#012800"
 	# syntax-theme = zenburn
 	navigate = true  # use n and N to move between diff sections
-	dark = true      # or light = true, or omit for auto-detection
 [diff]
 	# https://blog.gitbutler.com/how-git-core-devs-configure-git/
 	algorithm = histogram
@@ -66,7 +65,7 @@
 [init]
 	defaultBranch = master
 [interactive]
-	diffFilter = delta --color-only
+	diffFilter = env -u BAT_THEME delta --color-only
 [maintenance]
 	# don't auto-trigger; run `git maintenance start` per-repo to schedule
 	# background commit-graph / gc / prune
