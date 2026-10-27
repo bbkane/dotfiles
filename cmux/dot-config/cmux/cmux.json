@@ -50,6 +50,7 @@
     ]
   },
   "app": {
-    "reorderOnNotification": false
+    "reorderOnNotification": false,
+    "appearance": "system"
   }
 }

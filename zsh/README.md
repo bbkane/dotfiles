@@ -7,7 +7,6 @@
   easier and faster rather than replacing them wholesale.
 - Make the customizations easy to install, try, and uninstall.
 - Keep the user's `~/.zshrc` small and machine-specific.
-- Keep the prompt independently toggleable from the rest of the configuration.
 - Keep each plugin's activation and settings together.
 
 ## Configuration architecture
@@ -16,7 +15,7 @@ The shared configuration is split by responsibility:
 
 | Repository file | Installed path | Responsibility |
 | --- | --- | --- |
-| [`dot-zshrc_entry.zsh`](./dot-zshrc_entry.zsh) | `~/.zshrc_entry.zsh` | Entry point that declares autoloads and sources the other shared modules in order |
+| [`dot-zshrc_entry.zsh`](./dot-zshrc_entry.zsh) | `~/.zshrc_entry.zsh` | Entry point that declares autoloads, sources the shared modules, and initializes the system-theme prompt |
 | [`dot-zshrc_core.zsh`](./dot-zshrc_core.zsh) | `~/.zshrc_core.zsh` | Aliases, exports, helper functions, key bindings, history, and shell options |
 | [`dot-zshrc_completion.zsh`](./dot-zshrc_completion.zsh) | `~/.zshrc_completion.zsh` | Native zsh completion paths, initialization, caching, and generic completion behavior |
 | [`dot-zshrc_plugins.zsh`](./dot-zshrc_plugins.zsh) | `~/.zshrc_plugins.zsh` | Third-party plugin activation and every setting owned by those plugins |
@@ -64,15 +63,13 @@ fling link --src-dir .
 
 ## Configure `~/.zshrc`
 
-The reusable configuration now requires only one source line. The prompt
-remains a separate opt-in:
+The reusable configuration requires only one source line, including prompt
+initialization:
 
 ```zsh
 # Machine-specific setup may go above this.
 
 source "${ZDOTDIR:-$HOME}/.zshrc_entry.zsh"
-# Optional prompt.
-zp_prompt_pastel dodgerblue lightgreen
 
 # Machine-specific setup that must run last may go below this.
 ```
@@ -252,8 +249,9 @@ This is deliberately the last plugin loaded because it wraps ZLE widgets.
 
 ## Prompt
 
-[`dot-zshrc_prompt.zsh`](./dot-zshrc_prompt.zsh) is loaded by the common
-configuration, but sourcing it only defines functions. The first call to
+[`dot-zshrc_entry.zsh`](./dot-zshrc_entry.zsh) initializes the prompt with
+`zp_prompt_terminal_theme`, which queries the terminal background once at
+startup using OSC 11 and zsh builtins. The first call to
 `zp_prompt` (including through `zp_prompt_pastel`) registers the prompt hooks,
 enables `prompt_subst`, and disables virtualenv's built-in prompt formatting.
 Initialization runs once per shell; changing colors does not repeat it.
@@ -269,7 +267,7 @@ It provides:
 - a subsecond timestamp and timezone
 - an ASCII-only, SSH/SCP-friendly host and directory display
 
-With `pastel` installed, configure a gradient after sourcing the prompt module:
+With `pastel` installed, configure a standalone gradient after sourcing the prompt module:
 
 ```zsh
 zp_prompt_pastel dodgerblue lightgreen

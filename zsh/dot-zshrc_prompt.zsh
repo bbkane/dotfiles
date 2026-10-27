@@ -106,6 +106,49 @@ zp_prompt_pastel() {
 	zp_prompt "$(pastel gradient -n 7 "$@" | pastel format hex)"
 }
 
+# Query only at startup, before ZLE owns terminal input.
+zp_prompt_terminal_theme() {
+	local theme=dark
+	if [[ -t 0 && -t 1 && "$TERM" != dumb ]]; then
+		zmodload zsh/datetime
+		local response='' char
+		local -F deadline=$(( EPOCHREALTIME + 0.25 )) remaining
+		print -n -- $'\e]11;?\a'
+		while (( ${#response} < 64 )); do
+			remaining=$(( deadline - EPOCHREALTIME ))
+			(( remaining > 0 )) || break
+			read -r -s -k 1 -t "$remaining" char || break
+			response+="$char"
+			[[ "$char" == $'\a' || "$response" == *$'\e\\' ]] && break
+		done
+		response=${response%$'\a'}
+		response=${response%$'\e\\'}
+		local pattern=$'^\e\\]11;rgb:([[:xdigit:]]{1,4})/([[:xdigit:]]{1,4})/([[:xdigit:]]{1,4})$'
+		local -a match
+		if [[ "$response" =~ "$pattern" ]]; then
+			local -i red green blue
+			# OSC 11 channels have 1-4 hex digits. Normalize each to 0..65535:
+			# value * 65535 / (16^digits - 1), so both ff and ffff mean full intensity.
+			# zsh's 16# prefix parses the captured channel as hexadecimal.
+			red=$(( 16#${match[1]} * 65535 / (16 ** ${#match[1]} - 1) ))
+			green=$(( 16#${match[2]} * 65535 / (16 ** ${#match[2]} - 1) ))
+			blue=$(( 16#${match[3]} * 65535 / (16 ** ${#match[3]} - 1) ))
+			# Approximate brightness = 0.299R + 0.587G + 0.114B (not gamma-correct
+			# WCAG luminance). Scale weights by 1000 for integer arithmetic;
+			# classify above half intensity as light: 65535 * 1000 / 2 = 32767500.
+			(( 299 * red + 587 * green + 114 * blue > 32767500 )) && theme=light
+		else
+			print -u 2 -- 'zsh prompt: no valid OSC 11 background response; using dark colors'
+		fi
+	fi
+
+	if [[ "$theme" == light ]]; then
+		zp_prompt_pastel '#005faf' '#006b3c'
+	else
+		zp_prompt_pastel dodgerblue lightgreen
+	fi
+}
+
 # -- Precmd Stuff --
 # use precmds to update the prompt before every command
 
