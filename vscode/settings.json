@@ -4,8 +4,8 @@
     "editor.formatOnSave": true,
   },
   "[json]": {
-    "editor.formatOnPaste": false,
-    "editor.formatOnSave": false,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
     "editor.quickSuggestions": {
       "strings": "on",
     },
@@ -28,7 +28,7 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
     },
-    "editor.defaultFormatter": "ms-python.black-formatter", // TODO: use ruff
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
   },
@@ -39,21 +39,23 @@
   "accessibility.signals.chatUserActionRequired": {
     "sound": "on",
   },
-  "black-formatter.args": [
-    "--line-length",
-    "88",
-  ],
-  "chat.agent.enabled": true,
+  "chat.defaultConfiguration": {
+    "approvals": "assisted",
+  },
   "chat.notifyWindowOnConfirmation": "always",
   "chat.notifyWindowOnResponseReceived": "always",
+  // Explicitly "default" (Default Permissions): local chat asks before running tools/commands
+  // unless they're in chat.tools.*.autoApprove below. "autoApprove" (Bypass Approvals) ignores
+  // those lists and never asks. "assisted" isn't valid here - only in chat.defaultConfiguration.
+  "chat.permissions.default": "default",
   "chat.tools.terminal.autoApprove": {
-    "./scripts/test_update_golden.sh": true,
     "cargo check": true,
     "cargo clippy": true,
     "cargo fmt": true,
     "cargo insta": true,
     "cargo run": true,
     "cargo test": true,
+    "d2": true,
     "go": true,
   },
   "chat.tools.urls.autoApprove": {
@@ -76,7 +78,12 @@
   "editor.formatOnSave": true,
   "editor.guides.bracketPairs": true,
   "editor.minimap.enabled": false,
-  "editor.renderWhitespace": "none",
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "other": "on",
+    "strings": "on",
+  },
+  "editor.renderWhitespace": "all",
   "editor.tokenColorCustomizations": {
     "[Miramare]": {
       "comments": "#c0c0c0",
@@ -84,39 +91,22 @@
   },
   "editor.wordBasedSuggestions": "matchingDocuments",
   "editor.wordWrap": "on",
+  "extensions.autoUpdate": "off",
+  "extensions.ignoreRecommendations": true,
   "files.eol": "\n",
   "files.trimTrailingWhitespace": true,
-  "flake8.args": [
-    "--max-line-length=150",
-  ],
   "git.confirmSync": false,
+  "git.detectWorktrees": true,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
-  "github.copilot.chat.agentCustomizationSkill.enabled": true,
   "github.copilot.enable": {
     "*": false,
-    "markdown": false,
-    "plaintext": false,
-    "rust": false,
-    "scminput": false,
+    "go": true,
+    "python": true,
   },
   "github.copilot.nextEditSuggestions.enabled": false,
   "github.copilot.preferredAccount": "bkane-msft",
-  "githubIssues.queries": [
-    {
-      "label": "My Issues",
-      "query": "default",
-    },
-    {
-      "label": "Created Issues",
-      "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc",
-    },
-    {
-      "label": "Recent Issues",
-      "query": "state:open repo:${owner}/${repository} sort:updated-desc",
-    },
-  ],
-  "go.autocompleteUnimportedPackages": true,
+  "gitlens.graph.layout": "editor",
   "go.formatTool": "goimports",
   "go.inlayHints.constantValues": true,
   "go.lintOnSave": "workspace",
@@ -138,14 +128,11 @@
     "jsonc",
     "plaintext",
   ],
-  "isort.args": [
-    "--profile",
-    "black",
-  ],
   "json.schemaDownload.trustedDomains": {
     "https://developer.microsoft.com/json-schemas/": true,
     "https://json-schema.org/": true,
     "https://json.schemastore.org/": true,
+    "https://raw.githubusercontent.com": true,
     "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json": true,
     "https://raw.githubusercontent.com/devcontainers/spec/": true,
     "https://raw.githubusercontent.com/microsoft/vscode/": true,
@@ -154,15 +141,12 @@
   },
   "outline.showVariables": false,
   "problems.defaultViewMode": "table",
-  "python-envs.defaultEnvManager": "ms-python.python:system",
-  "python._comment": "brew install python3",
   "python.analysis.inlayHints.functionReturnTypes": false,
   "python.analysis.inlayHints.variableTypes": false,
   "python.analysis.typeCheckingMode": "standard",
-  "python.formatting.provider": "none",
   "python.languageServer": "Pylance",
-  "python.linting.enabled": false,
   "redhat.telemetry.enabled": true,
+  "ruff.lineLength": 100,
   "rust-analyzer.inlayHints.chainingHints.enable": false,
   "rust-analyzer.inlayHints.genericParameterHints.const.enable": false,
   "rust-analyzer.inlayHints.parameterHints.enable": false,
@@ -170,11 +154,11 @@
   "security.workspace.trust.untrustedFiles": "open",
   "swaggerViewer.previewInBrowser": true,
   "terminal.integrated.enableImages": true,
+  "terminal.integrated.enablePersistentSessions": false,
   "terminal.integrated.fontSize": 15,
-  "terminal.integrated.windowsUseConptyDll": true,
+  "update.mode": "start",
   "vscode-default-keybindings.macOSKeybindings": true,
   "window.autoDetectColorScheme": true,
-  "window.commandCenter": true,
   "window.zoomLevel": 1,
   "workbench.colorCustomizations": {
     "[Miramare]": {
@@ -194,19 +178,10 @@
       "tab.activeBorderTop": "#e6dcac3f",
     },
   },
-  "workbench.colorTheme": "One Dark Pro Night Flat",
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.externalBrowser": "firefox",
-  "workbench.preferredDarkColorTheme": "One Dark Pro Night Flat",
-  "workbench.preferredLightColorTheme": "Light Modern",
+  "workbench.preferredDarkColorTheme": "Dark 2026",
+  "workbench.preferredLightColorTheme": "Light 2026",
   "workbench.sideBar.location": "right",
-  "yaml.disableSchemaDetection": [
-    "**/.github/workflows/*.yml",
-    "**/.github/workflows/*.yaml",
-    "**/.gitea/workflows/*.yml",
-    "**/.gitea/workflows/*.yaml",
-    "**/.forgejo/workflows/*.yml",
-    "**/.forgejo/workflows/*.yaml",
-  ],
   "yaml.format.singleQuote": true,
 }

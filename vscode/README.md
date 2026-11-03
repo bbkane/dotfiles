@@ -1,5 +1,7 @@
 # VS Code
 
+Managed with [`vscodectl.py`](../bin_common/bin_common/vscodectl.py), which uses this directory by default (override with `--root` or `VSCODECTL_ROOT`).
+
 ## Install VS Code
 
 - Install Code from https://code.visualstudio.com/
@@ -8,26 +10,22 @@
   - Type `> Shell Command: Install code command in PATH`
   - Consider restarting your terminal if it doesn't work
 
-## Install VS Code settings.json
+## Install settings
 
-### Back up potential old settings.json
+`settings symlink` symlinks `settings.json` into VS Code's User dir. It refuses to overwrite non-symlinks, so back it up first:
 
-```
-mv \ 
-    ~/Library/Application\ Support/Code/User/settings.json \
-    ~/Library/Application\ Support/Code/User/settings.json.$(date +%Y-%m-%d)
-```
-
-### Install settings.json with a symlink
-
-This is not needed if you used the `curl` method
-
-```
-cd vscode/
-python3 ./symlink_settings.py
-./install_extensions.sh
+```bash
+cd ~/Library/Application\ Support/Code/User/
+[ -e settings.json ] && [ ! -L settings.json ] && mv settings.json "settings.json.$(date +%Y-%m-%d)"
+vscodectl.py settings symlink
 ```
 
 ## Extension management
 
-VS Code extensions are kinda hard to manage with scripts that can be version-controlled. I've included scripts to do this, and every once in a while I run `./purge_installed_extensions.sh` to delete everything I've manually installed and reinstall them.
+```bash
+vscodectl.py extensions save     # write installed extensions to installed_extensions.txt
+vscodectl.py extensions install  # install extensions from installed_extensions.txt
+vscodectl.py extensions purge    # uninstall all extensions
+```
+
+Every once in a while I purge and reinstall to remove extensions I've manually installed.

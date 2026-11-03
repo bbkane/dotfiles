@@ -1,12 +1,8 @@
 alexandernanberg.horizon-theme-vscode
-bradlc.vscode-tailwindcss
 charliermarsh.ruff
 coolbear.systemd-unit-file
-eamodio.gitlens
-esbenp.prettier-vscode
 franciscobach.miramare
 golang.go
-grapecity.gc-excelviewer
 griimick.vhs
 jbro.vscode-default-keybindings
 liviuschera.noctis
@@ -14,14 +10,11 @@ mhutchie.git-graph
 mikecunneen.cunneen-copy-breadcrumbs
 mkhl.shfmt
 ms-python.debugpy
-ms-python.flake8
 ms-python.python
 ms-python.vscode-pylance
 ms-python.vscode-python-envs
-ms-vscode.test-adapter-converter
 nick-rudenko.back-n-forth
 oderwat.indent-rainbow
-redhat.ansible
 redhat.vscode-xml
 redhat.vscode-yaml
 repreng.csv
@@ -29,8 +22,8 @@ rust-lang.rust-analyzer
 skeswa.skeswa-noctis
 sumneko.lua
 syntaqlite.syntaqlite
-tamasfe.even-better-toml
 taniarascia.new-moon-vscode
+terrastruct.d2
 timonwong.shellcheck
 tyriar.sort-lines
 usernamehw.errorlens
