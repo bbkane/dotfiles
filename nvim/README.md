@@ -50,6 +50,10 @@ fling link -s nvim
 
 ## Install dependencies
 
+Install [WezTerm terminfo](../wezterm/README.md#install) for proper scrolling.
+The zsh configuration launches `vim` and `vimdiff` with
+`TERM=wezterm`.
+
 On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard interaction
 (pasting images additionally needs `xclip` on X11 — see [Pasting images](#pasting-images)):
 

@@ -14,8 +14,16 @@ alias ls='ls -F --color=auto'
 # https://stackoverflow.com/a/7522866/2958070
 if type nvim > /dev/null; then
     export EDITOR=nvim
-    alias vim=nvim
-    alias vimdiff='nvim -d'
+    nvim_wezterm() {
+        if infocmp wezterm >/dev/null 2>&1; then
+            TERM=wezterm command nvim "$@"
+        else
+            printf '%s\n' 'Warning: wezterm terminfo is unavailable. Install it: https://github.com/bbkane/dotfiles/tree/master/wezterm#install' >&2
+            command nvim "$@"
+        fi
+    }
+    alias vim=nvim_wezterm
+    alias vimdiff='nvim_wezterm -d'
 fi
 
 # -- Exports --

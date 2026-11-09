@@ -19,7 +19,7 @@ brew install font-fira-code
 brew install font-ia-writer-mono
 ```
 
-[Install terminfo](https://wezterm.org/config/lua/config/term.html) so `config.term = 'wezterm'` works properly and Neovim [scrolls properly](https://github.com/neovim/neovim/issues/35133). This was needed on MacOS.
+[Install terminfo](https://wezterm.org/config/lua/config/term.html) so `config.term = 'wezterm'` works properly and Neovim [scrolls properly](https://github.com/neovim/neovim/issues/35133).
 
 ```bash
 # check if I need to install

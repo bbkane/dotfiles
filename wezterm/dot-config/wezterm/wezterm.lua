@@ -17,12 +17,8 @@ local config = {}
 
 config = wezterm.config_builder() ---@type Config
 
--- Use wezterm's own terminfo so neovim sets scroll regions correctly
--- (works around a wezterm bug exposed by xterm-256color's smglr capability).
--- See https://github.com/neovim/neovim/issues/35133
--- config.term = 'wezterm'
-
--- seting to wezterm seems to break vim during SSH sessions as well as tmux sessions
+-- needed by SSH and tmux
+-- note that nvim needs TERM=wezterm, which I set in zsh aliases (see README.md)
 config.term = 'xterm-256color'
 
 -- This is where you actually apply your config choices
