@@ -86,11 +86,15 @@ vim.api.nvim_create_user_command(
 
 vim.api.nvim_create_user_command(
     "RunCurrentFile",
-    function(_)
+    function(opts)
         -- Run the current file directly; works for executable scripts with a shebang.
-        vim.cmd("!" .. vim.fn.shellescape(vim.fn.expand("%:p")))
+        local command = "!" .. vim.fn.shellescape(vim.fn.expand("%:p"))
+        if opts.args ~= "" then
+            command = command .. " " .. opts.args
+        end
+        vim.cmd(command)
     end,
-    { bang = true }
+    { bang = true, nargs = "*" }
 )
 
 vim.keymap.set("n", "<leader>r", "<cmd>RunCurrentFile<cr>", { desc = "Run current file" })
