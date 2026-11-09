@@ -3,5 +3,6 @@
   "attachmentFolderPath": "./",
   "newLinkFormat": "relative",
   "showUnsupportedFiles": true,
-  "readableLineLength": false
+  "readableLineLength": false,
+  "newFileLocation": "current"
 }
