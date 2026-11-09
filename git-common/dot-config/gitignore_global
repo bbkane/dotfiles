@@ -4,6 +4,9 @@
 *.log
 .DS_Store
 
+# Neovim local sessions: https://nvim-mini.org/mini.nvim/doc/mini-sessions.html
+Session.vim
+
 # Produced when debugging Go in VS Code
 __debug_bin*
 

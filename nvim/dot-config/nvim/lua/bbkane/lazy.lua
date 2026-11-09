@@ -276,6 +276,47 @@ require("lazy").setup({
         end,
     },
 
+    -- https://nvim-mini.org/mini.nvim/doc/mini-sessions.html
+    {
+        'nvim-mini/mini.sessions',
+        version = '*',
+        lazy = false,
+        opts = {
+            -- conditionally set so it doesn't show a startup message if it doesn't find a session
+            autoread = vim.fn.filereadable("Session.vim") == 1,
+            directory = '',
+            file = 'Session.vim',
+        },
+        config = function(_, opts)
+            local sessions = require("mini.sessions")
+            sessions.setup(opts)
+
+            vim.api.nvim_create_user_command(
+                "MiniSessions",
+                function(opts)
+                    if opts.args == "save" then
+                        sessions.write(sessions.config.file)
+                    elseif opts.args == "delete" then
+                        sessions.delete(sessions.config.file, { force = true })
+                    elseif opts.args == "restart" then
+                        sessions.restart()
+                    else
+                        error("Usage: MiniSessions save|delete|restart")
+                    end
+                end,
+                {
+                    nargs = 1,
+                    desc = "Save or delete the local session, or restart Neovim",
+                    complete = function(arg_lead)
+                        return vim.tbl_filter(function(action)
+                            return vim.startswith(action, arg_lead)
+                        end, { "save", "delete", "restart" })
+                    end,
+                }
+            )
+        end,
+    },
+
     -- Keeping this but need to figure out how to do non-local files (like ~/...)
     {
         'nvim-mini/mini.pick',
