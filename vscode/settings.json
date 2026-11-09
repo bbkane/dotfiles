@@ -40,7 +40,7 @@
     "sound": "on",
   },
   "chat.defaultConfiguration": {
-    "approvals": "assisted",
+    "approvals": "assisted"
   },
   "chat.notifyWindowOnConfirmation": "always",
   "chat.notifyWindowOnResponseReceived": "always",

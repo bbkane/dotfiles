@@ -47,7 +47,7 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Open / accept completion                | `<C-Space>` / `<C-@>` | Added; insert mode                |
 | Run code lens under cursor              | `<leader>cl`          | Added                             |
 
-## Other
+## Misc
 
 | Description                        | Action              | Notes                                           |
 | ---                                | ---                 | ---                                             |
@@ -68,6 +68,32 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Convert Markdown to Jira markup    | `:MarkdownToJira`   | Added; range, defaults to whole file            |
 | Format shell command in range      | `:FormatShellCmd`   | Added; range                                    |
 | Print lazy.nvim install path       | `:LazyPath`         | Added                                           |
+
+
+- **Marks** — `ma` sets mark `a`, `` `a `` jumps back (even across files with capital `mA`). Anchor spots you'll return to.
+- **Buffers don't auto-save** — switching away from a modified buffer keeps it dirty (not lost). `:wa` writes all; formatting runs on each `:w`.
+
+## Terminal in a tab
+
+| Description       | Action                  | Notes                           |
+| ---               | ---                     | ---                             |
+| Open terminal tab | `:tabnew \| terminal`   |                                 |
+| Switch back       | `<C-\><C-n>`, then `gT` | Leave shell input, previous tab |
+| Return to shell   | `gt`, then `i`          | Next tab, resume input          |
+| Discard terminal  | `:bd!`                  | Normal mode                     |
+
+
+## Quickfix & location lists (batch results)
+
+A scratchpad of file:line results you step through — grep hits, references, diagnostics.
+
+| Description | Action | Notes |
+| --- | --- | --- |
+| Open / close quickfix | `:copen` / `:cclose` | |
+| Next / previous entry | `:cnext` / `:cprev` | Jumps to the file+line |
+| References → loclist | `gO` | Document symbols populate the loclist |
+
+- Pattern: grep (`<leader>fg`) or `grr` to gather hits → `:copen` → walk them with `:cnext`, editing as you go.
 
 ## File explorer (nvim-tree)
 
@@ -95,22 +121,16 @@ Buffer-local to markdown (`ftplugin/markdown.lua`). Tables auto-align as you typ
 | Wrap selection in a link | `<C-k>` | Visual mode. `[selection](url)` |
 | Realign table | `:TableModeRealign` | vim-table-mode |
 
-# Working with projects
+# Window Management
 
-Notes for living in Neovim across many files instead of editing one and quitting.
-
-## The core abstractions
-
-Keep these three straight — most confusion comes from conflating them:
-
-| Thing | What it is | Mental model |
-| --- | --- | --- |
-| **Buffer** | A file loaded into memory | The *content*. Editing happens here. Many can exist hidden, with no window showing them |
-| **Window** | A viewport onto a buffer | The *frame*. Splits create more windows; closing one doesn't touch the buffer |
-| **Tab** | A layout of windows | The *workspace arrangement*, **not** a file tab. One tab can hold many split windows |
+| Thing             | What it is                             | Mental model                                                                                       |
+| ---               | ---                                    | ---                                                                                                |
+| **Buffer**        | A file loaded into memory              | The *content*. Editing happens here. Many can exist hidden, with no window showing them            |
+| **Window**        | A viewport onto a buffer               | The *frame*. Splits create more windows; closing one doesn't touch the buffer                      |
+| **Tab**           | A layout of windows                    | The *workspace arrangement*, **not** a file tab. One tab can hold many split windows               |
 | **Float / popup** | A transient window drawn over the grid | Hover docs (`K`), pickers, diagnostics, completion. Dismiss and the layout underneath is untouched |
 
-Key insight: a buffer and a window are independent. You can have 30 buffers open but only 2 windows. Closing a window (`<C-w>q`) keeps the buffer; deleting a buffer (`:bd`) frees the file.
+A buffer and a window are independent. You can have 30 buffers open but only 2 windows. Closing a window (`<C-w>q`) keeps the buffer; deleting a buffer (`:bd`) frees the file.
 
 ## Buffers (the open files)
 
@@ -139,7 +159,6 @@ Key insight: a buffer and a window are independent. You can have 30 buffers open
 | Resize | `<C-w>=` / `<C-w>+` `<C-w>-` `<C-w>>` `<C-w><` | Equalize / grow / shrink |
 | Move split to its own tab | `<C-w>T` | |
 
-- `<C-w>` is clued — press it and pause to see the menu (mini.clue).
 - Workflow: open file A, `<C-w>v`, then `gd` or `<leader>ff` in the right split to view a definition/second file beside it. `<C-w>o` collapses back when done.
 - There's no "maximize/zoom this split" plugin here; `<C-w>o` (only) or moving to a tab (`<C-w>T`) is the closest.
 
@@ -157,39 +176,3 @@ A tab is a saved arrangement of splits — use one per *task* or *context*, not 
 
 - Example: tab 1 = feature code (2 splits), tab 2 = the test file + a terminal, tab 3 = docs. Switch context with `gt`.
 
-## Project-wide navigation
-
-| Description | Action | Notes |
-| --- | --- | --- |
-| Find files in project | `<leader>ff` | |
-| Live grep across project | `<leader>fg` | Find a thing when you don't know the file |
-| Resume last picker | `<leader>fr` | |
-| File tree | `<leader>e` | nvim-tree; `g?` for help |
-| Go to definition / references | `gd` / `grr` | Jumps may open new buffers |
-| Jump back / forward | `<C-o>` / `<C-i>` | Jumplist — retrace your path across files |
-| Project diagnostics (picker) | `<leader>D` | All loaded buffers |
-
-## Quickfix & location lists (batch results)
-
-A scratchpad of file:line results you step through — grep hits, references, diagnostics. The thing that makes multi-file edits tractable.
-
-| Description | Action | Notes |
-| --- | --- | --- |
-| Open / close quickfix | `:copen` / `:cclose` | |
-| Next / previous entry | `:cnext` / `:cprev` | Jumps to the file+line |
-| References → loclist | `gO` | Document symbols populate the loclist |
-
-- Pattern: grep (`<leader>fg`) or `grr` to gather hits → `:copen` → walk them with `:cnext`, editing as you go.
-
-## Things you're probably missing
-
-Moving from single-file to "living in it":
-
-- **`<C-^>` (alternate file)** — flip between your two active files instantly. Underused, highest payoff.
-- **Jumplist (`<C-o>` / `<C-i>`)** — every `gd`/grep/picker jump is recorded; `<C-o>` retraces backward across files. You rarely need to manually re-find where you were.
-- **Marks** — `ma` sets mark `a`, `` `a `` jumps back (even across files with capital `mA`). Anchor spots you'll return to.
-- **Don't `:q` per file** — `:q` closes a *window*. With one window it quits nvim. To put a file away, just navigate elsewhere (`<C-^>`, picker); the buffer stays. Quit nvim only when you're actually done.
-- **`:bd` vs `:q`** — `:q` closes the viewport; `:bd` unloads the file. You almost never need either day-to-day — leave buffers loaded.
-- **Sessions** — no session plugin is configured here. The built-in `:mksession ~/proj.vim` saves your tabs/splits/buffers; reload with `nvim -S proj.vim`. Worth adding a plugin (e.g. `persisted.nvim`) if you want this automatic per-directory.
-- **`:cd` / `:lcd`** — set the working dir so `<leader>ff` and `<leader>fg` scope to your project. `:lcd` scopes it to the current window only.
-- **Buffers don't auto-save** — switching away from a modified buffer keeps it dirty (not lost). `:wa` writes all; formatting runs on each `:w`.
