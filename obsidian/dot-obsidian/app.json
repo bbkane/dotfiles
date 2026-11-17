@@ -1,6 +1,6 @@
 {
   "useMarkdownLinks": true,
-  "attachmentFolderPath": "./",
+  "attachmentFolderPath": "./assets",
   "newLinkFormat": "relative",
   "showUnsupportedFiles": true,
   "readableLineLength": false,

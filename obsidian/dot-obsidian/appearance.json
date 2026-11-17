@@ -1,5 +1,6 @@
 {
   "cssTheme": "Primary",
   "theme": "system",
-  "accentColor": ""
+  "accentColor": "",
+  "showRibbon": true
 }
