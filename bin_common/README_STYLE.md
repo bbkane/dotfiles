@@ -111,6 +111,28 @@ if __name__ == "__main__":
 Test pure functions directly. Add narrowly scoped I/O tests only for important
 behavior such as subprocess timeouts, atomic writes, or fallback handling.
 
+## Log with `lib.log`
+
+Configure logging with the shared [`lib/log.py`](./bin_common/lib/log.py)
+instead of copying `basicConfig` or formatter code. Scripts import it as
+`from lib import log` (Python puts the script's directory first on `sys.path`).
+
+```python
+log.add_log_args(parser)                                # --log-level
+log.setup(log.to_stream(args.log_level))                # colored stderr only
+
+log.add_log_args(parser, log_file=log.per_run_path())   # + --log-file
+log.setup(log.to_stream(args.log_level),                # + DEBUG file per run
+          log.to_file(args.log_file))
+
+log.setup(log.to_file(path, level="INFO",               # hooks/cron: rotating
+                      rotate_bytes=256 * 1024))         # file, UTC timestamps
+```
+
+`to_stream` and `to_file` each take their own `level`, `fmt` and `utc`
+(format presets `log.MSG`, `log.SHORT`, `log.LONG`, `log.LINE`). `setup` also
+accepts any stdlib `logging.Handler`.
+
 ## General preferences
 
 - Use explicit names and return types.

@@ -8,6 +8,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from lib import log
+
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
@@ -51,12 +53,7 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-    parser.add_argument(
-        "--log-level",
-        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO",
-        help="log level",
-    )
+    log.add_log_args(parser)
 
     parser.add_argument(
         "--src",
@@ -87,10 +84,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
 
-    logging.basicConfig(
-        format="%(levelname)s %(filename)s:%(lineno)s: %(message)s",  # noqa: E501
-        level=logging.getLevelNamesMapping()[args.log_level],
-    )
+    log.setup(log.to_stream(args.log_level))
 
     clis = sorted(("enventory", "fling", "grabbit", "toddlerevents"))
     libs = sorted(("gocolor", "logos", "warg"))

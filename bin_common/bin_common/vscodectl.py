@@ -10,6 +10,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from lib import log
+
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
@@ -42,12 +44,7 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-    parser.add_argument(
-        "--log-level",
-        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO",
-        help="log level",
-    )
+    log.add_log_args(parser)
 
     parser.add_argument(
         "--root",
@@ -243,10 +240,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
 
-    logging.basicConfig(
-        format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",
-        level=logging.getLevelName(args.log_level),
-    )
+    log.setup(log.to_stream(args.log_level))
 
     root: Path = args.root.expanduser().resolve()
     if not root.is_dir():

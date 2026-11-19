@@ -14,6 +14,8 @@ from typing import Any, NamedTuple
 
 import tomllib
 
+from lib import log
+
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = """
@@ -347,15 +349,6 @@ local.key = "value"
     print(template)
 
 
-def add_logger_arg(parser: argparse.ArgumentParser):
-    parser.add_argument(
-        "--log-level",
-        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO",
-        help="log level",
-    )
-
-
 def add_config_arg(parser: argparse.ArgumentParser):
     parser.add_argument(
         "--config",
@@ -384,7 +377,7 @@ def build_parser() -> argparse.ArgumentParser:
     # gen
     gen_cmd = subcommands.add_parser("gen", help="print an environment script")
     add_config_arg(gen_cmd)
-    add_logger_arg(gen_cmd)
+    log.add_log_args(gen_cmd)
     gen_cmd.add_argument(
         "--envname",
         default=str(Path().cwd()),
@@ -402,13 +395,13 @@ def build_parser() -> argparse.ArgumentParser:
     # keyring get
     get_cmd = keyring_subcommands.add_parser("get", help="get value in keyring")
     add_config_arg(get_cmd)
-    add_logger_arg(get_cmd)
+    log.add_log_args(get_cmd)
     add_keyring_name_arg(get_cmd)
 
     # keyring set
     set_cmd = keyring_subcommands.add_parser("set", help="set value in keyring")
     add_config_arg(set_cmd)
-    add_logger_arg(set_cmd)
+    log.add_log_args(set_cmd)
     add_keyring_name_arg(set_cmd)
     set_cmd.add_argument(
         "--value",
@@ -421,13 +414,13 @@ def build_parser() -> argparse.ArgumentParser:
         "migrate", help="migrate all data in the config"
     )
     add_config_arg(migrate_cmd)
-    add_logger_arg(migrate_cmd)
+    log.add_log_args(migrate_cmd)
 
     # print-config-block
     print_config_block_cmd = subcommands.add_parser(
         "print-config-block", help="print a section to add to the config"
     )
-    add_logger_arg(print_config_block_cmd)
+    log.add_log_args(print_config_block_cmd)
     print_config_block_cmd.add_argument(
         "--envname",
         default=str(Path().cwd()),
@@ -443,10 +436,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
 
-    logging.basicConfig(
-        format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",  # noqa: E501
-        level=logging.getLevelNamesMapping()[args.log_level],
-    )
+    log.setup(log.to_stream(args.log_level))
 
     logger.debug(f"{args = !r}")
 

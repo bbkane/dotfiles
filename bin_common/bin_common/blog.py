@@ -11,6 +11,8 @@ from datetime import datetime
 from pathlib import Path
 from string import capwords
 
+from lib import log
+
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
@@ -36,16 +38,11 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-    parser.add_argument(
-        "--log-level",
-        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO",
-        help="log level",
-    )
+    log.add_log_args(parser)
     parser.add_argument(
         "--log-format",
-        default=r"%(levelname)s: %(message)s",
-        help=r"log format",
+        default=log.MSG,
+        help="stderr log format",
     )
 
     default_path = "~/Git-GH/www.bbkane.com/content/blog"
@@ -92,10 +89,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
 
-    logging.basicConfig(
-        format=args.log_format,
-        level=logging.getLevelNamesMapping()[args.log_level],
-    )
+    log.setup(log.to_stream(args.log_level, fmt=args.log_format))
 
     if not args.root.expanduser().exists():
         logger.error(f"--root doesn't exist: {args.root}")

@@ -7,6 +7,8 @@ import sys
 import pathlib
 import collections
 
+from lib import log
+
 __author__ = "Benjamin Kane"
 __version__ = "0.1.0"
 __doc__ = f"""
@@ -27,12 +29,7 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-    parser.add_argument(
-        "--log-level",
-        choices=["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        default="INFO",
-        help="log level",
-    )
+    log.add_log_args(parser)
 
     # Use a file or stdin for an argument
     # https://stackoverflow.com/a/11038508/2958070
@@ -50,10 +47,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
 
-    logging.basicConfig(
-        format="# %(asctime)s %(levelname)s %(name)s %(filename)s:%(lineno)s\n%(message)s\n",  # noqa: E501
-        level=logging.getLevelNamesMapping()[args.log_level],
-    )
+    log.setup(log.to_stream(args.log_level))
 
     counter = collections.Counter()
     different_files: list[str] = []
