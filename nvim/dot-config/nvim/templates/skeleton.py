@@ -32,16 +32,6 @@ def build_parser() -> argparse.ArgumentParser:
         help="log level",
     )
 
-    # Use a file or stdin for an argument
-    # https://stackoverflow.com/a/11038508/2958070
-    parser.add_argument(
-        "infile",
-        nargs="?",
-        type=argparse.FileType("r"),
-        default=sys.stdin,
-        help="Use a file or stdin",
-    )
-
     return parser
 
 
@@ -58,9 +48,6 @@ def main():
     logger.debug("debug")
     logger.info("info")
     logger.warning("warning")
-
-    with args.infile:
-        pass
 
 
 if __name__ == "__main__":

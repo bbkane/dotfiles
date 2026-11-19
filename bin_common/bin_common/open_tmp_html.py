@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import contextlib
 import sys
 import tempfile
 import shutil
@@ -24,14 +25,11 @@ Code at <repo>
 def parse_args(*args, **kwargs):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    # Use a file or stdin for an argument
-    # https://stackoverflow.com/a/11038508/2958070
     parser.add_argument(
         "infile",
         nargs="?",
-        type=argparse.FileType("r"),
-        default=sys.stdin,
-        help="Use a file or stdin",
+        type=pathlib.Path,
+        help="HTML file to read (default: stdin)",
     )
 
     parser.add_argument(
@@ -46,12 +44,16 @@ def parse_args(*args, **kwargs):
 def main():
     args = parse_args()
 
-    with args.infile, tempfile.NamedTemporaryFile(
+    with (
+        args.infile.open(encoding="utf-8")
+        if args.infile
+        else contextlib.nullcontext(sys.stdin)
+    ) as infile, tempfile.NamedTemporaryFile(
         mode="w",
         delete=False,
         suffix=".html",
-    ) as outfp:  # TODO: will this close stdin if args.infile is stdin?
-        shutil.copyfileobj(args.infile, outfp)
+    ) as outfp:
+        shutil.copyfileobj(infile, outfp)
         filename = outfp.name
         url = pathlib.Path(filename).as_uri()
 

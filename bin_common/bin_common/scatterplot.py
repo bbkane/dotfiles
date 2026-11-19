@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import contextlib
 import datetime
 import pathlib
 import sys
@@ -94,9 +95,8 @@ def parse_args(*args, **kwargs):
     file_cmd.add_argument(
         "file",
         nargs="?",
-        type=argparse.FileType("r"),
-        default=sys.stdin,
-        help='filepath or stdin: newline separated list of "x y"',
+        type=pathlib.Path,
+        help='file to read (default: stdin): newline separated list of "x y"',
     )
     return parser.parse_args(*args, **kwargs)
 
@@ -114,14 +114,19 @@ def main():
     elif args.subcommand == "file":
         xs = []
         ys = []
-        for line_num, line in enumerate(args.file):
-            line = line.strip()
-            if line:
-                x, y = map(float, line.split())
-                xs.append(x)
-                ys.append(y)
-            else:
-                print("line {} is blank! Skipping...".format(line_num), file=sys.stderr)
+        with (
+            args.file.open(encoding="utf-8")
+            if args.file
+            else contextlib.nullcontext(sys.stdin)
+        ) as infile:
+            for line_num, line in enumerate(infile):
+                line = line.strip()
+                if line:
+                    x, y = map(float, line.split())
+                    xs.append(x)
+                    ys.append(y)
+                else:
+                    print("line {} is blank! Skipping...".format(line_num), file=sys.stderr)
         format_args = dict(
             mode=args.mode,
             type=args.type,
