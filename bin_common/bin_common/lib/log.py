@@ -85,16 +85,6 @@ class _Formatter(logging.Formatter):
         return super().format(record)
 
 
-# TODO: I think we don't need this; can just pass the int or string to setLevel directly
-def _to_level(level: str | int) -> int:
-    if isinstance(level, int):
-        return level
-    try:
-        return logging.getLevelNamesMapping()[level.upper()]
-    except KeyError:
-        raise ValueError(f"unknown log level {level!r}, expected one of {LEVELS}")
-
-
 def to_stream(
     level: str | int = "INFO",
     *,
@@ -115,7 +105,7 @@ def to_stream(
     if color is None:
         color = to.isatty() and not os.environ.get("NO_COLOR")
     handler = logging.StreamHandler(to)
-    handler.setLevel(_to_level(level))
+    handler.setLevel(level)
     handler.setFormatter(_Formatter(fmt, color=color, utc=utc))
     return handler
 
@@ -150,7 +140,7 @@ def to_file(
         )
     else:
         handler = logging.FileHandler(path, mode="a", encoding="utf-8")
-    handler.setLevel(_to_level(level))
+    handler.setLevel(level)
     if fmt is None:
         fmt = LINE if rotating else LONG
     if utc is None:
