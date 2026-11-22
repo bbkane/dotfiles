@@ -71,3 +71,23 @@ To paste code blocks in, need to use Cmd+Shift+V
 - **Canvas:** Obsidian's native infinite whiteboard. Best for visually clustering notes, drawing directional arrows between concepts, creating mind maps, or laying out a timeline side-by-side.
 - **Graph View:** The visual representation of your `[[links]]`. While mostly exploratory, it is an organization tool used to spot "orphan" notes (notes with no links) or heavily connected clusters that might need to be broken down into an MOC.
 
+# Sun 2026-11-22 Notes on asset migration
+
+I made ../bin_common/bin_common/obsidian_migrate_assets.py to do this. So the steps to migrate are:
+
+- Go to target directory (my blog for example)
+
+Because I have multiple vaults on the samem machine and the obsidian directory is a mix of data and config, we don't want to symlink the whole folder, just the relevant files. This will let each vault own its data and share the config. It'll also make it harder for me to tell when files that I *want* to version control are added (since by default they'll be owned by the vault and I'll need to copy them into dotfiles and symlink) but oh well. I think I've gotten most of what I want in version control already; I'll just need to add plugin config files when I add plugins
+
+- Quit Obsidian
+- `git pull`
+- Remove the `.obsidian` directory (should be a symlink so `rm .obsidian/` will work)
+- Ensure `.obsidian/` is in `.gitignore`
+- Create an empty one: `mkdir .obsidian` . 
+- Symlink: `fling link -s ~/Git-GH/dotfiles/obsidian/ -l /path/to/vault`
+- Run the migration script: `~/bin_common/obsidian_migrate_assets.py` (and re-run with `--apply` after inspection)
+- Re-open Obsidian and uninstall the file renaming and image link plugins (and the emoji plugin too)
+- check the Files and Links settings to ensure stuff goes into a subfolder of current directory and "assets"
+
+
+
