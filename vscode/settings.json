@@ -32,6 +32,9 @@
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
   },
+  "[tsv]": {
+    "files.trimTrailingWhitespace": false,
+  },
   "accessibility.signalOptions.volume": 100,
   "accessibility.signals.chatResponseReceived": {
     "sound": "on",
@@ -40,7 +43,7 @@
     "sound": "on",
   },
   "chat.defaultConfiguration": {
-    "approvals": "assisted"
+    "approvals": "assisted",
   },
   "chat.notifyWindowOnConfirmation": "always",
   "chat.notifyWindowOnResponseReceived": "always",
@@ -57,6 +60,8 @@
     "cargo test": true,
     "d2": true,
     "go": true,
+    "gofmt": true,
+    "golangci-lint": true,
   },
   "chat.tools.urls.autoApprove": {
     "https://code.visualstudio.com": true,
@@ -68,6 +73,14 @@
       "approveResponse": true,
     },
     "https://github.com/microsoft/vscode/wiki/*": true,
+    "https://manual.calibre-ebook.com": {
+      "approveRequest": true,
+      "approveResponse": false,
+    },
+    "https://raw.githubusercontent.com": {
+      "approveRequest": true,
+      "approveResponse": false,
+    },
     "https://sw.kovidgoyal.net": true,
   },
   "chat.viewSessions.orientation": "stacked",
