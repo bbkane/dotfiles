@@ -38,6 +38,10 @@ require("lazy").setup({
             require("cendre").setup({
                 background = "hard", -- "hard" | "medium" | "soft"
                 italic_virtual_text = false,
+                on_colors = function(c)
+                    -- default #73665b is too dim (comments, markdown quotes, etc.)
+                    c.comment = "#95877a"
+                end,
             })
         end,
     },
@@ -106,6 +110,7 @@ require("lazy").setup({
     {
         'MeanderingProgrammer/render-markdown.nvim',
         dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' }, -- if you use standalone mini plugins
+        ft = "markdown",
         ---@module 'render-markdown'
         ---@type render.md.UserConfig
         opts = {
@@ -475,14 +480,18 @@ require("lazy").setup({
     -- https://github.com/nvim-tree/nvim-tree.lua
     {
         "nvim-tree/nvim-tree.lua",
-        config = function()
-            require("nvim-tree").setup({
-                view = {
-                    side = "right",
-                },
-            })
-            vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "File explorer (nvim-tree)" })
-        end,
+        -- Lazy-load on <leader>e, except when opening a directory (`nvim .`),
+        -- since netrw is disabled and nvim-tree needs to be loaded to show it.
+        lazy = not (vim.fn.argc(-1) == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1),
+        cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFile" },
+        keys = {
+            { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "File explorer (nvim-tree)" },
+        },
+        opts = {
+            view = {
+                side = "right",
+            },
+        },
     },
 
 })
