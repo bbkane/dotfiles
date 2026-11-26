@@ -33,6 +33,30 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
+-- Request after insertion so the server sees the trigger character. Use each
+-- server's advertised triggers (usually "(" and ","); <C-s> still works manually.
+vim.api.nvim_create_autocmd({ "TextChangedI", "TextChangedP" }, {
+    group = augroup,
+    callback = function(args)
+        if vim.api.nvim_get_mode().mode ~= "i" then
+            return
+        end
+        local col = vim.api.nvim_win_get_cursor(0)[2]
+        local char = vim.api.nvim_get_current_line():sub(col, col)
+        for _, client in ipairs(vim.lsp.get_clients({
+            bufnr = args.buf,
+            method = "textDocument/signatureHelp",
+        })) do
+            local triggers = client.server_capabilities.signatureHelpProvider.triggerCharacters or {}
+            if vim.tbl_contains(triggers, char) then
+                -- Triggers also occur outside calls, where no signature is expected.
+                vim.lsp.buf.signature_help({ focus = false, silent = true })
+                return
+            end
+        end
+    end,
+})
+
 -- Completion menu UX: show the menu (even for a single match) and highlight the
 -- top match, but do NOT insert it into the buffer (noinsert) until accepted - so
 -- typing a trigger like "." opens the list with the best match highlighted, and

@@ -38,7 +38,7 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Outline / symbols (picker)              | `<leader>co`          | Added                             |
 | Workspace symbols (picker)              | `<leader>cs`          | mini.extra (`gopls` needs typing) |
 | Hover docs                              | `K`                   | Built-in. Hit K again to scroll   |
-| Signature help                          | `<C-s>`               | Built-in; insert mode             |
+| Signature help                          | `<C-s>`               | Built-in; insert mode; also auto-pops on server triggers (usually `(` / `,`) |
 | Previous / next diagnostic              | `[d` / `]d`           | Built-in                          |
 | Show diagnostic float under cursor      | `<C-w>d`              | Built-in                          |
 | Set diagnostic display mode             | `:Diagnostics`        | Added                             |
