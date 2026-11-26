@@ -4,6 +4,21 @@
 -- hover, so disable ruff's hover here to avoid it answering K with nothing.
 -- https://docs.astral.sh/ruff/editors/
 return {
+    init_options = {
+        settings = {
+            lint = {
+                -- require return type annotations
+                extendSelect = { "ANN2" },
+            },
+            configuration = {
+                lint = {
+                    ["flake8-annotations"] = {
+                        ["suppress-none-returning"] = true,
+                    },
+                },
+            },
+        },
+    },
     on_attach = function(client)
         client.server_capabilities.hoverProvider = false
     end,
