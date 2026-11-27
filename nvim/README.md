@@ -1,31 +1,23 @@
-I'm trying to keep this config deliberately small so things break less over time, but I'm also using Claude to get the things I miss from VS Code into NeoVim.
+# Neovim
 
-# Features
+(screenshot taken Thu 2026-11-26)
 
-- **Colorschemes**: Cendre for dark terminals, vscode.nvim without italics for light terminals (selected at startup).
-- **[lazy.nvim](https://github.com/folke/lazy.nvim)** plugin manager
-- **[mini.nvim](https://github.com/nvim-mini/mini.nvim)** suite: clue (which-key), icons, pick (fuzzy finder), extra pickers, diff (git signs), pairs (auto-brackets), trailspace (trim on save), local sessions
-- **Custom pickers** (under `<leader>f`, `<leader>c`, and diagnostics keys):
-  - `<leader>ff` — files, `<leader>fg` — live grep, `<leader>fb` — buffers, `<leader>fh` — help, `<leader>fr` — resume
-  - `<leader>fp` — picker registry (pick a picker)
-  - `<leader>fz` — zoxide directories (frecency-sorted, updates score on selection)
-  - `<leader>d` — buffer diagnostics (severity-colored rows + source-line previews)
-  - `<leader>D` — project-wide diagnostics (all loaded buffers)
-  - `<leader>cs` — workspace symbols (two-column: kind icon + name / path:line)
-  - `<leader>co` — outline (LSP document symbols, falls back to Treesitter headings in Markdown)
-- **LSP** via nvim-lspconfig: bash, Go, Lua, Python (ruff/ty), Rust (rust-analyzer)
-- **Treesitter** syntax highlighting for bash, Go, Markdown, Python, Rust, SQL, YAML, and more
-- **[nvim-tree](https://github.com/nvim-tree/nvim-tree.lua)** file explorer (`<leader>e`)
-- **[GitHub Copilot](https://github.com/zbirenbaum/copilot.lua)** inline ghost-text suggestions
-- **[vim-table-mode](https://github.com/dhruvasagar/vim-table-mode)** auto-aligns Markdown tables as you type
-- **[indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim)** indent guides
-- **[vim-rsi](https://github.com/tpope/vim-rsi)** Readline keybindings in insert/command mode
-- **[img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim)** paste an image from the clipboard into a file's `.assets/` dir and insert a link — see [Pasting images](#pasting-images)
-- **OSC52 clipboard** support (works over SSH / WezTerm remote mux)
+![image-20261126230426944](./README.assets/image-20261126230426944.png)
+
+Things I care about in this config:
+
+- Low maintenance - fewer plugins means fewer breaking changes to keep up with.
+- Startup speed - I jump between Neovim and my shell a lot
+- Accessibility - I have a terrible memory :)
+  - Keyboard shortcut clues with `mini.clue` (also checkout `vimtutor`)
+  - `<Space>`, `?` to open [`README_CHEATSHEET.md`](./README_CHEATSHEET.md)
+  - Unified picker interface for as many things as I can think of (files, buffers, directories, code diagnostics, symbols, code outlines...)
+- Code edit tooling - language servers, auto-formatting, etc.
+- Reading/editing markdown - Neovim has some issues with markdown - namely lack of or partial support for smooth scrolling, images, and easy table editing. I've tried to remedy this with a few plugins, and I still enjoy using Vim keybindings to write markdown :)
 
 # Install
 
-How to back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
+Back up current nvim files before installing (thanks https://www.lazyvim.org/installation ):
 
 ```bash
 mv ~/.config/nvim{,.bak}
@@ -50,16 +42,7 @@ fling link -s nvim
 
 ## Install dependencies
 
-Install [WezTerm terminfo](../wezterm/README.md#install) for proper scrolling.
-The zsh configuration launches `vim` and `vimdiff` with
-`TERM=wezterm`.
-
-On Linux, `xsel` (X11) or `wl-clipboard` (Wayland) is needed for clipboard interaction
-(pasting images additionally needs `xclip` on X11 — see [Pasting images](#pasting-images)):
-
-```bash
-sudo apt install wl-clipboard  # or xsel
-```
+If using Wezterm, install [WezTerm terminfo](../wezterm/README.md#install) for proper scrolling. My `zsh` configuration launches `vim` and `vimdiff` with `TERM=wezterm`.
 
 Install other dependencies:
 
@@ -71,79 +54,41 @@ brew install bash-language-server gopls lua-language-server ruff shellcheck shfm
 # rust-analyzer ships as a rustup component (needs https://rustup.rs)
 rustup component add rust-analyzer
 
-# img-clip.nvim needs pngpaste to read images off the clipboard (macOS only;
-# on Linux it uses wl-clipboard/xclip - see "Pasting images" below)
-brew install pngpaste
+# img-clip.nvim (:checkhealth img-clip)
+brew install pngpaste # for macOS
+sudo apt install wl-clipboard # for Wayland or xclip for X11
 ```
 
 See other tree-sitter requirements [here](https://github.com/nvim-treesitter/nvim-treesitter/tree/main#requirements) (most likely pre-installed)
 
 Open `nvim` - note that it'll freeze for a tad the first time because it's cloning `lazy.nvim` with git and setting up treesitter. Wait for that and then it'll all work out......
 
-# Pasting images
+# Config Notes
 
-[img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim) saves whatever image is on
-the clipboard next to the current file and inserts a link to it:
+Some files are auto-loaded for certain events.
 
-```
-notes.md
-notes.assets/2026-07-28-14-28-14.png
-```
-```markdown
-![](notes.assets/2026-07-28-14-28-14.png)
-```
-
-Trigger it with `:PasteImage`, or `<M-v>` (Alt-v) in insert mode — `<C-v>` is Vim's
-literal-insert, so it's left alone.
-
-It handles three kinds of clipboard content:
-
-| Clipboard holds | Result |
-|---|---|
-| Raw image data (a screenshot) | saved as `<timestamp>.png` |
-| A file path (copied file, drag and drop) | copied in, keeping its own extension |
-| An image URL | downloaded |
-
-Requirements, by platform — the plugin picks the right one automatically:
-
-| Platform | Needs |
-|---|---|
-| macOS | `brew install pngpaste` |
-| Linux (Wayland) | `wl-clipboard` (uses `wl-paste`; needs `$WAYLAND_DISPLAY` set) |
-| Linux (X11) | `xclip` (note: `xsel` is *not* enough — that's only for Neovim's own clipboard) |
-
-Verify with `:checkhealth img-clip`. The plugin is lazy-loaded, so run `:Lazy load
-img-clip.nvim` first or the healthcheck reports as missing.
-
-# Edit config
-
-NOTE: need to expand `$VIMRUNTIME` to put `.luarc.json`  so VS Code can read it ($VIMRUNTIME is only set when Neovim is started, so not in VS Code process)
-
-```bash
-nvim --headless -u NONE -i NONE --clean +'echo $VIMRUNTIME' +q
-```
-
-# Config layout
-
-Neovim treats `~/.config/nvim` (this directory) as a "runtimepath" entry, and a few subfolder names are **special**: Neovim auto-loads files from them at specific moments. Everything else is only loaded if some Lua file explicitly `require`s it. Here's what this config uses and when each is loaded:
-
-| Path | Loaded when | Holds |
-| --- | --- | --- |
-| `init.lua` | First, at startup | Entry point. Just `require`s the `bbkane.*` modules in order: `common` → `autocmds` → `cmds` → `lazy` |
-| `lua/bbkane/*.lua` | On demand, when `require`d | The actual config modules. The `lua/` dir is on Lua's package path, so it is **not** auto-run — `init.lua` pulls these in explicitly, top to bottom |
-| `lsp/<name>.lua` | When that server is enabled (Neovim 0.11+) | Per-server LSP config (one file per server: `gopls.lua`, `ruff.lua`, …). Auto-read when `vim.lsp.enable("<name>")` runs |
-| `ftplugin/<filetype>.lua` | On the `FileType` event, every time a buffer's filetype is set | Buffer-local settings for that filetype (e.g. `ftplugin/gitconfig.lua` forces real tabs). Runs once per matching buffer |
-| `templates/` | Never auto-loaded | Skeleton files for new buffers. **Not** a special dir — the `BufNewFile` autocmd in `autocmds.lua` reads them by hand |
-| `.luarc.json` | Read by lua-language-server | Lua LSP settings for editing this config (not used by Neovim itself) |
-| `lazy-lock.json` | Read/written by lazy.nvim | Plugin version lockfile |
-
-Filetype **detection** (which extensions/filenames map to which filetype) is set in `lua/bbkane/autocmds.lua` via `vim.filetype.add()`; the per-filetype **settings** that detection triggers live in `ftplugin/`.
+| Path | Notes |
+| --- | --- |
+| `init.lua` | Entrypoint loaded first at startup |
+| `lua/bbkane/*.lua` | modularized configs |
+| `lsp/<name>.lua` | Language server config auto-read when `vim.lsp.enable("<name>")` runs |
+| `ftplugin/<filetype>.lua` | Buffer-local settings for specific file types (e.g. `ftplugin/gitconfig.lua` forces real tabs) |
+| `templates/` | Templates for new files loaded by the `BufNewFile` autocmd in `autocmds.lua` |
+| `.luarc.json` | Lua LSP settings for editing this config read by lua-language-server |
+| `lazy-lock.json` | Plugin version lockfile for lazy.nvim |
 
 Other special folders Neovim auto-loads but this config doesn't currently use: `plugin/` (run once at startup, after plugins), `ftdetect/` (older alternative to `vim.filetype.add`), `indent/`, `syntax/`, and `after/` (same names, sourced last to override).
 
-# Colorschemes I like
+To get autocompletions and such when editing this Lua code, make sure [`.luarc.json`](dot-config/nvim/.luarc.json) has the current`$VIMRUNTIME` values in `.workspace.library` paths. 
 
-## Built-in
+```bash
+# find $VIMRUNTIME for .luarc.json
+nvim --headless -u NONE -i NONE --clean +'echo $VIMRUNTIME' +q
+```
+
+# Colorschemes Notes
+
+## Good built-in colorschemes
 
 - darkblue
 - default (bad for markdown, great for lua)
@@ -157,7 +102,7 @@ stopped here...
 - slate
 - wildcharm
 
-## Plugin
+## Good plugin colorschemes
 
 See [Top Neovim Colorschemes in 2025](https://dotfyle.com/neovim/colorscheme/top)
 
