@@ -68,6 +68,7 @@ Generic finders. The LSP-specific pickers (diagnostics, symbols, outline) are in
 | Convert Markdown to Jira markup    | `:MarkdownToJira`   | Added; range, defaults to whole file            |
 | Format shell command in range      | `:FormatShellCmd`   | Added; range                                    |
 | Print lazy.nvim install path       | `:LazyPath`         | Added                                           |
+| Save / load local session          | `:MiniSessions save` / `:MiniSessions load` | Uses `Session.vim` in the current directory; load refuses unsaved changes |
 
 
 - **Marks** — `ma` sets mark `a`, `` `a `` jumps back (even across files with capital `mA`). Anchor spots you'll return to.

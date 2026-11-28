@@ -301,21 +301,23 @@ require("lazy").setup({
                 function(opts)
                     if opts.args == "save" then
                         sessions.write(sessions.config.file)
+                    elseif opts.args == "load" then
+                        sessions.read(sessions.config.file)
                     elseif opts.args == "delete" then
                         sessions.delete(sessions.config.file, { force = true })
                     elseif opts.args == "restart" then
                         sessions.restart()
                     else
-                        error("Usage: MiniSessions save|delete|restart")
+                        error("Usage: MiniSessions save|load|delete|restart")
                     end
                 end,
                 {
                     nargs = 1,
-                    desc = "Save or delete the local session, or restart Neovim",
+                    desc = "Save, load, or delete the local session, or restart Neovim",
                     complete = function(arg_lead)
                         return vim.tbl_filter(function(action)
                             return vim.startswith(action, arg_lead)
-                        end, { "save", "delete", "restart" })
+                        end, { "save", "load", "delete", "restart" })
                     end,
                 }
             )
