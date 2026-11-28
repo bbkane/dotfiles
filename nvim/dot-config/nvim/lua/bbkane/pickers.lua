@@ -288,13 +288,27 @@ end
 
 -- `:Pick outline` (and <leader>co): a document outline that works
 -- everywhere. Prefers LSP document symbols (classes / functions /
--- methods / ... in code, via mini.extra) and falls back to the
+-- methods / ... in code, excluding fields/properties, via mini.extra) and falls back to the
 -- Treesitter markdown headings above when the buffer has no
 -- symbol-providing LSP. Both jump on choose and close the picker.
 MiniPick.registry.outline = function()
     for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
         if client:supports_method("textDocument/documentSymbol") then
-            return require("mini.extra").pickers.lsp({ scope = "document_symbol" })
+            return require("mini.extra").pickers.lsp({ scope = "document_symbol" }, {
+                source = {
+                    match = function(stritems, inds, query)
+                        local items = MiniPick.get_picker_items()
+                        local matches = MiniPick.default_match(stritems, inds, query, { sync = true })
+                        if not matches then
+                            return
+                        end
+                        -- Filter afterward: default_match returns all items for an empty query.
+                        return vim.tbl_filter(function(i)
+                            return items[i].kind ~= "Field" and items[i].kind ~= "Property"
+                        end, matches)
+                    end,
+                },
+            })
         end
     end
     local items = markdown_headings(0)
